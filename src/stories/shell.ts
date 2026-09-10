@@ -449,6 +449,30 @@ export function shellProviders(variant: ShellVariant, configOverrides: Parameter
 
 // Envuelve el contenido de un módulo (ej. <fee-file-sharing>) con el layout real
 // (header arriba + sidebar al lado). `mainContent` es el HTML que va dentro de lyDashboard__main.
+//
+// INTENTOS REVERTIDOS (2026-09-10) — pendiente, ver [[bug: lista de Alerts invisible]]: se probó 2
+// veces darle a <showcase-module-boundary> un `id="single-spa-application:..."` para reusar la
+// regla real de _dashboard.scss (`.lyDashboard :is(&__main) [id^="single-spa-application"] { &, &
+// > :first-child { display:flex; flex-direction:column; min-height:100%; } }`, la que en
+// producción real single-spa activa sobre el div que monta cada microfrontend). Los 2 intentos
+// rompieron TODOS los módulos (no solo Alerts), no solo el puntual:
+// 1) Solo el `id`: `& > :first-child` apunta al PRIMER hijo de showcase-module-boundary, que
+//    SIEMPRE es el propio `<router-outlet>` (mainContent es literal `<router-outlet />` en cada
+//    *.stories.ts; Angular pone el componente ruteado real como HERMANO después, no como hijo del
+//    outlet) — y ese mismo _dashboard.scss tiene además `router-outlet { display:none; }` en el
+//    mismo bloque. La regla terminaba dándole la altura al outlet oculto, no al contenido real.
+// 2) Se agregó un `<style>` con `showcase-module-boundary > :not(router-outlet)` para apuntarle al
+//    hermano real en vez de al primer hijo — pero ese `<style>` vive dentro de un template Angular,
+//    y la encapsulación por defecto (Emulated) le agrega un atributo de scoping a cada selector
+//    (`_ngcontent-xyz`) que NO coincide con el del contenido proyectado real (pertenece a otro
+//    componente, con su propio namespace de encapsulación) — la regla probablemente nunca llegó a
+//    aplicarse, dejando activo solo el problema del intento 1.
+// Revertido a la versión simple sin el id (vuelve el bug puntual de Alerts: la lista se ve vacía
+// aunque el contador de arriba funciona bien — ver .ptStackContent--scroll en
+// styleguide/css/patterns/stack-content/_stack-content.scroll.scss, `height: inherit` no recibe una
+// altura real). Si se retoma, probar `::ng-deep` en el selector del intento 2 (sin scoping) o
+// `ViewEncapsulation.None` en el componente que declare el estilo — y esta vez confirmar
+// VISUALMENTE en el navegador antes de darlo por bueno, no alcanza con que compile.
 export function shellTemplate(mainContent: string): string {
   return `
     <div class="lyDashboard">

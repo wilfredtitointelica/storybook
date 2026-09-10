@@ -7,3 +7,21 @@
   acá se usa la URL correcta.
 -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" />
+
+<!--
+  Fix puntual solo para Alerts: .ptStackContent--scroll (patrones/stack-content/
+  _stack-content.scroll.scss) hace `height: inherit` para el scroll interno de la lista, pero esa
+  cadena de altura se corta en el shell del showcase (.lyDashboard__main usa `min-height`, no
+  `height`, así que no hay nada que heredar). Se le da altura explícita directo al elemento raíz
+  real del componente de Alerts (host class "alert-management", ver mirrors/fee/alerts/
+  alerts.component.ts) usando la MISMA variable CSS real que ya calcula esa altura
+  (--i-dashboard-layout-main-height, definida en styleguide/css/layouts/_dashboard.scss). Puesto
+  acá (HTML plano, sin pasar por el compilador de Angular) para que no sufra el problema de
+  "scoping" que rompió los intentos anteriores en stories/shell.ts.
+-->
+<style>
+  .alert-management {
+    display: block;
+    height: var(--i-dashboard-layout-main-height);
+  }
+</style>
