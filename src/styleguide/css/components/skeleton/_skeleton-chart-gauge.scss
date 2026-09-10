@@ -1,0 +1,85 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-SKELETON-CHART-GAUGE: "skChartGauge ( Native HTML )";
+
+	//--i-skeletongauge- : var(--i-);
+	
+	--i-skeleton-chartgauge-arc-height : 186px;
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( .block )
+\*——————————————————————————————————————————————————————————*/
+
+.skChartGauge {
+
+	--arc-height: var(--i-skeleton-chartgauge-arc-height);
+
+	& p-skeleton {
+		// width: 100% !important;
+		// height: 100% !important;
+	}
+	
+	&__chart {
+		position: relative;
+		aspect-ratio: 1;
+		height: var(--arc-height);
+	}
+
+	&__arc {
+		position: absolute;
+		inset: 0;
+		& p-skeleton {	
+			mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 179 138'%3E%3Cpath d='M167 89.5C167 46.6979 132.302 12 89.5 12C46.6979 12 12 46.6979 12 89.5C12 103.843 15.8904 117.259 22.6699 128.77C24.3513 131.625 23.4001 135.303 20.5449 136.984C17.6898 138.666 14.0118 137.714 12.3301 134.859C4.49347 121.554 0 106.042 0 89.5C0 40.0705 40.0705 0 89.5 0C138.929 0 179 40.0705 179 89.5C179 106.042 174.507 121.554 166.67 134.859C164.988 137.714 161.31 138.666 158.455 136.984C155.6 135.303 154.649 131.625 156.33 128.77C163.11 117.259 167 103.843 167 89.5Z'/%3E%3C/svg%3E");
+			mask-repeat: no-repeat;
+			mask-size: contain;
+			mask-position: center top;
+		}
+	}
+
+	&__dot {
+
+	}
+
+	&__center {
+		position: absolute;
+		top: 50%; left: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	&__value {
+		position: absolute;
+		inset: 80% 0 0;
+		display: flex;
+		justify-content: space-between;
+		padding-inline: 10% 5%;
+	}
+
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENT ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.skChartGauge {
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.skChartGauge {
+	
+}
+
+

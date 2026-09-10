@@ -1,0 +1,14 @@
+@forward "./project-event";
+
+.projectEvent {
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-lg);
+	flex-grow: 1;
+
+	// --- structure ---
+
+	&__options {
+		justify-content: end;
+	}
+}

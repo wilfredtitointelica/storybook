@@ -1,0 +1,93 @@
+// :root {
+// --i-pill-default-background: var(--i-color-primary-100);
+// --i-pill-border-radius: var(--i-border-radius-full);
+// --i-pill-default-color: var(--i-color-primary-400);
+// --i-pill-text-size: var(--i-typography-font-size-xs);
+// --i-pill-font-weight: var(--i-typography-font-weight-regular);
+// --i-pill-border-color: var(--i-color-primary-100);
+// --i-pill-border-width: var(--i-border-width-sm);
+// --i-pill-gap: var(--i-spacing-gap-xs);
+// --i-pill-height: var(--i-spacing-container-2xl);
+// --i-pill-padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+
+// --i-pill-hover-border-color: var(--i-color-primary-600);
+// --i-pill-hover-color: var(--i-color-primary-600);
+
+// --i-pill-icon-size: var(--i-icon-size-xs);
+
+// --i-pill-line-height: var(--i-typography-lineHeight-sm);
+// }
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME - BUTTON
+\*——————————————————————————————————————————————————————————*/
+.prPill {
+	.p-button {
+		background-color: var(--i-color-primary-100);
+		border-radius: var(--i-border-radius-full);
+		border: solid 1px var(--i-color-primary-100);
+		color: var(--i-color-primary-400);
+		display: flex;
+		font-size: var(--i-typography-font-size-xs);
+		font-weight: var(--i-typography-font-weight-regular);
+		line-height: var(--i-typography-lineHeight-sm);
+		gap: var(--i-spacing-gap-xs);
+		height: var(--i-spacing-container-2xl);
+		padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+		width: max-content;
+
+		&:not(:disabled):hover {
+			background-color: var(--i-color-primary-100);
+			border-color: var(--i-color-primary-600);
+			color: var(--i-color-primary-600);
+			cursor: default;
+		}
+		&:not(:disabled):active {
+			background-color: var(--i-color-primary-100);
+			border-color: var(--i-color-primary-600);
+			color: var(--i-color-primary-600);
+		}
+	}
+
+	.icon {
+		cursor: pointer;
+		font-size: var(--i-icon-size-xs);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME - TAG
+\*——————————————————————————————————————————————————————————*/
+.prPillTag {
+	&.p-tag {
+		background-color: var(--i-color-primary-100);
+		border-radius: var(--i-border-radius-full);
+		border: solid 1px var(--i-color-primary-100);
+		color: var(--i-color-primary-400);
+		font-size: var(--i-typography-font-size-xs);
+		font-weight: var(--i-typography-font-weight-regular);
+		gap: var(--i-spacing-gap-xs);
+		height: var(--i-spacing-container-2xl);
+		padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+		width: max-content;
+		line-height: normal;
+		&:hover {
+			background-color: var(--i-color-primary-100);
+			border-color: var(--i-color-primary-600);
+			color: var(--i-color-primary-600);
+		}
+	}
+	.p-tag-label {
+		display: none;
+	}
+	.icon {
+		cursor: pointer;
+		font-size: var(--i-icon-size-xs);
+
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+			outline-offset: 1px;
+			border-radius: var(--i-border-radius-sm, 4px);
+		}
+	}
+}

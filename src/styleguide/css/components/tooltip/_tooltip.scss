@@ -1,0 +1,161 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-TOOLTIP-COMPONENT: "prTooltip ( Custom PrimeNG )";
+
+	// --- General ---
+
+	--i-tooltip-background: var(--i-color-secondary-50); // #FCFCFD || color/grey/50
+	--i-tooltip-max-width: 360px;
+
+	// Border
+	--i-tooltip-border-color: var(--i-color-secondary-200); // #D9D9E3 || color/grey/200
+	--i-tooltip-border-radius: var(--i-border-radius-75); // 6px || radius/75
+	--i-tooltip-border-width: var(--i-border-width-10); // 1px || stroke/010
+
+	// Gutter
+	--i-tooltip-gutter: var(--i-border-width-lg); // 4px
+	--i-tooltip-gutter-background: var(--i-color-secondary-400); // #636B8C|| color/grey/400
+
+	// Space & Shadow
+	--i-tooltip-padding: var(--i-spacing-container-md); // 8px
+	--i-tooltip-shadow: var(--i-shadow-x-0) var(--i-shadow-y-md) var(--i-shadow-blur-sm) var(--i-shadow-spread-xs) var(--i-shadow-color-base); //0 4px 6px -2px rgb(36 39 51 / 5%), 0 2px 4px -2px rgb(36 39 51 / 5%);
+
+	// Text
+	--i-tooltip-text-color: var(--i-color-primary-900); // #636b8d || color/grey/600
+	--i-tooltip-text-gap: var(--i-spacing-50); // 4px || spacing/50
+	--i-tooltip-text-size: var(--i-typography-font-size-100); // 12px || typography/font-size/sm
+	--i-tooltip-text-template-size: var(--i-typography-font-size-150); // 14px || typography/font-size/md
+	--i-tooltip-text-weight: var(--i-typography-font-weight-bold); // 700 || text/subtitle/weight
+
+	// Chart
+	--i-tooltip-chart-max-width: 176px;
+	--i-tooltip-chart-size: 10px;
+	--i-tooltip-chart-text-line-height: var(--i-typography-lineHeight-200); // 16px || typography/lineHeight/sm
+	--i-tooltip-chart-border-radius: var(--i-border-radius-75); // 6px || radius/75
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prTooltip {
+	&.p-tooltip {
+		max-width: var(--i-tooltip-max-width);
+	}
+	.p-tooltip-text {
+		background: var(--i-tooltip-background);
+		border: var(--i-tooltip-border-width) solid var(--i-tooltip-border-color);
+		border-radius: var(--i-tooltip-border-radius);
+		box-shadow: var(--i-tooltip-shadow);
+		color: var(--i-tooltip-text-color);
+		display: flex;
+		flex-direction: column;
+		font-size: var(--i-tooltip-text-size);
+		gap: var(--i-tooltip-text-gap);
+		padding: var(--i-tooltip-padding);
+	}
+
+	&.p-tooltip-top,
+	&.p-tooltip-bottom {
+		padding: var(--i-tooltip-gutter) 0;
+	}
+	&.p-tooltip-right,
+	&.p-tooltip-left {
+		padding: 0 var(--i-tooltip-gutter);
+	}
+
+	// ---  Flechas según posición ---
+	&.p-tooltip-right .p-tooltip-arrow {
+		border-right-color: var(--i-color-primary-900);
+		border-width: var(--i-tooltip-gutter) var(--i-tooltip-gutter) var(--i-tooltip-gutter) 0;
+		margin-top: calc(-1 * var(--i-tooltip-gutter));
+	}
+
+	&.p-tooltip-left .p-tooltip-arrow {
+		border-left-color: var(--i-color-primary-900);
+		border-width: var(--i-tooltip-gutter) 0 var(--i-tooltip-gutter) var(--i-tooltip-gutter);
+		margin-top: calc(-1 * var(--i-tooltip-gutter));
+	}
+
+	&.p-tooltip-top .p-tooltip-arrow {
+		border-top-color: var(--i-color-primary-900);
+		border-width: var(--i-tooltip-gutter) var(--i-tooltip-gutter) 0 var(--i-tooltip-gutter);
+		margin-left: calc(-1 * var(--i-tooltip-gutter));
+	}
+
+	&.p-tooltip-bottom .p-tooltip-arrow {
+		border-bottom-color: var(--i-color-primary-900);
+		border-width: 0 var(--i-tooltip-gutter) var(--i-tooltip-gutter) var(--i-tooltip-gutter);
+		margin-left: calc(-1 * var(--i-tooltip-gutter));
+	}
+
+	// ---  Chart tooltip ---
+	&--chart.p-tooltip {
+		max-width: var(--i-tooltip-chart-max-width);
+		.prTooltip__legend {
+			&--container {
+				display: flex;
+				flex-direction: row;
+				gap: var(--i-tooltip-text-gap);
+				justify-content: space-between;
+				line-height: var(--i-tooltip-chart-text-line-height);
+			}
+			&--data {
+				align-items: center;
+				display: flex;
+				gap: var(--i-tooltip-text-gap);
+			}
+			&--chart {
+				border-radius: var(--i-tooltip-chart-border-radius);
+				display: block;
+				height: var(--i-tooltip-chart-size);
+				width: var(--i-tooltip-chart-size);
+			}
+			&--chartIssuer {
+				background: #507be8; //#507be8 color/royal blue/500
+			}
+			&--chartMercahnt {
+				background: #68bedb; // #68bedb color/sky blue/500
+			}
+			&--chartCash {
+				background: #2a52c5; //#0D2563 color/blue/600
+			}
+			&--chartAcquirer {
+				background: #31978e; //#31978e color/greenish blue/500
+			}
+			&--support {
+				font-weight: var(--i-tooltip-text-weight);
+			}
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prButton )
+\*——————————————————————————————————————————————————————————*/
+
+.prTooltip {
+	// BEM Component
+	&__wrap {
+	}
+
+	// ---  Template  ---
+	&__title {
+		font-size: var(--i-tooltip-text-template-size);
+		font-weight: var(--i-tooltip-text-weight);
+	}
+	// ---  No Flechas --- (agregar prTooltip--noArrow al mismo nivel de prTooltip)
+	&--noArrow .p-tooltip-arrow {
+		display: none;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skTooltip {
+}

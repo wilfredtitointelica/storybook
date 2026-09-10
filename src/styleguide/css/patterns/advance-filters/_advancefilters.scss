@@ -1,0 +1,135 @@
+.ptAdvanceFilters {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	&__container {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		flex: auto;
+		& label {
+			// font-weight: 400;
+			font-size: 14px;
+			line-height: 20px;
+			color: var(--i-color-primary-900);
+		}
+	}
+	&__title {
+		font-weight: 700;
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--i-color-primary-900);
+		&--small {
+			font-weight: 400;
+			font-size: 12px;
+			line-height: 16px;
+		}
+	}
+	&__listcheck {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
+		&--three {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+	}
+	&__body {
+		display: flex;
+		gap: 16px;
+	}
+	&__category {
+		flex-basis: 0%;
+	}
+	&__footer {
+		display: flex;
+		justify-content: space-between;
+		padding-top: 16px;
+		border-top: var(--i-line);
+		> div:last-child {
+			display: flex;
+			gap: 8px;
+		}
+	}
+}
+
+.prTabVertical {
+	&.p-tabs {
+		display: flex;
+		flex-direction: row;
+		gap: 16px;
+	}
+	& .p-tablist {
+		flex-shrink: 0;
+		max-width: 200px;
+		background: transparent;
+	}
+	& .p-tablist-tab-list {
+		flex-direction: column;
+		gap: 8px;
+		border: none;
+	}
+	& .p-tab {
+		position: relative;
+		padding: 0;
+		border: none;
+	}
+	& .p-tab:not(.p-disabled):focus-visible {
+		outline: none;
+	}
+	& .p-tab:not(.p-disabled):focus-visible::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		border-style: solid;
+		border-width: 1px;
+		border-radius: 8px;
+		border-color: var(--i-focus-border-color);
+		pointer-events: none;
+	}
+	& .p-tab.p-tab-active .prButtonAdvanceFilters .p-button {
+		background: var(--i-color-primary-100); //#2952c4
+	}
+	& .p-tab.p-tab-active .prButtonAdvanceFilters .p-button:hover {
+		background: var(--i-color-secondary-100); //#e5edfa;
+		color: #2952c4;
+		border: none;
+		& .p-badge-secondary {
+			background: #fcfcfc;
+		}
+		& .p-button-label {
+			color: var(--i-color-primary-900); //#2952c4
+		}
+	}
+	& .p-tab.p-tab-active .prButtonAdvanceFilters .p-button:active {
+		background: #e5edfa;
+		color: #2952c4;
+		border: none;
+		& .p-badge-secondary {
+			background: #fcfcfc;
+		}
+		& .p-button-label {
+			color: 2952C4;
+		}
+	}
+	& .p-tab.p-tab-active .prButtonAdvanceFilters .p-button-label {
+		color: var(--i-color-primary-900); //#f2f5fc
+	}
+	& .p-tab:not(.p-tab-active):not(.p-disabled):hover {
+		border: none;
+	}
+
+	& .p-tablist-active-bar {
+		display: none;
+	}
+	& .p-tab-active {
+		background: transparent;
+		border-color: transparent;
+		color: transparent;
+	}
+	& .p-tabpanels {
+		padding: 0;
+		flex: auto;
+		background: transparent;
+	}
+}

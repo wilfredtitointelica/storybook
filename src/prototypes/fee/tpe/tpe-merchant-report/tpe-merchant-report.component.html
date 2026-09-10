@@ -1,0 +1,329 @@
+<div class="d-flex flex-column gap-3 mt-3">
+	<p-toast class="prToast" position="bottom-right" />
+	<!-- @if (isLoadingFilter()) {
+	<div style="display: flex">
+		<p-skeleton class="prSkeleton" width="300px" height="24px"></p-skeleton>
+	</div>
+	} @else { -->
+	<!-- TODO Convertir en rehusable de breadchum -->
+	<p-breadcrumb class="prBreadcrumb" [class]="'breadcrumbClickGA'" [model]="fullItems">
+		<ng-template pTemplate="item" let-item>
+			<a *ngIf="!item.isPopover" [routerLink]="item.routerLink" [pTooltip]="item.tooltip" [tooltipPosition]="item.tooltipPosition" [tooltipStyleClass]="item.tooltipStyleClass">
+				<span>{{ item.label | term: globalTermService.languageCode }}</span>
+			</a>
+		</ng-template>
+		<ng-template pTemplate="separator">
+			<span class="breadcrumb-separator">
+				<i class="icon icon-arrow-right icon--xs"></i>
+			</span>
+		</ng-template>
+	</p-breadcrumb>
+	<!-- } -->
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle">
+			<div class="ptSectionTitle__icon">
+				<p-button routerLink="/fee/tpe/dashboard" class="prButton" [class]="'titleBackGA'" icon="icon icon-nav-left" />
+			</div>
+			<div class="ptSectionTitle__content">
+				<div class="ptSectionTitle__title">
+					{{ "LBL_MERCHANT_REPORT" | term: globalTermService.languageCode }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grPanel">
+		<!-- Table -->
+		@if (isLoadingReport()) {
+			@if (isNoData()) {
+				<intelica-status-state [state]="statusStateEnum.NoData" [description]="'NO_RESULTS_FOR_FILTERS'" />
+			} @else {
+				<div style="display: flex; flex-direction: column">
+					<div style="display: flex; justify-content: end; gap: 8px">
+						<p-skeleton class="prSkeleton" width="222px" height="32px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="114px" height="32px"></p-skeleton>
+					</div>
+					<div class="skTable">
+						<!-- Header -->
+						<div class="skTable__header">
+							<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+						</div>
+						<!-- summary -->
+						<div class="skTable__summary">
+							<p-skeleton class="prSkeleton"></p-skeleton>
+						</div>
+						<!-- Cell -->
+						<div class="skTable__body">
+							@for (row of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
+								<div class="skTable__row">
+									@for (Cell of [1, 2, 3, 4, 5, 6, 7]; track $index) {
+										<div class="skTable__cell">
+											<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+										</div>
+									}
+								</div>
+							}
+						</div>
+					</div>
+				</div>
+			}
+		}
+		<intelica-table-fetch
+			[CurrentPage]="currentPage()"
+			[RowsPerPage]="rowsPerPage()"
+			[TotalItems]="totalItems()"
+			[SortOrder]="sortDirection()"
+			[DefaultSortField]="sortField()"
+			[SortField]="sortField()"
+			[FilteredList]="merchantReport()"
+			[ShowSearch]="true"
+			[ShowPagination]="true"
+			(EmitQueryParametersChange)="onSearchParamsChange($event)"
+			[ngStyle]="{ display: isLoadingReport() ? 'none' : 'block' }"
+			[ngClass]="{ ptEmptyTable: isNoMatchesState || isNoDataState }"
+			[SearchFields]="searchFields()"
+			[SearchInput]="searchText() ?? ''"
+		>
+			<ng-template #additionalCentralTemplate>
+				<p-select
+					class="prSelect ms-2 prSelect--export"
+					[options]="items"
+					optionLabel="label"
+					optionValue="value"
+					[placeholder]="'EXPORT' | term: globalTermService.languageCode"
+					[appendTo]="'body'"
+					[ngModel]="null"
+					panelStyleClass="prSelectPanelExport"
+					dropdownIcon="icon icon-arrow-down"
+					[disabled]="isDownloadReport() || merchantReport().length === 0"
+					(onChange)="onExportChange($event.value)"
+				>
+					<ng-template pTemplate="selectedItem">
+						<span>{{ "EXPORT" | term: globalTermService.languageCode }}</span>
+					</ng-template>
+					<ng-template pTemplate="header">
+						<div class="prSelect__header">{{ "FORMAT" | term: globalTermService.languageCode }}</div>
+					</ng-template>
+					<ng-template let-item pTemplate="item">
+						<div class="prSelect__item" [class]="'actionExportGA'">
+							{{ item.label | term: globalTermService.languageCode }}
+						</div>
+					</ng-template>
+				</p-select>
+
+				<div class="card flex justify-center"></div>
+			</ng-template>
+			<rowResumenComponent className="text-left" [colspan]="8">
+				<ng-template>{{ "TOTAL" | term: globalTermService.languageCode }}</ng-template>
+			</rowResumenComponent>
+			<rowResumenComponent className="text-right" [colspan]="1">
+				<ng-template>{{ totalAmount() | number: "1.2-2" }}</ng-template>
+			</rowResumenComponent>
+			<column header="{{ 'Date' | term: globalTermService.languageCode }}" field="documentDate" [sortable]="true" className="u-text-center" width="8%">
+				<ng-template let-data>
+					<span>
+						{{ data.documentDateFormat }}
+					</span>
+				</ng-template>
+			</column>
+			<column header="{{ 'FeeCode' | term: globalTermService.languageCode }}" field="feeCode" [sortable]="true" className="u-text-center">
+				<ng-template let-data>
+					<span
+						[class.u-text-link]="hasFeeDetail(data.feeCode)"
+						[attr.role]="hasFeeDetail(data.feeCode) ? 'button' : null"
+						[attr.tabindex]="hasFeeDetail(data.feeCode) ? 0 : null"
+						[class]="'feecodeTableGA'"
+						(click)="goToDetail(data)"
+						(keydown.enter)="$any($event.target).click()"
+						(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+					>{{ data.feeCode }}</span>
+				</ng-template>
+			</column>
+			<column header="{{ 'LBL_ACQUIRER_ICA' | term: globalTermService.languageCode }}" field="ica" [sortable]="true" className="u-text-center"></column>
+			<column header="{{ 'LBL_MERCHANT_NAME' | term: globalTermService.languageCode }}" field="merchantName" className="u-text-left" [sortable]="true" width="320px">
+				<ng-template let-data>
+					<span *ngIf="data.merchantName" pTooltip="{{ data.merchantName.length > maxMerchantNameLength ? data.merchantName : '' }}" tooltipPosition="top">
+						{{ data.merchantName | truncate: maxMerchantNameLength }}
+					</span>
+				</ng-template>
+			</column>
+			<column header="{{ 'LBL_MERCHANT_ID' | term: globalTermService.languageCode }}" field="merchantId" [sortable]="true" className="u-text-center" width="10%"></column>
+			<column header="{{ 'LBL_QUANTITY_NUMBER' | term: globalTermService.languageCode }}" field="quantityNumber" [sortable]="true" className="u-text-right" width="10%"></column>
+			<column header="{{ 'CONVERTED_AMOUNT_DE_10' | term: globalTermService.languageCode }}" field="convertedAmount" [sortable]="true" className="u-text-right" width="10%">
+				<ng-template let-data>
+					<span>
+						{{ data.convertedAmount | number: "1.2-2" }}
+					</span>
+				</ng-template>
+			</column>
+			<column header="{{ 'LBL_T_RATE' | term: globalTermService.languageCode }}" field="tierValue" [sortable]="true" className="u-text-right" width="10%">
+				<ng-template let-data>
+					<span>
+						{{ data.tierValue | number: "1.4-4" }}
+					</span>
+				</ng-template>
+			</column>
+			<column header="{{ 'LBL_AMOUNT' | term: globalTermService.languageCode }} ({{ currency() }})" field="feeValue" [sortable]="true" className="u-text-right" width="10%">
+				<ng-template let-data>
+					<span>
+						{{ data.feeValue | number: "1.2-2" }}
+					</span>
+				</ng-template>
+			</column>
+		</intelica-table-fetch>
+		@if (isNoMatchesState) {
+			<intelica-status-state [state]="statusStateEnum.NoMatches" [description]="'NO_MATCHES_FOUND'" [searchTerm]="searchText() ?? ''" />
+		} @else if (isNoDataState) {
+			<intelica-status-state [state]="statusStateEnum.NoData" [description]="'NO_RESULTS_FOR_FILTERS'" />
+		}
+	</div>
+</div>
+
+<!-- dialog -->
+<p-dialog
+	class="prDialog prDialog--sm prDialog--noOverflow prDialog--forcedIndex"
+	[(visible)]="showDialogRaw"
+	[modal]="true"
+	[showHeader]="false"
+	[dismissableMask]="true"
+	[draggable]="false"
+	[focusOnShow]="false"
+	appendTo="body"
+	maskStyleClass="prDialog prDialog--sm prDialog--noOverflow prDialog--forcedIndex"
+>
+	<ng-template #content>
+		<div class="prDialog__body">
+			<div class="modalRayTpe">
+				<div class="modalRayTpe__item">
+					<div class="modalRayTpe__label">
+						{{ "FILTER_BY_DATE" | term: globalTermService.languageCode }}
+					</div>
+					<div class="modalRayTpe__input">
+						<div (click)="onPanelInteract()">
+							<p-datepicker
+								#picker
+								class="prDatapicker prDatapicker--reusable"
+								[panelStyleClass]="panelClasses()"
+								[ngModel]="dates()"
+								selectionMode="range"
+								[numberOfMonths]="1"
+								(onShow)="onDatepickerOpen()"
+								[readonlyInput]="true"
+								[showIcon]="false"
+								[dateFormat]="'dd M, yy'"
+								(onMonthChange)="onMonthChange($event)"
+								(onYearChange)="onYearChange($event)"
+								placeholder="dd mm, yyyy - dd mm, yyyy"
+								[minDate]="datePickerOptions().minDate"
+								[maxDate]="datePickerOptions().maxDate"
+								[disabledDates]="datePickerOptions().disabledDates"
+								[inputStyle]="{ 'text-transform': 'lowercase' }"
+								(ngModelChange)="onRawDateRangeChange($event)"
+							>
+								<ng-template #previousicon>
+									<i class="icon icon-arrow-left" data-ga-track="datepicker_prev" data-ga-section="filter_range"></i>
+								</ng-template>
+								<ng-template #nexticon>
+									<i class="icon icon-arrow-right" data-ga-track="datepicker_next" data-ga-section="filter_range"></i>
+								</ng-template>
+								<ng-template pTemplate="footer" let-clearCallback="clearCallback">
+									<div class="footerDatapicker footerDatapicker--range">
+										<div class="footerDatapicker__box">
+											@for (p of rawPresetsState(); track p.preset) {
+												<p-button
+													class="u-text-nowrap"
+													[class.btnActive]="p.active"
+													[class.btnSecond]="!p.active && !p.disabled"
+													[disabled]="p.disabled"
+													[label]="p.termKey | term: globalTermService.languageCode"
+													[pTooltip]="'Nodata' | term: globalTermService.languageCode"
+													[tooltipDisabled]="!p.disabled"
+													tooltipPosition="top"
+													tooltipStyleClass="prTooltip"
+													(onClick)="applyRawPreset(p.preset)"
+												/>
+											}
+										</div>
+									</div>
+								</ng-template>
+							</p-datepicker>
+						</div>
+					</div>
+				</div>
+				<div class="modalRayTpe__item">
+					<div class="modalRayTpe__label">
+						{{ "LBL_ACQUIRER_ICA" | term: globalTermService.languageCode }}
+					</div>
+					<div class="modalRayTpe__input">
+						@if (isRawFiltersLoading()) {
+							<div style="display: flex; align-items: center; gap: 8px">
+								<p-skeleton class="prSkeleton" width="100%" height="32px"></p-skeleton>
+							</div>
+						} @else {
+							<p-multiselect
+								class="prMultiselect"
+								[options]="icaOptions"
+								[(ngModel)]="selectedIcas"
+								optionLabel="label"
+								optionValue="value"
+								placeholder="{{ 'ALL_ICAS' | term: globalTermService.languageCode }}"
+								[maxSelectedLabels]="icaOptions.length - 1"
+								[filter]="icaOptions.length > 10"
+								[showToggleAll]="true"
+								panelStyleClass="prMultiselect"
+								appendTo="body"
+								(onPanelHide)="onRawIcaChange()"
+								[readonly]="isReadonlyIca"
+								[class.readonly-multiselect]="isReadonlyIca"
+							>
+								<ng-template pTemplate="selectedItems">{{ selectedIcasLabel }}</ng-template>
+								<ng-template #dropdownicon>
+									<i class="icon icon-arrow-down"></i>
+								</ng-template>
+							</p-multiselect>
+						}
+					</div>
+				</div>
+				<div class="modalRayTpe__item">
+					<div class="modalRayTpe__label">
+						{{ "FeeCode" | term: globalTermService.languageCode }}
+					</div>
+					<div class="modalRayTpe__input">
+						@if (isRawFiltersLoading()) {
+							<div style="display: flex; align-items: center; gap: 8px">
+								<p-skeleton class="prSkeleton" width="100%" height="32px"></p-skeleton>
+							</div>
+						} @else {
+							<p-multiselect
+								class="prMultiselect"
+								[options]="feeOptions"
+								[(ngModel)]="selectedFees"
+								optionLabel="label"
+								optionValue="value"
+								placeholder="{{ 'ALL_FEES' | term: globalTermService.languageCode }}"
+								[maxSelectedLabels]="feeOptions.length - 1"
+								[filter]="feeOptions.length > 10"
+								[showToggleAll]="true"
+								panelStyleClass="prMultiselect"
+								appendTo="body"
+								(onPanelHide)="onRawFeeChange()"
+								[readonly]="isReadonlyFee"
+								[class.readonly-multiselect]="isReadonlyFee"
+							>
+								<ng-template pTemplate="selectedItems">{{ selectedFeesLabel }}</ng-template>
+								<ng-template #dropdownicon>
+									<i class="icon icon-arrow-down"></i>
+								</ng-template>
+							</p-multiselect>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+	<ng-template #footer>
+		<p-button class="prButton" label="{{ 'Download' | term: globalTermService.languageCode }}" (click)="confirmRawDataZipDownload()" [disabled]="isRawFiltersLoading()" />
+		<p-button class="prButton" label="{{ 'Cancel' | term: globalTermService.languageCode }}" severity="secondary" (click)="closeRawDialog()" />
+	</ng-template>
+</p-dialog>
+<p-toast class="prToast" position="bottom-right" />

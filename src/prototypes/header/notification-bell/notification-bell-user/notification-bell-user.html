@@ -1,0 +1,51 @@
+<p-tabs class="prTabs prTabs--noPanelsPaddingBottom u-min-content" style="min-width: 420px" [value]="tabValue()">
+	<p-tablist>
+		<p-tab [value]="NotificationTab.Brand" (click)="tabValue.set(NotificationTab.Brand)">
+			<div class="u-display-flex u-gap-sm u-align-items-center u-justify-content-center">
+				{{ "LBL_BRAND_NOTIFICATIONS" | term : GlobalTermService.languageCode }}
+				<span *ngIf="hasUnreadBrand" class="u-dot u-color-error u-my-auto"></span>
+			</div>
+		</p-tab>
+	</p-tablist>
+	<p-tabpanels>
+		<p-tabpanel [value]="NotificationTab.Brand">
+			<div class="ptListitemGroup ptListitemGroup--fixedHeight ptListitemGroup--withDivider">
+				<div class="ptListitemGroup__body">
+					@if (notificationsBrand.length) {
+					<ng-container *ngFor="let notification of notificationsBrandLimited; trackBy: trackByRecipientId">
+						<ng-container [ngSwitch]="notification.notificationTypeCode">
+							<list-item-brand-notification
+								*ngSwitchCase="'BRD'"
+								[notification]="notification"
+								[actionResult$]="actionResult$"
+								[lastActionError]="lastActionError"
+								[actionInFlight]="actionInFlight"
+								(onNotificationClick)="onNotificationClick($event)"
+								(onNotificationClose)="onNotificationClose($event.notification, $event.actionCode)"
+								(onNotificationActionClick)="onNotificationActionClick($event.event, $event.notification, $event.action)"
+								(setNotificationArray)="setNotificationArray()"
+							/>
+
+							<list-item-generic-notification
+								*ngSwitchCase="'NTF'"
+								[notification]="notification"
+								[actionResult$]="actionResult$"
+								[lastActionError]="lastActionError"
+								[actionInFlight]="actionInFlight"
+								(onNotificationClick)="onNotificationClick($event)"
+								(onNotificationClose)="onNotificationClose($event.notification, $event.actionCode)"
+								(setNotificationArray)="setNotificationArray()"
+							></list-item-generic-notification>
+						</ng-container>
+					</ng-container>
+					} @else {
+					<span class="ptListitemGroup__empty">{{ "LBL_YOU_HAVE_NO_NOTIFICATIONS" | term : GlobalTermService.languageCode }}</span>
+					}
+				</div>
+				<div class="ptListitemGroup__footer" *ngIf="viewAll(notificationsBrand.length)">
+					<p-button class="prButton u-m-auto" severity="secondary" size="small" label="{{ 'LBL_VIEW_ALL' | term : GlobalTermService.languageCode }}"></p-button>
+				</div>
+			</div>
+		</p-tabpanel>
+	</p-tabpanels>
+</p-tabs>

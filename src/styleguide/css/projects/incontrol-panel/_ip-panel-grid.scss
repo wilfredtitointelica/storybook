@@ -1,0 +1,113 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( .block )
+\*——————————————————————————————————————————————————————————*/
+
+.ipPanelGrid {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	gap: var(--i-spacing-gap-lg);
+}
+
+.ipPanelGrid > .ipPanelRow {
+	grid-column: span 12;
+}
+
+.ipPanelRow {
+	display: flex;
+	gap: var(--i-spacing-gap-lg);
+}
+
+.ipPanel {
+	flex-grow: 1;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS BLOCK ( --modifier ) 
+\*——————————————————————————————————————————————————————————*/
+
+.ipPanel {
+
+	// --- span column ---
+	
+	&--feeExpense {
+		grid-column: span 5;
+		// min-height: 440px;
+	}
+
+	&--netFees {
+		grid-column: span 7;
+	}
+
+	&--performanceScore {
+		grid-column: span 3;
+	}
+
+	&--opportunities {
+		grid-column: span 4;
+		// min-height: 390px;
+	}
+
+	&--announcements {
+		grid-column: span 5;
+	}
+
+	&--unitCost {
+		grid-column: span 8;
+	}
+
+	&--optimizeCta {
+		grid-column: span 4;
+		flex-grow: 0;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS ( other elements ) 
+\*——————————————————————————————————————————————————————————*/
+
+.ipPanel {
+
+	// forced net fees
+
+	&--netFees {
+		min-height: 438.8px;
+	}
+	
+	// forced optimize cta ( background )
+
+	&--optimizeCta {
+		position: sticky;
+		top: var(--i-dashboard-layout-header-height);
+		height: 446.8px;
+		
+		& .ptCallout__media {
+			background-image: url('./../../../images/incontrol-panel/optimize-cta.svg');
+		}
+	}
+
+	// forced perfomance score
+
+	&--performanceScore {
+		&:has(.chart, .skGauge) .ptAmount {
+			margin-top: calc(var(--i-spacing-gap-md) * -1);
+		}
+	}
+
+	// forced announcements
+
+	&--announcements {
+		min-height: 380px; // 430px || 493.42px;
+
+		& .ptStackContent__body {
+			min-height: 170px;
+		}
+	}
+
+	// forced unit-cost
+
+	&--unitCost {
+		min-height: 446.8px;
+	}
+
+}

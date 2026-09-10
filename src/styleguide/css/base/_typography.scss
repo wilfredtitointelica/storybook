@@ -1,0 +1,11 @@
+/*——————————————————————————————————————————————————————————*\
+ * TYPOGRAPHY
+\*——————————————————————————————————————————————————————————*/
+
+body {
+	font-family: var(--i-text-body-family);
+	font-weight: var(--i-text-body-weight);
+	font-size: var(--i-text-body-size-lg);
+	line-height: 1.5;
+	color: var(--i-color-primary-900);
+}

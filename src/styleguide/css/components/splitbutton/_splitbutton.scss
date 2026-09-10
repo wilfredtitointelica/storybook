@@ -1,0 +1,112 @@
+.prSplitButton {
+	// base
+	&.p-splitbutton {		
+		border: 1px solid var(--i-color-secondary-200);
+		border-radius: var(--i-border-radius-lg);
+
+		&:not(:disabled):hover {
+			border-color: var(--i-color-primary-400);
+
+			&:not(.p-disabled):is(:hover) .p-splitbutton-dropdown {
+				color: var(--i-color-primary-400);
+			}
+		}
+
+		& .p-button {
+			background: var(--i-color-secondary-50);
+			padding: 5px 8px;
+			color: var(--i-color-primary-900);
+			border: 0;
+			border-radius: var(--i-border-radius-lg);
+			font-size: var(--i-typography-font-size-md);;
+
+			&:focus-visible {
+			outline: var(--i-color-primary-900) solid 1px;
+			outline-offset: 1px;
+			}
+
+			&:not(:disabled):hover {
+				border: 0;
+				background: transparent;
+				color: inherit;			
+			}
+
+		}
+		
+	}
+
+	& .p-splitbutton-dropdown {
+
+		& span.icon-arrow-down {
+			transition: rotate 0.3s ease-in-out;
+			rotate: 0deg;
+		}
+
+		&[aria-expanded="true"] span.icon-arrow-down {
+			rotate: -180deg;
+		}
+	}
+
+	/* & .p-button {
+		background: #fcfcfc;
+		border: 1px solid #d9d9e3;
+		height: 32px;
+		padding: 6px 8px;
+	} */
+
+	// unir bordes
+	/* & .p-splitbutton-button {
+		border-right: none;
+	}
+
+	& .p-splitbutton-dropdown {
+		border-left: none;
+	} */
+
+	//  HOVER UNIFICADO
+	/* &:hover {
+		& .p-button:not(:disabled) {
+			background: #e5edfa;
+			border-color: #d9d9e3;
+		}
+		& .p-button.p-splitbutton-button {
+			border-right: none;
+		}
+		& .p-button.p-splitbutton-dropdown {
+			border-left: none;
+		}
+	} */
+
+	// icono
+	/* & .p-splitbutton-dropdown .p-icon {
+		color: #2952c4;
+	}
+
+	& .p-button-label {
+		color: #4f5470;
+		font-weight: 700;
+		font-size: 14px;
+		line-height: 20px;
+	} */
+}
+
+.prSplitButton__menu {
+
+	&.p-tieredmenu{
+		background: var(--i-color-secondary-50);
+		border: 1px solid var(--i-color-secondary-200);
+		border-radius: var(--i-border-radius-lg);
+		box-shadow: var(--i-shadow-depth-3);
+		font-size: var(--i-typography-font-size-md);
+
+		& .p-tieredmenu-item:not(.p-disabled) > .p-tieredmenu-item-content:hover {
+			background: var(--i-color-secondary-100);
+			color: var(--i-color-primary-900);
+		}
+
+		& .p-tieredmenu-item-content{
+			color: var(--i-color-primary-900);
+		}
+
+	}
+}

@@ -1,0 +1,66 @@
+<div class="u-display-flex u-flex-column u-gap-lg u-text-md">
+	<p class="u-m-0">
+		{{ "SteupVerificationSubTitle" | term : termService.languageCode }}
+		<br />
+		<span class="u-bold">{{ "SteupVerificationBody" | term : termService.languageCode }}</span>
+	</p>
+	<!-- qr code -->
+	<div class="ptQrCode u-m-auto">
+		<div class="ptQrCode__container">
+			@if (qrCodeBase64()) {
+			<img [src]="'data:image/png;base64,' + qrCodeBase64()" alt="QR Code" />
+			} @else {
+			<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'100%'" />
+			}
+		</div>
+	</div>
+	<!-- manual entry key -->
+	<p class="u-m-0 u-text-center">
+		@if (manualEntryKey()) {
+		{{ "SetupVerificationManualEntry" | term : termService.languageCode }}
+		<span class="u-bold">{{ manualEntryKey() }}</span>
+		} @else {
+		<p-skeleton class="prSkeleton u-mx-auto" [width]="'510px'" [height]="'20px'" />
+		}
+	</p>
+	<!-- field code -->
+	<div class="ptField">
+		<div class="ptField__label">
+			<label for="qrCode">{{ "SteupVerificationEnterCodeLabel" | term : termService.languageCode }}</label>
+		</div>
+		<div class="ptField__inner">
+			<div class="ptField__control">
+				<p-iconfield class="prIconfield">
+					<input
+						class="prInputtext"
+						[value]="valueQrCode()"
+						(input)="NormalizeQrCode($event)"
+						pInputText
+						#inputText
+						type="text"
+						id="qrCode"
+						name="qrCode"
+						autocomplete="off"
+						[placeholder]="'SteupVerificationInputPlaceHolder' | term : termService.languageCode"
+						[invalid]="hasError()"
+					/>
+					@if(valueQrCode() !== '') {
+					<p-button class="prButton u-display-none" icon="icon icon-cancel" size="small" (click)="valueQrCode.set('')" />
+					}
+				</p-iconfield>
+			</div>
+		</div>
+	</div>
+	<!-- button -->
+	<p-button
+		class="prButton u-m-auto"
+		[disabled]="disabledButton()"
+		[loading]="isLoading()"
+		[label]="'SteupVerificationButtonEnable' | term : termService.languageCode"
+		(click)="EnableTwoStepVerification()"
+	/>
+	<!-- error -->
+	@if(hasError()) {
+	<p-message class="prMessage" severity="error" icon="icon icon-warning">{{ "SteupVerificationToastError" | term : termService.languageCode }}</p-message>
+	}
+</div>

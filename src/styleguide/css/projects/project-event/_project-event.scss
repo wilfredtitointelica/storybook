@@ -1,0 +1,26 @@
+.projectEventUser {
+	&__avatar {
+		width: 62px;
+		height: 62px;
+		border-radius: var(--i-border-radius-6xl);
+		border: var(--i-border-width-10) solid var(--i-color-primary-600);
+		margin: 0 auto var(--i-spacing-150);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		& img {
+			width: 54px; //--i-sizing-800
+			height: 54px; //--i-sizing-800
+			border-radius: var(--i-border-radius-6xl);
+		}
+	}
+	&__info {
+		text-align: center;
+		font-size: var(--i-typography-font-size-sm);
+	}
+	&__name {
+		font-weight: var(--i-text-heading-weight);
+		color: var(--i-color-primary-600);
+		font-size: var(--i-typography-font-size-md);
+	}
+}

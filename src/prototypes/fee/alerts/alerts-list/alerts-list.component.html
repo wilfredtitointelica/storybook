@@ -1,0 +1,132 @@
+<!-- existing alerts list -->
+@if( currentItems().length ) {
+<div class="ptSplitGroup ptSplitGroup--vertical">
+	@for (item of currentItems(); track item.id) {
+	<div class="ptSplitGroup__item">
+		<!-- loaded: item -->
+		@if (!loading()) {
+		<div
+			class="amAlertItem"
+			role="button"
+			tabindex="0"
+			[ngClass]="'amAlertAccenColor--' + item.klass"
+			[class.is-unread]="isItemUnread(item)"
+			[class.is-active]="selectedItem()?.id === item.id"
+			(click)="onItemClick(item)"
+			(keydown.enter)="$any($event.target).click()"
+			(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+		>
+			<div class="amAlertItem__header">
+				<div class="amAlertHeader">
+					<div class="amAlertHeader__meta">
+						<div class="amAlertHeader__badge">
+							<p-badge class="prBadge icon" [ngClass]="item.badge.icon" severity="info" badgeSize="large" [value]="item.badge.termKey | term : globalTermService.languageCode" />
+						</div>
+						<div class="amAlertHeader__brand">
+							@for (brand of item.brands; track $index) {
+							<i class="icon icon--md icon--outlined" [ngClass]="'icon-' + brand"></i>
+							}
+						</div>
+						<div class="amAlertHeader__date">{{ formatShortDate(item.createdRealDate, globalTermService.languageCode) }}</div>
+					</div>
+					<div class="amAlertHeader__title">{{ displayTitle(item, globalTermService.languageCode) }}</div>
+				</div>
+			</div>
+			<div class="amAlertItem__footer">
+				<ul class="amAlertItem__stats">
+					@for (stat of buildStats(item, globalTermService.languageCode); track $index) {
+					<li>{{ stat }}</li>
+					}
+				</ul>
+				@if (isGroupProfile()) {
+				<div class="amAlertItem__reference">
+					<span class="u-bold">{{ "LBL_ENTITY" | term : globalTermService.languageCode }}</span>
+					:
+					<span class="u-normal">{{ item.bankName }}</span>
+				</div>
+				}
+			</div>
+		</div>
+		}
+		<!-- skeleton: item -->
+		@if (loading()){
+		<div class="amAlertItem">
+			<div class="amAlertItem__header">
+				<div class="amAlertHeader">
+					<div class="amAlertHeader__meta">
+						<div class="amAlertHeader__badge"><p-skeleton class="prSkeleton" [width]="'100px'" [height]="'32px'" /></div>
+						<div class="amAlertHeader__brand">
+							<p-skeleton class="prSkeleton" [width]="'36px'" [height]="'24px'" />
+							<p-skeleton class="prSkeleton" [width]="'36px'" [height]="'24px'" />
+						</div>
+						<div class="amAlertHeader__date"><p-skeleton class="prSkeleton" [width]="'66px'" [height]="'18px'" /></div>
+					</div>
+					<div class="amAlertHeader__title"><p-skeleton class="prSkeleton" [width]="'320px'" [height]="'32px'" /></div>
+				</div>
+			</div>
+			<div class="amAlertItem__footer">
+				<ul class="amAlertItem__stats">
+					<li><p-skeleton class="prSkeleton" [width]="'85px'" [height]="'24px'" /></li>
+					<li><p-skeleton class="prSkeleton" [width]="'47px'" [height]="'24px'" /></li>
+					<li><p-skeleton class="prSkeleton" [width]="'100px'" [height]="'24px'" /></li>
+				</ul>
+				<div class="amAlertItem__reference"><p-skeleton class="prSkeleton" [width]="'148px'" [height]="'24px'" /></div>
+			</div>
+		</div>
+		}
+	</div>
+	}
+</div>
+}
+<!-- loading skeletons when no items yet -->
+@else if(!currentItems().length && loading()) {
+<div class="ptSplitGroup ptSplitGroup--vertical">
+	@for (i of [1, 2, 3]; track i) {
+	<div class="ptSplitGroup__item">
+		<div class="amAlertItem">
+			<div class="amAlertItem__header">
+				<div class="amAlertHeader">
+					<div class="amAlertHeader__meta">
+						<div class="amAlertHeader__badge"><p-skeleton class="prSkeleton" [width]="'100px'" [height]="'32px'" /></div>
+						<div class="amAlertHeader__brand">
+							<p-skeleton class="prSkeleton" [width]="'36px'" [height]="'24px'" />
+						</div>
+						<div class="amAlertHeader__date"><p-skeleton class="prSkeleton" [width]="'66px'" [height]="'18px'" /></div>
+					</div>
+					<div class="amAlertHeader__title"><p-skeleton class="prSkeleton" [width]="'320px'" [height]="'32px'" /></div>
+				</div>
+			</div>
+			<div class="amAlertItem__footer">
+				<ul class="amAlertItem__stats">
+					<li><p-skeleton class="prSkeleton" [width]="'85px'" [height]="'24px'" /></li>
+					<li><p-skeleton class="prSkeleton" [width]="'47px'" [height]="'24px'" /></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	}
+</div>
+}
+<!-- status NO MATCHES -->
+@else if(hasNoMatches()) {
+<intelica-status-state [state]="statusStateEnum.NoMatches" [description]="'NO_MATCHES_FOUND'" [searchTerm]="searchText()" />
+}
+
+<!-- status NO DATA -->
+@else if(hasNoData()) {
+<intelica-status-state [state]="statusStateEnum.NoData" [description]="'NO_RESULTS_FOR_FILTERS'" />
+}
+
+<!-- old: no alerts to display -->
+<!--
+	@if(!currentItems().length && !loading()) {
+		<div class="u-display-flex u-flex-column u-gap-lg u-m-auto u-align-items-center u-justify-content-center u-full-height" id="noResultsGA">
+			<i class="icon icon-no-results icon--lg"></i>
+			<span class="u-text-center">
+				<span class="u-text-xl u-bold">{{ "LBL_NO_ALERTS_TO_SHOW" | term : globalTermService.languageCode }}</span>
+				<br />
+				<span>{{ "LBL_NO_ALERTS_AT_THE_MOMENT" | term : globalTermService.languageCode }}</span>
+			</span>
+		</div>
+	}
+-->

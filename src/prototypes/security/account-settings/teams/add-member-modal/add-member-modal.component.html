@@ -1,0 +1,249 @@
+<!-- ================================================================ -->
+
+<!-- LOADED -->
+@if (isReady()) {
+<div class="u-display-flex u-flex-column u-gap-lg u-text-md">
+	<p class="u-m-0">
+		<!-- desc ( mode new ) -->
+		@if(!member()) { {{ "AddTeamMemberSubTitle" | term : termService.languageCode }} }
+		<!-- desc ( mode edit ) -->
+		@if(member()) { {{ "EditTeamMemberSubTitle" | term : termService.languageCode }} }
+	</p>
+	<!-- data -->
+	<div class="ptFieldGroup ptFieldGroup--two">
+		<!-- field: first name  -->
+		<div class="ptField ptField--floatMessage">
+			<div class="ptField__inner">
+				<div class="ptField__control">
+					<p-iconfield class="prIconfield">
+						<input
+							class="prInputtext"
+							[(ngModel)]="valueFirstName"
+							pInputText
+							#inputText
+							type="text"
+							id="firstName"
+							name="firstName"
+							[invalid]="showFirstNameError()"
+							autocomplete="off"
+							[placeholder]="'PersonalInformationNamePlaceHolder' | term : termService.languageCode"
+						/>
+						@if(valueFirstName() !== '') {
+						<p-button class="prButton u-display-none" icon="icon icon-cancel" size="small" (click)="valueFirstName.set('')" />
+						}
+					</p-iconfield>
+				</div>
+				<div class="ptField__message">
+					@if(showFirstNameError()) {
+					<small class="u-msg-error">{{ "ValidationFirstNameRequired" | term : termService.languageCode }}</small>
+					}
+				</div>
+			</div>
+		</div>
+		<!-- field: last name  -->
+		<div class="ptField ptField--floatMessage">
+			<div class="ptField__inner">
+				<div class="ptField__control">
+					<p-iconfield class="prIconfield">
+						<input
+							class="prInputtext"
+							[(ngModel)]="valueLastName"
+							pInputText
+							#inputText
+							type="text"
+							id="lastName"
+							name="lastName"
+							[invalid]="showLastNameError()"
+							autocomplete="off"
+							[placeholder]="'PersonalInformationLastNamePlaceHolder' | term : termService.languageCode"
+						/>
+						@if(valueLastName() !== '') {
+						<p-button class="prButton u-display-none" icon="icon icon-cancel" size="small" (click)="valueLastName.set('')" />
+						}
+					</p-iconfield>
+				</div>
+				<div class="ptField__message">
+					@if(showLastNameError()) {
+					<small class="u-msg-error">{{ "ValidationLastNameRequired" | term : termService.languageCode }}</small>
+					}
+				</div>
+			</div>
+		</div>
+		<!-- field: email address  -->
+		<div class="ptField ptField--floatMessage area-1x2">
+			<div class="ptField__inner">
+				<div class="ptField__control">
+					<p-iconfield class="prIconfield">
+						<input
+							class="prInputtext"
+							[(ngModel)]="valueEmail"
+							pInputText
+							#inputText
+							email
+							type="email"
+							id="email"
+							name="email"
+							[invalid]="showEmailError()"
+							autocomplete="off"
+							[placeholder]="'PersonalInformationLastEmailPlaceHolder' | term : termService.languageCode"
+						/>
+						@if(valueEmail() !== '') {
+						<p-button class="prButton u-display-none" icon="icon icon-cancel" size="small" (click)="valueEmail.set('')" />
+						}
+					</p-iconfield>
+				</div>
+				<div class="ptField__message">
+					@if(emailExistsError()) {
+					<small class="u-msg-error">{{ "EmailAlreadyExists" | term : termService.languageCode }}</small>
+					} @else if(showEmailError()) {
+					<small class="u-msg-error">{{ "ValidationEmailRequired" | term : termService.languageCode }}</small>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- role options -->
+	<div class="ptFieldGroup ptFieldGroup--inline u-gap-sm-y u-gap-lg-x">
+		<h4 class="u-full-width u-m-0">{{ "RoleQuestion" | term : termService.languageCode }}</h4>
+		<!-- field: role -->
+		@for (role of roleOptions(); track $index) {
+		<div class="ptField">
+			<div class="ptField__control">
+				<p-radiobutton class="prRadioButton" name="role" [inputId]="role.key" [value]="role" [ngModel]="selectedRole()" (onClick)="selectedRole.set($event.value)" />
+			</div>
+			<div class="ptField__inner">
+				<div class="ptField__label">
+					<label [for]="role.key" class="u-text-md">{{ role.name | term : termService.languageCode }}</label>
+				</div>
+			</div>
+		</div>
+		}
+	</div>
+	<!-- role other -->
+	@if ( selectedRole()?.key === "00000000-0000-0000-0000-000000000000") {
+	<div class="ptFieldGroup u-gap-sm-y">
+		<h4 class="u-full-width u-m-0 u-normal">{{ "RoleOtherOptionTitle" | term : termService.languageCode }}</h4>
+		<!-- field: role other -->
+		<div class="ptField ptField--floatMessage area-1x2">
+			<div class="ptField__inner">
+				<div class="ptField__control">
+					<p-iconfield class="prIconfield">
+						<input
+							class="prInputtext"
+							[(ngModel)]="valueOther"
+							pInputText
+							#inputText
+							type="text"
+							id="other"
+							name="other"
+							[invalid]="showOtherError()"
+							autocomplete="off"
+							[placeholder]="'PlaceholderOther' | term : termService.languageCode"
+						/>
+						@if(valueOther() !== '') {
+						<p-button class="prButton u-display-none" icon="icon icon-cancel" size="small" (click)="valueOther.set('')" />
+						}
+					</p-iconfield>
+				</div>
+				<div class="ptField__message">
+					@if(showOtherError()) {
+					<small class="u-msg-error">{{ "ValidationRoleRequired" | term : termService.languageCode }}</small>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	}
+	<!-- account type -->
+	<div class="ptFieldGroup u-gap-sm-y">
+		<h4 class="u-full-width u-m-0">{{ "TeamMemberAccountTypeLabel" | term : termService.languageCode }}</h4>
+		<!-- field: role operation -->
+		<div class="ptField ptField--floatMessage">
+			<div class="ptField__inner">
+				<div class="ptField__control">
+					<p-select
+						class="prSelect"
+						[options]="translatedAccountType()"
+						[(ngModel)]="selectedAccountType"
+						optionLabel="label"
+						[placeholder]="'TeamMemberAccountTypePlaceHolder' | term : termService.languageCode"
+						showClear="false"
+						dropdownIcon="icon icon-arrow-down"
+						showToggleAll="false"
+						[invalid]="showAccountTypeError()"
+						appendTo="body"
+						panelStyleClass="prSelect"
+					/>
+				</div>
+				<div class="ptField__message">
+					@if(showAccountTypeError()) {
+					<small class="u-msg-error">{{ "ValidationFieldRequired" | term : termService.languageCode }}</small>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Invitation Email ( mode new ) -->
+	@if(!member()) {
+	<div class="u-display-flex u-flex-column">
+		<h4 class="u-full-width u-m-0">{{ "AddTeamMemberStupMessageTitle" | term : termService.languageCode }}</h4>
+		<p class="u-m-0">{{ "AddTeamMemberStupMessageBody" | term : termService.languageCode }}</p>
+	</div>
+	}
+	<!-- message: remember -->
+	@if(showMsgRememberError()){
+	<p-message class="prMessage" severity="error" icon="icon icon-alert" size="small">{{ "ValidationCompleteAllFields" | term : termService.languageCode }}</p-message>
+	}
+	<!-- button: action ( mode new ) -->
+	@if(!member()) {
+	<p-button class="prButton u-m-auto" (click)="AddNewMember()" [disabled]="disabledButton() || isLoading()" [loading]="isLoading()" [label]="'AddTeamMemberButton' | term : termService.languageCode" />
+	}
+	<!-- button: action ( mode edit ) -->
+	@if(member()) {
+	<p-button class="prButton u-m-auto" (click)="EditMember()" [disabled]="disabledButton() || isLoading()" [loading]="isLoading()" [label]="'EditTeamMemberSave' | term : termService.languageCode" />
+	}
+</div>
+}
+
+<!-- SKELETON -->
+@if (!isReady()) {
+<div class="u-display-flex u-flex-column u-gap-lg u-text-md">
+	<div class="u-display-flex u-flex-column">
+		<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'515px'" [height]="'12px'" /></div>
+		<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'105px'" [height]="'12px'" /></div>
+	</div>
+	<!-- data -->
+	<div class="ptFieldGroup ptFieldGroup--two">
+		<!-- field: first name  -->
+		<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" />
+		<!-- field: last name  -->
+		<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" />
+		<!-- field: email address  -->
+		<p-skeleton class="prSkeleton area-1x2" [width]="'100%'" [height]="'32px'" />
+	</div>
+	<!-- role options -->
+	<div class="ptFieldGroup ptFieldGroup--inline u-gap-sm-y u-gap-lg-x">
+		<h4 class="u-full-width u-m-0"><p-skeleton class="prSkeleton" [width]="'120px'" [height]="'20px'" /></h4>
+		@for (_ of [1,2,3,4,5]; track $index) {
+		<div class="u-display-flex u-gap-xs u-align-items-center u-overflow-hidden">
+			<p-skeleton class="prSkeleton u-my-auto" shape="circle" [size]="'16px'" />
+			<p-skeleton class="prSkeleton u-my-1" [width]="'64px'" [height]="'12px'" />
+		</div>
+		}
+	</div>
+	<!-- account type -->
+	<div class="ptFieldGroup u-gap-sm-y">
+		<h4 class="u-full-width u-m-0 u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'85px'" [height]="'12px'" /></h4>
+		<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" />
+	</div>
+	<!-- invitation email ( mode new ) -->
+	<div class="u-display-flex u-flex-column">
+		<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-mb-1" [width]="'150px'" [height]="'16px'" /></div>
+		<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'320px'" [height]="'12px'" /></div>
+	</div>
+	<!-- button: action ( mode new ) -->
+	<p-skeleton class="prSkeleton u-mx-auto" [width]="'95.02px'" [height]="'32px'" />
+</div>
+}
+
+<!-- ================================================================ -->

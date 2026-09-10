@@ -1,0 +1,217 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-POPOVER-COMPONENT: 'prPopover ( Custom PrimeNG )';
+
+	// --- general ---
+	
+	--i-popover-padding: var(--i-spacing-container-2xl);	//24px
+	--i-popover-sm-padding: var(--i-spacing-container-xl); // 16px
+	--i-popover-gap: var(--i-spacing-200);	//16px
+	--i-popover-color: var(--i-color-grey-600);
+	--i-popover-background: var(--i-panel-background); //var(--i-color-grey-50);
+	--i-popover-border-width:  1px;
+	--i-popover-border-color:  transparent;
+	--i-popover-border-radius:  var(--i-border-radius-200);
+	--i-popover-font-size: var(--i-typography-font-size-100);
+	--i-popover-box-shadow: var(--i-shadow-depth-4);
+	
+	// --- elements ---
+
+	--i-popover-header-color: var(--i-color-secondary-600);
+	--i-popover-header-font-size: var(--i-typography-font-size-250);
+	--i-popover-header-font-weight: var(--i-typography-font-weight-700);
+	--i-popover-header-lineHeight: var(--i-typography-lineHeight-500);
+	--i-popover-header-gap: var(--i-spacing-100);	//8px
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prPopover {
+	
+	&.p-popover {
+		margin-top: 1px;
+		color: var(--i-popover-color);
+		background-color: var(--i-popover-background);
+		border-width: var(--i-popover-border-width);
+		border-color: var(--i-popover-border-color);
+		border-radius: var(--i-popover-border-radius);
+		box-shadow: var(--i-popover-box-shadow);
+		color: currentColor;
+	}
+
+	&::before, &::after {
+		display: none;
+	}
+
+	& .p-popover-content {
+		display: flex;
+		flex-direction: column;
+		padding: var(--i-popover-padding);
+		gap: var(--i-popover-gap);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prPopover )
+\*——————————————————————————————————————————————————————————*/
+
+.prPopover {
+
+	--custom-width: auto;
+
+	&.p-popover {
+		width: var(--custom-width);
+	}
+
+	// --- structure ---
+
+	:is(&__header, &__body, &__footer):empty {
+		display: none;
+	} 
+	
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: var(--i-popover-header-gap);
+		font-size: var(--i-popover-header-font-size);
+		font-weight: var(--i-popover-header-font-weight);
+		line-height: var(--i-popover-header-lineHeight);
+	}	
+
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-popover-gap);
+	}
+
+	&__footer {
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prPopover {
+
+	// --- outline ---
+	
+	&--outline.p-popover {
+		border-color: var(--i-color-neutral-400);
+	}
+
+	// --- noRounded ---
+
+	&--noRoundedTL.p-popover {
+		border-top-left-radius: 0;
+	}
+
+	&--noRoundedTR.p-popover {
+		border-top-right-radius: 0;
+	}
+
+	// --- limit height ---
+
+	&--limitHeight.p-popover {
+		max-height: 37.5rem; // 600px;
+		overflow: hidden;
+	}
+
+	// --- compact ---
+
+	&--compact.p-popover {
+	}
+	
+	&--compact .p-popover-content {
+		padding: var(--i-popover-sm-padding);
+	}
+
+	&--compact &__header {
+		font-size: var(--i-typography-font-size-lg);
+		line-height: var(--i-typography-lineHeight-lg);
+	}
+
+	&--compact &__body {
+
+	}
+
+	// --- arrow ( flechas indicadoras, agregar prPopover--arrow al mismo nivel de prPopover ) ---
+
+	&--arrow {
+
+		&::before, &::after {
+			display: block;
+		}
+
+		// el gutter de PrimeNG reserva el espacio donde se dibuja la flecha (alto = --p-popover-gutter);
+		// como .prPopover pisa el margin-top a 1px, se restaura aquí para que la flecha no quede flotando
+		&.p-popover {
+			margin-top: var(--p-popover-gutter);
+		}
+
+		&.p-popover-flipped {
+			margin-top: calc(-1 * var(--p-popover-gutter));
+			margin-bottom: var(--p-popover-gutter);
+		}
+
+		// PrimeNG calcula --p-popover-arrow-left restando el border-radius del panel;
+		// con un border-radius grande (como el nuestro) el resultado se vuelve negativo
+		// y la flecha queda fuera del panel. Se limita para que nunca quede por debajo
+		// de la posición por defecto (sin corrección de flip horizontal).
+		&.p-popover::before, &.p-popover::after {
+			left: max(var(--p-popover-arrow-offset), calc(var(--p-popover-arrow-offset) + var(--p-popover-arrow-left)));
+		}
+
+		&.p-popover::before {
+			border-bottom-color: var(--i-popover-border-color);
+		}
+
+		&.p-popover::after {
+			border-bottom-color: var(--i-popover-background);
+		}
+
+		&.p-popover-flipped::before {
+			border-bottom-color: transparent;
+			border-top-color: var(--i-popover-border-color);
+		}
+
+		&.p-popover-flipped::after {
+			border-bottom-color: transparent;
+			border-top-color: var(--i-popover-background);
+		}
+
+		& .p-popover-content {
+			padding: var(--i-spacing-container-lg);
+			font-size: var(--i-typography-font-size-sm);
+			line-height: var(--i-typography-lineHeight-);
+			color: var(--i-color-primary-900);
+		}
+	}
+
+	// --- fixed top aligned ( primeng ) ---
+	&--topAnchoredLeft, &--topAnchoredRight {
+		position: relative;
+		top: 0 !important;
+		width: max-content !important;
+	}
+	
+	&--topAnchoredLeft { inset-inline-start: 0 !important; }
+	&--topAnchoredRight { inset-inline-start: auto !important; inset-inline-end: 0 }
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skPopover {
+	
+}

@@ -1,0 +1,33 @@
+<p-button
+  class="prButton prButton--topBar | u-relative"
+  [class.is-active]="activeButton()"
+  label="{{ 'PRODUCTS' | term: globalTermService.languageCode }}"
+  (click)="popoverMenuProducts.toggle($event)"
+  id="headerProductsGA"
+></p-button>
+<p-popover
+  #popoverMenuProducts
+  styleClass="prPopover prPopover--noRoundedTL prPopover--topAnchoredLeft"
+  (onShow)="activeButton.set(true)"
+  (onHide)="activeButton.set(false)"
+  [appendTo]="popoverTarget"
+>
+  <div class="prPopover__header">
+    {{ 'AVAILABLE_PRODUCTS' | term: globalTermService.languageCode }}
+  </div>
+  <div class="prPopover__body" id="headerProductsListGA">
+    @for (item of listProducts(); track $index) {
+      <list-item
+        [icon]="item.icon"
+        [title]="item.termName"
+        [description]="item.termDescription"
+        [klass]="item.klass"
+        [isLegacy]="item.isLegacy"
+        [isBeta]="item.isBeta"
+        [isActive]="currentProductId() === item.menuOptionId"
+        (selectItem)="onSelectItem(item)"
+      />
+    }
+  </div>
+</p-popover>
+<div #popoverTarget class="u-relative"></div>

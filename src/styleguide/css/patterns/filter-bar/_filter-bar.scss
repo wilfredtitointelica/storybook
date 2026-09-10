@@ -1,0 +1,231 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-FILTERBAR-PATTERN: "ptFilterbar ( Custom Native & Primeng )";
+ 
+	// --- base ---
+ 
+	--i-filterbar-padding: var(--i-panel-padding); // 16px
+	--i-filterbar-gap: var(--i-spacing-gap-sm, 0.5rem); // 8px
+	--i-filterbar-border-radius: var(--i-panel-border-radius); // 16px
+	--i-filterbar-background: var(--i-panel-background);
+	--i-filterbar-font-size: var(--i-text-body-size-md);
+	--i-filterbar-box-shadow: var(--i-panel-box-shadow);
+ 
+	// --- blocks ---
+ 
+	--i-filterbar-blocks-gap: var(--i-spacing-gap-lg);
+ 
+	// --- divider ---
+ 
+	--i-filterbar-divider-border: var(--i-line);
+	--i-filterbar-divider-height: var(--i-control-height);
+ 
+	// --- itemset ---
+ 
+	--i-filterbar-itemset-gap: var(--i-spacing-gap-sm);
+	--i-filterbar-icon-color: var(--i-color-primary-600);
+	--i-filterbar-text-font-size: var(--i-typography-font-size-sm);
+	--i-filterbar-text-line-height: var(--i-typography-lineHeight-sm);
+ 
+	// --- applied ---
+ 
+	--i-filterbar-applied-gap: var(--i-spacing-gap-xs);
+	--i-filterbar-tags-height: var(--i-spacing-container-2xl);
+ }
+ 
+ /*——————————————————————————————————————————————————————————*\
+  * LAYOUT ( .ptFilterbar )
+ \*——————————————————————————————————————————————————————————*/
+ 
+ .ptFilterbar {
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-filterbar-gap);
+	padding-inline: var(--i-filterbar-padding);
+	padding-block: var(--i-filterbar-padding);
+	border-radius: var(--i-filterbar-border-radius);
+	background-color: var(--i-filterbar-background);
+	transition: width var(--i-motion-duration-base) var(--i-motion-ease-in-out);
+	font-size: var(--i-filterbar-font-size);
+	box-shadow: var(--i-filterbar-box-shadow);
+ 
+	// --- container ---
+ 
+	&__container {
+		display: flex;
+		gap: var(--i-filterbar-gap);
+		// width: max-content;
+		flex-grow: 1;
+		flex-wrap: wrap;
+	}
+ 
+	// --- block ---
+ 
+	&__blocks {
+	  display: flex;
+	  align-items: flex-start;
+	  gap: var(--i-filterbar-blocks-gap);
+	  flex-wrap: wrap;
+	  /* flex-grow: 1; */
+	}
+ 
+	&__divider {
+	  border-left: var(--i-filterbar-divider-border);
+	  min-height: var(--i-filterbar-divider-height);
+	}
+ 
+	// --- itemset ---
+ 
+	&__itemset {
+	  display: flex;
+	  align-items: center; // baseline
+	  gap: var(--i-filterbar-itemset-gap);
+	}
+ 
+	&__icon {
+	  color: var(--i-color-primary-900);
+	  // transform: translateY(.25em);
+	}
+ 
+	&__text {
+	  font-size: var(--i-filterbar-text-font-size);
+	  line-height: var(--i-filterbar-text-line-height);
+	  //white-space: nowrap;
+	}
+ 
+	&__wrap {
+	  display: flex;
+	  align-items: center;
+	  gap: var(--i-filterbar-itemset-gap);
+	}
+
+	// --- actions ---
+ 
+	&__actions {
+		display: flex;
+		align-items: center; // baseline
+		gap: var(--i-filterbar-itemset-gap);
+	 }
+ 
+	// --- applied ---
+ 
+	&__applied,
+	&__tags {
+	  display: flex;
+	  align-items: center;
+	  gap: var(--i-filterbar-applied-gap);
+	  flex-wrap: wrap;
+	}
+ 
+	&__applied {
+	  padding-top: 0;
+	  height: 0;
+	  overflow: hidden;
+	  interpolate-size: allow-keywords;
+	  opacity: 0;
+	  flex-basis: 100%;
+	}
+
+	&__clean {
+		&:empty {
+			display: none;
+		}
+	}
+ }
+ 
+ /*——————————————————————————————————————————————————————————*\
+  * CUSTOM WIDTH ITEMSET
+ \*——————————————————————————————————————————————————————————*/
+ 
+ .ptFilterbar {
+	&__itemset.f-clients .ptFilterbar__wrap {
+	  width: 12.5rem; // 200px
+	}
+ 
+	&__itemset.f-entities .ptFilterbar__wrap {
+	  width: 12.5rem; // 200px
+	}
+ 
+	&__itemset.f-date .ptFilterbar__wrap {
+	  width: 12.5rem; // 200px
+	}
+ 
+	&__itemset.f-brand .ptFilterbar__wrap {
+	  width: 8.5rem; // 135px
+	}
+ 
+	&__itemset.f-business .ptFilterbar__wrap {
+	  width: 8.5rem; // 135px
+	}
+ 
+	&__itemset.f-quaterly .ptFilterbar__wrap {
+	  width: 8.5rem; // 135px
+	}
+ 
+	&__itemset.f-quaterlyComparative .ptFilterbar__wrap {
+	  width: 9.5rem;
+	}
+ }
+ 
+ /*——————————————————————————————————————————————————————————*\
+  * FORCED OTHERS PRIME
+ \*——————————————————————————————————————————————————————————*/
+ 
+ .ptFilterbar {
+	// --- show applied ( if prChip ) ---
+ 
+	&__applied {
+	  transition-property: height, padding-top, opacity;
+	  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	  transition-duration: var(--i-motion-duration-base, 300ms);
+	}
+ 
+	&__applied:has(.prChip:not([style*="display: none"])),
+	&__applied:has(.prPillTag:not([style*="display: none"])) {
+	  height: auto;
+	  padding-top: var(--i-filterbar-gap);
+	  opacity: 1;
+	}
+ }
+ 
+ /*——————————————————————————————————————————————————————————*\
+  * MODIFIER LAYOUT ( --modifier )
+ \*——————————————————————————————————————————————————————————*/
+ 
+ .ptFilterbar {
+
+	// --- minimal/flat ---
+
+	&--minimal, &--flat {
+	  padding: 0;
+	  box-shadow: none;
+	}
+
+	// --- equalWidth ---
+
+	&--equalItems {
+		--equal-width: 12.5rem;
+	}
+
+	&--equalItems &__wrap {
+		width: var(--equal-width) !important;
+	}
+
+	&--equalItems &__wrap 
+	:is(p-datepicker, p-multiselect, p-treeselect, p-select, .p-inputtext, p-sekeleton) {
+		width: 100% !important;
+		min-width: auto !important;
+	}
+
+ }
+ 
+ /*——————————————————————————————————————————————————————————*\
+  * SKELETON
+ \*——————————————————————————————————————————————————————————*/
+ 
+ .skFilterbar {
+ }
+ 

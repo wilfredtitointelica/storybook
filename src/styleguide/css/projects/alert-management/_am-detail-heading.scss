@@ -1,0 +1,35 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( block )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertDetailHeading {
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-xs);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertDetailHeading {
+
+	&__title {
+		position: relative;
+		font-weight: var(--i-typography-font-weight-bold);
+
+		&::after {
+			content: '';
+			position: absolute;
+			inset: auto 0 0;
+			transform: translateY(calc(var(--i-spacing-gap-xs) * .5));
+			border-top: var(--i-line);
+		}
+	}
+
+	&__meta {
+		font-size: var(--i-text-body-size-sm);
+		line-height: var(--i-typography-lineHeight-md);
+	}
+	
+}

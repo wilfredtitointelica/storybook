@@ -1,0 +1,11 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS NAVIGATION
+ * Common tokens for navigation ( menu, panelmenu, ... )
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-NAVIGATION: "Custom Navigation Tokens";
+
+	--i-navigation-: var();
+	--i-focus-border-color: var(--i-color-primary-600); // color/blue/600
+}

@@ -1,0 +1,105 @@
+<!-- <p>recomendations-tpe works!</p> -->
+<div class="d-flex flex-column gap-3 mt-3">
+	<p-breadcrumb class="prBreadcrumb" [class]="'breadcrumbClickGA'" [model]="fullItems">
+		<ng-template pTemplate="item" let-item>
+			<a *ngIf="!item.isPopover" [routerLink]="item.routerLink" [pTooltip]="item.tooltip" [tooltipPosition]="item.tooltipPosition" [tooltipStyleClass]="item.tooltipStyleClass">
+				<span>{{ item.label | term: globalTermService.languageCode }}</span>
+			</a>
+		</ng-template>
+		<ng-template pTemplate="separator">
+			<span class="breadcrumb-separator">
+				<i class="icon icon-arrow-right icon--xs"></i>
+			</span>
+		</ng-template>
+	</p-breadcrumb>
+	<!--  -->
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle">
+			<div class="ptSectionTitle__icon">
+				<p-button routerLink="dashboard" class="prButton" [class]="'titleBackGA'" icon="icon icon-nav-left" />
+			</div>
+			<div class="ptSectionTitle__content">
+				<div class="ptSectionTitle__title">{{ "LBL_RECOMMENDATIONS" | term: globalTermService.languageCode }}</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grPanel">
+		@if (allowTabRecommendations) {
+			@if (loadingRecommendations()) {
+				@if (isNoData()) {
+					<intelica-status-state [state]="statusStateEnum.NoData" [description]="'NO_RESULTS_FOR_FILTERS'" />
+				} @else {
+					<div class="skTable">
+						<!-- Header -->
+						<div class="skTable__header">
+							<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+						</div>
+						<!-- Cell -->
+						<div class="skTable__body">
+							<div class="skTable__row" *ngFor="let row of [1, 2, 3, 4, 5]">
+								<div class="skTable__cell">
+									<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+								</div>
+								<div class="skTable__cell">
+									<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+								</div>
+								<div class="skTable__cell">
+									<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+								</div>
+								<div class="skTable__cell">
+									<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+								</div>
+								<div class="skTable__cell">
+									<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+								</div>
+								<div class="skTable__cell">
+									<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+								</div>
+								<div class="skTable__cell">
+									<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			} @else {
+				<intelica-table
+					[ListData]="recommendations()"
+					[ShowSearch]="true"
+					[ShowPagination]="true"
+					[ngClass]="{ ptEmptyTable: isNoMatchesState || isNoDataState }"
+					(EmitListDataFilter)="onFilteredData($event)"
+					(EmitSearchEvent)="onSearchChange($event)"
+				>
+					<column field="feeCode" header="{{ 'FeeCode' | term: globalTermService.languageCode }}" [sortable]="true" className="u-text-center" width="10%">
+						<ng-template let-data>
+							<span [class]="'feecodeTableGA'">{{ data.feeCode }}</span>
+						</ng-template>
+					</column>
+					<column field="feeName" header="{{ 'FeeName' | term: globalTermService.languageCode }}" [sortable]="true" className="u-text-left" width="20%"></column>
+					<column field="description" header="{{ 'ERROR_DESCRIPTION' | term: globalTermService.languageCode }}" className="u-text-left" [sortable]="true" width="30%"></column>
+					<column field="recomendation" header="{{ 'LBL_RECOMMENDATIONS' | term: globalTermService.languageCode }}" [sortable]="true" className="u-text-left" width="25%"></column>
+					<column field="complexity" header="{{ 'LBL_COMPLEXITY' | term: globalTermService.languageCode }}" [sortable]="true" className="u-text-center" width="10%"></column>
+				</intelica-table>
+				@if (isNoMatchesState) {
+					<intelica-status-state [state]="statusStateEnum.NoMatches" [description]="'NO_MATCHES_FOUND'" [searchTerm]="currentSearchText()" />
+				} @else if (isNoDataState) {
+					<intelica-status-state [state]="statusStateEnum.NoData" [description]="'NO_RESULTS_FOR_FILTERS'" />
+				}
+			}
+		} @else {
+			<div class="sectionLockedTpe">
+				<div class="sectionLockedTpe__content">
+					<h3 class="sectionLockedTpe__title">{{ "SECTION_LOCKED" | term: globalTermService.languageCode }}</h3>
+					<p class="sectionLockedTpe__description">{{ "CONTENT_BLOCKED_ALERT" | term: globalTermService.languageCode }}.</p>
+				</div>
+				<p-button class="prButton" [class]="'requestAccessBtnGA'" size="large" (click)="onRequestAcces()">
+					<i class="icon icon-user-group" pButtonIcon></i>
+					<span pButtonLabel>{{ "REQUEST_ACCESS" | term: globalTermService.languageCode }}</span>
+				</p-button>
+			</div>
+		}
+	</div>
+</div>
+<p-toast class="prToast" position="bottom-right" />

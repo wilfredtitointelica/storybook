@@ -1,0 +1,156 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( block )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertDetailCard {
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-lg);
+	font-size: var(--i-typography-font-size-md);
+	color: var(--i-color-primary-900);
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertDetailCard {
+
+	// --- structure ---
+
+	&__header {
+		display: flex;
+		flex-direction: column;
+	}
+	
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-lg);
+	}
+
+	&__footer {
+		display: flex;
+		flex-direction: column;
+		padding-top: var(--i-spacing-gap-lg);
+		border-top: var(--i-line);
+	}
+
+	:is(&__header, &__footer):has(&__start, &__end) {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: flex-start;
+	}
+
+
+	// --- row ---
+	
+	&__row {
+		display: flex;
+		flex-direction: row;
+		gap: var(--i-spacing-gap-lg);
+	}
+
+	// --- elements ---
+
+	&__title {
+		font-size: var(--i-text-body-size-lg);
+		line-height: var(--i-typography-lineHeight-md);
+		font-weight: var(--i-typography-font-weight-bold);
+	}
+
+	&__meta {
+
+	}
+
+	&__setting {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+		align-items: center;
+	}
+	
+	&__highlight {
+		flex: 1;
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+		justify-content: flex-start;
+		font-size: var(--i-typography-font-size-3xl);
+		font-weight: var(--i-typography-font-weight-bold);
+		line-height: var(--i-typography-lineHeight-3xl);
+
+		& :is(sup, sub) {
+			font-size: var(--i-typography-font-size-lg);
+			line-height: var(--i-typography-lineHeight-xl);
+		}
+
+		& sub {
+			align-self: self-end;
+		}
+	}
+
+	&__group {
+		flex: 1;
+	}
+
+	&__label {
+		font-weight: var(--i-typography-font-weight-bold);
+	}
+
+	&__value {
+		
+	}
+
+	// --- feature ---
+
+	&__feature {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	&__feature &__label {
+		font-size: var(--i-text-body-size-sm);
+		line-height: var(--i-typography-lineHeight-md);
+		font-weight: var(--i-typography-font-weight-bold);
+	}
+
+	// --- action ---
+
+	&__action {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertDetailCard {
+
+	// --- emphasized ---
+
+	&--emphasized {
+		padding: var(--i-panel-padding);
+		border-radius: var(--i-panel-border-radius);
+		border: var(--i-line);
+		border-color: var(--i-color-primary-base);
+	}
+
+	&--emphasized :is(&__header, &__setting) {
+		color: var(--i-color-primary-900);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED ( elements )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertDetailCard {
+	
+}
+

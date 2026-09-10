@@ -1,0 +1,132 @@
+<!-- loaded: search -->
+@if (true) {
+<div class="ptFilterbar">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- filter clients (solo perfil grupal) -->
+			@if (isGroupProfile()) {
+			<div class="ptFilterbar__itemset f-clients">
+				<div class="ptFilterbar__icon"><i class="icon icon-bank"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						class="prMultiselect prMultiselect--noBorderOverlay"
+						[options]="clientsFilterOptions()"
+						[(ngModel)]="selectedClientsFilter"
+						[showToggleAll]="true"
+						[maxSelectedLabels]="clientsFilterOptions().length - 1"
+						showClear="false"
+						optionLabel="name"
+						dropdownIcon="icon icon-arrow-down"
+						placeholder="{{ 'SELECTED_INSTITUTIONS' | term : globalTermService.languageCode }}"
+						selectedItemsLabel="{{ 'ALL_INSTITUTIONS' | term : globalTermService.languageCode }}"
+						filter="true"
+						filterPlaceHolder="{{ 'LBL_TYPE_ENTITY_NAME' | term : globalTermService.languageCode }}"
+						filtericon="icon icon-cancel"
+					/>
+				</div>
+			</div>
+			}
+			<!-- filter date -->
+			<div class="ptFilterbar__itemset f-date">
+				<div class="ptFilterbar__icon"><i class="icon icon-calendar"></i></div>
+				<div class="ptFilterbar__wrap">
+					<div class="prDatapicker prDatapicker--range">
+						<!-- ! NOTA: reestructura nombre de clases ( usar BEM ) -->
+						<p-datepicker
+							#dateRangePicker
+							class="prDatapicker prDatapicker--dropdown"
+							[(ngModel)]="selectedDateRange"
+							[numberOfMonths]="2"
+							[readonlyInput]="false"
+							[showIcon]="false"
+							[view]="calendarView()"
+							selectionMode="range"
+							placeholder="dd mm, yyyy - dd mm, yyyy"
+							(onSelect)="onDateRangeChange()"
+							(onClose)="onDateRangeChange()"
+						>
+							<ng-template pTemplate="footer" let-clearCallback="clearCallback">
+								<div class="footerDatapicker footerDatapicker--range">
+									<div class="footerDatapicker__box">
+										<p-button
+											class="prButton"
+											[class.is-active]="selectedDateFilter() === 'last12'"
+											severity="secondary"
+											label="{{ 'LBL_LAST_12_MONTHS' | term : globalTermService.languageCode }}"
+											(click)="setDateFilter('last12')"
+										></p-button>
+										<p-button
+											class="prButton"
+											[class.is-active]="selectedDateFilter() === 'year'"
+											severity="secondary"
+											label="{{ 'LBL_CURRENT_YEAR' | term : globalTermService.languageCode }}"
+											(click)="setDateFilter('year')"
+										></p-button>
+										<p-button
+											class="prButton"
+											[class.is-active]="selectedDateFilter() === 'month'"
+											severity="secondary"
+											label="{{ 'LBL_CURRENT_MONTH' | term : globalTermService.languageCode }}"
+											(click)="setDateFilter('month')"
+										></p-button>
+									</div>
+								</div>
+							</ng-template>
+						</p-datepicker>
+					</div>
+				</div>
+			</div>
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter action -->
+			<div class="ptFilterbar__itemset f-actions">
+				<div class="ptFilterbar__wrap">
+					<p-button class="prButton" severity="primary" label="{{ 'LBL_APPLY' | term : globalTermService.languageCode }}" (click)="ApplyFilters()" />
+					<p-button class="prButton" severity="secondary" label="{{ 'LBL_RESET' | term : globalTermService.languageCode }}" (click)="ResetFilters()" />
+				</div>
+			</div>
+		</div>
+		<!-- filterbar: applied -->
+		@if (appliedClientChips().length) {
+		<div class="ptFilterbar__applied">
+			<div class="ptFilterbar__text">{{ "LBL_APPLIED_FILTERS" | term : globalTermService.languageCode }}:</div>
+			<div class="ptFilterbar__tags">
+				@for (chip of appliedClientChips(); track chip.key) {
+				<p-chip class="prChip" removeIcon="icon icon-cancel" [label]="chip.name" [removable]="true" (onRemove)="RemoveChip(chip)" />
+				}
+			</div>
+		</div>
+		}
+	</div>
+</div>
+}
+<!-- skeleton: filter -->
+@if (false) {
+<div class="ptFilterbar">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- filter clients -->
+			<div class="ptFilterbar__itemset f-clients">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12.5rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter date -->
+			<div class="ptFilterbar__itemset f-date">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12.5rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter action -->
+			<div class="ptFilterbar__actions f-actions">
+				<div class="ptFilterbar__wrap">
+					<p-skeleton class="prSkeleton" [width]="'64px'" [height]="'32px'" />
+					<p-skeleton class="prSkeleton" [width]="'64px'" [height]="'32px'" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+}

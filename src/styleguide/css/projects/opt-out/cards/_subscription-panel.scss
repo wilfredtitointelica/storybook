@@ -1,0 +1,89 @@
+.subscriptionsPanel {
+	width: 100%;
+	&__list {
+		display: flex;
+		gap: var(--i-spacing-gap-lg); //16px
+	}
+	&__item {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		gap: var(--i-spacing-gap-xs); //4px
+	}
+	&__item &__header {
+		display: flex;
+		align-items: center;
+		gap: var(--i-spacing-gap-xs); //4px
+	}
+	&__header .icon {
+		color: #2952c4;
+	}
+	&__header &__code {
+		padding: var(--i-spacing-container-2xs) var(--i-spacing-0); //2px 0
+		font-weight: var(--i-typography-font-weight-bold); //700
+		font-size: var(--i-typography-font-size-sm); //12px
+		line-height: var(--i-typography-lineHeight-sm); //16px
+		color: #4f5470;
+	}
+	&__currency {
+		display: flex;
+	}
+	&__currency &__code {
+		padding-top: var(--i-spacing-gap-xs); //4px
+		padding-bottom: var(--i-spacing-container-2xs); //2px
+		font-weight: var(--i-typography-font-weight-bold); //700
+		font-size: var(--i-typography-font-size-sm); //12px
+		line-height: var(--i-typography-lineHeight-sm); //16px
+		color: #4f5470;
+	}
+	&__currency &__value {
+		font-weight: var(--i-typography-font-weight-bold); //700
+		font-size: var(--i-typography-font-size-3xl); //32px
+		line-height: var(--i-typography-lineHeight-3xl); //40px
+		color: #4f5470;
+	}
+	&__source {
+		display: flex;
+		align-items: center;
+		gap: var(--i-spacing-gap-xs); //4px
+	}
+	&__source &__icon {
+		color: #2952c4;
+	}
+	&__source &__label {
+		font-weight: var(--i-typography-font-weight-regular); //400
+		font-size: var(--i-typography-font-size-sm); //12px
+		line-height: var(--i-typography-lineHeight-sm); //16px
+		color: #4f5470;
+	}
+	&__progress {
+		display: flex;
+		gap: var(--i-spacing-gap-xs); //4px
+	}
+	&__progress &__percent {
+		font-weight: var(--i-typography-font-weight-bold); //700
+		font-size: var(--i-typography-font-size-sm); //12px
+		line-height: var(--i-typography-lineHeight-sm); //16px
+		color: #4f5470;
+	}
+	&__progress &__progressbar {
+		width: 100%;
+	}
+	&__status {
+		font-weight: var(--i-typography-font-weight-bold); //700
+		font-size: var(--i-typography-font-size-sm); //12px
+		line-height: var(--i-typography-lineHeight-sm); //16px
+		&--success {
+			color: #126629;
+		}
+		&--danger {
+			color: #960d0d;
+		}
+	}
+	&__text {
+		color: #4f5470;
+        font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+	}
+}

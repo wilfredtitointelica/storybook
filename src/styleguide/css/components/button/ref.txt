@@ -1,0 +1,9 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PRIMENG / BUTTON
+\*——————————————————————————————————————————————————————————*/
+
+/*\
+	.p-button ( .p-button-vertical ) ( .p-button-primary || p-button-secondary ) ( .p-button-text || .p-button-outlined || .p-button-icon-only ) ( p-button-sm || p-button-lg )
+		.p-button-icon ( .p-button-icon-left || .p-button-icon-right || .p-button-icon-top || p-button-icon-bottom  )
+		.p-button-label
+\*/

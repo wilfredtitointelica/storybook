@@ -1,0 +1,99 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-SKELETON-TABLE: "skTable ( Native HTML )";
+
+	--i-skeleton-table-padding: 8px;
+	--i-skeleton-table-gap: 3px;
+
+	--i-skeleton-table-header-height: 60px;
+	--i-skeleton-table-summary-height: 49px;
+	--i-skeleton-table-body-height: auto;
+	--i-skeleton-table-row-height: 30px;
+	--i-skeleton-table-divider-height: 1px;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( .block )
+\*——————————————————————————————————————————————————————————*/
+
+.skTable {
+
+	--header-height: var(--i-skeleton-table-header-height);
+	--summary-height: var(--i-skeleton-table-summary-height);
+	--body-height: var(--i-skeleton-table-body-height);
+	--row-height: var(--i-skeleton-table-row-height);
+	--divider-height: var(--i-skeleton-table-divider-height);
+
+	// --- common ---
+
+	& :is(&__header, &__summary, &__body) {
+		padding-block: 8px;
+	}
+
+	& :is(&__header, &__summary, &__body) p-skeleton {
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+	&:not(&:has(&__line)) :is(&__header, &__summary) {
+		border-bottom: 1px solid var(--p-skeleton-background);
+	}
+
+	& :is(&__body, &__row) {
+		display: flex;
+		gap: var(--i-skeleton-table-gap);
+	}
+
+	&__body {
+		flex-direction: column;
+	}
+
+	// --- heights ---
+
+	&__header {
+		height: var(--header-height);
+	}
+
+	&__summary {
+		height: var(--summary-height);
+	}
+
+	&__line {
+		height: var(--divider-height);
+	}
+
+	&__body {
+		height: var(--body-height);
+	}
+
+	&__row {
+		min-height: var(--row-height);
+		height: 100%;
+	}
+
+	// --- cell ---
+
+	&__cell {
+		flex-grow: 1;
+		flex-basis: var(--cell-width, auto);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENT ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.skTable {
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.skTable {
+	
+}
+

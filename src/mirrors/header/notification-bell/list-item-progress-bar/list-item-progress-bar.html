@@ -1,0 +1,46 @@
+@if (visible()) {
+<div class="ptListitemNotification ptListitemNotification--simple" [class.ptListitemNotification--hiding]="!status()" (click)="onNotificationClick.emit(notification)">
+	<!-- MAIN -->
+	<div class="ptListitemNotification__main" [ngStyle]="{ cursor: cursorStyle }">
+		<div class="ptListitemNotification__header">
+			<!-- CARD -->
+			<p-card class="prCard prCard--compact">
+				<ng-template #title>
+					<div class="prCard__row">
+						<div class="prCard__title u-color-primary" [ngClass]="'u-progress-' + statusTextClass">{{ statusNotification }}</div>
+						<div class="prCard__wrap">{{ notification.createdAt | date : "d MMM, y" }}</div>
+						<div class="prCard__wrap">
+							@if (isApplyClosed) {
+							<p-button
+								class="prButton prButton--autoWidth prButton--borderTransparent"
+								severity="secondary"
+								icon="icon icon-cancel"
+								size="small"
+								(click)="onCloseNotification($event, notification)"
+								[disabled]="isBusy(notification.recipientId, actionClose)"
+							/>
+							}
+						</div>
+					</div>
+					<div class="prCard__row">
+						<b>{{ description }}</b>
+					</div>
+				</ng-template>
+				<ng-template #content>
+					<div class="prCard__row">
+						<p-progressbar class="prProgressbar" [value]="percent" [showValue]="false" [style]="{ height: '9px' }" [ngClass]="'prProgressbar--' + statusClass"></p-progressbar>
+						<span class="u-ms-1 u-bold">{{ percent }}%</span>
+					</div>
+					<div class="prCard__row">
+						<div class="u-display-flex u-gap-xs u-align-items-center">
+							<i class="icon icon-clock"></i>
+							{{ domain.getTimeAgo(notification.lastAttemptAt) }}
+						</div>
+						<div class="u-ms-auto u-bold" [ngClass]="'u-progress-' + progress.class">{{ progress.text }}</div>
+					</div>
+				</ng-template>
+			</p-card>
+		</div>
+	</div>
+</div>
+}

@@ -1,0 +1,268 @@
+<div class="feeLibraryModalGroup">
+	<div class="feeLibraryModalGroup__header">
+		<div class="feeLibraryModalGroup__text">{{ commonGlobalService.termText(libraryTerm.VIEW_BILLING_TOTALS_GROUPED) }}</div>
+		@if (isLoading()) {
+		<p-skeleton class="prSkeleton" width="40px" height="32px"></p-skeleton>
+		} @else {
+		<!-- <span [pTooltip]="exportTooltip" tooltipPosition="top" tooltipStyleClass="prTooltip"> -->
+		<p-button class="prButton" severity="secondary" (click)="downloadExcel()" [disabled]="isDownloading() || listData().length === 0">
+			<i class="icon icon-download" pButtonIcon></i>
+		</p-button>
+		<!-- </span> -->
+		}
+	</div>
+
+	@if (isLoading()) {
+	<div class="skTable">
+		<div class="skTable__header">
+			<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+		</div>
+		<!-- summary -->
+		<div class="skTable__summary">
+			<p-skeleton class="prSkeleton"></p-skeleton>
+		</div>
+		<div class="skTable__body">
+			@for (row of [1, 2, 3, 4, 5]; track row) {
+			<div class="skTable__row">
+				<div class="skTable__cell"><p-skeleton class="prSkeleton" width="100%"></p-skeleton></div>
+				<div class="skTable__cell"><p-skeleton class="prSkeleton" width="100%"></p-skeleton></div>
+				<div class="skTable__cell"><p-skeleton class="prSkeleton" width="100%"></p-skeleton></div>
+				<div class="skTable__cell"><p-skeleton class="prSkeleton" width="100%"></p-skeleton></div>
+				<div class="skTable__cell"><p-skeleton class="prSkeleton" width="100%"></p-skeleton></div>
+				<div class="skTable__cell"><p-skeleton class="prSkeleton" width="100%"></p-skeleton></div>
+				<div class="skTable__cell"><p-skeleton class="prSkeleton" width="100%"></p-skeleton></div>
+			</div>
+			}
+		</div>
+	</div>
+	} @else {
+	<div style="overflow: auto; max-height: 400px">
+		<p-table
+			[value]="listData()"
+			[tableStyle]="{ 'min-width': '800px' }"
+			class="prTable prTable--column"
+			[class.prTable--disabled]="isSystemErrorState || isNoDataState"
+			[ngClass]="{ ptEmptyTable: isEmptyState }"
+		>
+			<ng-template #header>
+				<tr class="prTable__head">
+					<th>{{ currencyLabel }}</th>
+					@if (cols().mastercard) {
+					<th [attr.colspan]="cols().mastercardColspan" class="text-center">{{ commonGlobalService.termText(libraryTerm.MASTERCARD) }}</th>
+					} @if (cols().visa) {
+					<th [attr.colspan]="cols().visaColspan" class="text-center">{{ commonGlobalService.termText(libraryTerm.VISA) }}</th>
+					} @if (cols().amex) {
+					<th [attr.colspan]="cols().amexColspan" class="text-center">{{ commonGlobalService.termText(libraryTerm.AMEX) }}</th>
+					}
+					<th class="text-center">{{ commonGlobalService.termText(libraryTerm.TOTAL) }}</th>
+					<th class="text-center">{{ commonGlobalService.termText(libraryTerm.PERCENT_SHARE) }}</th>
+				</tr>
+				<tr>
+					<th pSortableColumn="clientName">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.INSTITUTION) }}
+							<p-sortIcon field="clientName"></p-sortIcon>
+						</div>
+					</th>
+					@if (cols().mastercard) { @if (cols().mastercardIssuer) {
+					<th pSortableColumn="mastercardIssuer">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ISSUER) }}
+							<p-sortIcon field="mastercardIssuer"></p-sortIcon>
+						</div>
+					</th>
+					} @if (cols().mastercardAcqPos) {
+					<th pSortableColumn="mastercardAcqPos">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ACQ_MERCH) }}
+							<p-sortIcon field="mastercardAcqPos"></p-sortIcon>
+						</div>
+					</th>
+					} @if (cols().mastercardAcqCash) {
+					<th pSortableColumn="mastercardAcqCash">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ACQ_ATM) }}
+							<p-sortIcon field="mastercardAcqCash"></p-sortIcon>
+						</div>
+					</th>
+					}
+					<th pSortableColumn="mastercardTotal">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.TOTAL) }}
+							<p-sortIcon field="mastercardTotal"></p-sortIcon>
+						</div>
+					</th>
+					} @if (cols().visa) { @if (cols().visaIssuer) {
+					<th pSortableColumn="visaIssuer">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ISSUER) }}
+							<p-sortIcon field="visaIssuer"></p-sortIcon>
+						</div>
+					</th>
+					} @if (cols().visaAcqPos) {
+					<th pSortableColumn="visaAcqPos">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ACQ_MERCH) }}
+							<p-sortIcon field="visaAcqPos"></p-sortIcon>
+						</div>
+					</th>
+					} @if (cols().visaAcqCash) {
+					<th pSortableColumn="visaAcqCash">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ACQ_ATM) }}
+							<p-sortIcon field="visaAcqCash"></p-sortIcon>
+						</div>
+					</th>
+					}
+					<th pSortableColumn="visaTotal">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.TOTAL) }}
+							<p-sortIcon field="visaTotal"></p-sortIcon>
+						</div>
+					</th>
+					} @if (cols().amex) { @if (cols().amexIssuer) {
+					<th pSortableColumn="amexIssuer">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ISSUER) }}
+							<p-sortIcon field="amexIssuer"></p-sortIcon>
+						</div>
+					</th>
+					} @if (cols().amexAcqPos) {
+					<th pSortableColumn="amexAcqPos">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ACQ_MERCH) }}
+							<p-sortIcon field="amexAcqPos"></p-sortIcon>
+						</div>
+					</th>
+					} @if (cols().amexAcqCash) {
+					<th pSortableColumn="amexAcqCash">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.ACQ_ATM) }}
+							<p-sortIcon field="amexAcqCash"></p-sortIcon>
+						</div>
+					</th>
+					}
+					<th pSortableColumn="amexTotal">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.TOTAL) }}
+							<p-sortIcon field="amexTotal"></p-sortIcon>
+						</div>
+					</th>
+					}
+					<th pSortableColumn="total">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.TOTAL) }}
+							<p-sortIcon field="total"></p-sortIcon>
+						</div>
+					</th>
+					<th pSortableColumn="totalPercent">
+						<div class="prTable__header">
+							{{ commonGlobalService.termText(libraryTerm.PERCENT_SHARE) }}
+							<p-sortIcon field="totalPercent"></p-sortIcon>
+						</div>
+					</th>
+				</tr>
+				@for (t of frozenTotals(); track $index) {
+				<tr class="prTable__frozen">
+					<td>
+						<strong>{{ commonGlobalService.termText(libraryTerm.TOTAL) }}</strong>
+					</td>
+					@if (cols().mastercard) { @if (cols().mastercardIssuer) {
+					<td class="text-end">
+						<strong>{{ t.mastercardIssuer | amount : false : 2 : true }}</strong>
+					</td>
+					} @if (cols().mastercardAcqPos) {
+					<td class="text-end">
+						<strong>{{ t.mastercardAcqPos | amount : false : 2 : true }}</strong>
+					</td>
+					} @if (cols().mastercardAcqCash) {
+					<td class="text-end">
+						<strong>{{ t.mastercardAcqCash | amount : false : 2 : true }}</strong>
+					</td>
+					}
+					<td class="text-end">
+						<strong>{{ t.mastercardTotal | amount : false : 2 : true }}</strong>
+					</td>
+					} @if (cols().visa) { @if (cols().visaIssuer) {
+					<td class="text-end">
+						<strong>{{ t.visaIssuer | amount : false : 2 : true }}</strong>
+					</td>
+					} @if (cols().visaAcqPos) {
+					<td class="text-end">
+						<strong>{{ t.visaAcqPos | amount : false : 2 : true }}</strong>
+					</td>
+					} @if (cols().visaAcqCash) {
+					<td class="text-end">
+						<strong>{{ t.visaAcqCash | amount : false : 2 : true }}</strong>
+					</td>
+					}
+					<td class="text-end">
+						<strong>{{ t.visaTotal | amount : false : 2 : true }}</strong>
+					</td>
+					} @if (cols().amex) { @if (cols().amexIssuer) {
+					<td class="text-end">
+						<strong>{{ t.amexIssuer | amount : false : 2 : true }}</strong>
+					</td>
+					} @if (cols().amexAcqPos) {
+					<td class="text-end">
+						<strong>{{ t.amexAcqPos | amount : false : 2 : true }}</strong>
+					</td>
+					} @if (cols().amexAcqCash) {
+					<td class="text-end">
+						<strong>{{ t.amexAcqCash | amount : false : 2 : true }}</strong>
+					</td>
+					}
+					<td class="text-end">
+						<strong>{{ t.amexTotal | amount : false : 2 : true }}</strong>
+					</td>
+					}
+					<td class="text-end">
+						<strong>{{ t.total | amount : false : 2 : true }}</strong>
+					</td>
+					<td class="text-end"><strong>100.00%</strong></td>
+				</tr>
+				}
+			</ng-template>
+
+			<ng-template #body let-row>
+				<tr>
+					<td>{{ row.clientName }}</td>
+					@if (cols().mastercard) { @if (cols().mastercardIssuer) {
+					<td class="text-end">{{ row.mastercardIssuer | amount : false : 2 : true }}</td>
+					} @if (cols().mastercardAcqPos) {
+					<td class="text-end">{{ row.mastercardAcqPos | amount : false : 2 : true }}</td>
+					} @if (cols().mastercardAcqCash) {
+					<td class="text-end">{{ row.mastercardAcqCash | amount : false : 2 : true }}</td>
+					}
+					<td class="text-end">{{ row.mastercardTotal | amount : false : 2 : true }}</td>
+					} @if (cols().visa) { @if (cols().visaIssuer) {
+					<td class="text-end">{{ row.visaIssuer | amount : false : 2 : true }}</td>
+					} @if (cols().visaAcqPos) {
+					<td class="text-end">{{ row.visaAcqPos | amount : false : 2 : true }}</td>
+					} @if (cols().visaAcqCash) {
+					<td class="text-end">{{ row.visaAcqCash | amount : false : 2 : true }}</td>
+					}
+					<td class="text-end">{{ row.visaTotal | amount : false : 2 : true }}</td>
+					} @if (cols().amex) { @if (cols().amexIssuer) {
+					<td class="text-end">{{ row.amexIssuer | amount : false : 2 : true }}</td>
+					} @if (cols().amexAcqPos) {
+					<td class="text-end">{{ row.amexAcqPos | amount : false : 2 : true }}</td>
+					} @if (cols().amexAcqCash) {
+					<td class="text-end">{{ row.amexAcqCash | amount : false : 2 : true }}</td>
+					}
+					<td class="text-end">{{ row.amexTotal | amount : false : 2 : true }}</td>
+					}
+					<td class="text-end">
+						<strong>{{ row.total | amount : false : 2 : true }}</strong>
+					</td>
+					<td class="text-end">{{ row.totalPercent | number : "1.2-2" }}%</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</div>
+	@if (isSystemErrorState) {
+	<intelica-status-state [state]="StatusStateEnum.SystemError" [description]="'LBL_SYSTEM_ERROR_SUBTITLE'" (reload)="reloadPage()" />
+	} @else if (isNoDataState) {
+	<intelica-status-state [state]="StatusStateEnum.NoData" [description]="'LBL_NO_DATA_SUBTITLE'" />
+	} }
+</div>

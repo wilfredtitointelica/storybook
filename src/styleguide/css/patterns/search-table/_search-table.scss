@@ -1,0 +1,155 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → Input Search Dropdown
+	 *——————————————————————————————————————————*/
+
+	--i-searchtable-backgroud: var(--i-form-field-background);
+	--i-searchtable-border: var(--i-border-width-sm); // 1px || stroke/010
+	--i-searchtable-border-color: var(--i-form-field-border-disabled);
+	--i-searchtable-border-color-hover: var(--i-form-field-border-focused);
+	--i-searchtable-border-color-pressed: var(--i-form-field-border-pressed);
+	--i-searchtable-border-radius: var(--i-form-field-radius);
+	--i-searchtable-padding-x: var(--i-form-field-padding-x);
+	--i-searchtable-padding-y: var(--i-form-field-padding-y);
+
+	--i-searchtable-color: var(--i-form-field-text);
+	--i-searchtable-size: var(--i-sizing-lg); //32px
+
+	--i-searchtable-select-border: var(--i-border-width-none); // 0px
+	--i-searchtable-select-padding-x: var(--i-spacing-container-none); // 0px
+	--i-searchtable-select-padding-y: var(--i-spacing-container-none); // 0px;
+	--i-searchtable-select-shadow: var(--i-shadow-x-none); // 0px
+
+	--i-searchtable-inputtext-border: var(--i-border-width-none); // 0px
+	--i-searchtable-inputtext-border-radius: var(--i-border-radius-none); //0px
+	--i-searchtable-inputtext-color: var(--i-color-neutral-500); //#7e85a5 || color/grey/500
+	--i-searchtable-inputtext-padding-x: var(--i-spacing-container-none); // 0px;
+	--i-searchtable-inputtext-padding-y: var(--i-spacing-container-none); // 0px;
+	--i-searchtable-inputtext-placeholder-color: var(--i-form-field-placeholder);
+	--i-searchtable-inputtext-size: var(--i-typography-font-size-md); //14px || typography/font-size/m
+
+	--i-searchtable-button-border: var(--i-border-width-none); //0px
+	--i-searchtable-button-padding: var(--i-spacing-container-none); //0px
+
+	--i-searchtable-icon-color: var(--i-form-field-text);
+	--i-searchtable-icon-color-pressed: var(--i-form-field-icon);
+	--i-searchtable-icon-close-size: var(--i-form-field-size-sm);
+	--i-searchtable-icon-gap: var(--i-form-field-gap);
+	--i-searchtable-icon-search-size: var(--i-typography-font-size-lg); //16px
+
+	--i-searchtable-icon-divider-hight: var(--i-form-field-size-sm);
+	--i-searchtable-icon-divider-width: 1px;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME (   )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearchTable {
+	align-items: center;
+	background: var(--i-searchtable-backgroud);
+	border: var(--i-searchtable-border) solid var(--i-searchtable-border-color-pressed);
+	border-radius: var(--i-searchtable-border-radius);
+	color: var(--i-searchtable-color);
+	display: flex;
+	height: var(--i-searchtable-size);
+	padding: var(--i-searchtable-padding-x) var(--i-searchtable-padding-y);
+	position: relative;
+	transition: 0.2s, border 0.2s;
+	width: fit-content;
+	.prSelect {
+		&.p-select {
+			background: var(--i-searchtable-backgroud);
+			border: var(--i-searchtable-select-border);
+			gap: 3px;
+			.p-select-dropdown {
+				width: max-content;
+				.p-icon {
+					height: 12px;
+					width: 12px;
+				}
+			}
+			.p-select-label {
+				padding: var(--i-searchtable-select-padding-x) var(--i-searchtable-select-padding-y);
+			}
+		}
+	}
+	&__inputText {
+		&.p-inputtext {
+			background: var(--i-searchtable-backgroud);
+			border: var(--i-searchtable-inputtext-border);
+			border-radius: var(--i-searchtable-inputtext-border-radius);
+			color: var(--i-searchtable-inputtext-color);
+			font-size: var(--i-searchtable-inputtext-size);
+			padding-block: var(--i-searchtable-inputtext-padding-x);
+			padding-inline: var(--i-searchtable-inputtext-padding-y);
+			width: 250px;
+			&::placeholder {
+				color: var(--i-searchtable-inputtext-placeholder-color);
+			}
+		}
+	}
+
+	&__inputContainer {
+		display: flex;
+		overflow: hidden;
+	}
+
+	&__iconContainer {
+		align-items: center;
+		display: flex;
+		gap: var(--i-searchtable-icon-gap);
+		justify-content: flex-end;
+		width: 50px;
+	}
+	&__button {
+		background: transparent;
+		border: var(--i-searchtable-button-border);
+		color: var(--i-searchtable-icon-color-pressed);
+		cursor: pointer;
+		padding: var(--i-searchtable-button-padding);
+		&--search {
+			font-size: var(--i-searchtable-icon-search-size);
+		}
+		&--close {
+			font-size: var(--i-searchtable-icon-close-size);
+		}
+		&--divider {
+			border-left: 1px solid var(--i-searchtable-icon-color-pressed);
+			height: var(--i-searchtable-icon-divider-hight);
+		}
+	}
+
+	&.closedSearchTable {
+		border: var(--i-searchtable-border) solid var(--i-searchtable-border-color);
+		gap: 0;
+		padding: 0;
+		transition: 0.2s;
+		width: var(--i-searchtable-size);
+		.ptSearchTable__inputContainer {
+			opacity: 0;
+		}
+		.ptSearchTable__iconContainer {
+			gap: 0;
+		}
+		.ptSearchTable__button--search {
+			align-items: center;
+			color: var(--i-searchtable-icon-color);
+			display: flex;
+			height: var(--i-searchtable-size);
+			justify-content: center;
+			width: var(--i-searchtable-size);
+		}
+	}
+	&:hover {
+		border: var(--i-searchtable-border) solid var(--i-searchtable-border-color-hover);
+		.ptSearchTable__button--search {
+			color: var(--i-searchtable-icon-color-pressed);
+		}
+	}
+}
+.ptSearchTable__select.p-select-overlay {
+	border: 0;
+	left: -8px;
+	margin-top: 4px;
+}

@@ -1,0 +1,5 @@
+<p-select class="prSelect prSelect--minimal" style="min-width: 2.75rem" [options]="languages()" [ngModel]="selectedLanguage()" optionLabel="name" (ngModelChange)="onLanguageChange($event)">
+	<ng-template #dropdownicon>
+		<i class="icon icon-arrow-down"></i>
+	</ng-template>
+</p-select>

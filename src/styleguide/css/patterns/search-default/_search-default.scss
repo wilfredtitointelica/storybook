@@ -1,0 +1,193 @@
+// :root {
+// --i-search-xs-height: var(--i-sizing-xs);
+// --i-search-md-height: var(--i-sizing-md);
+// --i-search-lg-height: var(--i-sizing-lg);
+
+// --i-search-text-sm-font-size: var(--i-typography-font-size-sm);
+// --i-search-text-md-font-size: var(--i-typography-font-size-md);
+
+// --i-search-padding-inline-end: var(--i-spacing-100);
+
+// --i-search-border-color: var(--i-border-info);
+// --i-search-border-none: var(--i-border-width-none);
+
+// --i-search-icon-space: var(--i-spacing-0);
+
+// --i-search-position: var(--i-spacing-container-2xs);
+// }
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME - SEARCH
+\*——————————————————————————————————————————————————————————*/
+.ptSearch {
+	position: relative;
+
+	.p-iconfield {
+		.p-inputtext:not(:last-child) {
+			padding-inline-end: 35px;
+		}
+		.p-inputicon:last-child {
+			inset-inline-end: var(--i-spacing-100);
+		}
+	}
+	&:not(:has(&__icon--close:empty)) .p-inputtext:not(:last-child) {
+		padding-inline-end: 60px;
+	}
+	& .prInputText {
+		border-radius: var(--i-form-field-radius);
+		height: var(--i-sizing-lg);
+		font-size: var(--i-typography-font-size-md);
+		width: 100%;
+	}
+	.p-inputtext {
+		padding-block: var(--i-form-field-padding-y);
+		padding-inline: var(--i-form-field-padding-x);
+
+		&:disabled {
+			background-color: var(--i-form-field-background-disabled);
+			border-color: var(--i-form-field-border-disabled);
+			// cursor: no-drop;
+			width: 100%;
+		}
+		&:enabled:hover {
+			// border-color: var(--i-border-info);
+		}
+		&:enabled:focus {
+			border-color: var(--i-form-field-border-focused);
+		}
+	}
+	.p-inputicon {
+		align-items: center;
+		bottom: var(--i-spacing-container-2xs);
+		display: flex;
+		gap: var(--i-form-field-gap);
+		margin: var(--i-spacing-container-2xs);
+		top: var(--i-spacing-container-2xs);
+	}
+
+	&:has(:disabled) {
+		& .prInputText::placeholder {
+			color: var(--i-form-field-placeholder-disabled);
+		}
+		.ptSearch__icon--close,
+		.ptSearch__icon--divider {
+			display: none;
+		}
+		.ptSearch__icon--search {
+			color: var(--i-form-field-icon-disabled);
+			pointer-events: none;
+			//cursor: no-drop;
+		}
+	}
+
+	.ptSearch__icon {
+		background-color: transparent;
+		border: var(--i-border-width-none);
+		color: var(--i-color-primary-900);
+		cursor: pointer;
+		padding: var(--i-spacing-0);
+
+		&:focus-visible {
+			outline: 1px solid var(--i-color-primary-base);
+			outline-offset: 3px;
+		}
+	}
+	.ptSearch__icon--close {
+		&:empty { display: none; }
+		.icon-cancel {
+			font-size: var(--i-typography-font-size-sm);
+		}
+	}
+	.ptSearch__icon--divider {
+		background-color: var(--i-form-field-icon);
+		cursor: none;
+		height: var(--i-sizing-xs);
+		width: var(--i-form-field-border-width);
+		outline: none;
+	}
+	
+	// --- measurer ---
+
+	&__measurer {
+		position: absolute;
+		top:0; right: 0;
+		visibility: hidden;
+		white-space: nowrap;
+		font-size: var(--i-typography-font-size-md);
+		font-family: inherit;
+		padding: 0;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [pSize="small"]
+\*——————————————————————————————————————————————————————————*/
+.ptSearch {
+	.p-iconfield:has(.p-inputtext-sm) {
+		height: var(--i-sizing-md);
+
+		.p-inputicon {
+			top: var(--i-spacing-container-xs);
+		}
+	}
+	& .p-inputtext-sm {
+		font-size: var(--i-typography-font-size-sm);
+		height: var(--i-sizing-md);
+	}
+
+	&:has(.p-inputtext-sm) {
+		.ptSearch__icon--search .icon {
+			font-size: var(--i-typography-font-size-sm);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME - DROPDOWN
+\*——————————————————————————————————————————————————————————*/
+.ptSearch--dropdown {
+	position: relative;
+
+	.p-autocomplete {
+		width: 100%;
+	}
+	.p-inputtext {
+		width: 100%;
+	}
+	.p-inputicon {
+		bottom: var(--i-spacing-container-2xs);
+		margin: var(--i-spacing-100);
+		position: absolute;
+		right: var(--i-spacing-container-2xs);
+		top: var(--i-spacing-container-2xs);
+	}
+	.p-autocomplete-overlay {
+		background: var(--i-select-overlay-background);
+		border: 1px solid var(--i-select-overlay-border-color);
+		border-radius: var(--i-select-overlay-border-radius);
+
+		.p-autocomplete-list-container {
+			&::-webkit-scrollbar {
+				height: 100%;
+				width: 4px;
+			}
+			&::-webkit-scrollbar-thumb {
+				background-color: var(--i-color-neutral-400);
+				border: none;
+			}
+		}
+	}
+	.p-autocomplete-option:not(.p-autocomplete-option-selected):not(.p-disabled).p-focus {
+		background-color: var(--i-color-primary-100);
+		color: var(--i-color-neutral-600);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME - MAXWIDTH
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearch--fixedWidth {
+	--width: 240px;
+	width: var(--width);
+}

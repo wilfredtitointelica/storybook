@@ -1,0 +1,72 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+
+:root { --NOTE-USER-CARD: 'ptUserCard ( Patterns )';
+
+
+	--i-usercard-width: 12.5rem; // 200px
+	--i-usercard-gap: var(--i-spacing-gap-xs);
+	--i-usercard-padding: var(--i-spacing-container-md);
+	--i-usercard-color: currentColor; // var(--i-color-secondary-base);
+	--i-usercard-background: var(--i-color-secondary-100);
+	--i-usercard-border-radius: var(--i-border-radius-lg);
+	
+	// --- avatar ---
+	
+	--i-usercard-avatar-font-size: var(--i-typography-font-size-lg);
+	--i-usercard-avatar-line-height: var(--i-typography-lineHeight-lg);
+
+	// --- role ---
+
+	--i-usercard-role-font-size: var(--i-typography-font-size-sm);
+	--i-usercard-role-line-height: var(--i-typography-lineHeight-sm);
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptUserCard {
+
+	display: flex;
+	flex-direction: column;
+	width: var(--i-usercard-width);
+	// gap: var(--i-usercard-gap);
+	// padding: var(--i-usercard-padding);
+	color: var(--i-usercard-color);
+	//background-color:  var(--i-usercard-background);
+	//border-radius: var(--i-usercard-border-radius);
+
+	&__info {
+		display: flex;
+		gap: 8px;
+		font-size: var(--i-usercard-avatar-font-size);
+		font-weight: bold;
+		line-height: var(--i-usercard-avatar-line-height);
+	}
+
+	&__role {
+		font-size: var(--i-usercard-role-font-size);
+		line-height: var(--i-usercard-role-line-height);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptUserCard {
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.ptUserCard {
+	
+}

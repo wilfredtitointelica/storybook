@@ -1,0 +1,157 @@
+// ! NOTA: Pendiente por terminar
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-PANEL-COMPONENT: 'prPanel ( Custom PrimeNG )';
+
+	--i-panel-padding: var(--i-spacing-container-xl, 1rem); // 16px
+	--i-panel-md-padding: var(--i-spacing-container-md, 1rem); // 8px
+	--i-panel-border: 0px;
+	--i-panel-border-radius: var(--i-border-radius-2xl, 1rem); // 16px
+	--i-panel-background: var(--i-background-default); // var(--i-color-neutral-50);
+	--i-panel-box-shadow: var(--i-shadow-depth-2);
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prPanel {
+
+	&.p-panel {
+		display: flex;
+		flex-direction: column;
+		border-radius: var(--i-panel-border-radius);
+		border: var(--i-panel-border);
+		box-shadow: var(--i-panel-box-shadow);
+		background: var(--i-panel-background);
+		color: var(--i-color-primary-900);
+		//background-color: var(--i-color);
+	}
+
+	// --- header ---
+
+	& .p-panel-header {
+		padding: var(--i-panel-padding);
+	}
+
+	& .p-panel-title {
+
+	}
+
+	& .p-panel-header-actions {
+
+	}
+
+	// --- container ---
+
+	& .p-panel-content-container {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	& .p-panel-content-wrapper {
+
+	}
+	
+	& .p-panel-content {
+		flex-grow: 1;
+		padding: var(--i-panel-padding);
+	}
+
+	& .p-panel-footer {
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [toggleable="true"]
+\*——————————————————————————————————————————————————————————*/
+
+.prPanel {
+
+	&.p-panel-toggleable {
+
+	}
+
+	&.p-panel-expanded {
+
+	}
+
+	&.p-panel-collapsed {
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [iconPos="center|start|end"]
+\*——————————————————————————————————————————————————————————*/
+
+.prPanel {
+
+	& .p-panel-icons-center {
+
+	}
+
+	& .p-panel-icons-start {
+
+	}
+
+	& .p-panel-icons-end {
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prPanel )
+\*——————————————————————————————————————————————————————————*/
+
+.prPanel {
+	
+	&__title {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-typography-font-size-lg);
+		line-height: var(--i-typography-lineHeight-lg);
+		color: var(--i-color-primary-900); // v1: var(--i-color-secondary-700); 
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( prPanel )
+\*——————————————————————————————————————————————————————————*/
+
+.prPanel {
+
+	// --- full ---
+
+	&--full {
+		flex-grow: 1;
+	}
+
+	&--full :is(.p-panel-content-container,.p-panel-content) {
+		height: 100%;
+	}
+
+	// --- no padding ---
+
+	&--noPadding .p-panel-content {
+		padding: 0;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skPanel {
+	
+}

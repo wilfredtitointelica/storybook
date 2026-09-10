@@ -1,0 +1,10 @@
+<div class="overview">
+	<fee-overview-summary-section [isLoading]="loading()" [overviewData]="overviewData()" [feeSummary]="feeSummary()" />
+	<div class="gridTwoColandOne">
+		@if (hasRateStructure()) {
+		<fee-overview-structure-analysis [isLoading]="loading()" [rateVersions]="rateVersions()" [feeSummary]="feeSummary()" [overviewData]="overviewData()" />
+		} @if (hasAdditionalDetails()) {
+		<fee-overview-additional-detail [isLoading]="loading()" [additionalDetails]="rateVersions()?.additionalDetails ?? null" />
+		}
+	</div>
+</div>

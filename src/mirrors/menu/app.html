@@ -1,0 +1,40 @@
+@if (globalTermService.TermsReady() && this.globalMenuService.isMenuVisible()) {
+<div class="lySidebar" [class.lySidebar--collapsed]="isCollapsed()">
+	<!-- TOOGLE -->
+	<div id="toggleMenuGA" class="lySidebar__toggle">
+		<p-button class="prButton" size="small" severity="secondary" (click)="CollapsedSidebar(!isCollapsed())">
+			<i [class]="isCollapsed() ? 'icon icon-arrow-right' : 'icon icon-arrow-left'" pButtonIcon></i>
+		</p-button>
+	</div>
+	<!-- PANEL -->
+	<div class="lySidebar__blocks">
+		<div class="lySidebar__start">
+			<div class="lySidebar__product">
+				<i class="icon" [ngClass]="selectedProduct().icon"></i>
+				<span
+					#textTooltip
+					(mouseenter)="checkTextOverflow(textTooltip)"
+					tooltipStyleClass="prTooltip"
+					tooltipPosition="bottom"
+					[pTooltip]="isTextOverflow ? (selectedProduct().product | term : globalTermService.languageCode) : ''"
+				>
+					{{ selectedProduct().product | term : globalTermService.languageCode }}
+				</span>
+				@if (selectedProduct().isLegacy) {
+				<p-badge class="prBadge" badgeSize="small" severity="info" [value]="'Legacy'" />
+				} @if (selectedProduct().isBeta) {
+				<p-badge class="prBadge" badgeSize="small" severity="info" [value]="'Beta'" />
+				}
+			</div>
+		</div>
+		<div class="lySidebar__divider"></div>
+		<div class="lySidebar__center">
+			<menu-sidebar [collapsed]="isCollapsed()" (openSidebar)="CollapsedSidebar(!$event)" />
+		</div>
+		<div class="lySidebar__divider"></div>
+		<div class="lySidebar__end">
+			<status-last-update [collapsed]="isCollapsed()" />
+		</div>
+	</div>
+</div>
+}

@@ -1,0 +1,75 @@
+<div class="borderedSection">
+	@if (isLoading()) {
+	<div class="periodSummary">
+		<div class="periodSummary__section">
+			<p-skeleton class="prSkeleton" width="100px" height="20px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="140px" height="12px" borderRadius="8px" style="margin-top: 4px"></p-skeleton>
+			<div class="d-flex align-items-start gap-1" style="margin-top: 12px">
+				<p-skeleton class="prSkeleton" width="30px" height="24px" borderRadius="4px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="160px" height="52px" borderRadius="4px"></p-skeleton>
+			</div>
+			<p-skeleton class="prSkeleton" width="110px" height="20px" borderRadius="8px" style="margin-top: 8px"></p-skeleton>
+		</div>
+
+		<div class="u-divider-horizontal"></div>
+
+		<div class="periodSummary__section">
+			<p-skeleton class="prSkeleton" width="130px" height="20px" borderRadius="8px"></p-skeleton>
+			<div class="d-flex align-items-baseline gap-2" style="margin-top: 12px">
+				<p-skeleton class="prSkeleton" width="20px" height="20px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="60px" height="40px" borderRadius="4px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="95px" height="12px" borderRadius="8px"></p-skeleton>
+			</div>
+		</div>
+
+		<div class="u-divider-horizontal"></div>
+
+		<div class="periodSummary__section">
+			<p-skeleton class="prSkeleton" width="100px" height="20px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="80px" height="24px" borderRadius="4px" style="margin-top: 8px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<div class="periodSummary">
+		<div class="periodSummary__section">
+			<div class="history__title">{{ titleMain() }}</div>
+			@if (isCurrentMonth()) {
+			<div class="history__title--sub">{{ titleSubtitle() }}</div>
+			}
+			<div class="periodSummary__value periodSummary__value--compound">
+				<span class="periodSummary__currency">{{ currency() }}</span>
+				<span class="periodSummary__amount" [class.periodSummary__amount--compact]="isLargeAmount()">{{ totalFeeAmount() | number:'1.2-2' }}</span>
+			</div>
+			<div class="periodSummary__caption">{{ commonGlobalService.termText(feeDetailTerm.TOTAL_FEE_AMOUNT) }}</div>
+		</div>
+
+		@if (showComparison()) {
+		<div class="u-divider-horizontal"></div>
+
+		<div class="periodSummary__section">
+			<div class="periodSummary__label">{{ comparisonLabel() }}</div>
+			<div class="periodSummary__trend">
+				<span class="periodSummary__trendIcon">
+					<i class="icon icon--md" [class]="trendIcon()"></i>
+				</span>
+				<span class="periodSummary__trendValue" [class]="trendValueClass()">{{ trendPercent() }}</span>
+				<span class="periodSummary__trendDetail">({{ currency() }} {{ trendDeltaAbs() | number:'1.2-2' }})</span>
+			</div>
+		</div>
+		} @else if (showNotEnoughHistoryMessage()) {
+		<div class="u-divider-horizontal"></div>
+
+		<div class="periodSummary__section">
+			<div class="periodSummary__label">{{ commonGlobalService.termText(feeDetailTerm.NOT_ENOUGH_HISTORY) }}</div>
+		</div>
+		} @if (showTotalEvents()) {
+		<div class="u-divider-horizontal"></div>
+
+		<div class="periodSummary__section">
+			<div class="periodSummary__label">{{ commonGlobalService.termText(feeDetailTerm.TOTAL_EVENTS) }}</div>
+			<div class="periodSummary__value">{{ totalEvents() | number }}</div>
+		</div>
+		}
+	</div>
+	}
+</div>

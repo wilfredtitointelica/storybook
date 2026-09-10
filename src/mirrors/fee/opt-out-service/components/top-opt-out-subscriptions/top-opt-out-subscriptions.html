@@ -1,0 +1,322 @@
+<div class="d-flex flex-column gap-3">
+	<p-toast class="prToast" position="bottom-right" />
+	@if (false) {
+	<div style="display: flex">
+		<p-skeleton class="prSkeleton" width="300px" height="24px"></p-skeleton>
+	</div>
+	} @else {
+	<!-- TODO Convertir en rehusable de breadchum -->
+	<p-breadcrumb class="prBreadcrumb" [class]="'breadcrumbClickGA'" [model]="fullItems">
+		<ng-template pTemplate="item" let-item>
+			<a [routerLink]="item.routerLink" [pTooltip]="item.tooltip" tooltipStyleClass="prTooltip" [tooltipPosition]="item.tooltipPosition" [tooltipStyleClass]="item.tooltipStyleClass">
+				<span>{{ item.label | term : globalTermService.languageCode }}</span>
+			</a>
+		</ng-template>
+		<ng-template pTemplate="separator">
+			<span class="breadcrumb-separator">
+				<i class="icon icon-arrow-right icon--xs"></i>
+			</span>
+		</ng-template>
+	</p-breadcrumb>
+	}
+	<!-- section title -->
+	@if (false) {
+	<div style="display: flex; gap: 8px">
+		<div style="display: flex">
+			<p-skeleton class="prSkeleton" width="24px" height="24px"></p-skeleton>
+		</div>
+		<div style="display: flex; flex-direction: column; gap: 2px">
+			<p-skeleton class="prSkeleton" width="300px" height="28px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="515px" height="24px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle">
+			<div class="ptSectionTitle__icon">
+				<p-button routerLink="/fee/opt-out-service/dashboard" class="prButton" [class]="'titleBackGA'" icon="icon icon-nav-left" />
+			</div>
+			<div class="ptSectionTitle__content">
+				<div class="ptSectionTitle__title">{{ "TOP_OPT_OUT_SUBSCRIPTIONS" | term : globalTermService.languageCode }}</div>
+				<div class="ptSectionTitle__subtitle">{{ "TOP_OPT_OUT_SUBSCRIPTIONS_SUBTITLE" | term : globalTermService.languageCode }}</div>
+			</div>
+		</div>
+	</div>
+	}
+	<!-- card table -->
+	<p-card class="prCard">
+		<!-- CONTENT -->
+		<ng-template #content>
+			<div class="prCard__body">
+				@if (isloadingTable()) {
+				<div class="skTable" style="--body-height: 484px">
+					<!-- Header -->
+					<div class="skTable__header">
+						<p-skeleton class="prSkeleton"></p-skeleton>
+					</div>
+					<!-- summary -->
+					<div class="skTable__summary">
+						<p-skeleton class="prSkeleton"></p-skeleton>
+					</div>
+					<!-- body ( row / cell ) -->
+					<div class="skTable__body">
+						@for (_ of [].constructor(10); track $index) {
+						<div class="skTable__row">
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+						</div>
+						}
+					</div>
+				</div>
+				<div class="skPaginator">
+					<div class="skPaginator__rowsPerPage">
+						<p-skeleton class="prSkeleton" [width]="'90px'" [height]="'12px'" />
+						<p-skeleton class="prSkeleton" [width]="'60px'" [height]="'32px'" [borderRadius]="'6px'" />
+					</div>
+					<div class="skPaginator__currentPage">
+						<p-skeleton class="prSkeleton" [width]="'32px'" [height]="'12px'" />
+						<p-skeleton class="prSkeleton" [width]="'40px'" [height]="'32px'" [borderRadius]="'6px'" />
+						<p-skeleton class="prSkeleton" [width]="'34px'" [height]="'12px'" />
+					</div>
+					<div class="skPaginator__controls">
+						<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'24px'" [borderRadius]="'8px'" />
+						<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'24px'" [borderRadius]="'8px'" />
+					</div>
+				</div>
+				} @else{
+				<!-- Tools -->
+				<div class="prCard__row justify-content-between">
+					<div class="prCard__wrap">
+						<div class="prCard__title">{{ "FEE_CHART" | term : globalTermService.languageCode }}</div>
+					</div>
+
+					<div class="u-display-flex u-flex-row u-justify-content-end u-gap-sm">
+						<div class="ptSearch" [class]="'searchTableGA'">
+							<p-iconfield>
+								<input
+									type="text"
+									class="prInputText"
+									pInputText
+									[pTooltip]="isNoDataState ? '' : searchTooltip"
+									[tooltipPosition]="'top'"
+									tooltipStyleClass="prTooltip"
+									[placeholder]="searchPlaceholder"
+									[(ngModel)]="searchInput"
+									(keydown.enter)="onSearchEnter($event)"
+									[disabled]="isNoDataState"
+								/>
+								<p-inputicon>
+									<button class="ptSearch__icon ptSearch__icon--close" type="button" *ngIf="searchInput" (click)="clearSearch()">
+										<i class="icon icon-cancel"></i>
+									</button>
+									<span class="ptSearch__icon ptSearch__icon--divider" *ngIf="searchInput"></span>
+									<button class="ptSearch__icon ptSearch__icon--search" type="button" (click)="onSearchClick($event)">
+										<i class="icon icon-search"></i>
+									</button>
+								</p-inputicon>
+							</p-iconfield>
+						</div>
+						<p-button
+							class="prButton prButton--icon prButton--autoWidth"
+							[class]="'downloadGA'"
+							size="large"
+							severity="secondary"
+							icon="icon-download"
+							(onClick)="exportExcel()"
+							[disabled]="isDownloadingExport() || dataTable().length === 0"
+						/>
+					</div>
+				</div>
+				<!-- Tree Table -->
+				<div class="tableAreaCtr">
+					<p-treeTable
+						class="prTable u-overflow-hidden"
+						[class.prTable--disabled]="isNoDataState"
+						[ngClass]="{ ptEmptyTable: isNoMatchesState || isNoDataState }"
+						[value]="dataTable()"
+						sortMode="single"
+						[sortField]="sortField()"
+						[sortOrder]="sortDirection()"
+						(onSort)="onSort($event)"
+						scrollable="true"
+					>
+						<ng-template pTemplate="header">
+							<tr>
+								<th style="width: 32px"></th>
+								<th style="width: 74px" [ttSortableColumn]="'brandName'">
+									<div class="prTable__header">
+										{{ "BRAND" | term : globalTermService.languageCode }}
+										<p-treetable-sort-icon field="brandName"></p-treetable-sort-icon>
+									</div>
+								</th>
+								@if(isGroup()){
+								<th style="width: 112px" [ttSortableColumn]="'clientName'">
+									<div class="prTable__header">
+										{{ "INSTITUTION" | term : globalTermService.languageCode }}
+										<p-treetable-sort-icon field="clientName"></p-treetable-sort-icon>
+									</div>
+								</th>
+								}
+								<th style="width: 112px" [ttSortableColumn]="'opcBusinessName'">
+									<div class="prTable__header">
+										{{ "BUSINESS" | term : globalTermService.languageCode }}
+										<p-treetable-sort-icon field="opcBusinessName"></p-treetable-sort-icon>
+									</div>
+								</th>
+								<th style="width: 280px" [ttSortableColumn]="'opcName'">
+									<div class="prTable__header">
+										{{ "SERVICE" | term : globalTermService.languageCode }}
+										<p-treetable-sort-icon field="opcName"></p-treetable-sort-icon>
+									</div>
+								</th>
+								<th style="width: 108px" [ttSortableColumn]="'lastBillingDate'">
+									<div class="prTable__header">
+										{{ "LAST_BILLING_DATE" | term : globalTermService.languageCode }}
+										<p-treetable-sort-icon field="lastBillingDate"></p-treetable-sort-icon>
+									</div>
+								</th>
+								<th style="width: 120px">
+									<div class="prTable__header">{{ "FEE_CODE" | term : globalTermService.languageCode }}</div>
+								</th>
+								<th style="width: 298px">
+									<div class="prTable__header">{{ "FEE_NAME" | term : globalTermService.languageCode }}</div>
+								</th>
+								<th style="width: 118px">
+									<div class="prTable__header">{{ "CONSECUTIVE_BILLING" | term : globalTermService.languageCode }}</div>
+								</th>
+								<th style="width: 118px" [ttSortableColumn]="'amount'">
+									<div class="prTable__header">
+										{{ "AMOUNT" | term : globalTermService.languageCode }}({{ currencyCode() }})
+										<p-treetable-sort-icon field="amount"></p-treetable-sort-icon>
+									</div>
+								</th>
+								<th style="width: 118px">
+									<div class="prTable__header">{{ "REGIONAL_ADOPTION_RATE" | term : globalTermService.languageCode }}</div>
+								</th>
+								<th style="width: 90px">
+									<div class="prTable__header">{{ "STEPS_TO_OPT_OUT" | term : globalTermService.languageCode }}</div>
+								</th>
+							</tr>
+							@if(dataTable().length) {
+							<tr class="fixedRow">
+								<th>
+									<span class="u-text-md u-bold">{{ "TOTAL" | term : globalTermService.languageCode }}</span>
+								</th>
+								@if(isGroup()){
+								<th></th>
+								}
+								<th colspan="7"></th>
+								<th class="u-td-right">
+									<span class="u-text-md u-bold">{{ totalAmount() | number : "1.2-2" }}</span>
+								</th>
+								<th colspan="2"></th>
+							</tr>
+							}
+						</ng-template>
+
+						<ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+							<tr [ttRow]="rowNode">
+								<td style="width: 32px">
+									<p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+								</td>
+								<td style="width: 74px">
+									<div class="d-flex justify-content-center">
+										@switch(rowData.brandId) { @case(brandEnum.Mastercard) {
+										<i class="icon--outlined icon icon-mastercard"></i>
+										} @case(brandEnum.Visa) {
+										<i class="icon--outlined icon icon-visa"></i>
+										} @case(brandEnum.Amex) {
+										<i class="icon--outlined icon icon-amex"></i>
+										} @default { } }
+									</div>
+								</td>
+								@if(isGroup()){
+								<td style="width: 112px" class="u-td-center">
+									<span [pTooltip]="rowData.clientName" tooltipStyleClass="prTooltip" tooltipPosition="top">{{ rowData.clientName }}</span>
+								</td>
+								}
+								<td style="width: 112px" class="u-td-center">{{ rowData.opcBusinessName }}</td>
+								<td style="width: 280px" class="u-td-left">
+									<span
+										class="u-text-link"
+										role="button"
+										tabindex="0"
+										[class]="'announcementTableGA'"
+										tooltipPosition="top"
+										(click)="onClickAnnouncement(rowData.documentId)"
+										(keydown.enter)="$any($event.target).click()"
+										(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+									>{{ rowData.opcName }}</span>
+								</td>
+								<td style="width: 108px" class="u-td-center">{{ rowData.lastBillingDate | date : "dd MMM, yyyy" : "UTC" }}</td>
+								<td style="width: 120px" class="u-td-center">
+									<span
+										[class.u-text-link]="rowData.feeId !== 0"
+										[attr.role]="rowData.feeId !== 0 ? 'button' : null"
+										[attr.tabindex]="rowData.feeId !== 0 ? 0 : null"
+										[class]="'feecodeTableGA'"
+										(click)="goToDetail(rowData)"
+										(keydown.enter)="$any($event.target).click()"
+										(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+									>{{ rowData.feeCode }}</span>
+								</td>
+								<td style="width: 298px" class="u-td-left">{{ rowData.feeName }}</td>
+								<td style="width: 118px" class="u-td-center">@if(rowData.feeName) { {{ rowData.consecutiveBilling }} }</td>
+								<td style="width: 118px" class="u-td-right">{{ rowData.amount | number : "1.2-2" }}</td>
+								<td style="width: 118px" class="u-td-center">@if(rowData.feeName) { {{ rowData.regionalAdoptionRate ? rowData.regionalAdoptionRate + "%" : "" }} }</td>
+								<td style="width: 90px">
+									<div class="prTable__body--content">
+										@if(rowData.opcName) {
+										<p-button [disabled]="!rowData.stepsToOptOut" class="prButton" [class]="'stepsTableGA'" icon="icon icon-settings" (click)="openUnsubscribeDialog(rowData.clientId, rowData.opcId)" />
+										}
+									</div>
+								</td>
+							</tr>
+						</ng-template>
+						<ng-template pTemplate="emptymessage">
+							<tr><td [attr.colspan]="isGroup() ? 13 : 12"></td></tr>
+						</ng-template>
+					</p-treeTable>
+					@if(!isNoMatchesState && !isNoDataState && totalItems() > options[0].value) {
+					<fee-intelica-paginator
+						[first]="first()"
+						[rows]="rowsPerPage()"
+						[totalRecords]="totalItems()"
+						[options]="options"
+						[valueNumber]="currentPage()"
+						[totalPages]="totalPages()"
+						(pageChange)="onPageChange($event)"
+						(rowsPerPageChange)="onRowsPerPageChanged($event)"
+					/>
+					}
+				</div>
+				@if (isNoMatchesState) {
+				<intelica-status-state [state]="statusStateEnum.NoMatches" [description]="'NO_MATCHES_FOUND'" [searchTerm]="searchText()" />
+				} @else if (isNoDataState) {
+				<intelica-status-state [state]="statusStateEnum.NoData" [description]="'NO_RESULTS_FOR_FILTERS'" />
+				} }
+			</div>
+		</ng-template>
+	</p-card>
+</div>
+
+<fee-unsubscribe></fee-unsubscribe>

@@ -1,0 +1,39 @@
+/*——————————————————————————————————————————————————————————*\
+ * ACCENT COLOR
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertAccenColor {
+
+	&--newfees {
+		--accent-color: var(--i-color-blue-600) ;
+		--accent-background: var(--i-color-blue-50);
+	}
+
+	&--custom {
+		--accent-color: var(--i-color-oceanblue-900) ;
+		--accent-background: var(--i-color-oceanblue-50);
+	}
+
+	&--penalties {
+		--accent-color: var(--i-color-red-700) ;
+		--accent-background: var(--i-color-red-50);
+	}
+
+	&--optouts {
+		--accent-color: var(--i-color-grey-700) ;
+		--accent-background: var(--i-color-grey-50);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORZING ACCORDING TO FIGMA :\
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertItem.amAlertAccenColor {
+
+	&--optouts:is(:hover, .is-active) {
+		background-color: var(--i-color-blue-50);
+	}
+	
+}

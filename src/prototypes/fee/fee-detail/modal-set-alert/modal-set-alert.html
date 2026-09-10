@@ -1,0 +1,273 @@
+<!-- CHOOSE ALERT -->
+@if (section() === 'choose') {
+<div class="u-display-flex u-flex-column u-gap-lg u-text-md">
+	<!-- loaded -->
+	@if (!loading()) {
+	<div class="u-display-flex u-flex-column">
+		<h4 class="u-text-lg u-m-0">{{ "LBL_CHOOSE_ALERT_TYPE" | term : globalTermService.languageCode }}</h4>
+		<span>{{ "LBL_SELECT_METRIC_DESC" | term : globalTermService.languageCode }}</span>
+	</div>
+	<!-- reference (solo perfil grupal) -->
+	@if (isGroupProfile()) {
+	<div class="u-display-flex u-gap-xs u-align-items-center">
+		<i class="icon icon-bank icon--xs u-color-primary"></i>
+		<div>
+			<span class="u-bold">{{ "LBL_ENTITY" | term : globalTermService.languageCode }}</span>
+			:
+			<span class="u-normal">{{ bankName() }}</span>
+		</div>
+	</div>
+	}
+	<!-- set amount -->
+	<div class="methodCode | u-full-width">
+		<!-- expected amount -->
+		<div class="methodCode__option">
+			<p-card
+				class="prCard prCard--option"
+				role="button"
+				tabindex="0"
+				[class.is-active]="selectedMethod() === 'ExpectedAmount'"
+				[attr.aria-pressed]="selectedMethod() === 'ExpectedAmount'"
+				(click)="selectedMethod.set(AlertMethod.ExpectedAmount)"
+				(keydown.enter)="$any($event.target).click()"
+				(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+			>
+				<!-- CONTENT -->
+				<ng-template #content>
+					<div class="prCard__icon">
+						<i class="icon icon-target"></i>
+					</div>
+					<div class="prCard__text | align-items-center">
+						<div class="prCard__title">{{ "LBL_EXPECTED_AMOUNT" | term : globalTermService.languageCode }}</div>
+						<div class="prCard__subtitle" style="max-width: 10rem">{{ "LBL_EXPECTED_AMOUNT_DESC" | term : globalTermService.languageCode }}</div>
+					</div>
+				</ng-template>
+			</p-card>
+		</div>
+		<!-- variation limit -->
+		<div class="methodCode__option">
+			<p-card
+				class="prCard prCard--option"
+				role="button"
+				tabindex="0"
+				[class.is-active]="selectedMethod() === 'VariationLimit'"
+				[attr.aria-pressed]="selectedMethod() === 'VariationLimit'"
+				(click)="selectedMethod.set(AlertMethod.VariationLimit)"
+				(keydown.enter)="$any($event.target).click()"
+				(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+			>
+				<!-- CONTENT -->
+				<ng-template #content>
+					<div class="prCard__icon">
+						<i class="icon icon-economic-growth"></i>
+					</div>
+					<div class="prCard__text | align-items-center">
+						<div class="prCard__title">{{ "LBL_VARIATION_LIMIT" | term : globalTermService.languageCode }}</div>
+						<div class="prCard__subtitle" style="max-width: 10rem">{{ "LBL_VARIATION_LIMIT_DESC" | term : globalTermService.languageCode }}</div>
+					</div>
+				</ng-template>
+			</p-card>
+		</div>
+	</div>
+	<!-- enter amount -->
+	<div class="ptField ptField--floatMessage">
+		<div class="ptField__label">
+			<label for="expected-amount">{{ "LBL_ENTER_EXPECTED_AMOUNT" | term : globalTermService.languageCode }}</label>
+		</div>
+		<div class="ptField__inner">
+			<div class="ptField__control">
+				<div class="ptCompountInput" [class.ptCompountInput--error]="showAmmountError()" [class.ptCompountInput--success]="false">
+					<div class="ptCompountInput__wrapper">
+						<div class="ptCompountInput__field">
+							<div class="ptCompountInput__input">
+								<p-inputNumber
+									inputId="expected-amount"
+									styleClass="prInputtext"
+									[(ngModel)]="valueAmount"
+									[min]="0"
+									[maxlength]="18"
+									[maxFractionDigits]="20"
+									[useGrouping]="true"
+									[placeholder]="config().placeholder"
+									(onBlur)="touchedAmount.set(true)"
+								/>
+							</div>
+						</div>
+						<hr class="ptCompountInput__divider" />
+						<div class="ptCompountInput__filter" style="padding-right: 8px">
+							@if ( config().amountType === "select") {
+							<p-select [options]="options()" [(ngModel)]="selectedOption" optionLabel="name" class="prSelect" panelStyleClass="prSelect" appendTo="body" dropdownIcon="icon icon-arrow-down" />
+							} @else {
+							<span style="padding-inline: 8px 30px">{{ amountCurrencyLabel() }}</span>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ptField__message">
+				@if( showAmmountError() ) {
+				<p-message class="prMessage" severity="error" variant="simple" size="small">
+					@if (exceedsMaxLimit()) {
+					{{ "LBL_VALUE_EXCEEDS_MAX_LIMIT" | term : globalTermService.languageCode }}
+					}
+				</p-message>
+				}
+			</div>
+		</div>
+		<div class="ptField__caption">
+			{{ config().caption }}
+		</div>
+	</div>
+	<!-- action -->
+	<div class="u-display-flex u-gap-sm justify-content-center">
+		<p-button class="prButton" [style]="{ 'min-width': '4rem' }" severity="secondary" [disabled]="saving()" label="{{ 'LBL_CANCEL' | term : globalTermService.languageCode }}" (click)="closeDialog.emit(true)" />
+		<p-button
+			class="prButton saveModalGA"
+			[style]="{ 'min-width': '4rem' }"
+			[disabled]="disabledButton()"
+			[loading]="saving()"
+			severity="primary"
+			label="{{ 'LBL_SAVE' | term : globalTermService.languageCode }}"
+			(click)="save()"
+		/>
+	</div>
+	}
+	<!-- skeleton -->
+	@if (loading()) {
+	<div class="u-display-flex u-flex-column">
+		<div><p-skeleton class="prSkeleton" [width]="'130px'" [height]="'28px'" /></div>
+		<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'300px'" [height]="'12px'" /></div>
+	</div>
+	<!-- reference -->
+	<div class="u-display-flex u-gap-xs u-align-items-center">
+		<p-skeleton class="prSkeleton" [width]="'16px'" [height]="'16px'" />
+		<div>
+			<p-skeleton class="prSkeleton" [width]="'148px'" [height]="'24px'" />
+		</div>
+	</div>
+	<!-- set amount -->
+	<div class="methodCode | u-full-width">
+		<div class="methodCode__option"><p-skeleton class="prSkeleton" [width]="'100%'" [height]="'110px'" borderRadius="16px" /></div>
+		<div class="methodCode__option"><p-skeleton class="prSkeleton" [width]="'100%'" [height]="'110px'" borderRadius="16px" /></div>
+	</div>
+	<!-- enter amount -->
+	<div class="ptField ptField--floatMessage">
+		<div class="ptField__label | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'150px'" [height]="'12px'" /></div>
+		<div class="ptField__inner"><p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" borderRadius="8px" /></div>
+		<div class="ptField__caption | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'205px'" [height]="'8px'" /></div>
+	</div>
+	<!-- action -->
+	<div class="u-display-flex u-gap-sm justify-content-center">
+		<p-skeleton class="prSkeleton" [width]="'64px'" [height]="'32px'" borderRadius="8px" />
+		<p-skeleton class="prSkeleton" [width]="'64px'" [height]="'32px'" borderRadius="8px" />
+	</div>
+	}
+</div>
+}
+
+<!-- MANAGE ALERT -->
+@if (section() === 'manage') {
+<div class="u-display-flex u-flex-column u-gap-lg u-text-md">
+	<!-- loaded -->
+	@if (!loading()) {
+	<div class="u-display-flex u-flex-column">
+		<h4 class="u-text-lg u-m-0">{{ "LBL_MANAGE_ALERT" | term : globalTermService.languageCode }}</h4>
+		<span>{{ "LBL_MANAGE_ALERT_DESC" | term : globalTermService.languageCode }}</span>
+	</div>
+	<!-- reference (solo perfil grupal) -->
+	@if (isGroupProfile()) {
+	<div class="u-display-flex u-gap-xs u-align-items-center">
+		<i class="icon icon-bank icon--xs u-color-primary"></i>
+		<div>
+			<span class="u-bold">{{ "LBL_ENTITY" | term : globalTermService.languageCode }}</span>
+			:
+			<span class="u-normal">{{ bankName() }}</span>
+		</div>
+	</div>
+	}
+	<!-- monitoring -->
+	<div class="amAlertDetailCard amAlertDetailCard--emphasized">
+		<div class="amAlertDetailCard__header">
+			<div class="amAlertDetailCard__title">{{ "LBL_ACTIVE_ALERT_CONFIGURED" | term : globalTermService.languageCode }}</div>
+			<div class="amAlertDetailCard__meta">
+				{{ "LBL_ALERT_SET_FOR" | term : globalTermService.languageCode }}
+				<b>{{ (selectedMethod() === AlertMethod.ExpectedAmount ? "LBL_EXPECTED_AMOUNT" : "LBL_VARIATION_LIMIT") | term : globalTermService.languageCode }}</b>
+			</div>
+		</div>
+		<div class="amAlertDetailCard__body">
+			<div class="amAlertDetailCard__feature">
+				<div class="amAlertDetailCard__setting">
+					{{ "LBL_CURRENT_SETTING" | term : globalTermService.languageCode }}
+					<p-badge class="prBadge" [value]="(currentSetting() === 'fixed' ? 'LBL_FIXED_TARGET' : 'LBL_VARIATION_LIMIT') | term : globalTermService.languageCode" severity="info" badgeSize="small" />
+				</div>
+				<div class="amAlertDetailCard__highlight">
+					<sup>{{ currentUnitLabel() }}</sup>
+					<span class="u-text-5xl">{{ currentThresholdLabel() }}</span>
+					@if (currentSetting() === 'variation') {
+					<sub class="u-text-xl">{{ "LBL_DEVIATION" | term : globalTermService.languageCode }}</sub>
+					}
+				</div>
+				<div class="amAlertDetailCard__meta">{{ "LBL_TRIGGERED_MONTHLY_BILLING" | term : globalTermService.languageCode }}</div>
+			</div>
+		</div>
+		<div class="amAlertDetailCard__action">
+			<p-button class="prButton" severity="secondary" label="{{ 'LBL_MODIFY_ALERT' | term : globalTermService.languageCode }}" icon="icon-edit" (click)="startModify()" />
+			<p-button class="prButton" severity="secondary" label="{{ 'LBL_DELETE' | term : globalTermService.languageCode }}" icon="icon-delete" (click)="confirmDelete()" />
+		</div>
+	</div>
+	<!-- action -->
+	<div class="u-display-flex u-gap-sm justify-content-center">
+		<p-button class="prButton" [style]="{ 'min-width': '4rem' }" severity="primary" label="{{ 'LBL_CLOSE' | term : globalTermService.languageCode }}" (click)="closeDialog.emit(true)" />
+	</div>
+	}
+	<!-- skeleton -->
+	@if (loading()) {
+	<div class="u-display-flex u-flex-column">
+		<div><p-skeleton class="prSkeleton" [width]="'130px'" [height]="'28px'" /></div>
+		<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'300px'" [height]="'12px'" /></div>
+	</div>
+	<!-- reference -->
+	<div class="u-display-flex u-gap-xs u-align-items-center">
+		<p-skeleton class="prSkeleton" [width]="'16px'" [height]="'16px'" />
+		<div>
+			<p-skeleton class="prSkeleton" [width]="'148px'" [height]="'24px'" />
+		</div>
+	</div>
+	<!-- monitoring -->
+	<div class="amAlertDetailCard amAlertDetailCard--emphasized" style="border: var(--i-line)">
+		<div class="amAlertDetailCard__header">
+			<div class="amAlertDetailCard__title"><p-skeleton class="prSkeleton" [width]="'170px'" [height]="'28px'" /></div>
+			<div class="amAlertDetailCard__meta | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'340px'" [height]="'12px'" /></div>
+		</div>
+		<div class="amAlertDetailCard__body">
+			<div class="amAlertDetailCard__feature">
+				<div class="amAlertDetailCard__setting">
+					<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'97px'" [height]="'12px'" /></div>
+					<div><p-skeleton class="prSkeleton" [width]="'71.56px'" [height]="'24px'" borderRadius="24px" /></div>
+				</div>
+				<div class="amAlertDetailCard__highlight">
+					<sup><p-skeleton class="prSkeleton u-mt-1" [width]="'32.2px'" [height]="'14px'" /></sup>
+					<span><p-skeleton class="prSkeleton" [width]="'122.17px'" [height]="'52px'" /></span>
+				</div>
+				<div class="amAlertDetailCard__meta"><p-skeleton class="prSkeleton u-my-1" [width]="'200px'" [height]="'12px'" /></div>
+			</div>
+		</div>
+		<div class="amAlertDetailCard__action">
+			<p-skeleton class="prSkeleton" [width]="'114px'" [height]="'32px'" />
+			<p-skeleton class="prSkeleton" [width]="'78px'" [height]="'32px'" />
+		</div>
+	</div>
+	<!-- action -->
+	<div class="u-display-flex u-gap-sm justify-content-center">
+		<p-skeleton class="prSkeleton" [width]="'64px'" [height]="'32px'" borderRadius="8px" />
+	</div>
+	}
+</div>
+}
+
+<!-- ================================================================ -->
+
+<!-- library: alert -->
+<intelica-alert class="u-display-none" />
+
+<!-- ================================================================ -->

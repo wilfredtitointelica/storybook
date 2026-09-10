@@ -1,0 +1,98 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-MESSAGE-COMPONENT: "prProgressbar ( Custom PrimeNG )";
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prProgressbar {
+	&.p-progressbar {
+		flex-grow: 1;
+		border-radius: var(--i-border-radius-lg);
+		background-color: var(--i-color-secondary-100);
+	}
+
+	& .p-progressbar-value {
+		background-color: var(--i-color-new-grey-500);
+		border-radius: var(--i-border-radius-lg);
+		transition: width 0.6s ease;
+	}
+
+	& .p-progressbar-label {
+		color: var(--i-color-neutral-700);
+		font-size: var(--i-typography-font-size-sm);
+		font-weight: var(--i-typography-font-weight-700);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME STATUS
+\*——————————————————————————————————————————————————————————*/
+
+.prProgressbar {
+	&--in-progress .p-progressbar-value {
+		background: var(--i-color-primary-500);
+	}
+
+	&--completed .p-progressbar-value {
+		background: var(--i-color-success-700);
+	}
+
+	&--error .p-progressbar-value {
+		background: var(--i-color-error-600);
+	}
+
+	&--minimal {
+		&.p-progressbar {
+			background-color: white;
+			height: 12px;
+		}
+
+		& .p-progressbar-value {
+			background-color: var(--i-color-primary-base);
+			justify-content: flex-end !important;
+			padding-right: var(--i-spacing-container-md);
+		}
+
+		& .p-progressbar-label {
+			color: white;
+		}
+	}
+
+	&--threshold {
+		&.p-progressbar {
+			height: 8px;
+			border-radius: var(--i-border-radius-full);
+			background-color: var(--i-color-grey-200);
+		}
+
+		& .p-progressbar-value {
+			border-radius: var(--i-border-radius-full);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * PATTERN — THRESHOLD BAR (wrapper de .prProgressbar--threshold)
+\*——————————————————————————————————————————————————————————*/
+
+.thresholdBar {
+	&__labelRow {
+		color: var(--i-text-color-default);
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+	}
+
+	&__marker {
+		top: 0;
+		width: 2px;
+		height: 8px;
+		border-radius: var(--i-border-radius-full);
+		background: var(--i-color-primary-900);
+	}
+}

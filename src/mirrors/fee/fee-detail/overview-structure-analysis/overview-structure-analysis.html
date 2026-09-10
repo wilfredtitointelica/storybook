@@ -1,0 +1,166 @@
+<div class="borderedSection">
+	@if (isLoading()) {
+	<div class="rateSelector">
+		<div class="rateSelector__header">
+			<div class="rateSelector__left d-flex flex-column gap-1">
+				<p-skeleton class="prSkeleton" width="180px" height="20px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="160px" height="16px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="210px" height="16px" borderRadius="8px"></p-skeleton>
+			</div>
+			<div class="rateSelector__right">
+				<p-skeleton class="prSkeleton" width="180px" height="32px" borderRadius="8px"></p-skeleton>
+			</div>
+		</div>
+		<div class="d-flex flex-column gap-2">
+			<div class="d-flex gap-3">
+				<p-skeleton class="prSkeleton" width="15%" height="14px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="30%" height="14px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="30%" height="14px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="25%" height="14px" borderRadius="8px"></p-skeleton>
+			</div>
+			@for (row of [1, 2, 3, 4, 5]; track row) {
+			<div class="d-flex gap-3">
+				<p-skeleton class="prSkeleton" width="15%" height="20px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="30%" height="20px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="30%" height="20px" borderRadius="8px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="25%" height="20px" borderRadius="8px"></p-skeleton>
+			</div>
+			}
+		</div>
+		<div>
+			<p-skeleton class="prSkeleton" width="100%" height="40px" borderRadius="8px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<div class="rateSelector">
+		<div class="rateSelector__header">
+			<div class="rateSelector__left">
+				<div class="rateSelector__tittle">{{ commonGlobalService.termText(feeDetailTerm.RATE_STRUCTURE_ANALYSIS) }}</div>
+				<div>{{ rateStructureLabel() }}</div>
+				<div>
+					<b>{{ commonGlobalService.termText(feeDetailTerm.EFFECTIVE_PERIOD) }}:</b>
+					{{ effectivePeriodText() }}
+				</div>
+			</div>
+			@if (hasMultipleVersions()) {
+			<div class="rateSelector__right">
+				<p-select
+					[options]="versions()"
+					[ngModel]="selectedVersion()"
+					(ngModelChange)="onVersionChange($event)"
+					optionLabel="label"
+					class="prSelect"
+					[dropdownIcon]="'icon icon-arrow-down'"
+					panelStyleClass="rateSelectInput__panel rateOptionsGA"
+				>
+					<ng-template pTemplate="selectedItem" let-rate>
+						@if (rate) {
+						<div class="rateSelectInput__selectedItem">
+							<span class="rateSelectInput__label">{{ getVersionLabel(rate.version) }}&nbsp;|&nbsp;</span>
+							<span
+								class="rateSelectInput__badge"
+							>
+								{{ getStatusTerm(rate.status) }}
+							</span>
+						</div>
+						}
+					</ng-template>
+
+					<ng-template pTemplate="item" let-rate>
+						<div
+							class="rateSelectInput__option"
+							>
+							<div class="rateSelectInput__optionHeader">
+								<span class="rateSelectInput__optionLabel">{{ getVersionLabel(rate.version) }}&nbsp;|&nbsp;</span>
+								<span
+									class="rateSelectInput__optionBadge"
+								>
+									{{ getStatusTerm(rate.status) }}
+								</span>
+							</div>
+							<span class="rateSelectInput__optionDate">{{ rate.effectiveDate }}</span>
+						</div>
+					</ng-template>
+				</p-select>
+			</div>
+			}
+		</div>
+		@if (showTable()) {
+		<div>
+			<p-table class="prTable" [value]="displayTiers()">
+				<ng-template #header>
+					<tr>
+						<th style="width: 15%">{{ commonGlobalService.termText(feeDetailTerm.TIER) }}</th>
+						@if (showDescriptionColumn()) {
+						<th style="width: 60%">{{ commonGlobalService.termText(feeDetailTerm.DESCRIPTION) }}</th>
+						} @else {
+						<th style="width: 30%">{{ commonGlobalService.termText(feeDetailTerm.MINIMUM) }}</th>
+						<th style="width: 30%">{{ commonGlobalService.termText(feeDetailTerm.MAXIMUM) }}</th>
+						}
+						<th style="width: 25%">{{ commonGlobalService.termText(feeDetailTerm.RATE) }}</th>
+					</tr>
+				</ng-template>
+				<ng-template #body let-tier>
+					<tr>
+						<td [class.prTable__body--activeTier]="tier.isActive">
+							<div class="prTable__body--content">
+								<p-badge class="prBadge" badgeSize="small" [value]="tier.tierDisplay" [severity]="tier.isActive ? 'info' : 'secondary'" />
+							</div>
+						</td>
+						@if (showDescriptionColumn()) {
+						<td>{{ tier.description }}</td>
+						} @else {
+						<td class="text-end">{{ tier.min === null || tier.min === 0 ? '-' : (tier.min | number) }}</td>
+						<td class="text-end">{{ tier.max === null || tier.max === 0 ? '-' : (tier.max | number) }}</td>
+						}
+						<td class="text-end">
+							@if (isVolume()) { {{ tier.rate | number:'1.0-6' }}
+							<span>{{ rateUnit() }}</span>
+							} @else {
+							<span>{{ rateUnit() }}</span>
+							{{ tier.rate | number:'1.0-6' }} }
+						</td>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="emptymessage">
+					<tr>
+						<td [attr.colspan]="showDescriptionColumn() ? 3 : 4" class="text-center">{{ commonGlobalService.termText(feeDetailTerm.NO_PRICING_DATA) }}</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+		@if (!(isMultipleRate() || isDependent())) {
+		<div>
+			<p-message class="prMessage" severity="info" size="small" icon="icon icon-info">
+				<ng-template #container>
+					<div class="prMessage__wrap">
+						<div class="prMessage__summary">
+							<span class="prMessage__body">
+								<b>{{ commonGlobalService.termText(feeDetailTerm.EVENTS) }}:</b>
+								{{ commonGlobalService.termText(eventsDescriptionKey()) }}
+								<br />
+								<b>{{ commonGlobalService.termText(feeDetailTerm.ACCUMULATED_AMOUNT) }}:</b>
+								{{ commonGlobalService.termText(finalAmountDescriptionKey()) }}
+							</span>
+						</div>
+					</div>
+				</ng-template>
+			</p-message>
+		</div>
+		} }
+	</div>
+
+	}
+	<div class="u-divider-horizontal"></div>
+	<fee-overview-simulate
+		[(events)]="events"
+		[isLoading]="isLoading()"
+		[selectedVersion]="selectedVersion()"
+		[rateStructureCode]="rateStructureCode()"
+		[currency]="currency()"
+		[rateUnit]="rateUnit()"
+		[isDependent]="isDependent()"
+		[isMultipleRate]="isMultipleRate()"
+		[isAssociated]="isAssociated()"
+	/>
+</div>

@@ -1,0 +1,47 @@
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( primeNG )
+\*——————————————————————————————————————————————————————————*/
+
+// .prButton--icon {
+
+// }
+
+// --- ICON ---
+.prButton--icon {
+	// --- Base ---
+	.p-button {
+		border-radius: var(--i-button-border-radius-md);
+		padding: var(--i-button-padding-y-xs) var(--i-button-padding-x-xs);
+		height: var(--i-button-sizing-md);
+		width: var(--i-button-sizing-md);
+	}
+
+	// --- Disabled ---
+	.p-button:disabled {
+		/* .icon {
+			font-size: var(--i-button-font-size-sm);
+		} */
+	}
+	// --- Small ---
+	.p-button-sm {
+		border-radius: var(--i-button-border-radius-sm);
+		height: var(--i-button-sizing-xs);
+		padding: var(--i-button-padding-y-2xs) var(--i-button-padding-x-2xs);
+		width: var(--i-button-sizing-xs);
+
+		.icon {
+			font-size: var(--i-button-font-size-sm);
+		}
+	}
+	// --- Large ---
+	.p-button-lg {
+		border-radius: var(--i-button-border-radius-lg);
+		height: var(--i-button-sizing-lg);
+		padding: var(--i-button-padding-y-md) var(--i-button-padding-x-md);
+		width: var(--i-button-sizing-lg);
+
+		.icon {
+			font-size: var(--i-button-font-size-lg);
+		}
+	}
+}

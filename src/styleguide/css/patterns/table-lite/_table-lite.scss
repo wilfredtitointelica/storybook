@@ -1,0 +1,69 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( .block )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTableLite {
+
+	display: table;
+	border-collapse: separate;
+	border-spacing: 0cqi;
+
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTableLite {
+
+	&__head {
+		display: table-header-group;
+		font-weight: bold;
+	}
+
+	&__body {
+		display: table-row-group;
+	}
+
+	&__row {
+		display: table-row;
+	}
+
+	&__cell {
+		display: table-cell;
+		vertical-align: middle;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTableLite {
+
+	// --- in tooltip ---
+
+	&--fullFirstColumn &__cell:first-child {
+		width: 100%;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS ( native or primeng )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTableLite {
+
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skTableLite {
+	
+}

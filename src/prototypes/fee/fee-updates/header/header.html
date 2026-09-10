@@ -1,0 +1,159 @@
+<div class="feeUpdatesHeader">
+	@if (loading()) {
+	<div class="ptFilterbar">
+		<div class="ptFilterbar__container">
+			<!-- filterbar: blocks -->
+			<div class="ptFilterbar__blocks">
+				<!-- filter business -->
+				@if (showEntitiesSelect()) {
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+					<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+				</div>
+				}
+				<!-- filter range ( datepicker ) -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+					<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+				</div>
+				<!-- filter brand -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+					<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+				</div>
+				<!-- filter business -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+					<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+				</div>
+				<!-- filter divider -->
+				<div class="ptFilterbar__divider"></div>
+				<!-- filter action -->
+				<div class="ptFilterbar__actions">
+					<div class="ptFilterbar__wrap">
+						<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+						<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+					</div>
+				</div>
+			</div>
+			<!-- filterbar: blocks -->
+			<div class="ptFilterbar__blocks u-ms-auto">
+				<!-- filter actions advanced -->
+				<div class="ptFilterbar__actions">
+					<div class="ptFilterbar__wrap">
+						<p-skeleton class="prSkeleton" [width]="'6.125rem'" [height]="'2rem'" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	} @else {
+	<div class="ptFilterbar">
+		<div class="ptFilterbar__container">
+			<!-- filterbar: blocks -->
+			<div class="ptFilterbar__blocks">
+				<!-- filter business -->
+				@if (showEntitiesSelect()) {
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><i class="icon icon-bank"></i></div>
+					<div class="ptFilterbar__wrap">
+						<p-multiselect
+							class="prMultiselect"
+							[options]="entities()"
+							[(ngModel)]="selectedEntityIds"
+							optionLabel="entityName"
+							optionValue="entityId"
+							[placeholder]="commonGlobalService.termText(feeUpdatesTerm.FLT_ENTITIES)"
+							[selectedItemsLabel]="entitySelectionLabel()"
+							[maxSelectedLabels]="1"
+							[filter]="entities().length > 10"
+							filterBy="entityName"
+							[showToggleAll]="true"
+							[style]="{ width: '12rem' }"
+							[dropdownIcon]="'icon icon-arrow-down'"
+							[disabled]="busy()"
+						/>
+					</div>
+				</div>
+				}
+				<!-- filter range ( datepicker ) -->
+				<fee-datepicker-range [disabled]="busy()" [minDate]="minDate()" [maxDate]="maxDate()" [anchorToDataBounds]="true" />
+				<!-- filter brand -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><i class="icon icon-credit-card"></i></div>
+					<div class="ptFilterbar__wrap">
+						<p-multiselect
+							class="prMultiselect"
+							[options]="brands()"
+							[(ngModel)]="selectedBrandIds"
+							optionLabel="brandName"
+							optionValue="brandId"
+							[placeholder]="commonGlobalService.termText(feeUpdatesTerm.FLT_BRANDS)"
+							[selectedItemsLabel]="brandSelectionLabel()"
+							[readonly]="isSingleBrand()"
+							[class.readonly-multiselect]="isSingleBrand()"
+							[maxSelectedLabels]="1"
+							[filter]="brands().length > 10"
+							[showToggleAll]="true"
+							[style]="{ width: '12rem' }"
+							[dropdownIcon]="'icon icon-arrow-down'"
+							[disabled]="busy()"
+						/>
+					</div>
+				</div>
+				<!-- filter business -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><i class="icon icon-business"></i></div>
+					<div class="ptFilterbar__wrap">
+						<p-multiselect
+							class="prMultiselect"
+							[options]="businesses()"
+							[(ngModel)]="selectedBusinessIds"
+							optionLabel="businessName"
+							optionValue="businessId"
+							[placeholder]="commonGlobalService.termText(feeUpdatesTerm.FLT_BUSINESSES)"
+							[selectedItemsLabel]="businessSelectionLabel()"
+							[readonly]="isSingleBusiness()"
+							[class.readonly-multiselect]="isSingleBusiness()"
+							[maxSelectedLabels]="1"
+							[filter]="businesses().length > 10"
+							[showToggleAll]="true"
+							[style]="{ width: '12rem' }"
+							[dropdownIcon]="'icon icon-arrow-down'"
+							[disabled]="busy()"
+						/>
+					</div>
+				</div>
+				<!-- filter divider -->
+				<div class="ptFilterbar__divider"></div>
+				<!-- filter action -->
+				<div class="ptFilterbar__actions">
+					<div class="ptFilterbar__wrap">
+						<p-button
+							class="prButton actionFiltersGA"
+							[label]="commonGlobalService.termText(feeUpdatesTerm.FLT_APPLY)"
+							[disabled]="busy()"
+							(onClick)="onApply()"
+							[style]="{ 'min-width': '64px' }"
+						></p-button>
+						<p-button
+							class="prButton actionFiltersGA"
+							severity="secondary"
+							[label]="commonGlobalService.termText(feeUpdatesTerm.FLT_RESET)"
+							[disabled]="busy()"
+							(onClick)="onReset()"
+							[style]="{ 'min-width': '64px' }"
+						></p-button>
+					</div>
+				</div>
+			</div>
+			<!-- filterbar: blocks -->
+			<div class="ptFilterbar__blocks u-ms-auto">
+				<div class="ptFilterbar__wrap">
+					<p-button class="prButton actionFiltersGA" [label]="commonGlobalService.termText(feeUpdatesTerm.FLT_ADVANCED)" severity="secondary" [icon]="'icon icon-filter'" disabled />
+				</div>
+			</div>
+		</div>
+	</div>
+	}
+</div>

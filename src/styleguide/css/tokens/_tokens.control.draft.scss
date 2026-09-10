@@ -1,0 +1,116 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS CONTROL ( type form )
+ ! Common tokens for controls:
+ 	pInputText        ->    prInputtext          YONY
+ 	pTextArea         ->    prTextarea           YONY
+ 	p-password        ->    prPassword           YONY
+ 	p-inputotp        ->    prInputotp           YONY
+ 	p-checkbox        ->    prCheckbox           GABRIELA
+ 	p-radiobutton     ->    prRadiobutton        GABRIELA
+ 	p-select          ->    prSelect             YONY
+ 	p-datepicker      ->    prDatepicker         ERICK
+ 	p-multiselect     ->    prMultiselect        ERICK
+ 	p-treeselect      ->    prTreeselect         ---
+ 	p-toggleswitch    ->    prToggleswitch       GABRIELA
+\*——————————————————————————————————————————————————————————*/
+
+/*——————————————————————————————————————————————————————————*\
+ * BASE
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-CONTROL: 'Custom Control Tokens';
+
+	// --- properties ---
+
+	--i-control-gap: 6px;
+	--i-control-padding: var(--i-spacing-container-sm) var(--i-spacing-container-md); // 6px 8px
+	--i-control-color: var(--i-color-neutral-700);
+	--i-control-background: var(--i-panel-background); // var(--i-color-neutral-50);
+	--i-control-border: 1px solid var(--i-color-neutral-400);
+	--i-control-border-radius: var(--i-border-radius-lg); // 8px
+	--i-control-height: var(--i-sizing-lg); // 32px
+	--i-control-outline-color: var();
+	--i-control-outline-width: var();
+	--i-control-outline-offset: var();
+	--i-control-font-size: var(--i-text-body-size-md); // 14px
+	--i-control-font-weight: var();
+	--i-control-line-height: var(--i-typography-lineHeight-md); // 20px
+	--i-control-motion: var(--i-motion-duration-base) var(--i-motion-ease-in-out);
+
+	// --- modifiers / variants ---
+
+	--i-control-sm-: var();
+
+	--i-control-lg-: var();
+
+	// --- states ---
+
+	--i-control-hover-: var();
+	--i-control-hover-border-color: var(--i-color-primary-400);
+
+	--i-control-focus-: var();
+	--i-control-focus-border-color: var(--i-color-primary-900);
+
+	--i-control-active-: var();
+
+	--i-control-valid-: var();
+
+	--i-control-invalid-: var();
+
+	--i-control-disabled-: var();
+
+	--i-control-checked-: var();
+
+	--i-control-indeterminate-: var();
+
+	--i-control-read-only-: var();
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-CONTROL-ELEMENTS: 'Custom Control Elements Tokens';
+
+	// --- text ---
+
+	--i-control-text-: var();
+	--i-control-text-order: 1;
+
+	// --- placeholder ---
+
+	--i-control-placeholder-: var();
+
+	// --- list ---
+
+	--i-control-list-: var();
+
+	// --- option ---
+
+	--i-control-option-: var();
+
+	// --- counter ( textarea ) ---
+
+	--i-control-counter-: var();
+
+	// --- clear ( functional ) ---
+
+	--i-control-clear-: var();
+	--i-control-clear-order: 2;
+
+	// --- divider ---
+
+	--i-control-divider-: var();
+	--i-control-divider-order: 3;
+	--i-control-divider-height: var(--i-sizing-xs);
+	--i-control-divider-border: 1px solid var(--i-color-primary-base);
+
+	// --- addon ( decorative or functional ) ---
+
+	--i-control-addon-: var();
+	--i-control-addon-order: 4;
+	--i-control-addon-width: auto;
+	--i-control-addon-padding: 0 var(--i-spacing-container-md) 0 6px;
+
+}

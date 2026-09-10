@@ -1,0 +1,166 @@
+:root {
+	/* === Card Data === */
+	--i-card-data-header-gap: var(--i-spacing-gap-xs);
+	--i-card-data-header-background: transparent;
+
+	--i-card-data-title-font-weight: var(--i-typography-font-weight-regular);
+	--i-card-data-title-font-size: var(--i-typography-font-size-sm);
+	--i-card-data-title-line-height: var(--i-typography-lineHeight-sm);
+	--i-card-data-title-color: var(--i-color-secondary-700);
+	--i-card-data-title-padding-y: var(--i-spacing-container-2xs);
+	--i-card-data-title-padding-x: var(--i-spacing-gap-none);
+
+	--i-card-data-icon-color: var(--i-color-error-600);
+
+	--i-card-data-currency-font-weight: var(--i-typography-font-weight-bold);
+	--i-card-data-currency-font-size: var(--i-typography-font-size-sm);
+	--i-card-data-currency-line-height: var(--i-typography-lineHeight-sm);
+	--i-card-data-currency-color: var(--i-color-secondary-700);
+	--i-card-data-currency-padding-y: var(--i-spacing-gap-xs);
+	--i-card-data-currency-padding-x: var(--i-spacing-gap-none);
+
+	--i-card-data-value-font-weight: var(--i-typography-font-weight-bold);
+	--i-card-data-value-font-size: var(--i-typography-font-size-2xl);
+	--i-card-data-value-line-height: var(--i-typography-lineHeight-2xl);
+	--i-card-data-value-color: var(--i-color-secondary-700);
+
+	--i-card-data-group-gap: var(--i-spacing-gap-lg);
+
+	--i-card-data-group-left-title-font-weight: var(--i-typography-font-weight-bold);
+	--i-card-data-group-left-title-font-size: var(--i-typography-font-size-lg);
+	--i-card-data-group-left-title-line-height: var(--i-typography-lineHeight-lg);
+	--i-card-data-group-left-title-color: var(--i-color-secondary-700);
+
+	--i-card-data-group-left-label-font-weight: var(--i-typography-font-weight-bold);
+	--i-card-data-group-left-label-font-size: var(--i-typography-font-size-lg);
+	--i-card-data-group-left-label-line-height: var(--i-typography-lineHeight-lg);
+	--i-card-data-group-left-label-color: var(--i-color-secondary-700);
+
+	--i-card-data-group-left-date-font-weight: var(--i-typography-font-weight-regular);
+	--i-card-data-group-left-date-font-size: var(--i-typography-font-size-sm);
+	--i-card-data-group-left-date-line-height: var(--i-typography-lineHeight-sm);
+	--i-card-data-group-left-date-color: var(--i-color-secondary-700);
+	--i-card-data-group-left-date-width: 100%;
+
+	--i-card-data-group-right-currency-font-weight: var(--i-typography-font-weight-bold);
+	--i-card-data-group-right-currency-font-size: var(--i-typography-font-size-sm);
+	--i-card-data-group-right-currency-line-height: var(--i-typography-lineHeight-sm);
+	--i-card-data-group-right-currency-color: var(--i-color-primary-500);
+	--i-card-data-group-right-currency-padding-y: 5px;
+	--i-card-data-group-right-currency-padding-x: var(--i-spacing-gap-none);
+
+	--i-card-data-group-right-value-font-weight: var(--i-typography-font-weight-bold);
+	--i-card-data-group-right-value-font-size: var(--i-typography-font-size-3xl);
+	--i-card-data-group-right-value-line-height: var(--i-typography-lineHeight-3xl);
+	--i-card-data-group-right-value-color: var(--i-color-primary-500);
+
+	--i-card-data-utility-text-purple-color: #845cd3;
+}
+
+.prCardData {
+	&.p-card {
+		border: none;
+		box-shadow: none;
+		width: max-content;
+	}
+
+	.p-card-body {
+		padding: 0;
+	}
+
+	&__header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: var(--i-card-data-header-gap);
+		background: var(--i-card-data-header-background);
+	}
+
+	&__title {
+		font-weight: var(--i-card-data-title-font-weight);
+		font-size: var(--i-card-data-title-font-size);
+		line-height: var(--i-card-data-title-line-height);
+		color: var(--i-card-data-title-color);
+		padding: var(--i-card-data-title-padding-y) var(--i-card-data-title-padding-x);
+	}
+
+	&__icon {
+		color: var(--i-card-data-icon-color);
+	}
+
+	&__body {
+		display: flex;
+		justify-content: center;
+	}
+
+	&__currency {
+		font-weight: var(--i-card-data-currency-font-weight);
+		font-size: var(--i-card-data-currency-font-size);
+		line-height: var(--i-card-data-currency-line-height);
+		color: var(--i-card-data-currency-color);
+		padding: var(--i-card-data-currency-padding-y) var(--i-card-data-currency-padding-x);
+	}
+
+	&__value {
+		font-weight: var(--i-card-data-value-font-weight);
+		font-size: var(--i-card-data-value-font-size);
+		line-height: var(--i-card-data-value-line-height);
+		color: var(--i-card-data-value-color);
+	}
+
+	&__group {
+		display: flex;
+		gap: var(--i-card-data-group-gap);
+	}
+
+	&__groupLeft {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	&__groupLeftTitle {
+		font-weight: var(--i-card-data-group-left-title-font-weight);
+		font-size: var(--i-card-data-group-left-title-font-size);
+		line-height: var(--i-card-data-group-left-title-line-height);
+		color: var(--i-card-data-group-left-title-color);
+	}
+
+	&__groupLeftLabel {
+		font-weight: var(--i-card-data-group-left-label-font-weight);
+		font-size: var(--i-card-data-group-left-label-font-size);
+		line-height: var(--i-card-data-group-left-label-line-height);
+		color: var(--i-card-data-group-left-label-color);
+	}
+
+	&__groupLeftDate {
+		font-weight: var(--i-card-data-group-left-date-font-weight);
+		font-size: var(--i-card-data-group-left-date-font-size);
+		line-height: var(--i-card-data-group-left-date-line-height);
+		color: var(--i-card-data-group-left-date-color);
+		width: var(--i-card-data-group-left-date-width);
+	}
+
+	&__groupRight {
+		display: flex;
+	}
+
+	&__groupRightCurrency {
+		padding: var(--i-card-data-group-right-currency-padding-y) var(--i-card-data-group-right-currency-padding-x);
+		font-weight: var(--i-card-data-group-right-currency-font-weight);
+		font-size: var(--i-card-data-group-right-currency-font-size);
+		line-height: var(--i-card-data-group-right-currency-line-height);
+		color: var(--i-card-data-group-right-currency-color);
+	}
+
+	&__groupRightValue {
+		font-weight: var(--i-card-data-group-right-value-font-weight);
+		font-size: var(--i-card-data-group-right-value-font-size);
+		line-height: var(--i-card-data-group-right-value-line-height);
+		color: var(--i-card-data-group-right-value-color);
+	}
+
+	.text-purple {
+		color: var(--i-card-data-utility-text-purple-color);
+	}
+}

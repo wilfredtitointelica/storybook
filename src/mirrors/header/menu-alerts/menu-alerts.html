@@ -1,0 +1,9 @@
+<p-button
+	class="prButton prButton--topBar"
+	[routerLink]="['/fee/alerts']"
+	[routerLinkActiveOptions]="{ exact: true }"
+	routerLinkActive="is-active"
+	(click)="showGlobalMenu()"
+	label="{{ 'Alerts' | term : globalTermService.languageCode }}"
+	id="headerAlertsGA"
+></p-button>

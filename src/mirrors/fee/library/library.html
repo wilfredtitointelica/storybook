@@ -1,0 +1,250 @@
+<div class="feeLibrary">
+	<intelica-alert class="u-display-none" />
+	<p-toast class="prToast" position="bottom-right"></p-toast>
+	<fee-header
+		[loading]="loading()"
+		[busy]="isBusy()"
+		[clientOptions]="clientInfo()?.banks ?? []"
+		[masters]="masters()"
+		[activeTab]="activeTab()"
+		[filter]="filter()"
+		[boundaryDates]="dateBoundaries()"
+		(applyGlobalFilters)="onApplyGlobalFilters($event)"
+		(resetGlobalFilters)="onResetGlobalFilters()"
+		(applyAdvancedFilters)="onApplyAdvancedFilters($event)"
+		(applyGlobalAndAdvancedFilters)="onApplyGlobalAndAdvancedFilters($event)"
+		(resetAdvancedFilters)="onResetAdvancedFilters()"
+		(removeAdvancedFilter)="onRemoveAdvancedFilter($event)"
+		(removeAdvancedFilterWithGlobal)="onRemoveAdvancedFilterWithGlobal($event)"
+	/>
+	<!-- section title -->
+	@if (loading() || loadingPortfolio()) {
+	<div style="display: flex; justify-content: space-between">
+		<div style="display: flex; flex-direction: column; gap: 2px">
+			<p-skeleton class="prSkeleton" width="200px" height="28px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle__content">
+			<div class="ptSectionTitle__title">{{ commonGlobalService.termText(libraryTerm.FEE_LIBRARY) }}</div>
+		</div>
+		<div class="ptSectionTitle__actions">
+			<intelica-add-favorites [pageName]="commonGlobalService.termText(libraryTerm.FEE_LIBRARY)"></intelica-add-favorites>
+		</div>
+	</div>
+	}
+
+	<!-- cards -->
+	@if (loading() || loadingPortfolio()) {
+	<div style="display: flex; padding: 16px; gap: 16px; border-radius: 16px; background: #fcfcfd">
+		<div style="display: flex">
+			<div style="display: flex; flex-direction: column; gap: 1px">
+				<p-skeleton class="prSkeleton" width="213px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="213px" height="31px"></p-skeleton>
+			</div>
+		</div>
+		<div style="width: 1px; height: 48px; background: #d8dae4"></div>
+		<div style="display: flex">
+			<div style="display: flex; flex-direction: column; gap: 1px">
+				<p-skeleton class="prSkeleton" width="213px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="213px" height="31px"></p-skeleton>
+			</div>
+		</div>
+		<div style="width: 1px; height: 48px; background: #d8dae4"></div>
+		<div style="display: flex">
+			<div style="display: flex; flex-direction: column; gap: 1px">
+				<p-skeleton class="prSkeleton" width="213px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="213px" height="31px"></p-skeleton>
+			</div>
+		</div>
+		<div style="width: 1px; height: 48px; background: #d8dae4"></div>
+		<div style="display: flex">
+			<div style="display: flex; flex-direction: column; gap: 1px">
+				<p-skeleton class="prSkeleton" width="213px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="213px" height="31px"></p-skeleton>
+			</div>
+		</div>
+		<div style="width: 1px; height: 48px; background: #d8dae4"></div>
+		<div style="display: flex">
+			<div style="display: flex; flex-direction: column; gap: 1px">
+				<p-skeleton class="prSkeleton" width="213px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="213px" height="31px"></p-skeleton>
+			</div>
+		</div>
+	</div>
+	} @else {
+	<p-card class="prCard prCard--group">
+		<!-- CONTENT -->
+		<ng-template #content>
+			<div class="prCard__left">
+				<div class="prCard__content">
+					<div class="prCard__title">{{ commonGlobalService.termText(libraryTerm.TOTAL_PORTFOLIO) }}</div>
+					<div class="prCard__subtitle">{{ commonGlobalService.termText(libraryTerm.GROSS_TO_NET_RECONCILIATION) }}</div>
+				</div>
+			</div>
+
+			@if (showGrossCard()) {
+			<div class="line"></div>
+			<!-- Card 1 -->
+			<p-card class="prCard prCard--data prCard--moneyRight">
+				<ng-template #content>
+					<div class="prCard__section">
+						<div class="prCard__header">
+							<div class="prCard__title">{{ commonGlobalService.termText(libraryTerm.GROSS) }}</div>
+						</div>
+
+						<div class="prCard__body">
+							@for (item of grossCurrencyItems(); track item.code) {
+							<div class="prCard__values">
+								<div class="prCard__currency">{{ item.code }}</div>
+								<div class="prCard__amount">{{ item.hasValue ? (item.totalAmount | amount : false : 2 : true) : "-" }}</div>
+							</div>
+							}
+						</div>
+					</div>
+				</ng-template>
+			</p-card>
+			} @if (showReturnsCard()) {
+			<div class="line"></div>
+
+			<!-- Card 2 -->
+			<p-card class="prCard prCard--data prCard--moneyRight">
+				<ng-template #content>
+					<div class="prCard__section">
+						<div class="prCard__header">
+							<div class="prCard__title">{{ commonGlobalService.termText(libraryTerm.RETURNS) }}</div>
+						</div>
+
+						<div class="prCard__body">
+							@for (item of returnsCurrencyItems(); track item.code) {
+							<div class="prCard__values">
+								<div class="prCard__currency">{{ item.code }}</div>
+								<div class="prCard__amount">{{ item.hasValue ? (item.totalAmount | amount : false : 2 : true) : "-" }}</div>
+							</div>
+							}
+						</div>
+					</div>
+				</ng-template>
+			</p-card>
+			} @if (showExclusionsCard()) {
+			<div class="line"></div>
+
+			<!-- Card 3 -->
+			<p-card class="prCard prCard--data prCard--moneyRight">
+				<ng-template #content>
+					<div class="prCard__section">
+						<div class="prCard__header">
+							<div class="prCard__title">{{ commonGlobalService.termText(libraryTerm.EXCLUSIONS) }}</div>
+						</div>
+
+						<div class="prCard__body">
+							@for (item of exclusionsCurrencyItems(); track item.code) {
+							<div class="prCard__values">
+								<div class="prCard__currency">{{ item.code }}</div>
+								<div class="prCard__amount">{{ item.hasValue ? (item.totalAmount | amount : false : 2 : true) : "-" }}</div>
+							</div>
+							}
+						</div>
+					</div>
+				</ng-template>
+			</p-card>
+			} @if (showNetExpensesCard()) {
+			<div class="line"></div>
+
+			<!-- Card 4 -->
+			<p-card class="prCard prCard--data prCard--moneyRight">
+				<ng-template #content>
+					<div class="prCard__section">
+						<div class="prCard__header">
+							<div class="prCard__title">{{ commonGlobalService.termText(libraryTerm.NET_EXPENSES) }}</div>
+						</div>
+
+						<div class="prCard__body">
+							@for (item of netExpensesCurrencyItems(); track item.code) {
+							<div class="prCard__values">
+								<div class="prCard__currency">{{ item.code }}</div>
+								<div class="prCard__amount">{{ item.hasValue ? (item.totalAmount | amount : false : 2 : true) : "-" }}</div>
+							</div>
+							}
+						</div>
+					</div>
+				</ng-template>
+			</p-card>
+			}
+		</ng-template>
+	</p-card>
+	}
+	<!-- tabs -->
+	<div class="grPanel">
+		<p-tabs class="prTabs prTabs--feelibrary" [value]="activeTab()" (valueChange)="onTabChange($event)">
+			<p-tablist id="tabsListGA">
+				<div class="prTabs__list">
+					<div class="prTabs__tabs">
+						<p-tab value="0" tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipTab1">{{ commonGlobalService.termText(libraryTerm.ORIGINAL) }}</p-tab>
+						<ng-template #tooltipTab1 class="prTooltip__wrap">
+							<div>
+								<div class="d-flex align-items-center gap-1">
+									<div>{{ commonGlobalService.termText(libraryTerm.ORIGINAL_TAB_TOOLTIP) }}</div>
+								</div>
+							</div>
+						</ng-template>
+						<p-tab value="1" tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipTab2">{{ commonGlobalService.termText(libraryTerm.ALLOCATED) }}</p-tab>
+						<ng-template #tooltipTab2 class="prTooltip__wrap">
+							<div>
+								<div class="d-flex align-items-center gap-1">
+									<div>{{ commonGlobalService.termText(libraryTerm.ALLOCATED_TAB_TOOLTIP) }}</div>
+								</div>
+							</div>
+						</ng-template>
+					</div>
+				</div>
+				<!-- <div class="prTabs__action">
+                  
+                    <ng-container *ngIf="activeTab === '0'">
+                    </ng-container>
+
+                 
+                    <ng-container *ngIf="activeTab === '1'">
+                    </ng-container>
+                </div> -->
+			</p-tablist>
+			<p-tabpanels>
+				<p-tabpanel value="0">
+					<div class="prTabs__original">
+						@if (isTabInitialized(originalTab)) {
+						<fee-original
+							[active]="activeTab() === originalTab"
+							[filter]="originalTabFilter()"
+							[clientInformation]="clientInfo()"
+							[masters]="masters()"
+							[isAdmin]="isAdmin"
+							[resume]="resumeUnallocated()"
+							(loadingChange)="onTableLoadingChange($event)"
+							(sortChange)="onTableSortChange(originalTab, $event)"
+						/>
+						}
+					</div>
+				</p-tabpanel>
+				<p-tabpanel value="1">
+					<div class="prTabs__allocated">
+						@if (isTabInitialized(allocatedTab)) {
+						<fee-allocated
+							[active]="activeTab() === allocatedTab"
+							[filter]="allocatedTabFilter()"
+							[clientInformation]="clientInfo()"
+							[masters]="masters()"
+							[isAdmin]="isAdmin"
+							[resume]="resumeAllocated()"
+							(loadingChange)="onTableLoadingChange($event)"
+							(sortChange)="onTableSortChange(allocatedTab, $event)"
+						/>
+						}
+					</div>
+				</p-tabpanel>
+			</p-tabpanels>
+		</p-tabs>
+	</div>
+</div>
+
+<!-- <fee-modal-advanced-filter /> -->

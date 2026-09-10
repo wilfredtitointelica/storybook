@@ -1,0 +1,105 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-NAME-COMPONENT: "xCard xCard--option ( Custom PrimeNG )";
+
+	--i-name-color: var(); // example token
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( primeNG )
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+	&--option {
+	}
+
+	&--option.p-card {
+		border-width: 1px;
+		border-style: solid;
+		border-color: #d9d9e3;
+		&:hover {
+			border-color: #2952c4;
+		}
+		&:active,
+		&.is-active {
+			border-color: #2952c4;
+			background: #e5edfa;
+		}
+		&.is-disabled,
+		[disabled] {
+			border-color: #d9d9e3;
+			background: #d9d9e3;
+			color: #9ca3ba;
+		}
+	}
+
+	&--option .p-card-body {
+		padding: 12px 24px;
+	}
+
+	&--option .p-card-content {
+		gap: 8px;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BEM ELEMENTS ( .prName )
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+	&--option &__icon {
+		display: flex;
+		justify-content: center;
+	}
+
+	&--option &__text {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+	}
+
+	&--option &__title {
+		font-size: 12px;
+		font-weight: 700;
+		line-height: 16px;
+		color: #4f5470;
+	}
+
+	&--option &__subtitle {
+		font-size: 10px;
+		font-weight: 400;
+		line-height: 12px;
+		color: #4f5470;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+	&--option.p-card .icon {
+		font-size: 24px;
+		color: #2952c4;
+	}
+
+	&--option.p-card {
+		&.is-disabled,
+		[disabled] {
+			& .icon {
+				color: #9ca3ba;
+			}
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skCard {
+}

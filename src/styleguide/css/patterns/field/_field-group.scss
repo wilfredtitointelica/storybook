@@ -1,0 +1,108 @@
+/*\
+ * ptFieldGroup
+   --------------
+ ! Componente contenedor para agrupar múltiples ptField. 
+  
+   Funcionalidad:
+    - Permite distribuir campos en filas o columnas.
+    - Facilita la organización visual del formulario.
+    - Ideal para formularios con estructuras complejas o layouts en grid.
+  
+   No reemplaza a ptField; únicamente actúa como un wrapper
+   que gestiona el layout y la disposición de los fields.
+\*/
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-FIELD-GROUP: "ptFieldGroup ( Pattern )";
+
+	--i-fieldgroup-gap: var(--i-spacing-gap-lg); // 16px
+	--i-fieldgroup-column-count: 1;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptFieldGroup )
+\*——————————————————————————————————————————————————————————*/
+
+.ptFieldGroup {
+	display: grid;
+	gap: var(--i-fieldgroup-gap);
+	grid-template-columns: repeat(var(--i-fieldgroup-column-count), minmax(10rem, 1fr));
+	grid-auto-rows: max-content;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptFieldGroup {
+	// --- columns ---
+
+	&--two {
+		--i-fieldgroup-column-count: 2;
+	}
+
+	&--three {
+		--i-fieldgroup-column-count: 3;
+	}
+
+	&--four {
+		--i-fieldgroup-column-count: 4;
+	}
+	&--five {
+		--i-fieldgroup-column-count: 5;
+	}
+
+	// --- flexible ---
+
+	&--flexible {
+		display: flex;
+	}
+
+	// --- flexible ---
+
+	&--inline {
+		display: flex;
+		flex-wrap: wrap;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SCOPE UTILITY ELEMENTS ( area-* )
+\*——————————————————————————————————————————————————————————*/
+
+.ptFieldGroup {
+	& .area-1x1 {
+		grid-area: span 1 / span 1;
+	}
+
+	& .area-1x2 {
+		grid-area: span 1 / span 2;
+	}
+
+	& .area-1x3 {
+		grid-area: span 1 / span 3;
+	}
+
+	& .area-1x4 {
+		grid-area: span 1 / span 4;
+	}
+
+	& .area-2x1 {
+		grid-area: span 2 / span 1;
+	}
+
+	& .area-2x2 {
+		grid-area: span 2 / span 2;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skFieldGroup {
+}

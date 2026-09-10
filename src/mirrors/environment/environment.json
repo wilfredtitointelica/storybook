@@ -1,0 +1,11 @@
+{
+	"authenticationPath": "http://localhost:5182/api-authentication",
+	"authenticationOldPath": "http://localhost:5182/api-authentication",
+	"configurationPath": "https://incontrolapp.dev.intelica.com/api-configuration",
+	"securityPath": "http://localhost:5180/api-security",
+	"notificationPath": "https://incontrolappnew.dev.intelica.com/api-gateway/api-notification",
+	"publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqGvEjSONVZYObiTX/mPYmQjSFAaScWXKF2al51FfjeGSbm2VmpedDz4UISqaffHXuyi7UcmmAEbUCJquXRAErPkD6KmLIrlQWNxSI41Y7Ka9t05mcdrTZtmLq3ccVJmizEG7vSugEjGltwqjUlpNxBl/1egx225/JhWrRK8KJKMhpSuNXw1NTanRQ/LcZIi0A5AUBQG9E6SIJaDIS9xOkSZXjzRSBV5NUx1RFYqjdF8PdPJbxJbbhYhWEZBL5TUxPXyRGxmLdxeLZHCDryMhGZzSyre7XQYCZ+tQRsNf95gdTivyv1mRqU8uDk2IHLATqMI4Z0I8KuV2V9/aVQuNCQIDAQAB",
+	"environment": "Local",
+	"termPath": "https://incontrolapp.dev.intelica.com/api-security/Term/GetPageTerm",
+	"baseUrl": "http://localhost:9000/"
+}

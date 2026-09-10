@@ -1,0 +1,333 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-MESSAGE-COMPONENT: 'prMessage ( Custom PrimeNG )';
+
+	--i-message-content-color: var(--i-color-primary-900);
+	--i-message-content-padding: var(--i-spacing-container-md); // 8px
+	--i-message-content-sm-padding: var(--i-spacing-container-sm); // 6px
+	--i-message-content-gap: var(--i-spacing-container-lg); // 12px
+	--i-message-content-sm-gap: var(--i-spacing-container-sm); // 12px
+
+	--i-message-icon-size: var(--i-icon-size-sm); // 16px
+	
+	--i-message-text-font-size: var(--i-text-body-size-md); // 14px
+	--i-message-text-sm-font-size: var(--i-text-body-size-sm); // 12px
+	--i-message-text-line-height: var(--i-typography-lineHeight-md); // 20px
+	--i-message-text-sm-line-height: var(--i-typography-lineHeight-sm); // 16px
+
+	--i-message-close-button-icon-size: var(--i-icon-size-xs);
+	--i-message-close-button-sm-icon-size: var(--i-icon-size-xs);
+
+	// --- State ---
+
+	--i-message-info-background: var(--i-background-info);
+	--i-message-info-border-color: var(--i-border-info);
+	--i-message-info-color: var(--i-border-info);
+	--i-message-info-close-button-hover-background: var(--i-color-primary-200);
+
+	--i-message-error-background: var(--i-background-error);
+	--i-message-error-border-color: var(--i-border-error);
+	--i-message-error-color: var(--i-border-error);
+	--i-message-error-close-button-hover-background: var(--i-color-error-100);
+
+	--i-message-warn-background: var(--i-background-warning);
+	--i-message-warn-border-color: var(--i-border-warning);
+	--i-message-warn-color: var(--i-border-warning);
+	--i-message-warn-close-button-hover-background: var(--i-color-warning-300);
+
+	--i-message-success-background: var(--i-background-success);
+	--i-message-success-border-color: var(--i-border-success);
+	--i-message-success-color: var(--i-border-success);
+	--i-message-success-close-button-hover-background: var(--i-color-success-200);
+
+	// --- Aditional ---
+
+	--i-message-summary-gap: var(--i-spacing-gap-xs); // 4px
+	--i-message-title-font-size: var(--i-text-subtitle-size-lg); // 16px
+	--i-message-title-color: var(--i-color-primary-900);
+	--i-message-title-weight: var(--i-text-subtitle-weight);
+	--i-message-title-line-height: var(--i-typography-lineHeight-lg); // 24px
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prMessage {
+
+	& .p-message {
+		// color: var(--i-message-color);
+		overflow: hidden;
+	}
+
+	& .p-message-content {
+		align-items: flex-start;
+		padding: var(--i-message-content-padding);
+		gap: var(--i-message-content-gap);
+		font-size: var(--i-message-text-font-size);
+		line-height: var(--i-message-text-line-height);
+		
+		/*
+		& > :not(.p-message-icon, .p-message-close-button) {
+			color: var(--i-message-content-color);
+		}
+		*/
+	}
+
+	& .p-message-icon {
+		display: grid;
+		place-items: center;
+		width: var(--i-message-icon-size);
+		height: var(--i-message-text-line-height);
+		font-size: var(--i-message-icon-size);
+		line-height: 1em;
+
+		&::before {
+			color: currentColor;
+		}
+	}
+
+	& .p-message-text {
+		font-size: inherit;
+	}
+
+	& .p-message-close-button {
+		font-size: var(--i-message-text-line-height);
+		width: 1em;
+		height: 1em;
+	}
+
+	& .p-message-close-icon {
+		font-size: var(--i-message-close-button-icon-size);
+		width: 1em;
+		height: 1em;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [size="small"]
+\*——————————————————————————————————————————————————————————*/
+
+.prMessage {
+
+	& .p-message-sm {
+
+		& .p-message-content {
+			gap: var(--i-message-content-sm-gap);
+			padding: var(--i-message-content-sm-padding) var(--i-message-content-padding);
+			font-size: var(--i-message-text-sm-font-size);
+			line-height: var(--i-message-text-sm-line-height);
+		}
+
+		& .p-message-text {
+			font-size: var(--i-message-text-sm-font-size);
+		}
+
+		.p-message-close-button {
+			font-size: var(--i-message-text-sm-line-height);
+			width: 1em;
+			height: 1em;
+		}
+	
+		.p-message-close-icon {
+			font-size: var(--i-message-close-button-sm-icon-size);
+			width: 1em;
+			height: 1em;
+		}
+
+	}
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [severity="info|alert|warn|success"]
+\*——————————————————————————————————————————————————————————*/
+
+.prMessage {
+
+	// --- Info ---
+
+	& .p-message-info {
+		background-color: var(--i-message-info-background);
+		outline-color: var(--i-message-info-border-color);
+		outline-offset: -1px;
+
+		&, &.p-message-simple {
+			color: var(--i-message-info-color);
+		}
+
+		& .p-message-close-button:hover {
+			background-color: var(--i-message-info-close-button-hover-background);
+		}
+
+		& .p-message-icon {
+			color: var(--i-color-info-700);
+		}
+	}
+
+
+	// --- Error ---
+
+	& .p-message-error {
+		color: var(--i-message-error-color);
+		background-color: var(--i-message-error-background);
+		outline-color: var(--i-message-error-border-color);
+		outline-offset: -1px;
+		&, &.p-message-simple {
+			color: var(--i-message-error-color);
+		}
+
+		& .p-message-close-button:hover {
+			background-color: var(--i-message-error-close-button-hover-background);
+		}
+	}
+
+	// --- Warn ---
+
+	& .p-message-warn {
+		color: var(--i-message-warn-color);
+		background-color: var(--i-message-warn-background);
+		outline-color: var(--i-message-warn-border-color);
+		outline-offset: -1px;
+
+		&, &.p-message-simple {
+			color: var(--i-message-warn-color);
+		}
+
+		& .p-message-close-button:hover {
+			background-color: var(--i-message-warn-close-button-hover-background);
+		}
+
+		& .p-message-icon {
+			color: var(--i-color-warning-700);
+		}
+	}
+
+
+	// --- Success ---
+
+	& .p-message-success {
+		color: var(--i-message-success-color);
+		background-color: var(--i-message-success-background);
+		outline-color: var(--i-message-success-border-color);
+		outline-offset: -1px;
+
+		&, &.p-message-simple {
+			color: var(--i-message-success-color);
+		}
+
+		& .p-message-close-button:hover {
+			background-color: var(--i-message-success-close-button-hover-background);
+		}
+
+		& .p-message-icon {
+			color: var(--i-color-success-800);
+		}
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [variant="simple]
+\*——————————————————————————————————————————————————————————*/
+
+.prMessage {
+
+	& .p-message:not(.p-message-simple) .p-message-text {
+		color: var(--i-message-content-color);
+	}
+
+	& .p-message:is(.p-message-simple) {
+		outline: 0;
+		background-color: transparent;
+		border-radius: 0;
+		
+		& .p-message-content {
+			padding: 0;
+		}
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prMessage )
+\*——————————————————————————————————————————————————————————*/
+
+.prMessage {
+
+	&__wrap {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: row;
+		flex-grow: 1;
+		gap: var(--i-message-summary-gap);
+
+	}
+	
+	// --- Summary ---
+
+	&__summary {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		font-size: inherit;
+		gap: var(--i-message-summary-gap);
+	}
+
+	&__title {
+		font-size: var(--i-message-title-font-size);
+		color: var(--i-message-title-color);
+		font-weight: var(--i-message-title-weight);
+		line-height: var(--i-message-title-line-height);
+	}
+
+	&__body {
+		color: var(--i-message-content-color);
+	}
+	
+	&__body &__labelbold {
+		font-weight: 700;
+	}
+
+	// --- Action ---
+
+	&__action {
+		display: flex;
+		margin-right: 0;
+		align-items: center;
+		gap: var(--i-message-summary-gap);
+	}
+
+	// --- Icon ---
+
+	&:has(&__title) .p-message-icon {
+		height: var(--i-message-title-line-height);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prMessage {
+
+	&--wrapVertical &__wrap  {
+		flex-direction: column;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skMessage {
+
+}
+

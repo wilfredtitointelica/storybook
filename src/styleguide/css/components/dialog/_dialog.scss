@@ -1,0 +1,186 @@
+/*——————————————————————————————————————————*
+ 🎛 COMPONENT TOKENS → Dialog
+ Basados en spacing, radius y tipografía
+*——————————————————————————————————————————*/
+
+:root {
+	/* General del diálogo */
+	//--pr-dialog-gap: var(--i-spacing-200);	//16px
+	//--pr-dialog-padding: 24px;
+	//--pr-dialog-border-radius: var(--i-border-radius-200);	//16px
+
+	/* Header */
+	//--pr-dialog-header-padding: var(--i-spacing-gap-none);	// 0
+
+	/* Contenido */
+	//--pr-dialog-content-padding: var(--i-spacing-gap-none);	// 0
+	//--pr-dialog-content-height: 100%;
+
+	/* Botón secundario */
+	//--pr-dialog-button-secondary-width: 24px;
+	//--pr-dialog-button-secondary-height: 24px;
+
+	/* Título */
+	//--pr-dialog-title-color: var(--i-color-secondary-700);
+	//--pr-dialog-title-font-size: var(--i-typography-font-size-200);	//16px
+	//--pr-dialog-title-line-height: var(--i-typography-lineHeight-400);	//24px
+	//--pr-dialog-title-font-weight: var(--i-typography-font-weight-700);	//700
+}
+
+/*——————————————————————————————————————————*
+ 🎨 COMPONENT → prDialog
+ Basado en PrimeNG Dialog
+*——————————————————————————————————————————*/
+
+.prDialog {
+	& .p-dialog {
+		gap: var(--i-spacing-200);
+		padding: var(--i-spacing-container-2xl); // original 24px (DS) -- se cambió de acuerdo al prototipo en Opt-Out
+		border-radius: var(--i-border-radius-200);
+		color: var(--i-color-primary-900);
+		background: var(--i-color-secondary-50); // #FCFCFD
+	}
+
+	& .p-dialog-header {
+		padding: var(--i-spacing-container-none);
+		font-weight: var(--i-typography-font-weight-bold);
+		padding-bottom: var(--i-spacing-gap-lg);
+		border-bottom: 1px solid var(--i-color-neutral-200);
+		gap: var(--i-spacing-gap-lg);
+
+		& .p-dialog-title {
+			font-size: var(--i-typography-font-size-lg);
+			font-weight: var(--i-typography-font-weight-bold);
+		}
+		& .p-dialog-header-actions {
+			line-height: 1;
+
+			& .p-button {
+				padding: var(--i-spacing-50);
+				border-radius: var(--i-border-radius-md);
+				// --- Focus
+				&:focus-visible {
+					outline: 1px solid var(--i-focus-border-color);
+				}
+				&.p-button-icon-only.p-button-rounded {
+					&.p-button-text.p-button-secondary:not(:disabled):hover {
+						background: var(--i-color-secondary-100);
+						border-color: transparent;
+					}
+
+					&.p-button-icon-only {
+						color: var(--i-color-primary-900);
+						font-size: var(--i-sizing-200);
+						width: var(--i-sizing-md);
+						height: var(--i-sizing-md);
+					}
+				}
+			}
+		}
+	}
+
+	& .p-dialog-content {
+		padding: var(--i-spacing-container-none);
+		height: 100%;
+		// --- Focus
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+		}
+	}
+
+	& .p-dialog-footer {
+		padding: var(--i-spacing-container-none);
+		gap: var(--i-spacing-gap-lg);
+		justify-content: center;
+
+		& .p-button {
+			flex: 1 0 114px;
+		}
+	}
+
+	&__header {
+		/* Placeholder para extensiones futuras */
+	}
+
+	&__body {
+		/* Placeholder para extensiones futuras */
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	&__title {
+		font-size: var(--i-typography-font-size-lg);
+		line-height: var(--i-typography-lineHeight-400);
+		font-weight: var(--i-typography-font-weight-700);
+	}
+	&__snbold {
+		font-weight: var(--i-typography-font-weight-400);
+	}
+	&__title &__icon {
+		padding: 4px;
+	}
+	&__content {
+		display: flex;
+		justify-content: space-between;
+	}
+	&__content &__text {
+		flex: 2.5;
+	}
+	&__content &__title {
+		font-weight: 700;
+		font-size: 16px;
+		line-height: 24px;
+		color: var(--i-color-primary-900);
+	}
+	&__content &__subtitle {
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+		color: var(--i-color-primary-900);
+	}
+	&__content &__action {
+		flex: 1;
+		display: flex;
+		justify-content: end;
+	}
+	&__stepper {
+		border: 1px solid var(--i-color-secondary-200);
+		padding: 16px;
+		border-radius: 16px;
+		gap: 16px;
+	}
+	&__row {
+		display: flex;
+		gap: 8px;
+	}
+	&__row &__label {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--i-color-secondary-600);
+	}
+	&__row &__labelbold {
+		font-weight: 700;
+	}
+	&__message {
+		width: 100%;
+	}
+	&__border {
+		display: flex;
+		flex-direction: column;
+		padding: 16px;
+		border: 1px solid var(--i-color-secondary-200);
+		border-radius: 16px;
+	}
+}
+
+.prDialog {
+	&--noOverflow .p-dialog-content {
+		overflow: visible;
+	}
+
+	&--forcedIndex {
+		z-index: 1100 !important;
+	}
+}

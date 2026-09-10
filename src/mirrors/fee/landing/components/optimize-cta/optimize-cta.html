@@ -1,0 +1,22 @@
+<p-panel class="prPanel prPanel--noPadding | u-full-height u-overflow-hidden" showHeader="false">
+	<div class="ptCallout ptCallout--standardSize | u-full-height">
+		<div class="ptCallout__media"><!-- imagen --></div>
+		<div class="ptCallout__content">
+			<div class="ptCallout__title">{{ "READY_TO_OPTIMIZE_TITLE" | term: globalTermService.languageCode }}</div>
+			<div class="ptCallout__description">{{ "READY_TO_OPTIMIZE_DESCRIPTION" | term: globalTermService.languageCode }}</div>
+		</div>
+		<div class="ptCallout__action">
+			<p-button
+				(onClick)="SendAnalysis()"
+				[disabled]="isSendingAnalysis"
+				class="prButton"
+				severity="primary"
+				[label]="'REQUEST_SUPPORT' |term: globalTermService.languageCode"
+				icon="icon-nav-right"
+				iconPos="right"
+				[gaTrack]="'ctaBanner'"
+			/>
+		</div>
+	</div>
+</p-panel>
+<intelica-alert class="u-display-none" />

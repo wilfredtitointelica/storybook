@@ -1,0 +1,150 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-LIST-ITEM: "ptListitem ( Patterns )";
+
+	--i-listitem-property: var();
+
+	--i-listitem-width: 23rem; // 368px;
+	--i-listitem-padding: var(--i-spacing-container-lg);
+	--i-listitem-gap: var(--i-spacing-gap-sm); // 8px
+	--i-listitem-border-radius: var(--i-border-radius-lg); // 8px
+	--i-listitem-color: var(--i-color-primary-900);
+	--i-listitem-hover-color: var(--i-color-primary-900);
+	--i-listitem-disabled-color: var(--i-color-secondary-400);
+	--i-listitem-background: var(--i-color-neutral-50);
+	--i-listitem-hover-background: var(--i-color-secondary-100);
+	--i-listitem-active-background: var(--i-color-primary-100);
+	--i-listitem-disabled-background: var(--i-color-secondary-200);
+
+	// --- heading ---
+
+	--i-listitem-heading-font-size: var(--i-text-subtitle-size-lg); // 16px
+	--i-listitem-heading-font-weight: var(--i-text-subtitle-weight);
+	--i-listitem-heading-lineHeight: var(--i-typography-lineHeight-lg); // 24px
+
+	// --- content ---
+
+	--i-listitem-content-color: var(--i-color-primary-900);
+	--i-listitem-content-font-size: var(--i-text-body-size-sm);
+	--i-listitem-content-lineHeight: var(--i-typography-lineHeight-sm); // 16px
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptListitem )
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitem {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-listitem-gap);
+	max-width: var(--i-listitem-width);
+	padding: var(--i-listitem-padding);
+	border-radius: var(--i-listitem-border-radius);
+	color: var(--i-listitem-color);
+	background-color: var(--i-listitem-background);
+	transition: background-color var(--i-motion-base);
+
+	&:focus-visible {
+		outline: 1px solid var(--i-color-primary-base);
+		outline-offset: 0;
+	}
+
+	&__link {
+		position: absolute;
+		inset: 0;
+		//opacity: .1;
+		cursor: pointer;
+		border-radius: var(--i-listitem-border-radius);
+		// --- Focus
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+			outline-offset: -3px;
+		}
+	}
+
+	&__heading {
+		display: flex;
+		align-items: center;
+		gap: var(--i-listitem-gap);
+		font-size: var(--i-listitem-heading-font-size);
+		font-weight: var(--i-listitem-heading-font-weight);
+		line-height: var(--i-listitem-heading-lineHeight);
+		transition: color var(--i-motion-base);
+	}
+
+	&__content {
+		// color: var(--i-listitem-content-color);
+		font-size: var(--i-listitem-content-font-size);
+		line-height: var(--i-listitem-content-lineHeight);
+		transition: color var(--i-motion-base);
+	}
+
+	// --- elements ---
+
+	& :is(&__icon, &__title, &__indicator):empty {
+		display: none
+	}
+
+	&__icon {
+
+	}
+
+	&__title {
+
+	}
+
+	&__indicator {
+		text-transform: capitalize;
+	}
+
+	// --- hover ---
+
+	&:hover {
+		background-color: var(--i-listitem-hover-background);
+	}
+
+	&:active {
+		background-color: var(--i-listitem-active-background);
+	}
+
+	&:active :is(&__heading, &__content) {
+		color: var(--i-listitem-hover-color);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitem {
+
+	// --- active ---
+
+	&--active {
+		background-color: var(--i-listitem-active-background);
+	}
+
+	&--active:not(:hover) :is(&__heading, &__content) {
+		color: var(--i-listitem-hover-color);
+	}
+
+	// --- disabled ---
+
+	&--disabled {
+		pointer-events: none;
+		color: var(--i-listitem-disabled-color);
+		background-color: var(--i-listitem-disabled-background);
+	}
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skListitem {
+}

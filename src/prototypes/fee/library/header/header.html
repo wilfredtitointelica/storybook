@@ -1,0 +1,229 @@
+@if (loading()) {
+<div class="ptFilterbar">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- filter brand filter -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter range ( datepicker ) -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter brand -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter business -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter action -->
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+					<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+				</div>
+			</div>
+		</div>
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks u-ms-auto">
+			<!-- filter actions advanced -->
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-skeleton class="prSkeleton" [width]="'6.125rem'" [height]="'2rem'" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+} @else {
+<div class="ptFilterbar">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- filter entities -->
+			@if (clientList.length > 1) {
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-bank"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						class="prMultiselect"
+						[options]="clientList"
+						[(ngModel)]="selectedEntities"
+						optionLabel="bankName"
+						optionValue="bankId"
+						[placeholder]="commonGlobalService.termText(libraryTerm.INSTITUTION)"
+						[selectedItemsLabel]="entitySelectionLabel"
+						[maxSelectedLabels]="1"
+						[filter]="clientList.length > 10"
+						[showToggleAll]="true"
+						[style]="{ 'min-width': '8.5rem' }"
+						[disabled]="busy()"
+						[style]="{ width: '12rem' }"
+					>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			}
+			<!-- filter range ( datepicker ) -->
+			<fee-datepicker-range
+				[view]="'month'"
+				[minDate]="minDate()"
+				[maxDate]="maxDate()"
+				[disabled]="busy()"
+				[initPeriod]="restorePreset()"
+				[initialRange]="restoreCustomRange()"
+				(changed)="onDatepickerChanged($event)"
+			/>
+			<!-- filter brand filter -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-credit-card"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						class="prMultiselect"
+						[options]="brands"
+						[(ngModel)]="selectedBrands"
+						optionLabel="name"
+						optionValue="id"
+						[placeholder]="commonGlobalService.termText(libraryTerm.BRAND)"
+						[selectedItemsLabel]="brandSelectionLabel"
+						[readonly]="brands.length <= 1"
+						[class.readonly-multiselect]="brands.length <= 1"
+						[maxSelectedLabels]="1"
+						[filter]="brands.length > 10"
+						[showToggleAll]="true"
+						[style]="{ 'min-width': '8.5rem' }"
+						[disabled]="busy()"
+						[style]="{ width: '12rem' }"
+					>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			<!-- filter business -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-business"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						[options]="currentBusinesses"
+						[(ngModel)]="selectedBusinesses"
+						optionLabel="name"
+						optionValue="id"
+						[placeholder]="commonGlobalService.termText(libraryTerm.BUSINESS)"
+						[selectedItemsLabel]="businessSelectionLabel"
+						[readonly]="currentBusinesses.length <= 1"
+						[class.readonly-multiselect]="currentBusinesses.length <= 1"
+						[maxSelectedLabels]="1"
+						[filter]="currentBusinesses.length > 10"
+						[showToggleAll]="true"
+						class="prMultiselect"
+						[style]="{ width: '12rem' }"
+						[disabled]="busy()"
+					>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter actions -->
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-button
+						class="prButton"
+						[class]="'actionFiltersGA'"
+						[label]="commonGlobalService.termText(libraryTerm.APPLY)"
+						(onClick)="applyFilters()"
+						[style]="{ 'min-width': '64px' }"
+						[disabled]="busy()"
+					></p-button>
+
+					<p-button
+						class="prButton"
+						[class]="'actionFiltersGA'"
+						[label]="commonGlobalService.termText(libraryTerm.RESET)"
+						severity="secondary"
+						(onClick)="resetFilters()"
+						[style]="{ 'min-width': '64px' }"
+						[disabled]="busy()"
+					></p-button>
+				</div>
+			</div>
+		</div>
+		<div class="ptFilterbar__blocks u-ms-auto">
+			<!-- filter actions advanced -->
+			<div class="ptFilterbar__actions u-ms-auto">
+				<div class="ptFilterbar__wrap">
+					<p-button id="advancedFiltersGA" class="prButton" severity="secondary" (click)="showDialog()" [disabled]="busy()">
+						<i class="icon icon-filter p-button-icon-left" pButtonIcon></i>
+						<span pButtonLabel>{{ commonGlobalService.termText(libraryTerm.ADVANCED) }}</span>
+					</p-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	@if (advancedFilterPills.length > 0) {
+	<!-- filterbar: applied -->
+	<div class="ptFilterbar__applied">
+		<div class="ptFilterbar__text">{{ commonGlobalService.termText(libraryTerm.APPLIED_FILTERS) }}:</div>
+		<div class="ptFilterbar__tags">
+			@for (pill of advancedFilterPills; track pill.key) {
+			<p-tag class="prPillTag">
+				<span class="text-base">{{ pill.label }}</span>
+				<i
+					class="icon icon-cancel"
+					role="button"
+					tabindex="0"
+					[attr.aria-label]="commonGlobalService.termText(libraryTerm.CLEAR) + ': ' + pill.label"
+					(click)="onRemoveAdvancedFilter($any(pill.key))"
+					(keydown.enter)="$any($event.target).click()"
+					(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+				></i>
+			</p-tag>
+			}
+		</div>
+		<div class="ptFilterbar__clean">
+			@if (advancedFilterPills.length > 1) {
+			<p-button class="prButton prButton--compact u-ms-1" (click)="onClearAllAdvanced()" link [label]="commonGlobalService.termText(libraryTerm.CLEAR_ALL)" />
+			}
+		</div>
+	</div>
+	}
+</div>
+}
+
+<fee-modal-advanced-filter
+	[visible]="advancedFilterVisible"
+	[busy]="busy()"
+	[activeTab]="activeTab()"
+	[clientList]="clientList"
+	[selectedBankId]="selectedBankIdPreview"
+	[selectedBrandIds]="selectedBrandIdsPreview"
+	[selectedStartDate]="selectedStartDatePreview"
+	[selectedEndDate]="selectedEndDatePreview"
+	[masters]="masters()"
+	[filter]="filter()"
+	[hasSelectedBrands]="selectedBrands.length > 0"
+	[hasSelectedBusinesses]="selectedBusinesses.length > 0"
+	[requireBusinessSelection]="currentBusinesses.length > 0"
+	(visibleChange)="onAdvancedFilterVisibleChange($event)"
+	(applyAdvancedFilters)="onApplyAdvancedFilters($event)"
+	(resetAdvancedFilters)="onResetAdvancedFilters()"
+	(removeAdvancedFilter)="onRemoveAdvancedFilter($event)"
+/>

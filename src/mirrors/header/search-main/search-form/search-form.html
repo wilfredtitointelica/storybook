@@ -1,0 +1,40 @@
+@if (configService.environment?.clientID === 'ExternalNew') {
+<div class="ptSearchForm" #searchFormPattern>
+	<div class="ptSearchForm__wrapper">
+		<!-- FIELD -->
+		<div class="ptSearchForm__field">
+			<div class="ptSearchForm__input">
+				<form role="search" autocomplete="off">
+					<input
+						type="search"
+						id="headerSearchGA"
+						name="global-search"
+						class="prInputtext"
+						[ngModel]="value()"
+						(ngModelChange)="onChangeSearchText($event)"
+						(focus)="EmitInteraction($event)"
+						(click)="EmitInteraction($event)"
+						pInputText
+						#inputText
+						[placeholder]="placeholderInput()"
+						autocomplete="off"
+						autocapitalize="off"
+						autocorrect="off"
+						spellcheck="false"
+					/>
+				</form>
+			</div>
+		</div>
+		<!-- CLEAR -->
+		<div class="ptSearchForm__clear">
+			@if (value()) {
+			<p-button class="prButton" size="small" icon="icon icon-cancel" (click)="ClearSearch()" />
+			}
+		</div>
+		<!-- ADDON -->
+		<div class="ptSearchForm__addon">
+			<p-button class="prButton" icon="icon icon-search" (click)="inputText.focus()" />
+		</div>
+	</div>
+</div>
+}

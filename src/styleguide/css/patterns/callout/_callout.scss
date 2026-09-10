@@ -1,0 +1,107 @@
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptCallout {
+
+	--width: auto;
+	--height: auto;
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-lg);
+	padding: 32px;
+	width: var(--width) !important;
+	min-height: var(--height) !important;
+
+	// --- structure ---
+
+	&__media {
+		position: absolute;
+		z-index: 0;
+		inset: 0;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+
+		& img {
+			display: block;
+			width: 100%; 
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+		}
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-md);
+	}
+
+	&__action {
+		margin-top: auto;
+	}
+
+	& :is(&__content, &__action) {
+		position: relative;
+		z-index: 1;
+	}
+
+	// --- elements ---
+
+	&__title {
+		font-size: var(--i-typography-font-size-3xl);
+		line-height: var(--i-typography-lineHeight-3xl);
+		font-weight: bold;
+		color: var(--i-color-primary-900);
+	}
+
+	&__description {
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptCallout {
+
+	// --- standar size ---
+
+	&--standardSize {
+		--width: 368px;
+		--height: 420px;
+	}
+
+	&--standardWidth	{ --width: 360px; }
+	&--standardHeight { --height: 420px; }
+
+	// --- full size ( fills parent container ) ---
+
+	&--fullSize {
+		--width: 100%;
+		--height: 100%;
+	}
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS ( native or primeng )
+\*——————————————————————————————————————————————————————————*/
+
+.ptCallout {
+
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skCallout {
+	
+}

@@ -1,0 +1,59 @@
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptByNetwork {
+
+	display: flex;
+	gap: var(--i-spacing-gap-sm);
+	align-items: center;
+
+	&__amount {
+		transition: var(--i-motion-base);
+		flex-grow: 1;
+	}
+
+	&__switch {
+		transition: var(--i-motion-base);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptByNetwork {
+
+	// --- disbled ---
+
+	&--unchecked &__brand  {
+		filter: grayscale(100%);
+		opacity: 70%;
+	}
+
+	&--unchecked &__amount  {
+		color: var(--i-color-secondary-400);
+	}	
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS ( native or primeng )
+\*——————————————————————————————————————————————————————————*/
+
+.ptByNetwork {
+
+	& .prToggleswitch {
+		display: flex;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skByNetwork {
+	
+}

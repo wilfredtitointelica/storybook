@@ -1,0 +1,474 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+  --NOTE-TABLE-COMPONENT: "prTable ( Custom PrimeNG for datatable & treetable )";
+
+  // --- General ---
+
+  --i-datatable-cell-background: var(
+    --i-color-neutral-50
+  ); //#FCFCFD || color/grey/50
+
+	// --- Header Cell ---
+	--i-datatable-header-cell-border-color: var(--i-color-neutral-300); //#BABECF color/grey/300
+	--i-datatable-header-cell-border-width: var(--i-border-width-sm); //1px stroke/010
+	--i-datatable-header-cell-gap: var(--i-spacing-gap-sm); //8px
+	--i-datatable-header-cell-padding-x: var(--i-spacing-100); //8px
+	--i-datatable-header-cell-padding-y: var(--i-spacing-150); //12px
+	--i-datatable-header-cell-text-color: var(--i-color-primary-900); //#4E546F color/grey/700
+	--i-datatable-header-cell-text-size: var(--i-typography-font-size-sm); //12px typography/font-size/s
+	--i-datatable-header-cell-text-weight: var(--i-typography-font-weight-bold); //700
+
+	// State
+	--i-datatable-header-cell-hover-background: var(--i-color-neutral-50); //#FCFCFD || color/grey/50
+	--i-datatable-header-cell-hover-color: var(--i-color-primary-900); //#4E546F color/grey/700
+	--i-datatable-header-cell-selected-background: var(--i-color-neutral-50); //#FCFCFD || color/grey/50
+	--i-datatable-header-cell-selected-color: var(--i-color-primary-900); //#4E546F color/grey/700
+
+  // Sort icon
+  --i-datatable-sort-icon-color: var(--i-color-secondary-600);
+  --i-datatable-sort-icon-selected-color: var(
+    --i-color-primary-600
+  ); //#2A52C5 color/blue/600
+  --i-datatable-sort-icon-size: var(--i-typography-font-size-100); //12px
+  --i-datatable-sort-icon-size-weight: var(
+    --i-typography-font-weight-regular
+  ); //400
+
+	// --- Body Cell ---
+	--i-datatable-body-cell-border-color: var(--i-color-neutral-200); //#D8DAE4 color/grey/200
+	--i-datatable-body-cell-border-width: var(--i-border-width-sm); //1px stroke/010
+	--i-datatable-body-cell-gap: var(--i-spacing-gap-sm); //8px
+	--i-datatable-body-cell-height: var(--i-sizing-600); //48px
+	--i-datatable-body-cell-padding-x: var(--i-spacing-100); //8px
+	--i-datatable-body-cell-padding-y: var(--i-spacing-100); //8px
+	--i-datatable-body-cell-text-size: var(--i-typography-font-size-sm); //12px typography/font-size/s
+	--i-datatable-body-cell-text-color: var(--i-color-primary-900);
+
+	// State
+	--i-datatable-body-cell-hover-background: var(--i-color-primary-100); //#F2F5FC color/blue/50
+	--i-datatable-body-cell-selected-background: var(--i-color-primary-50); //#F2F5FC color/blue/50
+
+  // --- Body Cell Frozen ---
+  --i-datatable-body-frozen-cell-border-color: var(
+    --i-color-primary-600
+  ); //#2A52C5 color/blue/600
+  --i-datatable-body-frozen-cell-border-width: var(
+    --i-border-width-sm
+  ); //1px stroke/010
+  --i-datatable-body-frozen-cell-text-size: var(
+    --i-typography-font-size-md
+  ); //14px typography/font-size/m
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME ( datatable & treetable )
+\*——————————————————————————————————————————————————————————*/
+
+.prTable {
+  // --- Base tabla ---
+  &.p-datatable,
+  &.p-treetable {
+    .p-datatable-thead,
+    .p-treetable-thead,
+    .p-datatable-tbody,
+    .p-treetable-tbody {
+      > tr > th,
+      > tr > td {
+        background: var(--i-datatable-cell-background);
+      }
+    }
+
+    // --- Header ---
+    .p-datatable-thead,
+    .p-treetable-thead {
+      tr {
+        th {
+          padding: var(--i-datatable-header-cell-padding-x);
+          border-bottom: var(--i-datatable-header-cell-border-width) solid
+            var(--i-datatable-header-cell-border-color);
+          color: var(--i-datatable-header-cell-text-color);
+          font-weight: var(--i-datatable-header-cell-text-weight);
+          font-size: var(--i-datatable-header-cell-text-size);
+          height: 60px;
+          text-align: center;
+
+          // Select
+          &.p-datatable-column-sorted,
+          &.p-sortable-column.p-treetable-column-sorted {
+            background: var(--i-datatable-header-cell-selected-background);
+            color: var(--i-datatable-header-cell-selected-color);
+          }
+
+          // Hover
+          &.p-datatable-sortable-column:not(.p-datatable-column-sorted):hover,
+          &.p-sortable-column:not(.p-treetable-column-sorted):hover {
+            background: var(--i-datatable-header-cell-hover-background);
+            color: var(--i-datatable-header-cell-hover-color);
+          }
+        }
+      }
+    }
+
+    .p-datatable-scrollable-table > .p-datatable-thead {
+      z-index: 1;
+    }
+
+		// --- Body ---
+		.p-datatable-tbody,
+		.p-treetable-tbody {
+			tr {
+				background-color: transparent;
+				// Efecto cebra
+				&:nth-child(odd) td {
+					background: #fcfcfc;
+				}
+
+        &:nth-child(even) td {
+          background: #f2f2f5;
+        }
+
+        td {
+          padding: var(--i-datatable-body-cell-padding-y)
+            var(--i-datatable-body-cell-padding-x);
+          // border-bottom: var(--i-datatable-body-cell-border-width) solid var(--i-datatable-body-cell-border-color);
+          border-bottom: 0;
+          font-size: var(--i-datatable-body-cell-text-size);
+          min-height: var(--i-datatable-body-cell-height);
+          height: var(--i-datatable-body-cell-height);
+
+					a,
+					a:hover {
+						color: var(--i-color-primary-900);
+					}
+					.icon-alert {
+						color: #c61010;
+					}
+
+          .p-treetable-toggler {
+            color: var(--i-color-secondary-600);
+          }
+        }
+
+				// Hover
+				&:hover td {
+					background: var(--i-datatable-body-cell-hover-background);
+				}
+				// Fila activa cuando el checkbox está marcado
+				&:has(p-checkbox.p-checkbox-checked),
+				&:has(.p-checkbox.p-checkbox-checked) {
+					td {
+						background: var(--i-datatable-body-cell-selected-background);
+					}
+				}
+
+        // --- Modificador: celda con indicador de fila activa (borde izquierdo azul)
+        td.prTable__body--activeRow {
+          border-left: var(--i-border-width-md) solid var(--i-border-accent);
+        }
+
+        // --- Fila de total fija (p-treetable — equivalente visual a .frozen-row de p-table)
+        &.fixedRow {
+          &:hover td {
+            background: none;
+          }
+
+          td {
+            color: var(--i-datatable-header-cell-text-color);
+            font-weight: var(--i-datatable-header-cell-text-weight);
+            font-size: var(--i-datatable-body-frozen-cell-text-size);
+            border-bottom: var(--i-datatable-body-frozen-cell-border-width)
+              solid var(--i-datatable-body-frozen-cell-border-color);
+            padding-block: 14px;
+            padding-inline: var(--i-datatable-body-cell-padding-x);
+          }
+        }
+        // --- Focus
+        a {
+          &:focus-visible {
+            outline: 1px solid var(--i-focus-border-color);
+          }
+        }
+        &:focus-visible .p-treetable-toggler {
+          outline: 1px solid var(--i-focus-border-color);
+        }
+      }
+    }
+
+    // --- Frozen ---
+    .p-datatable-frozen-tbody {
+      tr.frozen-row {
+        // Hover
+        &:hover td {
+          background: none;
+        }
+        td {
+          color: var(--i-datatable-header-cell-text-color);
+          font-weight: var(--i-datatable-header-cell-text-weight);
+          border-bottom: var(--i-datatable-body-frozen-cell-border-width) solid
+            var(--i-datatable-body-frozen-cell-border-color);
+          padding-block: 14px;
+        }
+        // --- Focus
+        a {
+          &:focus-visible {
+            outline: 1px solid var(--i-focus-border-color);
+          }
+        }
+      }
+    }
+
+    // --- Focus
+    .p-datatable-sortable-column,
+    .p-sortable-column {
+      &:focus-visible {
+        outline: 1px solid var(--i-focus-border-color);
+      }
+    }
+
+    // --- Frozen ---
+    .p-datatable-frozen-tbody {
+      tr.frozen-row {
+        // Hover
+        &:hover td {
+          background: none;
+        }
+        td {
+          color: var(--i-datatable-header-cell-text-color);
+          font-weight: var(--i-datatable-header-cell-text-weight);
+          font-size: var(--i-datatable-body-frozen-cell-text-size);
+          border-bottom: var(--i-datatable-body-frozen-cell-border-width) solid
+            var(--i-datatable-body-frozen-cell-border-color);
+        }
+      }
+    }
+
+    // --- Icono Header ---
+
+    // Ocultar SVG de Prime
+    p-sorticon svg,
+    p-treetable-sort-icon svg {
+      display: none !important;
+      visibility: hidden !important;
+      width: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+    }
+
+		// Iconos de orden
+		p-sorticon,
+		p-treetable-sort-icon {
+			&::before {
+				display: inline-flex;
+				font-family: "incontrol-icons";
+				font-style: normal;
+				font-weight: var(--i-datatable-sort-icon-size-weight);
+				font-variant: normal;
+				text-transform: none;
+				line-height: 1;
+				-webkit-font-smoothing: antialiased;
+				font-size: var(--i-datatable-sort-icon-size);
+				color: var(--i-datatable-sort-icon-color);
+				transition: color 0.3s ease;
+				// content: "\f156";
+				content: "\f169"; // ! Nota: No va, al generar iconos el código cambia.
+			}
+		}
+
+		// Estado ascendente
+		[aria-sort="ascending"] {
+			p-sorticon::before,
+			p-treetable-sort-icon::before {
+				// content: "\f159";
+				content: "\f16c"; // ! Nota: No va, al generar iconos el código cambia.
+			}
+		}
+
+    // Estado seleccionado
+    .p-datatable-column-sorted,
+    .p-treetable-column-sorted {
+      p-sorticon::before,
+      p-treetable-sort-icon::before {
+        color: var(--i-datatable-sort-icon-selected-color);
+      }
+    }
+  }
+
+  &.prTable--compact {
+    .p-datatable-thead {
+      tr {
+        th {
+          height: 32px;
+        }
+      }
+    }
+    .p-datatable-tbody {
+      tr {
+        td {
+          height: 40px;
+          line-height: 1;
+        }
+      }
+    }
+  }
+}
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME ( datatable only )
+\*——————————————————————————————————————————————————————————*/
+
+.prTable:is(.p-datatable) {
+
+	& .p-datatable-tbody > tr {
+		&:only-child :is(td, td:hover) {
+			background-color: transparent !important;
+		}
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME ( treetable only )
+\*——————————————————————————————————————————————————————————*/
+
+.prTable:is(.p-treetable) {
+	.p-treetable-tbody > tr {
+		// --- Focus
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+		}
+		// no bg
+		&:only-child :is(td, td:hover) {
+			background-color: transparent;
+		}
+	}
+
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prTable )
+\*——————————————————————————————————————————————————————————*/
+
+.prTable {
+  // BEM Component
+
+  // --- Header ---
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--i-datatable-header-cell-gap);
+		flex-direction: row;
+		text-align: center;
+	}
+
+	// --- Body ---
+	&__body--content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--i-datatable-body-cell-gap);
+		flex-direction: row;
+	}
+	.fixedRow :is(td, th) {
+		height: 48px !important;
+	}
+	.fixedRow :is(td, th) {
+		border-bottom: 1px solid var(--i-color-primary-900) !important;
+		padding: 0 8px;
+	}
+	.fixedRow span {
+		font-weight: 700;
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--i-datatable-header-cell-text-color);
+	}
+
+	& .p-datatable-tbody > tr {
+		color: var(--i-datatable-body-cell-text-color);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED MODIFY ( prTable )
+\*——————————————————————————————————————————————————————————*/
+
+// ! TEMPORAL: INTERVENIR EN LIBRERIA DE COMPONENTES REUTILIZABLES y MODIFICAR HTML/CSS
+
+.prTable--customPanelTop {
+  & .prTable > .grPanel {
+    padding-top: 0;
+    padding-inline: 0;
+  }
+
+  & .ptSearch {
+    max-width: 20.3125rem; // 325px;
+    width: 100%;
+  }
+
+  & .prCard__actionflex {
+    flex-grow: 1;
+  }
+
+  &
+    .prTable.p-datatable
+    .p-datatable-thead
+    > tr
+    > th:has(p-tableheadercheckbox) {
+    width: 2% !important;
+  }
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * UTILITIES
+\*——————————————————————————————————————————————————————————*/
+
+.p-datatable-tbody > tr > td {
+  &:is(.u-text-right, .u-td-right) {
+    text-align: right;
+  }
+  &:is(.u-text-left, .u-td-left) {
+    text-align: left;
+  }
+  &:is(.u-text-center, .u-td-center) {
+    text-align: center;
+  }
+}
+
+// --- fix temporal: requerido por urrutia
+
+.ptEmptyTable :is(.p-datatable-thead, .p-datatable-tbody, .p-treetable-thead, .p-treetable-tbody, .p-paginator) {
+  display: none;
+}
+
+// --- fix tempora: disabled elementos de table
+
+.prTable--disabled .ptSearch {
+	position: relative;
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		// cursor: no-drop;
+	}
+}
+
+.prTable--disabled .ptSearch .p-iconfield {
+	pointer-events: none;
+	user-select: none;
+	// cursor: no-drop;
+}
+
+.prTable--disabled .ptSearch .prInputText {
+	background-color: var(--i-button-secondary-disabled-background);
+	border-color: var(--i-button-secondary-disabled-border);
+	color: var(--i-button-secondary-disabled-color);
+	// cursor: no-drop;
+}
+
+.prTable--disabled .ptSearch .p-inputicon button {
+  color: var(--i-button-secondary-disabled-color);
+}

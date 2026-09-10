@@ -1,0 +1,17 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PRIMENG / STEPPER 
+\*——————————————————————————————————————————————————————————*/
+
+/*\
+	.p-stepper
+		.p-steplist
+			.p-step ( .p-step-active )
+				.p-step-header
+					.p-step-number
+					.p-step-title
+				.p-stepper-separator
+		.p-steppanels
+			.p-steppanel
+				.p-stepper-separator
+				.p-steppanel-content
+\*/

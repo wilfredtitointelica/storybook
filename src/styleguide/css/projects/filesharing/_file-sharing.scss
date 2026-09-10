@@ -1,0 +1,137 @@
+.filesharing {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	&__filters {
+	}
+	&__header {
+		display: flex;
+		justify-content: space-between;
+	}
+	&__body {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+	&__heading {
+	}
+	&__title {
+		color: var(--i-color-primary-base);
+		font-weight: 700;
+		font-size: 24px;
+		line-height: 32px;
+	}
+	&__date {
+		color: var(--i-color-primary-900);
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 24px;
+	}
+	&__actions {
+	}
+}
+.filesharing {
+	.ptStatusState {
+		gap: var(--i-spacing-gap-sm);
+	}
+	.prToast {
+		&.prToast--upload {
+			.p-toast-message-text {
+				flex-direction: row;
+			}
+		}
+	}
+}
+.prFileUpload {
+	& .p-fileupload-header {
+		display: none;
+	}
+	& .p-fileupload-content {
+		height: 208px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: row;
+		padding: 0;
+		border: 1px dashed var(--i-color-primary-400);
+	}
+	&__body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	&__content {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+	}
+	&__icon {
+		color: var(--i-color-primary-base);
+		display: flex;
+		justify-content: center;
+	}
+	&__text {
+		color: var(--i-color-secondary-400);
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+	}
+	&__hyperlink {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 2px;
+	}
+	&__hyperlink &__button .p-button-link {
+		line-height: 16px;
+		padding: 0;
+	}
+	&__hint {
+		color: var(--i-color-secondary-400);
+		font-weight: 400;
+		font-size: 10px;
+		line-height: 12px;
+	}
+	// requeriments
+	&__requirements {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-size: 12px;
+	}
+	&__requirement {
+		color: var(--i-color-secondary-400);
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+	}
+	&__label {
+		
+	}
+	&__value {
+		font-weight: bold;
+	}
+}
+.text {
+	&-left,
+	&-start {
+		text-align: left !important;
+	}
+	&-right,
+	&-end {
+		text-align: right !important;
+	}
+	&-center {
+		text-align: center !important;
+	}
+}
+.p-progressspinner-circle {
+	stroke: var(--i-color-secondary-200) !important;
+}
+.file-name-ellipsis {
+	max-width: 530px;
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

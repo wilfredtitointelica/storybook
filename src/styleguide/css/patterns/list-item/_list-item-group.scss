@@ -1,0 +1,154 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-LISTITEM-GROUP: 'ptListitemGroup ( Patterns )';
+	
+	// --i-listitemgroup-:var(--i-);
+
+	--i-listiemgroup-gap: var(--i-spacing-gap-lg);
+	--i-listiemgroup-height: 27rem; // 432px
+
+	// --- elements ---
+
+	// --i-listiemgroup-body-default-height: calc(164px * 2 + var(--i-listiemgroup-gap));
+
+	--i-listiemgroup-empty-color: var(--i-color-secondary-400);
+	--i-listiemgroup-empty-font-size: var(--i-typography-font-size-md);
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemGroup {
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-listiemgroup-gap);
+	max-height: var(--body-height, var(--i-listiemgroup-height));
+
+	// --- common ---
+
+	&__header, &__body, &__footer, &__empty {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-listiemgroup-gap);
+	}
+
+	// --- structure ---
+
+	&__header {
+
+	}
+
+	&__body {
+		flex-direction: column;
+		flex-grow: 1;
+		overflow: hidden auto;
+
+		&:has( > :nth-child(2) ) {
+			padding-right: var(--i-spacing-gap-xs);
+		}
+	}
+
+	&__footer {
+
+	}
+
+	// --- section ---
+
+	&__section {
+		
+	}
+	
+	&__category {
+		position: sticky;
+		z-index: 10;
+		top: 0;
+		display: flex;
+		gap: var(--i-spacing-gap-lg);
+		font-size: var(--i-typography-font-size-md);
+		font-weight: var(--i-typography-font-weight-bold);
+		
+		&::after {
+			content: '';
+			position: absolute; 
+			z-index: -1;
+			inset: calc(var(--i-spacing-gap-lg) * -1) 0;
+			background-color: var(--i-color-secondary-50);
+		}
+	}
+
+	&__content {
+		min-height: var(--i-listiemgroup-gap);
+	}
+
+	&__empty {
+		height: auto;
+		margin: auto;
+		color: var(--i-listiemgroup-empty-color);
+		font-size: var(--i-listiemgroup-empty-font-size);
+		text-align: center;
+		overflow: hidden;
+		transition: height var(--i-motion-base);
+		interpolate-size: allow-keywords;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * OTHERS ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemGroup {
+
+	// --- has ptListitemNotification ---
+
+	&__section .ptListitemNotification {
+		padding-top: var(--i-listiemgroup-gap);
+	}
+
+	&__section:has(.ptListitemNotification) &__empty {
+		height: 0;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemGroup {
+
+	// --- fixed height ---
+
+	&--fixedHeight {
+		height: var(--body-height, var(--i-listiemgroup-height));
+	}
+
+	// --- with divider ( has -> ptListitemNotification ) ---
+
+	&--withDivider :has(> .ptListitemNotification):not(:last-child) {
+		position: relative;
+		z-index: 2;
+		&::after {
+			content: '';
+			position: absolute;
+			inset: auto 0 0;
+			transform: translateY(calc(var(--i-listiemgroup-gap)/2 + 1px));
+			border-bottom: var(--i-line);
+		}
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skListitemGroup {
+
+}
+

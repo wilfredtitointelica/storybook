@@ -1,0 +1,32 @@
+
+.ptParagraphTruncate {
+
+}
+
+
+.ptParagraphTruncate {
+
+	&__text {
+		//line-height: 1.5rem; //
+		//height: calc(1.5rem * var(--line-to-show));
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: var(--lines-to-show, 4);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: normal;
+	}
+
+	&__toggle {
+
+	}
+
+}
+
+.ptParagraphTruncate {
+
+	&--expanded &__text {
+		-webkit-line-clamp: initial;
+	}
+
+}

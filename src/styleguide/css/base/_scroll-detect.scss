@@ -1,0 +1,47 @@
+/*——————————————————————————————————————————————————————————*\
+ * SCROLL DETECT (Scroll-Linked Animations Technique)
+\*——————————————————————————————————————————————————————————*/
+
+// ! Define global scroll timeline variables in :root
+
+:root { --NOTE-SCROLL-DETECT: "Scroll detect for styling elements";
+  timeline-scope: --scroll-detect;       // Name of the timeline scope
+  animation: --scroll-detect forwards;   // Default animation for scroll-linked effects
+  animation-timeline: --scroll-detect;   // Link animation to scroll timeline
+  container-name: --scroll-detect;       // Required for container queries
+}
+
+// ! Define scroll-linked animation
+
+@keyframes --scroll-detect {
+  0%, to {
+    --scroll-x-active: 1; // Variable representing scroll progress
+  }
+}
+
+// ! Connect body to the scroll timeline
+
+html {
+  // scroll-timeline: --scroll-detect;    // Allow both vertical and horizontal scroll
+  scroll-timeline-axis: x;                // Detect only horizontal scroll
+  scroll-timeline-name: --scroll-detect;  // Apply the scroll-linked timeline
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * EXAMPLE USAGE
+\*——————————————————————————————————————————————————————————*/
+
+/*\
+
+Example of a container query using the scroll variable.
+Container query is optional. The --scroll-x-active variable
+is inherited and can be used for calculations or
+conditional styling.
+
+\*/
+
+@container --scroll-detect style(--scroll-x-active: 1) {
+  .element { 
+    background: yellow; 
+  }
+}

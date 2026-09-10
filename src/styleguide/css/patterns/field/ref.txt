@@ -1,0 +1,76 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PATTERN / CONTROL
+\*——————————————————————————————————————————————————————————*/
+
+// --- CLASES ---
+
+.ptControl [class=".ptControl--inline | .ptControl--readonly | .ptControl--disabled | .ptControl--small"]
+	.ptControl__label
+		-> label
+	.ptControl__field
+		-> .prInputText | .prSelect | .prDatepicker | ...
+		-> .prButton (clear)
+	.ptControl__message
+		-> .prMessage [variant="simple"] [size="small"]
+	.ptControl__action
+		-> .prButton (action)
+
+// --- DOM ---
+
+ptControl [class=".ptControl--inline | .ptControl--readonly | .ptControl--disabled | .ptControl--small]
+ ├── ptControl__label
+ │    └── <label>
+ ├── ptControl__field
+ │    └── prInputText | prSelect | prDatepicker | etc...
+ └── ptControl__message
+      └── prMessage [variant="simple"] [size="small"]
+
+
+
+------------------------------------------------------------------
+
+
+Diferencia semántica entre “Control” y “Field”
+🔹 Control
+
+Un control es el componente interactivo en sí mismo:
+
+-> input
+
+-> select
+
+-> datepicker
+
+-> checkbox
+
+-> radio
+
+-> textarea
+
+-> file uploader
+
+-> etc.
+
+Es decir, el componente funcional.
+
+👉 “Control” = el elemento que recibe interacción del usuario.
+
+🔹 Field
+
+Un field es un contenedor semántico que agrupa:
+
+-> el label
+
+-> el control
+
+-> la acción
+
+-> el mensaje
+
+-> la descripción/ayuda
+
+-> el layout
+
+Es decir, la unidad de formulario completa.
+
+👉 “Field” = la pieza de formulario que contiene un control + metadatos + estructura.

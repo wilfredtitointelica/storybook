@@ -1,0 +1,368 @@
+<p-panel class="prPanel u-full-height" showHeader="false">
+	@if (hasError()) {
+	<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reload()" />
+	} @else {
+	<div class="u-display-flex u-flex-column u-gap-none u-full-height">
+		<!-- TITLE -->
+		<div class="u-display-flex u-flex-column">
+			@if (isloadingTotalFeeExpense()) {
+			<p-skeleton class="prSkeleton u-my-1" [width]="'130.00px'" [height]="'16px'" />
+			} @else {
+			<div class="prPanel__title">{{ "TOTAL_FEE_EXPENSE" | term : globalTermService.languageCode }}</div>
+			}
+		</div>
+		<!-- TABS -->
+		<p-tabs class="prTabs prTabs--full prTabs--noBackground prTabs--noPanelPaddingInline prTabs--noPanelsPaddingBottom | u-flex-grow-1" [value]="tabValue()">
+			<p-tablist [gaTrack]="'tabList'">
+				@if (isloadingTotalFeeExpense()) {
+				<div class="u-display-flex u-flex-column u-flex-grow-1" style="height: 42.8px">
+					<p-skeleton class="prSkeleton u-m-auto" [width]="'100.00px'" [height]="'14px'" />
+					<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'2px'" />
+				</div>
+				<div class="u-display-flex u-flex-column u-flex-grow-1" style="height: 42.8px">
+					<p-skeleton class="prSkeleton u-m-auto" [width]="'100.00px'" [height]="'14px'" />
+					<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'1px'" />
+				</div>
+				<div class="u-display-flex u-flex-column u-flex-grow-1" style="height: 42.8px">
+					<p-skeleton class="prSkeleton u-m-auto" [width]="'100.00px'" [height]="'14px'" />
+					<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'1px'" />
+				</div>
+				} @else {
+				<p-tab [value]="feeExpenseTab.LastMonth" (click)="tabValue.set(feeExpenseTab.LastMonth)">{{ "LAST_MONTH" | term : globalTermService.languageCode }}</p-tab>
+				<p-tab [value]="feeExpenseTab.CurrentMonth" (click)="tabValue.set(feeExpenseTab.CurrentMonth)">{{ "CURRENT_MONTH" | term : globalTermService.languageCode }}</p-tab>
+				<p-tab [value]="feeExpenseTab.Last12Months" (click)="tabValue.set(feeExpenseTab.Last12Months)">{{ "LAST_12_MONTHS" | term : globalTermService.languageCode }}</p-tab>
+				}
+			</p-tablist>
+			<p-tabpanels>
+				<!-- TAB: Last Month -->
+				<p-tabpanel [value]="feeExpenseTab.LastMonth">
+					@if (isloadingTotalFeeExpense()) {
+					<ng-container *ngTemplateOutlet="skeletonContent"></ng-container>
+					} @else if (!hasDataLastMonth()) {
+					<intelica-status-state [state]="statusStateEnum.NoData" />
+					} @else {
+					<div class="ipMetricCard u-full-height">
+						<div class="ipMetricCard__main">
+							<!-- hero amount -->
+							<div class="ipMetricCard__data">
+								<div class="ptAmount ptAmount--{{ lastMonthByBrand().length <= 1 ? '6xl' : '4xl' }} ptAmount--{{ lastMonthResolveState() }}">
+									<div class="ptAmount__legend u-display-flex u-justify-content-center"><p-badge class="prBadge" badgeSize="small" [value]="lastMonthShort()" /></div>
+									<div class="ptAmount__main">
+										<span class="ptAmount__brand">
+											@if (lastMonthByBrand().length == 1) {
+											<i class="icon icon-{{ lastMonthByBrand()[0].brandIcon }} icon--outlined"></i>
+											}
+										</span>
+										<span class="ptAmount__currency">{{ currencyCode() }}</span>
+										<span class="ptAmount__value">{{ lastMonthTotal() | formatValue : "amount" : 2 }}</span>
+									</div>
+									<div class="ptAmount__trend">
+										<i class="icon icon-economic-{{ lastMonthVariationPercent() >= 0 ? 'growth' : 'decrease' }}"></i>
+										{{ (lastMonthVariationPercent() > 0 ? "+" : "") + (lastMonthVariationPercent() | formatValue : "percent" : 2) }}
+										<b class="u-text-md u-color-primary">vs</b>
+										<p-badge class="prBadge" severity="secondary" [value]="lastMonthShortComparison()" />
+									</div>
+								</div>
+							</div>
+							<!-- by brand -->
+							<div class="ipMetricCard__data">
+								@if (lastMonthByBrand().length > 1) {
+								<span class="u-bold u-text-md">{{ "BY_BRAND" | term : globalTermService.languageCode }}</span>
+								<div class="u-display-flex u-flex-column u-gap-sm">
+									@for (network of lastMonthByBrand(); track network.brandId) {
+									<div class="ptByNetwork" [class.ptByNetwork--unchecked]="!network.checked" [attr.data-brand]="network.brandIcon">
+										<div class="ptByNetwork__brand">
+											<i class="icon icon-{{ network.brandIcon }} icon--outlined icon--sm"></i>
+										</div>
+										<div class="ptByNetwork__amount">
+											<div class="ptAmount ptAmount--{{ lastMonthByBrand().length <= 3 ? '2xl' : 'md' }}">
+												<div class="ptAmount__main">
+													<span class="ptAmount__currency">{{ currencyCode() }}</span>
+													<span class="ptAmount__value">{{ network.amount | formatValue : "amount" : 2 }}</span>
+												</div>
+											</div>
+										</div>
+										<div class="ptByNetwork__switch">
+											<p-toggleswitch
+												class="prToggleswitch prToggleswitch--slider"
+												[inputId]="network.brandId.toString()"
+												[ngModel]="network.checked"
+												autofocus="false"
+												(ngModelChange)="onNetworkToggleChange(network, $event, feeExpenseTab.LastMonth)"
+												[gaTrack]="'networkToggle'"
+												[disabled]="!canToggleLastMonth()[network.brandId]"
+												[class.prToggleswitch--forcedChecked]="!canToggleLastMonth()[network.brandId]"
+											/>
+										</div>
+									</div>
+									}
+								</div>
+								}
+							</div>
+						</div>
+						<!-- by business -->
+						<div class="ipMetricCard__meta">
+							@if (lastMonthByBusiness().length >= 1) {
+							<div class="ipMetricCard__data">
+								<span class="u-bold u-text-md">{{ "BY_BUSINESS" | term : globalTermService.languageCode }}</span>
+								@for (business of lastMonthByBusiness(); track business.businessId) {
+								<div class="u-display-flex u-full-width u-gap-sm u-align-items-baseline u-justify-content-between">
+									<div class="u-text-md u-bs-2 u-ps-3">{{ business.term | term : globalTermService.languageCode }}</div>
+									<div class="ptAmount">
+										<div class="ptAmount__main">
+											<span class="ptAmount__currency">{{ currencyCode() }}</span>
+											<span class="ptAmount__value">{{ business.amount | formatValue : "amount" : 2 }}</span>
+										</div>
+									</div>
+								</div>
+								}
+							</div>
+							}
+						</div>
+					</div>
+					}
+				</p-tabpanel>
+				<!-- TAB: Current Month -->
+				<p-tabpanel [value]="feeExpenseTab.CurrentMonth">
+					@if (isloadingTotalFeeExpense()) {
+					<ng-container *ngTemplateOutlet="skeletonContent"></ng-container>
+					} @else if (!hasData()) {
+					<intelica-status-state [state]="statusStateEnum.NoData" />
+					} @else {
+					<div class="ipMetricCard u-full-height">
+						<div class="ipMetricCard__main">
+							<!-- hero amount -->
+							<div class="ipMetricCard__data">
+								<div class="ptAmount ptAmount--{{ currentMonthByBrand().length <= 1 ? '6xl' : '4xl' }} ptAmount--{{ currentResolveState() }}">
+									<div class="ptAmount__legend u-display-flex u-justify-content-center "><p-badge class="prBadge" [value]="monthShort()" /></div>
+									<div class="ptAmount__main">
+										<span class="ptAmount__brand">
+											@if (currentMonthByBrand().length == 1) {
+											<i class="icon icon-{{ currentMonthByBrand()[0].brandIcon }} icon--outlined"></i>
+											}
+										</span>
+										<span class="ptAmount__currency">{{ currencyCode() }}</span>
+										<span class="ptAmount__value">{{ currentMonthTotal() | formatValue : "amount" : 2 }}</span>
+										<i class="icon icon-alert" [pTooltip]="partialDataTooltip" tooltipPosition="top" tooltipStyleClass="prTooltip"></i>
+									</div>
+								</div>
+							</div>
+							<!-- by brand -->
+							<div class="ipMetricCard__data">
+								@if (currentMonthByBrand().length > 1) {
+								<span class="u-bold u-text-md">{{ "BY_BRAND" | term : globalTermService.languageCode }}</span>
+								<div class="u-display-flex u-flex-column u-gap-sm">
+									@for (network of currentMonthByBrand(); track network.brandId) {
+									<div class="ptByNetwork" [class.ptByNetwork--unchecked]="!network.checked" [attr.data-brand]="network.brandIcon">
+										<div class="ptByNetwork__brand">
+											<i class="icon icon-{{ network.brandIcon }} icon--outlined icon--sm"></i>
+										</div>
+										<div class="ptByNetwork__amount">
+											<div class="ptAmount ptAmount--{{ currentMonthByBrand().length <= 3 ? '2xl' : 'md' }}">
+												<div class="ptAmount__main">
+													<span class="ptAmount__currency">{{ currencyCode() }}</span>
+													<span class="ptAmount__value">{{ network.amount | formatValue : "amount" : 2 }}</span>
+												</div>
+											</div>
+										</div>
+										<div class="ptByNetwork__switch">
+											<p-toggleswitch
+												class="prToggleswitch prToggleswitch--slider"
+												[inputId]="network.brandId.toString()"
+												[ngModel]="network.checked"
+												autofocus="false"
+												(ngModelChange)="onNetworkToggleChange(network, $event, feeExpenseTab.CurrentMonth)"
+												[gaTrack]="'networkToggle'"
+												[disabled]="!canToggleCurrent()[network.brandId]"
+												[class.prToggleswitch--forcedChecked]="!canToggleCurrent()[network.brandId]"
+											/>
+										</div>
+									</div>
+									}
+								</div>
+								}
+							</div>
+						</div>
+						<!-- by business -->
+						<div class="ipMetricCard__meta">
+							@if (currentMonthByBusiness().length >= 1) {
+							<div class="ipMetricCard__data">
+								<span class="u-bold u-text-md">{{ "BY_BUSINESS" | term : globalTermService.languageCode }}</span>
+								@for (business of currentMonthByBusiness(); track business.businessId) {
+								<div class="u-display-flex u-full-width u-gap-sm u-align-items-baseline u-justify-content-between">
+									<div class="u-text-md u-bs-2 u-ps-3">{{ business.term | term : globalTermService.languageCode }}</div>
+									<div class="ptAmount">
+										<div class="ptAmount__main">
+											<span class="ptAmount__currency">{{ currencyCode() }}</span>
+											<span class="ptAmount__value">{{ business.amount | formatValue : "amount" : 2 }}</span>
+										</div>
+									</div>
+								</div>
+								}
+							</div>
+							}
+						</div>
+					</div>
+					}
+				</p-tabpanel>
+				<!-- TAB: Last 12 Months -->
+				<p-tabpanel [value]="feeExpenseTab.Last12Months">
+					@if (isloadingTotalFeeExpense()) {
+					<ng-container *ngTemplateOutlet="skeletonContent"></ng-container>
+					} @else if (!hasDataL12months()) {
+					<intelica-status-state [state]="statusStateEnum.NoData" />
+					} @else {
+					<div class="ipMetricCard u-full-height">
+						<div class="ipMetricCard__main">
+							<!-- hero amount -->
+							<div class="ipMetricCard__data">
+								<div class="ptAmount ptAmount--{{ last12MonthsByBrand().length <= 1 ? '6xl' : '4xl' }} ptAmount--{{ last12MonthsResolveState() }}">
+									<div class="ptAmount__main">
+										<span class="ptAmount__brand">
+											@if (last12MonthsByBrand().length == 1) {
+											<i class="icon icon-{{ last12MonthsByBrand()[0].brandIcon }} icon--outlined"></i>
+											}
+										</span>
+										<span class="ptAmount__currency">{{ currencyCode() }}</span>
+										<span class="ptAmount__value">{{ last12MonthsTotal() | formatValue : "amount" : 2 }}</span>
+									</div>
+									<div class="ptAmount__trend">
+										<i class="icon icon-economic-{{ last12MonthsVariationPercent() >= 0 ? 'growth' : 'decrease' }}"></i>
+										{{ (last12MonthsVariationPercent() > 0 ? "+" : "") + (last12MonthsVariationPercent() | formatValue : "percent" : 2) }}
+										<b class="u-text-md u-color-primary">vs</b>
+										<p-badge class="prBadge" severity="secondary" [value]="last12MonthShortComparison()" />
+									</div>
+								</div>
+							</div>
+							<!-- by brand -->
+							<div class="ipMetricCard__data">
+								@if (last12MonthsByBrand().length > 1) {
+								<span class="u-bold u-text-md">{{ "BY_BRAND" | term : globalTermService.languageCode }}</span>
+								<div class="u-display-flex u-flex-column u-gap-sm">
+									@for (network of last12MonthsByBrand(); track network.brandId) {
+									<div class="ptByNetwork" [class.ptByNetwork--unchecked]="!network.checked" [attr.data-brand]="network.brandIcon">
+										<div class="ptByNetwork__brand">
+											<i class="icon icon-{{ network.brandIcon }} icon--outlined icon--sm"></i>
+										</div>
+										<div class="ptByNetwork__amount">
+											<div class="ptAmount ptAmount--{{ last12MonthsByBrand().length <= 3 ? '2xl' : 'md' }}">
+												<div class="ptAmount__main">
+													<span class="ptAmount__currency">{{ currencyCode() }}</span>
+													<span class="ptAmount__value">{{ network.amount | formatValue : "amount" : 2 }}</span>
+												</div>
+											</div>
+										</div>
+										<div class="ptByNetwork__switch">
+											<p-toggleswitch
+												class="prToggleswitch prToggleswitch--slider"
+												[inputId]="network.brandId.toString()"
+												[ngModel]="network.checked"
+												autofocus="false"
+												(ngModelChange)="onNetworkToggleChange(network, $event, feeExpenseTab.Last12Months)"
+												[gaTrack]="'networkToggle'"
+												[disabled]="!canToggle12M()[network.brandId]"
+												[class.prToggleswitch--forcedChecked]="!canToggle12M()[network.brandId]"
+											/>
+										</div>
+									</div>
+									}
+								</div>
+								}
+							</div>
+						</div>
+						<!-- by business -->
+						<div class="ipMetricCard__meta">
+							@if (last12MonthsByBusiness().length >= 1) {
+							<div class="ipMetricCard__data">
+								<span class="u-bold u-text-md">{{ "BY_BUSINESS" | term : globalTermService.languageCode }}</span>
+								@for (business of last12MonthsByBusiness(); track business.businessId) {
+								<div class="u-display-flex u-full-width u-gap-sm u-align-items-baseline u-justify-content-between">
+									<div class="u-text-md u-bs-2 u-ps-3">{{ business.term | term : globalTermService.languageCode }}</div>
+									<div class="ptAmount">
+										<div class="ptAmount__main">
+											<span class="ptAmount__currency">{{ currencyCode() }}</span>
+											<span class="ptAmount__value">{{ business.amount | formatValue : "amount" : 2 }}</span>
+										</div>
+									</div>
+								</div>
+								}
+							</div>
+							}
+						</div>
+					</div>
+					}
+				</p-tabpanel>
+			</p-tabpanels>
+		</p-tabs>
+	</div>
+	}
+</p-panel>
+
+<!-- * SKELETON -->
+<ng-template #skeletonContent>
+	<div class="ipMetricCard">
+		<div class="ipMetricCard__main">
+			<!-- skeleton: hero amount -->
+			<div class="ipMetricCard__data">
+				<div class="ptAmount">
+					<div class="ptAmount__legend u-display-flex u-justify-content-center">
+						<p-skeleton class="prSkeleton" [width]="'48px'" [height]="'18px'" />
+					</div>
+					<div class="ptAmount__main">
+						<span class="ptAmount__currency"><p-skeleton class="prSkeleton" [width]="'27.39px'" [height]="'10.13px'" /></span>
+						<span class="ptAmount__value"><p-skeleton class="prSkeleton" [width]="'97.53px'" [height]="'28.92px'" /></span>
+					</div>
+					<div class="ptAmount__trend">
+						<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'24px'" />
+						<p-skeleton class="prSkeleton" [width]="'48px'" [height]="'18px'" />
+						<p-skeleton class="prSkeleton" [width]="'48px'" [height]="'24px'" />
+					</div>
+				</div>
+			</div>
+			<!-- skeleton: by brand -->
+			<div class="ipMetricCard__data">
+				<span class="u-bold u-text-md u-py-1"><p-skeleton class="prSkeleton" [width]="'72.63px'" [height]="'12px'" /></span>
+				<div class="u-display-flex u-flex-column u-gap-sm">
+					@for (_ of [].constructor(5); track $index) {
+					<div class="ptByNetwork">
+						<div class="ptByNetwork__brand">
+							<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'16px'" />
+						</div>
+						<div class="ptByNetwork__amount">
+							<div class="ptAmount ptAmount--5digits">
+								<div class="ptAmount__main">
+									<span class="ptAmount__currency"><p-skeleton class="prSkeleton" [width]="'27.39px'" [height]="'10.13px'" /></span>
+									<span class="ptAmount__value"><p-skeleton class="prSkeleton" [width]="'56.78px'" [height]="'10.13px'" /></span>
+								</div>
+							</div>
+						</div>
+						<div class="ptByNetwork__switch">
+							<div class="u-display-flex u-align-items-center u-py-1">
+								<p-skeleton class="prSkeleton" [width]="'20px'" [height]="'4px'" borderRadius="2px" />
+								<p-skeleton class="prSkeleton" [width]="'16px'" [height]="'16px'" borderRadius="16px" />
+							</div>
+						</div>
+					</div>
+					}
+				</div>
+			</div>
+		</div>
+		<!-- skeleton: by business -->
+		<div class="ipMetricCard__meta">
+			<div class="ipMetricCard__data">
+				<span class="u-bold u-text-md u-py-1"><p-skeleton class="prSkeleton" [width]="'72.83px'" [height]="'12px'" /></span>
+				@for (_ of [].constructor(3); track $index) {
+				<div class="u-display-flex u-full-width u-gap-sm u-align-items-baseline u-justify-content-between u-py-1 u-bs-2">
+					<div class="u-text-md u-ps-3"><p-skeleton class="prSkeleton" [width]="'99.84px'" [height]="'12px'" /></div>
+					<div class="ptAmount">
+						<div class="ptAmount__main">
+							<span class="ptAmount__currency"><p-skeleton class="prSkeleton" [width]="'27.39px'" [height]="'10.13px'" /></span>
+							<span class="ptAmount__value"><p-skeleton class="prSkeleton" [width]="'24.38px'" [height]="'10.13px'" /></span>
+						</div>
+					</div>
+				</div>
+				}
+			</div>
+		</div>
+	</div>
+</ng-template>

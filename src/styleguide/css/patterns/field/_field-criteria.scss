@@ -1,0 +1,81 @@
+/*\
+ * ptFieldCriteria
+   ---------------
+ ! Componente auxiliar para mostrar criterios de validación de un campo.
+  
+   Ejemplos de uso:
+    - Validación de contraseñas (longitud, caracteres especiales, etc.).
+    - Reglas de formato para emails u otros campos complejos.
+  
+   Propósito:
+    - Mostrar una lista de requisitos que el usuario debe cumplir.
+    - Permitir estados visuales dinámicos (cumplido / no cumplido).
+    - Mantener la lógica de criterios separada del ptField,
+      evitando acoplamiento innecesario.
+  
+   Este componente complementa a un ptField pero no forma parte
+   directa de su estructura interna.
+\*/
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-FIELD-CRITERIA: 'ptFieldCriteria ( Pattern )';
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptFieldCriteria )
+\*——————————————————————————————————————————————————————————*/
+
+.ptFieldCriteria {
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-sm);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	
+	}
+
+	&__item {
+		display: flex;
+		align-items: baseline;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.ptFieldCriteria {
+
+	// --- icon ---
+
+	& .icon {
+		font-size: var(--i-icon-size-xs);
+		transform: translateY(.1em);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptFieldCriteria {
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skFieldCriteria {
+	
+}

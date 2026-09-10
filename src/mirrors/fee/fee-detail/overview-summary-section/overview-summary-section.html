@@ -1,0 +1,63 @@
+<div class="d-grid gap-3">
+	@if (isLoading()) {
+	<div class="borderedSection">
+		<div class="itemColDivOutput">
+			<div class="itemColDivOutput__grid">
+				@for (item of [1, 2, 3]; track item) {
+				<div class="itemColDivOutput__item u-gap-xs">
+					<p-skeleton class="prSkeleton" width="100px" height="14px" borderRadius="8px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="80px" height="24px" borderRadius="8px"></p-skeleton>
+				</div>
+				}
+			</div>
+		</div>
+	</div>
+	<div class="descripContainer borderedSection">
+		<p-skeleton class="prSkeleton" width="90px" height="18px" borderRadius="8px"></p-skeleton>
+		<div class="d-flex flex-column gap-1 mt-2">
+			<p-skeleton class="prSkeleton" width="100%" height="14px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="100%" height="14px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="60%" height="14px" borderRadius="8px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<div class="borderedSection">
+		<div class="itemColDivOutput">
+			<div class="itemColDivOutput__grid">
+				<div class="itemColDivOutput__item">
+					<div class="itemColDivOutput__label">{{ commonGlobalService.termText(currentRateLabelKey()) }}</div>
+					<div class="itemColDivOutput__value">
+						@if (hasCurrentRate()) { @if (isVolume()) {
+						<span class="itemColDivOutput__amount">{{ currentRate() | number: "1.0-6" }}</span>
+						<span class="itemColDivOutput__percentage">{{ currency() }}</span>
+						} @else {
+						<span class="itemColDivOutput__currency">{{ currency() }}</span>
+						<span class="itemColDivOutput__amount">{{ currentRate() | number: "1.0-6" }}</span>
+						} } @else {
+						<span>{{ commonGlobalService.termText(feeDetailTerm.NOT_AVAILABLE) }}</span>
+						}
+					</div>
+				</div>
+
+				<div class="itemColDivOutput__item">
+					<div class="itemColDivOutput__label">{{ commonGlobalService.termText(feeDetailTerm.BILLING_FREQUENCY) }}</div>
+					<div class="itemColDivOutput__value">{{ billingFrequency() ?? commonGlobalService.termText(feeDetailTerm.NOT_AVAILABLE) }}</div>
+				</div>
+
+				<div class="itemColDivOutput__item">
+					<div class="itemColDivOutput__label">{{ commonGlobalService.termText(feeDetailTerm.RATE_STRUCTURE) }}</div>
+					<div class="itemColDivOutput__value">{{ rateStructure() ?? commonGlobalService.termText(feeDetailTerm.NOT_AVAILABLE) }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="descripContainer borderedSection">
+		<div class="descripContainer__title">{{ commonGlobalService.termText(feeDetailTerm.DESCRIPTION) }}</div>
+		<div [class.collapsed]="!isExpanded()" class="descripText">
+			{{ isExpanded() || !showViewMore() ? fullDescription() : truncatedDescription() }} @if (showViewMore()) {
+			<p-button class="prButton" [label]="commonGlobalService.termText(isExpanded() ? feeDetailTerm.LESS : feeDetailTerm.VIEW_MORE)" link (click)="toggleExpand()" />
+			}
+		</div>
+	</div>
+	}
+</div>

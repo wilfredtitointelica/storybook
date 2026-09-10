@@ -1,0 +1,301 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-COMPOUNTINPUT-COMPONENT: "ptCompountInput ( Custom Native & PrimeNG )";
+
+	// --i-compountinput-property: var(--i-);
+
+	// --- general ---
+
+	--i-compountinput-gap: var(--i-control-gap);
+	--i-compountinput-width: 29rem; // 464px
+	--i-compountinput-height: var(--i-control-height);
+	--i-compountinput-padding: var(--i-control-padding);
+	--i-compountinput-color: var(--i-control-color);
+	--i-compountinput-background: var(--i-control-background);
+	--i-compountinput-border: var(--i-control-border);
+	--i-compountinput-border-radius: var(--i-control-border-radius);
+	--i-compountinput-font-size: var(--i-control-font-size);
+	--i-compountinput-line-height: var(--i-control-line-height);
+	--i-compountinput-motion: var(--i-control-motion);
+
+	// --- states ---
+
+	--i-compountinput-hover-border-color: var(--i-border-hover);
+	--i-compountinput-focus-border-color: var(--i-control-focus-border-color);
+
+	// --- elements ---
+
+	--i-compountinput-field-order: var(--i-control-text-order);
+
+	--i-compountinput-clear-order: var(--i-control-clear-order);
+	--i-compountinput-clear-padding: var(--i-control-clear-button-padding);
+
+	--i-compountinput-divider-order: var(--i-control-divider-order);
+	--i-compountinput-divider-height: var(--i-control-divider-height);
+	--i-compountinput-divider-border: var(--i-control-divider-border);
+
+	--i-compountinput-addon-order: var(--i-control-addon-order);
+	--i-compountinput-addon-width: var(--i-control-addon-width);
+	--i-compountinput-addon-padding: var(--i-control-addon-padding);
+
+	// --- error ---
+	--i-compountinput-field-color-error: var(--i-color-error-700);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptcompountinput )
+\*——————————————————————————————————————————————————————————*/
+
+.ptCompountInput {
+	outline: var(--i-compountinput-border);
+	outline-offset: -1px;
+	border-radius: var(--i-compountinput-border-radius);
+	font-size: var(--i-compountinput-font-size);
+	font-style: normal;
+	line-height: var(--i-compountinput-line-height);
+	color: var(--i-compountinput-color);
+	background-color: var(--i-compountinput-background);
+	overflow: hidden;
+	transition: var(--i-motion-base);
+
+	&:hover {
+		outline-color: var(--i-compountinput-hover-border-color);
+	}
+
+	&:has(&__input input:focus) {
+		outline-color: var(--i-compountinput-focus-border-color);
+	}
+
+	// --- wrapper ---
+
+	&__wrapper {
+		display: flex;
+		align-items: center;
+		gap: var(--i-compountinput-gap);
+		// width: var(--i-compountinput-width);
+		height: var(--i-compountinput-height);
+		transition: width var(--i-compountinput-motion);
+	}
+
+	// --- field ---
+
+	&__field {
+		//order: var(--i-compountinput-field-order);
+		flex-grow: 1;
+		display: flex;
+		transition: opacity var(--i-compountinput-motion);
+	}
+
+	&__filter {
+		color: var(--i-color-primary-900);
+		
+		&:empty {
+			display: none;
+		}
+	}
+
+	&__input {
+		flex-grow: 1;
+	}
+
+	&__filter:not(:empty) + &__input input {
+		padding-left: 0;
+	}
+
+	// --- divider ---
+	&__divider {
+		height: calc(100% - var(--i-spacing-container-md)*2);
+		margin-block: var(--i-spacing-container-md);
+		border-left: var(--i-line);
+		border-color: var(--i-color-primary-base);
+	}
+
+	// --- clear ---
+
+	&__clear {
+		order: var(--i-compountinput-clear-order);
+		&:empty {
+			display: none;
+		}
+		transition: opacity var(--i-compountinput-motion);
+	}
+
+	// --- divisor ---
+
+	&__wrapper:has(&__clear:not(:empty))::before {
+		//order: var(--i-compountinput-divider-order);
+		content: "";
+		height: var(--i-compountinput-divider-height);
+		border-left: var(--i-compountinput-divider-border);
+	}
+
+	// --- addon ---
+
+	&__addon {
+		order: var(--i-compountinput-addon-order);
+		position: sticky;
+		right: 0;
+		height: 100%;
+		margin-left: calc(var(--i-compountinput-gap) * -1);
+		background-color: var(--i-compountinput-background);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptCompountInput {
+
+	// --- compact ---
+
+	&--compact {
+		width: var(--i-compountinput-height);
+	}
+
+	&--compact :is(&__field, &__clear) {
+		pointer-events: none;
+	}
+
+	// --- error ---
+
+	&--error {
+		&, &:hover {
+			color: var(--i-compountinput-field-color-error) !important;
+			outline-color: var(--i-compountinput-field-color-error) !important;
+		}
+	}
+
+	&--error .prInputtext {
+		&, &::placeholder {
+			color: var(--i-compountinput-field-color-error) !important;
+		}
+	}
+
+	&--error .prSelect  {
+		:is(.p-select-label, .p-select-dropdown-icon) {
+			color: var(--i-compountinput-field-color-error) !important;
+		}
+	}
+
+	&--error &__divider {
+		border-color: var(--i-compountinput-field-color-error);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED MODIFIERS PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.ptCompountInput {
+	// --- general ---
+
+	& .p-component {
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+
+		&,
+		&:enabled:is(:hover, :focus) {
+			border-color: transparent;
+			background-color: transparent;
+		}
+
+		&:not(:disabled):hover {
+			border: 0;
+		}
+	}
+
+	// --- filter ---
+
+	&__filter .p-component {
+		height: 100%;
+
+		& .p-select-label {
+			padding-right: 0;
+			//padding-block: 0;
+			font-size: 1em;
+			// line-height: 1.45em;
+		}
+
+		& .p-select-label + [role="button"] {
+			width: auto;
+			padding: var(--i-compountinput-addon-padding);
+		}
+
+		&.prSelect.p-select:not(.p-disabled):has(:focus-visible) {
+			outline: 1px solid var(--i-focus-border-color);
+			outline-offset: -2px;
+		}
+	}
+
+	// --- input ---
+
+	&__input .p-component {
+		padding: var(--i-compountinput-padding);
+		padding-right: 0;
+		width: 100%;
+
+		// remove cancel native ( input[type="search"] )
+		&::-ms-clear {
+			display: none;
+		}
+		&::-webkit-search-cancel-button,
+		&::-webkit-search-decoration,
+		&::-webkit-search-results-button,
+		&::-webkit-search-results-decoration {
+			display: none;
+		}
+	}
+
+	// --- clear ---
+
+	&__clear .prButton {
+		& button {
+			height: auto;
+			color: var(--i-color-primary-base);
+			padding: 0;
+			width: 1rem;
+		}
+
+		& button::after {
+			display: none;
+		}
+	}
+
+	// --- addon ---
+
+	&__addon .prButton {
+		height: 100%;
+
+		& .p-button-icon-only {
+			color: var(--i-color-primary-base);
+			padding: var(--i-compountinput-addon-padding);
+			height: 100%;
+			border-radius: 8px;
+
+			// --- Focus
+			&:focus-visible {
+				outline-color: var(--i-focus-border-color);
+				outline-offset: -3px;
+			}
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skCompountInput {
+
+}
+
+//input[type="search"]::-webkit-search-cancel-button,
+//input[type="search"]::-webkit-search-decoration,
+//input[type="search"]::-webkit-search-results-button,
+//input[type="search"]::-webkit-search-results-decoration,

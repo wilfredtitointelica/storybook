@@ -1,0 +1,198 @@
+<div class="ptFilterbar">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- FILTER GROUP -->
+			@if (isLoadingClients()) { @if (groupViewEnabled()) {
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			}
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			} @else { @if (groupViewEnabled()) {
+			<!-- filter business -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-bank"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-select
+						class="prSelect"
+						[options]="clients()"
+						[ngModel]="filterTemp().clientId"
+						(ngModelChange)="OnSelectClient($event)"
+						optionValue="clientId"
+						optionLabel="clientName"
+						placeholder="{{ 'INSTITUTION' | term : globalTermService.languageCode }}"
+						[showClear]="false"
+						dropdownIcon="icon icon-arrow-down"
+						[filter]="clients().length > 10"
+						filtericon="icon icon-cancel"
+						[style]="{ width: '12rem' }"
+						[disabled]="isNoData()"
+					/>
+				</div>
+			</div>
+			}
+			<!-- filter range ( datepicker ) -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-calendar"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-datepicker
+						#picker
+						class="prDatapicker prDatapicker--reusable"
+						[panelStyleClass]="panelClasses()"
+						[(ngModel)]="selectedDateRange"
+						selectionMode="range"
+						[numberOfMonths]="1"
+						[readonlyInput]="true"
+						[showIcon]="false"
+						[view]="'date'"
+						[dateFormat]="'dd M, yy'"
+						(onShow)="onDatepickerOpen()"
+						(onClose)="onCalendarClose()"
+						(onMonthChange)="onMonthChange($event)"
+						(onYearChange)="onYearChange($event)"
+						placeholder="dd mm, yyyy - dd mm, yyyy"
+						[minDate]="datePickerOptions().minDate"
+						[maxDate]="datePickerOptions().maxDate"
+						[disabledDates]="datePickerOptions().disabledDates"
+						[inputStyle]="{ 'text-transform': 'lowercase' }"
+						(ngModelChange)="OnDateRangeChange($event)"
+						[disabled]="isNoData()"
+						[style]="{ width: '12rem' }"
+					>
+						<ng-template #previousicon>
+							<i class="icon icon-arrow-left" data-ga-track="datepicker_prev" data-ga-section="filter_range"></i>
+						</ng-template>
+						<ng-template #nexticon>
+							<i class="icon icon-arrow-right" data-ga-track="datepicker_next" data-ga-section="filter_range"></i>
+						</ng-template>
+						<ng-template pTemplate="footer" let-clearCallback="clearCallback">
+							<div class="footerDatapicker footerDatapicker--range">
+								<div class="footerDatapicker__box">
+									@for (p of presetsState(); track p.preset) {
+									<p-button
+										class="u-text-nowrap"
+										[class.btnActive]="p.active"
+										[class.btnSecond]="!p.active && !p.disabled"
+										[disabled]="p.disabled"
+										[label]="p.termKey | term : globalTermService.languageCode"
+										[pTooltip]="'Nodata' | term : globalTermService.languageCode"
+										[tooltipDisabled]="!p.disabled"
+										tooltipPosition="top"
+										tooltipStyleClass="prTooltip"
+										(onClick)="applyPreset(p.preset)"
+									/>
+									}
+								</div>
+							</div>
+						</ng-template>
+					</p-datepicker>
+				</div>
+			</div>
+			}
+
+			<!-- FILTER -->
+			@if (isLoadingFilters()) {
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'8.375rem'" [height]="'2rem'" /></div>
+			</div>
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'8.375rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter action -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__wrap">
+					<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+					<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+				</div>
+			</div>
+			} @else {
+			<!-- filter brand -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-credit-card"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						class="prMultiselect"
+						[options]="brandsFilterOptions()"
+						[ngModel]="selectedBrands()"
+						(ngModelChange)="selectedBrands.set($event)"
+						optionLabel="name"
+						optionValue="code"
+						placeholder="All Brand"
+						[maxSelectedLabels]="brandsFilterOptions().length - 1"
+						[filter]="brandsFilterOptions().length > 10"
+						[showToggleAll]="true"
+						[readonly]="isBrandsReadonly()"
+						[class.readonly-multiselect]="isBrandsReadonly()"
+						[style]="{ 'min-width': '136px' }"
+						[disabled]="isNoData()"
+					>
+						<ng-template pTemplate="selectedItems">{{ selectedBrandsLabel() }}</ng-template>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			<!-- filter icas -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-business"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						[options]="icaOptions()"
+						[ngModel]="filterTemp().icas"
+						(ngModelChange)="OnSelectIcas($event)"
+						placeholder="{{ 'ALL_ICAS' | term : globalTermService.languageCode }}"
+						[maxSelectedLabels]="icaOptions().length - 1"
+						[filter]="icaOptions().length > 10"
+						[showToggleAll]="true"
+						class="prMultiselect"
+						[style]="{ 'min-width': '136px' }"
+						[readonly]="isReadonlyIca()"
+						[class.readonly-multiselect]="isReadonlyIca()"
+						[disabled]="isNoData()"
+					>
+						<ng-template pTemplate="selectedItems">{{ selectedIcasLabel() }}</ng-template>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter actions -->
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-button
+						class="prButton"
+						[class]="'actionFiltersGA'"
+						label="{{ 'Apply' | term : globalTermService.languageCode }}"
+						(onClick)="onApply()"
+						[disabled]="isApplying()"
+						[style]="{ 'min-width': '64px' }"
+					></p-button>
+
+					<p-button
+						class="prButton"
+						[class]="'actionFiltersGA'"
+						label="{{ 'RESET' | term : globalTermService.languageCode }}"
+						severity="secondary"
+						(onClick)="onClear()"
+						[disabled]="isApplying()"
+						[style]="{ 'min-width': '64px' }"
+					></p-button>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+</div>

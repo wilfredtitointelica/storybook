@@ -1,0 +1,66 @@
+// Data fija de ejemplo para la story del selector de productos del header, calcada de "Available Products" real.
+// termName/termDescription usan directamente el texto a mostrar (ver terms.en.ts).
+import { MenuProductResponse } from '../../mirrors/header/menu-products/dto/product.response';
+
+export const menuProducts: MenuProductResponse[] = [
+  {
+    menuOptionId: 'FEE',
+    termName: 'Fee Manager',
+    termDescription: 'Manage and analyze payment fees with comprehensive insights and optimization ooportunities.',
+    icon: 'icon-fee-manager',
+    klass: 'u-color-product-a',
+    isBeta: true,
+    isLegacy: false,
+    authenticationClient: '',
+  },
+  {
+    menuOptionId: 'INTERCHANGE',
+    termName: 'Interchange Hub',
+    termDescription: 'Optimize interchange rates and monitor network performance with advanced analytics.',
+    icon: 'icon-interchange-hub',
+    klass: 'u-color-product-b',
+    isBeta: false,
+    isLegacy: true,
+    authenticationClient: '',
+  },
+  {
+    menuOptionId: 'BUDGET',
+    termName: 'Budget Planner',
+    termDescription: 'Plan and track budgets with smart forecasting and automated variance analysis.',
+    icon: 'icon-budget-tool',
+    klass: 'u-color-product-c',
+    isBeta: false,
+    isLegacy: true,
+    authenticationClient: '',
+  },
+  {
+    menuOptionId: 'MERCHANT',
+    termName: 'Merchant Profitability',
+    termDescription: 'Evaluate merchant-level profitability instantly with smart heuristics and dynamic scenario modeling that sharpen your portfolio decisions.',
+    icon: 'icon-merchant-profitability',
+    klass: 'u-color-product-d',
+    isBeta: false,
+    isLegacy: true,
+    authenticationClient: '',
+  },
+  {
+    menuOptionId: 'BI',
+    termName: 'Business Intelligence',
+    termDescription: 'Transform processed data into actionable insights with interactive dashboards and KPI monitoring.',
+    icon: 'icon-business-intelligence',
+    klass: 'u-color-product-e',
+    isBeta: false,
+    isLegacy: true,
+    authenticationClient: '',
+  },
+  {
+    menuOptionId: 'PORTFOLIO',
+    termName: 'Portfolio Management',
+    termDescription: 'Analyze transactional portfolios with flexible reporting, custom segmentation, and advanced filtering.',
+    icon: 'icon-portfolio-management',
+    klass: 'u-color-product-f',
+    isBeta: false,
+    isLegacy: true,
+    authenticationClient: '',
+  },
+];

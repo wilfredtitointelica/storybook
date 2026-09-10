@@ -1,0 +1,277 @@
+.tpe {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding-top: 16px;
+}
+
+.merchantsTpePanel,
+.penaltiesTpePanel,
+.contentErrorTpePanel {
+	gap: 25.33px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+// card penalties
+.penaltiesTpePanel {
+	&__currency {
+		display: flex;
+	}
+	&__currency &__code {
+		font-weight: var(--i-typography-font-weight-bold); //700
+		font-size: var(--i-typography-font-size-lg); //16px
+		line-height: var(--i-typography-lineHeight-lg); //24px
+		color: var(--i-color-primary-900);
+		padding-top: var(--i-spacing-gap-xs); //4px
+		padding-bottom: var(--i-spacing-gap-xs); //4px
+	}
+	&__currency &__value {
+		font-weight: var(--i-typography-font-weight-bold); //700
+		font-size: var(--i-typography-font-size-5xl); //48px
+		line-height: var(--i-typography-lineHeight-5xl); //52px
+		color: var(--i-color-primary-900);
+	}
+	&__description {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		// max-width: 335px;
+	}
+	&__description &__label {
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+		color: var(--i-color-primary-900);
+	}
+	&__description &__value {
+		font-weight: 700;
+		font-size: 20px;
+		line-height: 28px;
+		color: var(--i-color-primary-900);
+	}
+	&__footer {
+	}
+	&__text {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--i-color-primary-900);
+	}
+	.grPanel__body {
+		gap: 25.33px;
+	}
+}
+
+// card merchants
+.merchantsTpePanel {
+	&__description {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	&__description &__label {
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+		color: var(--i-color-primary-900);
+	}
+	&__description &__value {
+		font-weight: 700;
+		font-size: 20px;
+		line-height: 28px;
+		color: var(--i-color-primary-900);
+	}
+	&__total {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+	&__total &__label {
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+		color: var(--i-color-primary-900);
+	}
+	&__total &__value {
+		font-weight: 700;
+		font-size: 24px;
+		line-height: 32px;
+		color: var(--i-color-primary-900);
+	}
+	&__footer {
+	}
+	&__text {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--i-color-primary-900);
+	}
+}
+// card rating
+.ratingTpePanel {
+	display: flex;
+	flex-direction: column;
+	gap: 8.5px;
+	flex: 1;
+	&__graph {
+		display: flex;
+		justify-content: center;
+	}
+	&__footer {
+	}
+	&__text {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+		color: var(--i-color-primary-900);
+	}
+}
+
+//card advert
+.advertTpePanel {
+	max-width: 272px;
+	width: 272px;
+	padding: 0px;
+	height: 396px;
+	&__img {
+		position: relative;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		aspect-ratio: 270/230;
+		width: 100%;
+		max-width: 270px;
+		height: 100%;
+
+		& .prButton {
+			position: absolute;
+			bottom: 30px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		&--en {
+			background-image: url("./../../../images/tpe/announcement-eng.svg");
+			height: 364px;
+		}
+
+		&--es {
+			background-image: url("./../../../images/tpe/announcement-esp.svg");
+			height: 364px;
+		}
+	}
+
+	& .grPanel__body {
+	}
+}
+
+.penaltiesPaidTpe {
+	display: flex;
+	gap: 16px;
+	&__mcc {
+		flex: 1.5;
+	}
+	&__merchant {
+		flex: 2;
+	}
+	&__description {
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+		color: var(--i-color-primary-900);
+	}
+	.p-tablist-content {
+		flex-grow: 0;
+	}
+}
+
+.modalRayTpe {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	&__item {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+	&__label {
+		color: var(--i-color-primary-900);
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+	}
+	&__input {
+		width: 253px;
+	}
+	& .prDatapicker {
+		width: 100%;
+
+		& .p-inputtext {
+			width: 100%;
+			//text-align: center;
+		}
+	}
+}
+
+.expenseEvolutionPanel {
+	height: 396px;
+	flex: 1;
+}
+
+.sectionLockedTpe {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	height: 65vh;
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+	&__title {
+		margin: 0;
+		font-weight: 400;
+		font-size: 32px;
+		line-height: 40px;
+		color: var(--i-color-primary-900);
+		text-align: center;
+	}
+	&__description {
+		margin: 0;
+		max-width: 408px;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 24px;
+		color: var(--i-color-primary-900);
+		text-align: center;
+	}
+}
+
+.modalRequestTpe {
+	&__content {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+	}
+	&__title {
+		display: flex;
+		justify-content: center;
+		font-weight: 700;
+		font-size: 24px;
+		line-height: 32px;
+		color: #4f5470;
+		margin-bottom: 4px;
+		text-align: center;
+	}
+	&__subtitle {
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 24px;
+		color: #4f5470;
+		text-align: center;
+	}
+}

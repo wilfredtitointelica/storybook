@@ -1,0 +1,534 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS & VARIABLES
+\*——————————————————————————————————————————————————————————*/
+
+// Gauge Skeleton
+$gauge-skeleton-circle-size: 280px;
+$gauge-skeleton-center-size: 100px;
+$gauge-skeleton-scale-width: 280px;
+$gauge-skeleton-scale-padding-x: 0.5rem;
+$gauge-skeleton-badge-margin-top: 0.5rem;
+
+// Common values
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 1.5rem;
+$spacing-lg: 2rem;
+$base-border: 1px solid;
+$light-gray: #f1f5f9;
+$medium-gray: #e2e8f0;
+$dark-border: #e5e7eb;
+$skeleton-opacity: 0.5;
+$grid-gap: 0.5rem;
+
+// Mixins for common patterns
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin grid-layout($columns, $rows: 1fr auto, $gap: $grid-gap) {
+  display: grid;
+  grid-template-columns: $columns;
+  grid-template-rows: $rows;
+  gap: $gap;
+}
+
+/*——————————————————————————————————————————*
+ 🎨 COMPONENT → prSkeleton
+*——————————————————————————————————————————*/
+
+// Block: gaugeSkeleton
+.gaugeSkeleton {
+  display: flex;
+  @include flex-column;
+  align-items: center;
+  padding: $spacing-lg;
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+
+  // Element: container
+  &__container {
+    position: relative;
+    width: $gauge-skeleton-circle-size;
+    height: 140px;
+    @include flex-center;
+    margin-bottom: $spacing-xs;
+    overflow: hidden;
+  }
+
+  // Element: circleOuter
+  &__circleOuter {
+    @include absolute-fill;
+  }
+
+  // Element: center
+  &__center {
+    position: relative;
+    z-index: 2;
+    @include flex-center;
+  }
+
+  // Element: scale
+  &__scale {
+    width: 100%;
+    max-width: $gauge-skeleton-scale-width;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 $gauge-skeleton-scale-padding-x;
+    margin-bottom: $spacing-sm;
+  }
+
+  // Element: scaleLabel
+  &__scaleLabel {
+    @include flex-center;
+
+    // Modifier: min - Specific styles for min label if needed
+    &--min {
+      // Placeholder for future styles
+      opacity: 1;
+    }
+
+    // Modifier: max - Specific styles for max label if needed
+    &--max {
+      // Placeholder for future styles
+      opacity: 1;
+    }
+  }
+
+  // Element: badge
+  &__badge {
+    margin-top: $gauge-skeleton-badge-margin-top;
+  }
+
+  // PrimeNG skeleton modifiers
+  &__circle {
+    opacity: $skeleton-opacity;
+  }
+
+  &__grade {
+    opacity: 1;
+  }
+
+  &__badgeItem {
+    // Placeholder for future styles
+    opacity: 1;
+  }
+}
+
+
+// Block: lineChartSkeleton
+.lineChartSkeleton {
+  padding: $spacing-lg;
+  background: #ffffff;
+  width: 100%;
+
+  // Element: container
+  &__container {
+    @include grid-layout(60px 1fr, 1fr auto);
+    width: 100%;
+    height: 400px;
+  }
+
+  // Element: yAxis
+  &__yAxis {
+    grid-column: 1;
+    grid-row: 1;
+    @include flex-column;
+    justify-content: space-between;
+    padding-top: $spacing-md;
+    padding-bottom: $spacing-sm;
+  }
+
+  &__yAxisLabel {
+    @include flex-center;
+    justify-content: flex-end;
+  }
+
+  // Element: chartArea
+  &__chartArea {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    padding-top: $spacing-md;
+    padding-bottom: $spacing-sm;
+  }
+
+  // Element: todayMarker
+  &__todayMarker {
+    position: absolute;
+    right: 15%;
+    top: 0;
+    bottom: $spacing-sm;
+    z-index: 2;
+  }
+
+  &__todayLabel {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: $spacing-xs;
+  }
+
+  &__todayLine {
+    position: absolute;
+    top: $spacing-lg;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background-image: linear-gradient(to bottom, #cbd5e1 50%, transparent 50%);
+    background-size: 2px 8px;
+    background-repeat: repeat-y;
+    opacity: 0.6;
+  }
+
+  // Element: gridLines
+  &__gridLines {
+    position: absolute;
+    top: $spacing-md;
+    left: 0;
+    right: 0;
+    bottom: $spacing-sm;
+    @include flex-column;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+
+  &__gridLine {
+    width: 100%;
+    height: 1px;
+    background-color: $light-gray;
+  }
+
+  // Element: linePath
+  &__linePath {
+    position: absolute;
+    top: $spacing-md;
+    left: 0;
+    right: 0;
+    bottom: $spacing-sm;
+    z-index: 1;
+  }
+
+  &__svg {
+    @include absolute-fill;
+  }
+
+  &__path {
+    opacity: 0.4;
+  }
+
+  // Element: dataPoint
+  &__dataPoint {
+    position: absolute;
+    transform: translate(-50%, 50%);
+    z-index: 2;
+  }
+
+  // Element: xAxis
+  &__xAxis {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: $spacing-xs;
+  }
+
+  &__xAxisLabel {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+// Block: areaChartSkeleton
+.areaChartSkeleton {
+  padding: $spacing-lg;
+  background: #ffffff;
+  width: 100%;
+
+  // Element: container
+  &__container {
+    @include grid-layout(70px 1fr, 1fr auto);
+    width: 100%;
+    height: 400px;
+    margin-bottom: $spacing-md;
+  }
+
+  // Element: yAxis
+  &__yAxis {
+    grid-column: 1;
+    grid-row: 1;
+    @include flex-column;
+    justify-content: space-between;
+    padding-top: $spacing-xs;
+    padding-bottom: $spacing-sm;
+  }
+
+  &__yAxisLabel {
+    @include flex-center;
+    justify-content: flex-end;
+  }
+
+  // Element: chartArea
+  &__chartArea {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    padding-top: $spacing-xs;
+    padding-bottom: $spacing-sm;
+  }
+
+  // Element: gridLines
+  &__gridLines {
+    position: absolute;
+    top: $spacing-xs;
+    left: 0;
+    right: 0;
+    bottom: $spacing-sm;
+    @include flex-column;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__gridLine {
+    width: 100%;
+    height: 1px;
+    background-image: linear-gradient(to right, $medium-gray 50%, transparent 50%);
+    background-size: 8px 1px;
+    background-repeat: repeat-x;
+    opacity: 0.8;
+  }
+
+  // Element: areaPath
+  &__areaPath {
+    position: absolute;
+    top: $spacing-xs;
+    left: 0;
+    right: 0;
+    bottom: $spacing-sm;
+    z-index: 2;
+  }
+
+  &__svg {
+    @include absolute-fill;
+  }
+
+  &__areaFill {
+    opacity: 1;
+  }
+
+  &__dottedLine {
+    opacity: 0.8;
+  }
+
+  // Element: dataPoint
+  &__dataPoint {
+    position: absolute;
+    transform: translate(-50%, 50%);
+    z-index: 3;
+  }
+
+  // Element: xAxis
+  &__xAxis {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: $spacing-xs;
+  }
+
+  &__xAxisLabel {
+    display: flex;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  // Element: legend
+  &__legend {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-lg;
+    padding-top: $spacing-sm;
+  }
+
+  &__legendItem {
+    @include flex-center;
+    gap: $spacing-xs;
+  }
+}
+
+// Block: bubbleChartSkeleton
+.bubbleChartSkeleton {
+  padding: $spacing-lg;
+  background: #ffffff;
+  width: 100%;
+
+  // Element: container
+  &__container {
+    @include grid-layout(50px 1fr, 1fr auto);
+    width: 100%;
+    height: 450px;
+  }
+
+  // Element: yAxis
+  &__yAxis {
+    grid-column: 1;
+    grid-row: 1;
+    @include flex-column;
+    justify-content: space-between;
+    padding-top: $spacing-xs;
+    padding-bottom: $spacing-sm;
+  }
+
+  &__yAxisLabel {
+    @include flex-center;
+    justify-content: flex-end;
+  }
+
+  // Element: chartArea
+  &__chartArea {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    padding-top: $spacing-xs;
+    padding-bottom: $spacing-sm;
+    border-left: $base-border $dark-border;
+    border-bottom: $base-border $dark-border;
+  }
+
+  // Element: gridLines (Horizontal)
+  &__gridLines {
+    position: absolute;
+    top: $spacing-xs;
+    left: 0;
+    right: 0;
+    bottom: $spacing-sm;
+    @include flex-column;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__gridLine {
+    width: 100%;
+    height: 1px;
+    background-color: $light-gray;
+  }
+
+  // Element: gridLinesVertical
+  &__gridLinesVertical {
+    position: absolute;
+    top: $spacing-xs;
+    left: 0;
+    right: 0;
+    bottom: $spacing-sm;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &__gridLineVertical {
+    width: 1px;
+    height: 100%;
+    background-color: $light-gray;
+  }
+
+  // Element: bubbles
+  &__bubbles {
+    position: absolute;
+    top: $spacing-xs;
+    left: 0;
+    right: 0;
+    bottom: $spacing-sm;
+    z-index: 2;
+  }
+
+  // Element: bubble
+  &__bubble {
+    position: absolute;
+    transform: translate(-50%, 50%);
+    border-radius: 50%;
+    @include flex-center;
+  }
+
+  &__bubbleInner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: $medium-gray;
+    opacity: $skeleton-opacity;
+    animation: bubblePulse 2s ease-in-out infinite;
+  }
+
+  // Element: xAxis
+  &__xAxis {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: $spacing-xs;
+    padding-left: 0;
+  }
+
+  &__xAxisLabel {
+    display: flex;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+}
+
+
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON Message
+\*——————————————————————————————————————————————————————————*/
+
+.skMessage {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--i-message-content-gap);
+	padding: var(--i-message-content-padding);
+	border: 1px solid var(--i-border-default);
+	border-radius: 8px;
+	width: 100%;
+}
+
+
+/*——————————————————————————————————————————*
+ 🎬 ANIMATIONS
+*——————————————————————————————————————————*/
+
+@keyframes bubblePulse {
+  0%, 100% {
+    opacity: $skeleton-opacity;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}

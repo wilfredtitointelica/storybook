@@ -1,0 +1,44 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-SECURITY-LAYOUT: 'lySecurity ( Custom Native & Primeng )';
+
+	// --i-login-layout-property: var(--i-);
+
+	--i-security-layout-padding: 15px;
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * LAYOUT ( .lySecurity )
+\*——————————————————————————————————————————————————————————*/
+
+.lySecurity {
+	display: grid;
+	grid-template-areas:"sidebar main";
+	grid-template-columns: auto 1fr;
+	gap: var(--i-dashboard-layout-gap);
+	flex-grow: 1;
+	
+	&__sidebar {
+		grid-area: sidebar;
+		position: sticky;
+		z-index: 1;
+		top: var(--i-dashboard-layout-header-height);
+		align-self: start;
+		height: var(--i-dashboard-layout-sidebar-height);
+		min-width: var(--i-dashboard-layout-sidebar-width);
+	}
+
+	&__main {
+		grid-area: main;
+		display: flex;
+		flex-direction: column;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER LAYOUT ( --modifier )
+\*——————————————————————————————————————————————————————————*/

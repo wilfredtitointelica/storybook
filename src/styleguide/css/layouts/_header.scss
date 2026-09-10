@@ -1,0 +1,153 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-HEADER-LAYOUT: 'lyHeader ( Custom Native & Primeng )';
+
+	--i-header-layout-padding: var(--i-dashboard-layout-padding, 1rem);
+	--i-header-layout-gap: var(--i-dashboard-layout-gap, 1rem);
+	--i-header-layout-background: var(--i-dashboard-layout-background);
+
+	// --- brand ---
+
+	--i-header-layout-brand-width: min(100%, 10.5rem); // limit 168px
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * LAYOUT ( default )
+\*——————————————————————————————————————————————————————————*/
+
+.lyHeader {
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: var(--i-header-layout-gap);
+	height: 100%;
+	// padding-inline: var(--i-header-layout-padding);
+	// background-color: var(--i-header-layout-background);
+
+
+	// --- toggle ---
+
+	&__toggle {
+		display: none;
+
+		&:empty {
+			display: none;
+		}
+
+	}
+
+	// --- brand ---
+
+	&__brand {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--i-header-layout-brand-width);
+	}
+
+	&__toggle:not(:empty) + &__brand {
+		width: calc(var(--i-header-layout-brand-width) - var(--i-header-layout-gap) * 2); // limit 168px
+		justify-content: flex-start;
+	}
+
+	// --- structure ---
+
+	&__blocks {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--i-header-layout-gap);
+		height: auto;
+	}
+
+	&__start, &__center, &__end {
+		display: flex;
+		align-items: center;
+		gap: var(--i-header-layout-gap);
+	}
+
+	&__start {
+		
+	}
+
+	&__center {
+		/*
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+
+		/*
+		& > :nth-child(n) {
+			flex-grow: 1;
+		}
+		*/
+	}
+
+	&__end {
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCE OTHERS
+\*——————————————————————————————————————————————————————————*/
+
+.lyHeader {
+
+	& #buttonToggleSidebar .p-button-icon {
+		font-size: 1.3125rem; // 21px
+	}
+	
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skHeaderLayout {
+
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED MENU PRODUCTS
+\*——————————————————————————————————————————————————————————*/
+
+menu-products .prPopover {
+	display: flex;
+	max-height: calc( 100dvh - var(--i-dashboard-layout-header-height));
+
+	&__body {
+		flex-grow: 1;
+		overflow: hidden auto;
+
+		// define animation
+		--can-scroll-y: 0;
+		animation: scroll-detect-menu-product-body-y;
+		animation-timeline: scroll(self y);
+
+		// add properties
+		padding-right: calc(.5rem * var(--can-scroll-y));
+	}
+}
+
+@keyframes scroll-detect-menu-product-body-y {
+	from, to { --can-scroll-y: 1; }
+}
+
+.lyHeader {
+
+	& .prButton--topBar button,
+	& .prSelect.p-select .p-select-label {
+		font-size: var(--i-button-font-size-lg);
+	}
+
+}

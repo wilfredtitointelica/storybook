@@ -1,0 +1,34 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → Dialog
+	 Basados en width y layout
+	 *——————————————————————————————————————————*/
+
+	/* Dialog Widths por tamaño */
+	--i-dialog-max-width-sm: 400px; /* max-width para diálogos pequeños */
+	--i-dialog-max-width-md: 600px; /* max-width para diálogos medianos */
+	--i-dialog-max-width-lg: 800px; /* max-width para diálogos grandes */
+	--i-dialog-max-width-xl: 1024px; /* max-width para diálogos extra grandes */
+
+	/* Dialog Width General */
+	--i-dialog-width: 100%; /* width general del diálogo */
+}
+
+.prDialog {
+	&--sm .p-dialog {
+		max-width: var(--i-dialog-max-width-sm);
+		width: var(--i-dialog-width);
+	}
+	&--md .p-dialog {
+		max-width: var(--i-dialog-max-width-md);
+		width: var(--i-dialog-width);
+	}
+	&--lg .p-dialog {
+		max-width: var(--i-dialog-max-width-lg);
+		width: var(--i-dialog-width);
+	}
+	&--xl .p-dialog {
+		max-width: var(--i-dialog-max-width-xl);
+		width: var(--i-dialog-width);
+	}
+}

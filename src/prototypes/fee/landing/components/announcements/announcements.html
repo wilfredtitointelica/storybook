@@ -1,0 +1,169 @@
+<p-panel class="prPanel prPanel--full | u-full-height" showHeader="false">
+	@if (hasError()) {
+	<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reload()" />
+	} @else {
+	<div class="ptStackContent ptStackContent--scroll">
+		<!-- HEADER -->
+		<div class="ptStackContent__header">
+			<div class="ptStackContent__start">
+				@if (isloadingUpcomingAnnouncements()) {
+				<div class="u-display-flex u-flex-column">
+					<p-skeleton class="prSkeleton u-my-1" [width]="'195.00px'" [height]="'16px'" />
+					<p-skeleton class="prSkeleton u-my-1" [width]="'188.00px'" [height]="'12px'" />
+				</div>
+				} @else {
+				<div class="prPanel__title">{{ "UPCOMING_ANNOUNCEMENTS" | term : globalTermService.languageCode }}</div>
+				<div class="u-text-md">{{ "NETWORK_&_REGULATORY_UPDATES" | term : globalTermService.languageCode }}</div>
+				}
+			</div>
+		</div>
+		<!-- BODY -->
+		<div class="ptStackContent__body">
+			<div class="ptSplitGroup ptSplitGroup--vertical | u-pt-1">
+				@if (isloadingUpcomingAnnouncements()) {
+				<!-- SKELETON -->
+				@for (_ of [].constructor(4); track $index) {
+				<div class="ptSplitGroup__item">
+					<div class="ptListitemRich">
+						<div class="ptListitemRich__meta">
+							<div class="ptListitemRich__row">
+								<div class="ptListitemRich__badge">
+									<p-skeleton class="prSkeleton" [width]="'132.97px'" [height]="'24px'" borderRadius="24px" />
+									<p-skeleton class="prSkeleton" [width]="'56.48px'" [height]="'24px'" borderRadius="24px" />
+								</div>
+								<div class="ptListitemRich__brand">
+									<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'16px'" borderRadius="2px" />
+								</div>
+							</div>
+						</div>
+						<div class="ptListitemRich__header">
+							<div class="ptListitemRich__row">
+								<div class="ptListitemRich__title">
+									<div class="u-display-flex u-flex-wrap u-gap-xs u-py-1">
+										<p-skeleton class="prSkeleton" [width]="'264px'" [height]="'14px'" />
+										<p-skeleton class="prSkeleton" [width]="'96px'" [height]="'14px'" />
+									</div>
+								</div>
+								<div class="ptListitemRich__date"><p-skeleton class="prSkeleton u-my-1" [width]="'90px'" [height]="'8px'" /></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				} } @else if (!hasAnnouncements()) {
+				<!-- NO DATA -->
+				<div class="u-display-flex u-full-height u-align-items-center u-justify-content-center">
+					<intelica-status-state [state]="statusStateEnum.NoData" />
+				</div>
+				} @else {
+				<!-- DATA -->
+				@for (announcement of announcementsData(); track $index) {
+				<div class="ptSplitGroup__item">
+					<div
+					class="ptListitemRich ptListitemRich--interactive"
+					role="button"
+					tabindex="0"
+					[gaTrack]="'openAnnouncementModal'"
+					(click)="showAnnouncementDialog(announcement)"
+					(keydown.enter)="$any($event.target).click()"
+					(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+				>
+						<div class="ptListitemRich__header">
+							<!-- meta -->
+							<div class="ptListitemRich__row">
+								<div class="ptListitemRich__badge">
+									@for (changeType of announcement.financialImpactType; track $index) {
+									<p-badge class="prBadge prBadge--accentE" badgeSize="small" [value]="changeType.name" />
+									} @for (businessType of announcement.business; track $index) {
+									<p-badge class="prBadge {{ businessEnum.Acquirer == businessType.id ? 'prBadge--accentB' : '' }}" badgeSize="small" [value]="businessType.name" />
+									}
+								</div>
+								<div class="ptListitemRich__brand">
+									<i class="icon icon-{{ announcement.brandIcon }} icon--outlined icon--sm"></i>
+								</div>
+							</div>
+							<!-- title -->
+							<div class="ptListitemRich__row">
+								<div class="ptListitemRich__title">{{ announcement.finantialTitle }}</div>
+								<div class="ptListitemRich__date">{{ "EFFECTIVE" | term : globalTermService.languageCode }} {{ announcement.effectiveDateShort }}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				} }
+			</div>
+		</div>
+		<!-- ACTION -->
+		<div class="ptStackContent__action">
+			@if (isloadingUpcomingAnnouncements()) {
+			<p-skeleton class="prSkeleton" [width]="'99.44px'" [height]="'32px'" borderRadius="32px" />
+			<p-skeleton class="prSkeleton u-ms-auto" [width]="'92.59px'" [height]="'32px'" borderRadius="8px" />
+			} @else {
+			<p-badge class="prBadge icon icon-reload" severity="warn" badgeSize="large" [value]="announcementsCount() + ' ' + ('UPDATES' | term : globalTermService.languageCode)" />
+			<p-button
+				class="prButton u-ms-auto"
+				severity="secondary"
+				[label]="'VIEW_MORE' | term : globalTermService.languageCode"
+				[gaTrack]="'viewDetails'"
+				[disabled]="!hasAnnouncements()"
+				(onClick)="goToDetails()"
+			/>
+			}
+		</div>
+	</div>
+	}
+</p-panel>
+
+<p-dialog
+	class="prDialog u-display-none"
+	[(visible)]="isAnnouncementDialogVisible"
+	[modal]="true"
+	[draggable]="false"
+	[resizable]="false"
+	[dismissableMask]="true"
+	[focusOnShow]="false"
+	appendTo="body"
+	maskStyleClass="prDialog prDialog--lg"
+>
+	<ng-template #header>
+		<div class="u-display-flex u-flex-grow-1">
+			<div class="u-flex-grow-1">{{ "ANNOUNCEMENT" | term : globalTermService.languageCode }}</div>
+			<div class="u-display-flex u-gap-lg">
+				<p-button class="prButton prButton--borderTransparent" severity="secondary" tooltipStyleClass="prTooltip" [pTooltip]="'LBL_VIEW_PDF' | term : globalTermService.languageCode" tooltipPosition="top" [gaTrack]="'viewAnnouncement'" (click)="onClickAnnouncement()" >
+				<ng-template #icon>
+					<i class="icon icon-pdf" style="font-size: 1.125rem;"></i>
+				</ng-template>
+				</p-button>
+			</div>
+		</div>
+	</ng-template>
+	<ng-template #closeicon>
+		<i class="icon icon-cancel"></i>
+	</ng-template>
+	<ng-template #content>
+		@if (selectedAnnouncement(); as announcement) {
+		<div class="ptListitemRich">
+			<div class="ptListitemRich__header">
+				<!-- meta -->
+				<div class="ptListitemRich__row">
+					<div class="ptListitemRich__badge">
+						@for (changeType of announcement.financialImpactType; track $index) {
+						<p-badge class="prBadge prBadge--accentE" badgeSize="small" [value]="changeType.name" />
+						} @for (businessType of announcement.business; track $index) {
+						<p-badge class="prBadge {{ businessEnum.Acquirer == businessType.id ? 'prBadge--accentB' : '' }}" badgeSize="small" [value]="businessType.name" />
+						}
+					</div>
+					<div class="ptListitemRich__brand">
+						<i class="icon icon-{{ announcement.brandIcon }} icon--outlined icon--sm"></i>
+					</div>
+				</div>
+				<!-- title -->
+				<div class="ptListitemRich__row">
+					<div class="ptListitemRich__title">{{ announcement.finantialTitle }}</div>
+					<div class="ptListitemRich__date">{{ "EFFECTIVE" | term : globalTermService.languageCode }} {{ announcement.effectiveDateShort }}</div>
+				</div>
+			</div>
+			<div class="ptListitemRich__body">{{ announcement.finantialDescription }}</div>
+		</div>
+		}
+	</ng-template>
+</p-dialog>

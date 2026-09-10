@@ -1,0 +1,111 @@
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKEN
+\*——————————————————————————————————————————————————————————*/
+
+
+:root { --NOTE-TIMELINE-VERTICAL: 'ptTimeline ( Patterns )';
+
+	--i-timeline-vertical-background: var(--i-color-primary-base);
+
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( .block )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTimelineVertical {
+	--accent-color: var(--i-timeline-vertical-background);
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-xs);
+	font-size: inherit;
+	line-height: 1.5em;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTimelineVertical {
+	// --- structure ---
+
+	&__event {
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	&__separator {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		flex-grow: 0;
+
+		&::before, &::after {
+			content: '';
+			display: block;
+			background-color: var(--accent-color);
+		}
+
+		&::before {
+			font-size: calc(1rem + 1px);
+			width: 1em;
+			height: 1em;
+			border-radius: 1em;
+		}
+
+		&::after {
+			width: 1px;
+			flex-grow: 1;
+		}
+	}
+
+	&__content {
+		flex-grow: 1;
+		padding-bottom: .6em;
+		transform: translateY(-.2em);
+	}
+
+	// --- elements ---
+
+	&__status {
+		font-weight: var(--i-typography-font-weight-bold);
+		color: var(--accent-color);
+	}
+
+	&__date {
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifer )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTimelineVertical {
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED ( others elements )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTimelineVertical {
+
+	&__separator:has(.prSkeleton) {
+		&::before, &::after {
+			display: none;
+		} 
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skTimelineVertical {
+
+}

@@ -1,0 +1,94 @@
+<div class="feeDetailWrapper">
+	<p-toast class="prToast" position="bottom-right"></p-toast>
+	@if (hasOverviewError()) {
+	<intelica-status-state [state]="StatusStateEnum.SystemError" [description]="'LBL_SYSTEM_ERROR_SUBTITLE'" (reload)="onReloadOverview()" />
+	} @else {
+	<fee-header
+		[loading]="isLoadingOverview()"
+		[busy]="isLoadingHistory()"
+		[overviewData]="overviewData()"
+		[isSinglePeriod]="overviewData()?.isSinglePeriod ?? false"
+		[isNewFee]="isNewFee()"
+		[isGroupProfile]="isGroupProfile"
+		[selectedBankId]="bankId()"
+		[incomingRange]="incomingDateRange()"
+		[incomingPeriod]="incomingPeriod()"
+		(apply)="onApplyFilter($event)"
+		(reset)="onResetFilter()"
+		(clientChanged)="onClientChanged($event)"
+	/>
+	<fee-title [loading]="isLoadingOverview()" [overviewData]="overviewData()" [hasAlert]="hasAlert()" [originTrail]="originTrail()" (showReference)="onShowReference()" (setAlert)="onSetAlert()" />
+
+	<div class="grPanel">
+		<p-tabs class="prTabs" [value]="activeTab()" (valueChange)="activeTab.set($event?.toString() ?? FeeDetailTabEnum.Overview)">
+			<p-tablist id="tabsListGA">
+				<div class="prTabs__list">
+					@if (isLoadingOverview()) {
+					<div class="prTabs__tabs gap-2">
+						<p-skeleton class="prSkeleton" width="80px" height="32px" borderRadius="8px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="80px" height="32px" borderRadius="8px"></p-skeleton>
+					</div>
+					} @else {
+					<div class="prTabs__tabs">
+						<p-tab [value]="FeeDetailTabEnum.Overview">{{ commonGlobalService.termText(feeDetailTerm.OVERVIEW) }}</p-tab>
+						<p-tab [value]="FeeDetailTabEnum.History">{{ commonGlobalService.termText(feeDetailTerm.HISTORY) }}</p-tab>
+					</div>
+					}
+				</div>
+			</p-tablist>
+			<p-tabpanels>
+				<p-tabpanel [value]="FeeDetailTabEnum.Overview">
+					<fee-overview [loading]="isLoadingOverview()" [overviewData]="overviewData()" [feeSummary]="feeSummary()" [rateVersions]="rateVersions()" />
+				</p-tabpanel>
+				<p-tabpanel [value]="FeeDetailTabEnum.History">
+					<fee-history
+						[loading]="isLoadingHistory()"
+						[hasError]="hasHistoryError()"
+						[kpiData]="kpiData()"
+						[chartData]="chartData()"
+						[historyData]="historyData()"
+						[activePeriod]="activePeriod()"
+						[hasIncompleteHistory]="hasIncompleteHistory()"
+						[isDownloading]="isDownloading()"
+						[isDownloadingExpenseEvolution]="isDownloadingExpenseEvolution()"
+						(downloadRequest)="onDownloadRequest($event)"
+						(expenseEvolutionDownloadRequest)="onExpenseEvolutionDownloadRequest()"
+						(reload)="onReloadHistory()"
+					/>
+				</p-tabpanel>
+			</p-tabpanels>
+		</p-tabs>
+	</div>
+	}
+</div>
+<p-dialog
+	class="prDialog u-display-none"
+	[(visible)]="showModalSetAlert"
+	[modal]="true"
+	[draggable]="false"
+	[resizable]="false"
+	[dismissableMask]="!isSavingAlert()"
+	[closable]="!isSavingAlert()"
+	[closeOnEscape]="!isSavingAlert()"
+	[focusOnShow]="false"
+	appendTo="body"
+	maskStyleClass="prDialog prDialog--md SetAlertModalGA"
+>
+	<ng-template #header>{{ "LBL_CONFIGURE_CUSTOM_ALERT" | term : globalTermService.languageCode }}</ng-template>
+	<ng-template #closeicon>
+		<i class="icon icon-cancel"></i>
+	</ng-template>
+	<ng-template #content>
+		<fee-modal-set-alert
+			[feeId]="feeId()"
+			[hasAlert]="hasAlert()"
+			[clientInfo]="clientInfo()"
+			[isGroupProfile]="isGroupProfile"
+			[currency]="rateVersions()?.currency ?? null"
+			[bankId]="bankId()"
+			(closeDialog)="onSetAlertClosed($event)"
+			(saved)="onAlertSaved()"
+			(savingChange)="isSavingAlert.set($event)"
+		/>
+	</ng-template>
+</p-dialog>

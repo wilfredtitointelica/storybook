@@ -1,0 +1,65 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-SKELETON-PAGINATOR: "skPaginator ( Native HTML + PrimeNG )";
+
+	--i-skeleton-table-padding: 8px;
+	--i-skeleton-table-gap: 3px;
+
+	--i-skeleton-table-header-height: 60px;
+	--i-skeleton-table-summary-height: 49px;
+	--i-skeleton-table-body-height: auto;
+	--i-skeleton-table-row-height: 30px;
+	--i-skeleton-table-divider-height: 1px;
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( .block )
+\*——————————————————————————————————————————————————————————*/
+
+.skPaginator {
+
+	display: flex;
+	gap: var(--i-spacing-gap-xs);
+	justify-content: flex-end;
+	align-items: center;
+	padding: var(--i-spacing-container-md) var(--i-spacing-container-xs);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENT ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.skPaginator {
+	
+	&__rowsPerPage, &__currentPage, &__controls {
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+		align-items: center;
+
+	}
+
+	&__rowsPerPage {
+
+	}
+
+	&__currentPage {
+		
+	}
+
+	&__controls {
+		
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.skPaginator {
+	
+}
+

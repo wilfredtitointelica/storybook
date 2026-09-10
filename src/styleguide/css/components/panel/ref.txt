@@ -1,0 +1,15 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PRIMENG / PANEL
+\*——————————————————————————————————————————————————————————*/
+
+/*\
+	.p-panel ( .p-tabs-scrollable )
+		.p-panel-header
+			.p-panel-title
+			.p-panel-header-actions 
+			.p-panel-icons ( .p-panel-icons-end )
+		.p-panel-content-container ( .p-collapsible-leave-active | .p-collapsible-leave-to )
+			.p-panel-content-wrapper
+				.p-panel-content
+				.p-panel-footer
+\*/

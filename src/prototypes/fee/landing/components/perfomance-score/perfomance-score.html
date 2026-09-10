@@ -1,0 +1,64 @@
+<p-panel class="prPanel u-full-height" showHeader="false">
+	@if (hasError()) {
+	<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reload()" />
+	} @else {
+	<div class="u-display-flex u-flex-column u-gap-lg u-full-height">
+		<!-- TITLE -->
+		<div class="u-display-flex u-flex-column">
+			@if (isloadingPerformanceScore()) {
+			<p-skeleton class="prSkeleton u-my-1" [width]="'140.00px'" [height]="'16px'" />
+			<p-skeleton class="prSkeleton u-my-1" [width]="'205.00px'" [height]="'12px'" />
+			} @else {
+			<div class="prPanel__title">
+				<div class="u-display-flex u-gap-xs u-align-items-center">
+					{{ "PERFORMANCE_SCORE" | term : globalTermService.languageCode }}
+					<i class="icon icon-info" [pTooltip]="'PERFORMANCE_SCORE_TOOLTIP' | term : globalTermService.languageCode" tooltipPosition="top" tooltipStyleClass="prTooltip" [autoHide]="false"></i>
+				</div>
+			</div>
+			<div class="u-text-md">{{ "BASED_ON_IDENTIFIED_OPPORTUNITIES" | term : globalTermService.languageCode }}</div>
+			}
+		</div>
+		<!-- GRAPH -->
+		<div class="u-display-flex u-flex-column u-flex-grow-1 u-align-items-center u-justify-content-center">
+			@if (isloadingPerformanceScore()) {
+			<!-- SKELETON -->
+			<div class="skChartGauge">
+				<div class="skChartGauge__chart">
+					<div class="skChartGauge__arc">
+						<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'100%'"></p-skeleton>
+					</div>
+					<div class="skChartGauge__center">
+						<p-skeleton class="prSkeleton" [width]="'31.28px'" [height]="'48px'"></p-skeleton>
+						<p-skeleton class="prSkeleton" [width]="'45.56px'" [height]="'8px'"></p-skeleton>
+					</div>
+					<div class="skChartGauge__value">
+						<p-skeleton class="prSkeleton" [width]="'9px'" [height]="'15px'"></p-skeleton>
+						<p-skeleton class="prSkeleton" [width]="'26.59px'" [height]="'15px'"></p-skeleton>
+					</div>
+				</div>
+			</div>
+			<div class="ptAmount ptAmount--centered">
+				<div class="ptAmount__title"><p-skeleton class="prSkeleton u-mx-auto u-my-1" [width]="'169.19px'" [height]="'12px'" /></div>
+				<div class="ptAmount__main">
+					<span class="ptAmount__currency"><p-skeleton class="prSkeleton" [width]="'23.47px'" [height]="'8.67px'" /></span>
+					<span class="ptAmount__value"><p-skeleton class="prSkeleton" [width]="'78.03px'" [height]="'23.14px'" /></span>
+				</div>
+			</div>
+			} @else if (!hasData()) {
+			<!-- NO DATA -->
+			<intelica-status-state [state]="statusStateEnum.NoData" />
+			} @else {
+			<!-- DATA -->
+			<fee-graph-gauge [value]="score()" [format]="'custom'" [label]="'SCORE' | term : globalTermService.languageCode" />
+			<div class="ptAmount ptAmount--centered ptAmount--3xl">
+				<div class="ptAmount__title">{{ "POTENTIAL_SAVINGS_IDENTIFIED" | term : globalTermService.languageCode }}</div>
+				<div class="ptAmount__main">
+					<span class="ptAmount__currency">{{ currencyCode() }}</span>
+					<span class="ptAmount__value">{{ total() | formatValue : "amount" : 2 }}</span>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+	}
+</p-panel>

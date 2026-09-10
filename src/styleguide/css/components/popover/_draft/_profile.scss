@@ -1,0 +1,51 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → Popover Profile
+	 Basados en spacing, colors, typography y layout
+	 *——————————————————————————————————————————*/
+
+	/* Popover general */
+	--i-popover-profile-margin-top: 8px;       /* margin-top del popover */
+	--i-popover-profile-content-width: 248px;  /* ancho del contenido del popover */
+	--i-popover-profile-content-padding: 24px; /* padding del contenido */
+	--i-popover-profile-content-gap: 12px;     /* gap entre elementos del contenido */
+
+	/* Header */
+	--i-popover-profile-header-bg: var(--i-color-secondary-100);    /* background del header */
+	--i-popover-profile-header-min-height: 60px; /* altura mínima del header */
+	--i-popover-profile-header-width: 200px;   /* ancho del header */
+	--i-popover-profile-header-border-radius: 8px; /* border-radius del header */
+
+	/* Body */
+	--i-popover-profile-body-gap: 12px;        /* gap del body */
+}
+
+
+.prPopover {
+	&--profile {
+		&.p-popover {
+			margin-top: var(--i-popover-profile-margin-top);
+
+			& .p-popover-content {
+				width: var(--i-popover-profile-content-width);
+				display: flex;
+				flex-direction: column;
+				padding: var(--i-popover-profile-content-padding);
+				gap: var(--i-popover-profile-content-gap);
+			}
+		}
+	}
+
+	&--profile &__header {
+		background: var(--i-popover-profile-header-bg);
+		min-height: var(--i-popover-profile-header-min-height);
+		width: var(--i-popover-profile-header-width);
+		border-radius: var(--i-popover-profile-header-border-radius);
+	}
+
+	&--profile &__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-popover-profile-body-gap);
+	}
+}

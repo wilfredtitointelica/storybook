@@ -1,0 +1,296 @@
+<!-- ================================================================ -->
+
+<!-- section title -->
+<div class="ptSectionTitle">
+	<div class="ptSectionTitle__content">
+		<!-- LODADED -->
+		@if (isReady()) {
+		<div class="ptSectionTitle__title">{{ "TitleProfile" | term : termService.languageCode }}</div>
+		<div class="ptSectionTitle__subtitle">{{ "SubTitleProfile" | term : termService.languageCode }}</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<p-skeleton class="prSkeleton" [width]="'60px'" [height]="'28px'" />
+		<p-skeleton class="prSkeleton u-my-1" [width]="'430px'" [height]="'16px'" />
+		}
+	</div>
+</div>
+
+<!-- panel profile -->
+<p-panel class="prPanel" showHeader="false">
+	<!-- Personal & Work Information -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<!-- LOADED -->
+		@if (isReady()) {
+		<div class="u-bold">{{ "PersonalInformationTitle" | term : termService.languageCode }}</div>
+		<div class="ptFieldGroup ptFieldGroup--three">
+			<div class="ptField">
+				<div class="ptField__inner">
+					<div class="ptField__control">
+						<p-iconfield class="prIconfield">
+							<input
+								class="prInputtext"
+								[(ngModel)]="valueFirstName"
+								pInputText
+								#inputText
+								id="c-firstname"
+								[placeholder]="'PersonalInformationNamePlaceHolder' | term : termService.languageCode"
+								autocomplete="off"
+							/>
+							@if(valueFirstName() !== '') {
+							<p-button class="prButton" icon="icon icon-cancel" size="small" (click)="valueFirstName.set('')" />
+							}
+						</p-iconfield>
+					</div>
+				</div>
+			</div>
+			<div class="ptField">
+				<div class="ptField__inner">
+					<div class="ptField__control">
+						<p-iconfield class="prIconfield">
+							<input
+								class="prInputtext"
+								[(ngModel)]="valueLastName"
+								pInputText
+								#inputText
+								id="c-name"
+								[placeholder]="'PersonalInformationLastNamePlaceHolder' | term : termService.languageCode"
+								autocomplete="off"
+							/>
+							@if(valueLastName() !== '') {
+							<p-button class="prButton" icon="icon icon-cancel" size="small" (click)="valueLastName.set('')" />
+							}
+						</p-iconfield>
+					</div>
+				</div>
+			</div>
+			<div class="ptField">
+				<div class="ptField__inner">
+					<div class="ptField__control">
+						<input
+							class="prInputtext"
+							[(ngModel)]="valueEmail"
+							pInputText
+							#inputText
+							email
+							type="email"
+							id="email"
+							name="email"
+							autocomplete="off"
+							[placeholder]="'PersonalInformationLastEmailPlaceHolder' | term : termService.languageCode"
+							[disabled]="true"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<div class="u-bold"><p-skeleton class="prSkeleton" [width]="'210px'" [height]="'24px'" /></div>
+		<div class="ptFieldGroup ptFieldGroup--three">
+			@for (_ of [].constructor(3); track $index) {
+			<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" />
+			}
+		</div>
+		}
+	</div>
+
+	<hr class="u-divider-horizontal" />
+
+	<!-- Work Details -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<!-- LOADED -->
+		@if (isReady()) {
+		<div class="u-bold">{{ "WorkDetailTitle" | term : termService.languageCode }}</div>
+		<!-- data -->
+		<div class="ptFieldGroup ptFieldGroup--three">
+			<div class="ptField">
+				<div class="ptField__inner">
+					<div class="ptField__control">
+						<p-iconfield class="prIconfield">
+							<input
+								class="prInputtext"
+								[(ngModel)]="valueDepartament"
+								pInputText
+								#inputText
+								id="c-firstname"
+								[placeholder]="'WorkDetailDepartmentPlaceHolder' | term : termService.languageCode"
+								autocomplete="off"
+							/>
+							@if(valueDepartament() !== '') {
+							<p-button class="prButton" icon="icon icon-cancel" size="small" (click)="valueDepartament.set('')" />
+							}
+						</p-iconfield>
+					</div>
+				</div>
+			</div>
+			<div class="ptField">
+				<div class="ptField__inner">
+					<div class="ptField__control">
+						<input
+							class="prInputtext"
+							[(ngModel)]="valueOrganization"
+							pInputText
+							#inputText
+							id="c-name"
+							[placeholder]="'WorkDetailOrgNamePlaceHolder' | term : termService.languageCode"
+							autocomplete="off"
+							[disabled]="true"
+						/>
+					</div>
+				</div>
+			</div>
+			<div class="ptField">
+				<div class="ptField__inner">
+					<div class="ptField__control">
+						<input
+							class="prInputtext"
+							[(ngModel)]="valueDomain"
+							pInputText
+							#inputText
+							email
+							type="email"
+							id="email"
+							name="email"
+							autocomplete="off"
+							[placeholder]="'WorkDetailDomainPlaceHolder' | term : termService.languageCode"
+							[disabled]="true"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- role options -->
+		<div class="ptFieldGroup ptFieldGroup--inline u-gap-sm-y u-gap-lg-x">
+			<h4 class="u-full-width u-m-0 u-text-md">{{ "RoleQuestion" | term : termService.languageCode }}</h4>
+			<!-- field: role -->
+			@for (role of roleOptions(); track $index) {
+			<div class="ptField">
+				<div class="ptField__control">
+					<p-radiobutton class="prRadioButton" name="role" [inputId]="role.key" [value]="role" [ngModel]="selectedRole()" (onClick)="selectedRole.set($event.value)" />
+				</div>
+				<div class="ptField__inner">
+					<div class="ptField__label">
+						<label [for]="role.key" class="u-text-md">{{ role.name | term : termService.languageCode }}</label>
+					</div>
+				</div>
+			</div>
+			}
+		</div>
+		<!-- role other -->
+		@if (selectedRole()?.key === '00000000-0000-0000-0000-000000000000') {
+		<div class="ptFieldGroup ptFieldGroup--three u-gap-sm-y">
+			<h4 class="area-1x3 u-m-0 u-normal u-text-md">{{ "RoleOtherOptionTitle" | term : termService.languageCode }}</h4>
+			<!-- field: role other -->
+			<div class="ptField ptField--floatMessage">
+				<div class="ptField__inner">
+					<div class="ptField__control">
+						<p-iconfield class="prIconfield">
+							<input
+								class="prInputtext"
+								[(ngModel)]="valueOther"
+								pInputText
+								#inputText
+								type="text"
+								id="other"
+								[invalid]="showOtherError()"
+								autocomplete="off"
+								[placeholder]="'PlaceholderOther' | term : termService.languageCode"
+							/>
+							@if(valueOther() !== '') {
+							<p-button class="prButton u-display-none" icon="icon icon-cancel" size="small" (click)="valueOther.set('')" />
+							}
+						</p-iconfield>
+					</div>
+					<div class="ptField__message">
+						@if(showOtherError()) {
+						<small class="u-msg-error">{{ "ValidationRoleRequired" | term : termService.languageCode }}</small>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+		<!-- role ask -->
+		<div class="ptFieldGroup ptFieldGroup--three u-gap-sm-y">
+			<h4 class="area-1x3 u-m-0 u-normal u-text-md">{{ "WorkRoleQuestionTitle" | term : termService.languageCode }}</h4>
+			<!-- field: role operation -->
+			<div class="ptField ptField--floatMessage">
+				<div class="ptField__inner">
+					<div class="ptField__control">
+						<p-select
+							class="prSelect"
+							[options]="translatedOperationOptions()"
+							[ngModel]="selectedOperation()?.key ?? null"
+							(ngModelChange)="onOperationChange($event)"
+							optionLabel="label"
+							optionValue="key"
+							[placeholder]="'RoleOtherOptionText' | term : termService.languageCode"
+							showClear="false"
+							dropdownIcon="icon icon-arrow-down"
+							showToggleAll="false"
+							[invalid]="showOperationError()"
+						/>
+					</div>
+					<div class="ptField__message">
+						@if(showOperationError()) {
+						<small class="u-msg-error">{{ "ValidationFieldRequired" | term : termService.languageCode }}</small>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<div class="u-bold"><p-skeleton class="prSkeleton" [width]="'100px'" [height]="'24px'" /></div>
+		<div class="ptFieldGroup ptFieldGroup--three">
+			@for (_ of [].constructor(3); track $index) {
+			<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" />
+			}
+		</div>
+		<div class="ptFieldGroup ptFieldGroup--inline u-gap-sm-y u-gap-lg-x">
+			<h4 class="u-full-width u-m-0"><p-skeleton class="prSkeleton" [width]="'120px'" [height]="'20px'" /></h4>
+			@for (_ of [].constructor(5); track $index) {
+			<div class="u-display-flex u-gap-xs u-align-items-center u-overflow-hidden">
+				<p-skeleton class="prSkeleton u-my-1" shape="circle" [size]="'16px'" />
+				<p-skeleton class="prSkeleton u-my-1" [width]="'64px'" [height]="'12px'" />
+			</div>
+			}
+		</div>
+		<div class="ptFieldGroup ptFieldGroup--three u-gap-sm-y">
+			<h4 class="area-1x3 u-m-0 u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'64px'" [height]="'12px'" /></h4>
+			<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" />
+		</div>
+		}
+	</div>
+
+	<hr class="u-divider-horizontal" />
+
+	<!-- button: action -->
+	@if (isReady()) {
+	<p-button
+		class="prButton u-mx-auto"
+		[gaTrack]="'updateProfile'"
+		[disabled]="disabledButton() || isUpdating()"
+		[loading]="isUpdating()"
+		[label]="'ButtonUpdateProfile' | term : termService.languageCode"
+		(click)="update()"
+	/>
+	} @else {
+	<p-skeleton class="prSkeleton u-mx-auto" [width]="'104.19px'" [height]="'32px'" />
+	}
+</p-panel>
+
+<!-- ================================================================ -->
+
+@if (isReady()) {
+<!-- library: alert -->
+<intelica-alert class="u-display-none" />
+}
+
+<!-- ================================================================ -->

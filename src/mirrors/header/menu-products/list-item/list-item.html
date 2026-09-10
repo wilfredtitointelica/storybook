@@ -1,0 +1,21 @@
+<div class="ptListitem" [ngClass]="[klassDisplay(), isActive() ? 'ptListitem--active' : '']" tabindex="0" (click)="onSelectItem()">
+	<a class="ptListitem__link" [routerLink]="routeDisplay()"></a>
+	<div class="ptListitem__heading">
+		<div class="ptListitem__icon">
+			<i class="icon icon--md" [ngClass]="iconDisplay()"></i>
+		</div>
+		<div class="ptListitem__title">
+			{{ titleDisplay() | term : globalTermService.languageCode }}
+		</div>
+		<div class="ptListitem__indicator">
+			@if (isBeta()) {
+			<p-badge class="prBadge" badgeSize="small" severity="info" [value]="'Beta'" />
+			} @if (isLegacy()) {
+			<p-badge class="prBadge" badgeSize="small" severity="info" [value]="'Legacy'" />
+			}
+		</div>
+	</div>
+	<div class="ptListitem__content">
+		{{ descriptionDisplay() | term : globalTermService.languageCode }}
+	</div>
+</div>

@@ -1,0 +1,177 @@
+<div class="feeDetail">
+	@if (loading()) {
+	<div class="ptFilterbar">
+		<div class="ptFilterbar__container">
+			<!-- filterbar: blocks -->
+			<div class="ptFilterbar__blocks">
+				<!-- filter business -->
+				@if (showClientSelect()) {
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+					<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+				</div>
+				}
+				<!-- filter range ( datepicker ) -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+					<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+				</div>
+				<!-- filter brand -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+					<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'8.375rem'" [height]="'2rem'" /></div>
+				</div>
+				<!-- filter business -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+					<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'8.375rem'" [height]="'2rem'" /></div>
+				</div>
+				<!-- filter divider -->
+				<div class="ptFilterbar__divider"></div>
+				<!-- filter action -->
+				<div class="ptFilterbar__actions">
+					<div class="ptFilterbar__wrap">
+						<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+						<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+					</div>
+				</div>
+			</div>
+			<!-- filterbar: blocks -->
+			<div class="ptFilterbar__blocks u-ms-auto">
+				<!-- filter actions advanced -->
+				<div class="ptFilterbar__actions">
+					<div class="ptFilterbar__wrap">
+						<p-skeleton class="prSkeleton" [width]="'6.125rem'" [height]="'2rem'" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	} @else {
+	<div class="ptFilterbar">
+		<div class="ptFilterbar__container">
+			<!-- filterbar: blocks -->
+			<div class="ptFilterbar__blocks">
+				<!-- filter business -->
+				@if (showClientSelect()) {
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><i class="icon icon icon-bank"></i></div>
+					<div class="ptFilterbar__wrap">
+						<p-select
+							class="prSelect"
+							[options]="clientOptions()"
+							[ngModel]="selectedBankId()"
+							optionLabel="bankName"
+							optionValue="bankId"
+							[placeholder]="commonGlobalService.termText(feeDetailTerm.INSTITUTION)"
+							[filter]="clientOptions().length > 10"
+							filterBy="bankName"
+							[resetFilterOnHide]="true"
+							[filterPlaceholder]="commonGlobalService.termText(feeDetailTerm.LBL_SEARCH)"
+							(onChange)="onClientChanged($event.value)"
+							[style]="{ width: '12rem' }"
+							[disabled]="busy()"
+						>
+							<ng-template #dropdownicon>
+								<i class="icon icon-arrow-down"></i>
+							</ng-template>
+						</p-select>
+					</div>
+				</div>
+				}
+				<!-- filter range ( datepicker ) -->
+				<fee-datepicker-range
+					[minDate]="minDate()"
+					[maxDate]="maxDate()"
+					[disabled]="isSinglePeriod()"
+					[initialRange]="incomingRange()"
+					[initPeriod]="childInitPeriod()"
+					[anchorToDataBounds]="true"
+					(changed)="onNewDateChanged($event)"
+				/>
+				<!-- filter brand -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><i class="icon icon-credit-card"></i></div>
+					<div class="ptFilterbar__wrap">
+						<p-multiselect
+							class="prMultiselect"
+							[options]="brandOptions()"
+							[ngModel]="selectedBrandIds()"
+							[readonly]="isReadonly"
+							[class.readonly-multiselect]="isReadonly"
+							optionLabel="name"
+							optionValue="id"
+							[placeholder]="commonGlobalService.termText(feeDetailTerm.ALL_BRANDS)"
+							[selectedItemsLabel]="commonGlobalService.termText(feeDetailTerm.BRAND_SELECTED)"
+							[maxSelectedLabels]="2"
+							[filter]="false"
+							[showToggleAll]="true"
+							[style]="{ width: '8.375rem' }"
+						>
+							<ng-template #dropdownicon>
+								<i class="icon icon-arrow-down"></i>
+							</ng-template>
+						</p-multiselect>
+					</div>
+				</div>
+				<!-- filter business -->
+				<div class="ptFilterbar__itemset">
+					<div class="ptFilterbar__icon"><i class="icon icon-business"></i></div>
+					<div class="ptFilterbar__wrap">
+						<p-multiselect
+							[options]="businessOptions()"
+							[ngModel]="selectedBusinessIds()"
+							[readonly]="isReadonly"
+							[class.readonly-multiselect]="isReadonly"
+							optionLabel="name"
+							optionValue="id"
+							[placeholder]="commonGlobalService.termText(feeDetailTerm.ALL_BUSINESSES)"
+							[selectedItemsLabel]="commonGlobalService.termText(feeDetailTerm.BUSINESS_SELECTED)"
+							[maxSelectedLabels]="2"
+							[filter]="false"
+							[showToggleAll]="true"
+							class="prMultiselect"
+							[style]="{ width: '8.375rem' }"
+						>
+							<ng-template #dropdownicon>
+								<i class="icon icon-arrow-down"></i>
+							</ng-template>
+						</p-multiselect>
+					</div>
+				</div>
+				<!-- filter divider -->
+				<div class="ptFilterbar__divider"></div>
+				<!-- filter action -->
+				<div class="ptFilterbar__actions">
+					<div class="ptFilterbar__wrap">
+						<p-button
+							class="prButton actionFiltersGA"
+							[label]="commonGlobalService.termText(feeDetailTerm.APPLY)"
+							[disabled]="isSinglePeriod() || busy()"
+							(onClick)="onApply()"
+							[style]="{ 'min-width': '64px' }"
+						></p-button>
+
+						<p-button
+							class="prButton actionFiltersGA"
+							[label]="commonGlobalService.termText(feeDetailTerm.RESET)"
+							severity="secondary"
+							[disabled]="isSinglePeriod() || busy()"
+							(onClick)="onReset()"
+						></p-button>
+					</div>
+				</div>
+			</div>
+			<!-- filterbar: blocks -->
+			<div class="ptFilterbar__blocks u-ms-auto">
+				<div class="ptFilterbar__wrap">
+					<p-button class="prButton" severity="secondary" disabled>
+						<i class="icon icon-filter p-button-icon-left" pButtonIcon></i>
+						<span pButtonLabel>{{ commonGlobalService.termText(feeDetailTerm.ADVANCED) }}</span>
+					</p-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	}
+</div>

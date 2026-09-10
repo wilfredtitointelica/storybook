@@ -1,0 +1,14 @@
+<div class="ptStatusLastUpdate" [class.ptStatusLastUpdate--collapsed]="collapsed()">
+	<div class="ptStatusLastUpdate__title">{{ "LAST_UPDATE" | term : globalTermService.languageCode }}</div>
+
+	<div class="ptStatusLastUpdate__list">
+		@for (brand of lastUpdatedBrands(); track $index) {
+		<div class="ptStatusLastUpdate__item">
+			<span class="ptStatusLastUpdate__brand">
+				<i class="icon icon--outlined" [ngClass]="getBrandIcon(brand.id)"></i>
+			</span>
+			<span class="ptStatusLastUpdate__date">{{brand.lastUpdate|date}}</span>
+		</div>
+		}
+	</div>
+</div>

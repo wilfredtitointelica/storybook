@@ -1,0 +1,83 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	// --- Layout ---
+	--i-form-field-text: #636b8d;
+	--i-form-field-text-hover: #636b8d;
+	--i-form-field-text-pressed: #636b8d;
+	--i-form-field-text-select: #9ca2ba;
+	--i-form-field-text-disabled: #9ca2ba;
+	--i-form-field-text-focused: #9ca2ba;
+	--i-form-field-text-alert: #970c0c;
+	--i-form-field-text-success: #136729;
+
+	// placeholder
+
+	--i-form-field-placeholder: #9ca2ba;
+	--i-form-field-placeholder-hover: #9ca2ba;
+	--i-form-field-placeholder-pressed: #9ca2ba;
+	--i-form-field-placeholder-select: #9ca2ba;
+	--i-form-field-placeholder-disabled: #9ca2ba;
+	--i-form-field-placeholder-focused: #9ca2ba;
+	--i-form-field-placeholder-alert: #970c0c;
+	--i-form-field-placeholder-success: #136729;
+
+	// background
+
+	--i-form-field-background: #fcfcfd;
+	--i-form-field-background-hover: #fcfcfd;
+	--i-form-field-background-pressed: #fcfcfd;
+	--i-form-field-background-select: #fcfcfd;
+	--i-form-field-background-disabled: #d8dae4;
+	--i-form-field-background-focused: #fcfcfd;
+	--i-form-field-background-alert: #fcfcfd;
+	--i-form-field-background-success: #fcfcfd;
+
+	// border
+
+	--i-form-field-border: #9ca2ba;
+	--i-form-field-border-hover: #7490e2;
+	--i-form-field-border-pressed: #9ca2ba;
+	--i-form-field-border-select: #9ca2ba;
+	--i-form-field-border-disabled: #d8dae4;
+	--i-form-field-border-focused: #2a52c5;
+	--i-form-field-border-alert: #c61010;
+	--i-form-field-border-success: #23be4c;
+
+	// icon
+
+	--i-form-field-icon: #2a52c5;
+	--i-form-field-icon-hover: #2a52c5;
+	--i-form-field-icon-pressed: #2a52c5;
+	--i-form-field-icon-select: #2a52c5;
+	--i-form-field-icon-disabled: #9ca2ba;
+	--i-form-field-icon-focused: #2a52c5;
+	--i-form-field-icon-alert: #2a52c5;
+	--i-form-field-icon-success: #2a52c5;
+
+	// space
+
+	--i-form-field-padding-x: 8px;
+	--i-form-field-padding-y: 6px;
+
+	--i-form-field-radius: 8px;
+
+	--i-form-field-size: 14px;
+	--i-form-field-size-sm: 12px;
+	--i-form-field-size-md: var();
+	--i-form-field-size-lg: var();
+
+	--i-form-field-icon-size: 16px;
+	--i-form-field-icon-size-sm: 12px;
+	--i-form-field-icon-size-md: var();
+	--i-form-field-icon-size-lg: var();
+
+	--i-form-field-border-width: 1px;
+	--i-form-field-border-style: solid;
+
+	// gap
+
+	--i-form-field-gap: 6px;
+}

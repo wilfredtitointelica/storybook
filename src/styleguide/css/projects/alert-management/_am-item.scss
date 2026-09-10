@@ -1,0 +1,150 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( block )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertItem {
+	--custom-color: var(--accent-color, var(--i-color-primary-base));
+	--custom-background: var(--accent-background, var(--i-color-primary-50));
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-xs);
+	padding: var(--i-spacing-container-lg);
+	border: var(--i-line);
+	border-color: transparent;
+	border-radius: var(--i-border-radius-lg);
+	color: var(--i-color-primary-900);
+	//background-color: var(--i-color-neutral-50);
+	transition: all var(--i-motion-base);
+	overflow: hidden;
+	cursor: pointer;
+	user-select: none;
+
+	// mark unread
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: 0px;
+		transition: width var(--i-motion-base);
+		background-color: var(--custom-color);
+	}
+
+	// for background
+
+	&:is(:hover,:active, .is-active) {
+		background-color: var(--custom-background);
+	}
+
+	// focus visible
+	&:focus-visible {
+		outline: 1px solid var(--custom-color);
+		outline-offset: -1px;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertItem {
+
+	&__header {
+
+	}
+
+	&__footer {
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	&__stats {
+		--gap: var(--i-spacing-gap-sm);
+		display: flex;
+		gap: calc( var(--gap) * 2 );
+		padding:0;
+		margin: 0;
+		list-style: none;
+		// transition: color .1s ease-in-out;
+
+		& > :nth-child(n) {
+			position: relative;
+			display: flex;
+			flex-grow: 1;
+			flex-direction: column;
+			align-items: center;
+		}
+	
+		& > :nth-child(n)::after {
+			content: '';
+			position: absolute;
+			inset-block: 0;
+			inset-inline: auto 0;
+			border-left: var(--i-line);
+			transform: translateX(var(--gap));
+		}
+	
+		& > :nth-child(n):last-child::after {
+			display: none;
+		}
+	
+	}
+
+	&__stats + &__reference {
+		margin-left: auto;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertItem {
+
+	// --- unread ---
+	
+	&.is-unread::after {
+		width: 4px;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED ACTIVE ( others elements )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertItem {
+
+	// --- active ---
+
+	&:is(:active,.is-active) {
+		&::after { width: 0; }
+		border-color: var(--custom-color);
+	}
+
+	&:is(:active,.is-active) &__stats {
+		color: var(--custom-color);
+	}
+	
+	&:is(:active,.is-active) &__reference {
+		color: var(--custom-color);
+	}
+
+	// forced others elements
+
+	&:is(:active,.is-active) .amAlertHeader__title {
+		font-weight: normal;
+		color: var(--color-secondary-base);
+	}
+
+	&:is(:active,.is-active) .amAlertHeader__date {
+		color: var(--custom-color);
+	}
+
+	&:has(.prSkeleton) {
+		border-color: transparent;
+	}
+
+}

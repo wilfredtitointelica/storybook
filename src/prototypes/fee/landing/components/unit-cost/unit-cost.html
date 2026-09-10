@@ -1,0 +1,197 @@
+<p-panel class="prPanel u-full-height" showHeader="false">
+	@if (hasError()) {
+	<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reload()" />
+	} @else {
+	<div class="u-display-flex u-flex-column u-full-height">
+		<div class="u-display-flex u-justify-content-between u-align-items-center">
+			<!-- * LOADED: title -->
+			@if (!isloadingUnitCostByProduct()) {
+			<div class="prPanel__title">{{ "UNIT_COST_BY_PRODUCT" | term : globalTermService.languageCode }}</div>
+			<p-select
+				class="prSelect"
+				[options]="businessTransactionOptions"
+				[ngModel]="businessTransactionId()"
+				(ngModelChange)="onBusinessTransactionChange($event)"
+				optionLabel="term"
+				optionValue="id"
+				[showClear]="false"
+				dropdownIcon="icon icon-arrow-down"
+				[style.width]="businessTransactionSelectWidth"
+			>
+				<ng-template let-item #selectedItem>{{ item.term | term : globalTermService.languageCode }}</ng-template>
+				<ng-template let-item #item>{{ item.term | term : globalTermService.languageCode }}</ng-template>
+			</p-select>
+			}
+			<!-- * SKELETON: title -->
+			@if (isloadingUnitCostByProduct()) {
+			<p-skeleton class="prSkeleton u-my-1" [width]="'150px'" [height]="'16px'" />
+			<p-skeleton class="prSkeleton" [width]="'190px'" [height]="'32px'" [borderRadius]="'6px'" />
+			}
+		</div>
+		<!-- tabs -->
+		<p-tabs class="prTabs prTabs--full prTabs--noEqualTab prTabs--noBackground prTabs--noPanelPadding" [value]="tabValue()">
+			<p-tablist [gaTrack]="'tabList'">
+				<!-- * LOADED: tab -->
+				@if (!isloadingUnitCostByProduct()) {
+				<p-tab [value]="unitCostTab.Fixed" (click)="onTabChange(unitCostTab.Fixed)">{{ "FIXED" | term : globalTermService.languageCode }}</p-tab>
+				<p-tab [value]="unitCostTab.Variable" (click)="onTabChange(unitCostTab.Variable)">{{ "VARIABLE" | term : globalTermService.languageCode }}</p-tab>
+				}
+				<!-- * SKELETON: tab -->
+				@if (isloadingUnitCostByProduct()) {
+				<div class="u-display-flex u-flex-column" style="height: 42.8px">
+					<p-skeleton class="prSkeleton u-m-auto" [width]="'32px'" [height]="'14px'" />
+					<p-skeleton class="prSkeleton" [width]="'81.31px'" [height]="'2px'" />
+				</div>
+				<div class="u-display-flex u-flex-column" style="height: 42.8px">
+					<p-skeleton class="prSkeleton u-m-auto" [width]="'56px'" [height]="'14px'" />
+					<p-skeleton class="prSkeleton" [width]="'98.89px'" [height]="'1px'" />
+				</div>
+				}
+			</p-tablist>
+			<p-tabpanels>
+				<!-- FIXED -->
+				<p-tabpanel [value]="unitCostTab.Fixed">
+					<ng-container *ngTemplateOutlet="metricUnitTemplate"></ng-container>
+				</p-tabpanel>
+				<!-- VARIABLE -->
+				<p-tabpanel [value]="unitCostTab.Variable">
+					<ng-container *ngTemplateOutlet="metricUnitTemplate"></ng-container>
+				</p-tabpanel>
+			</p-tabpanels>
+		</p-tabs>
+	</div>
+	}
+</p-panel>
+
+<ng-template #metricUnitTemplate>
+	<!-- * LOADED: businesses -->
+	@if (!isloadingUnitCostByProduct()) { @if (hasRows()) {
+	<intelica-table #table [ListData]="rows()" [ShowPagination]="true" [RowsPerPage]="4" [ShowRowPerPage]="false">
+		<rowResumenComponent className="u-text-left">
+			<ng-template>{{ "WEIGHTED_AVERAGE" | term : globalTermService.languageCode }}</ng-template>
+		</rowResumenComponent>
+		<rowResumenComponent className="u-text-right" [colspan]="4"></rowResumenComponent>
+		<rowResumenComponent className="u-text-right">
+			<ng-template>
+				<span class="u-text-md u-bold">
+					{{ unitCostTypeId() === unitCostTypeEnum.Fixed ? currencyCode() + " " : "" }}{{ total()[0]?.col5 ?? 0 | formatValue : (unitCostTypeId() === unitCostTypeEnum.Fixed ? "amount" : "percent") :
+					unitCostPrecision }}
+				</span>
+			</ng-template>
+		</rowResumenComponent>
+		<rowResumenComponent className="u-text-right">
+			<ng-template>
+				<span class="u-display-flex u-gap-xs u-align-rows-center u-justify-content-right u-text-md u-bold u-color-trend-{{ total()[0]?.qoqState }}">
+					<i class="icon {{ total()[0]?.qoqIcon }}"></i>
+					{{ (total()[0]?.qoq ?? 0) == 0 ? "-" : (total()[0]?.qoq ?? 0 | formatValue : "percent" : unitCostPrecision) }}
+				</span>
+			</ng-template>
+		</rowResumenComponent>
+		<column field="brandIndDesc" [header]="'PRODUCT' | term : globalTermService.languageCode" [sortable]="true" className="text-left" width="20%">
+			<ng-template let-rowData>
+				<div div class="u-text-lineHeight-sm">
+					<span class="u-bold">{{ rowData.brandIndDesc }}</span>
+					<br />
+					<span>{{ rowData.scopeDesc }}</span>
+				</div>
+			</ng-template>
+		</column>
+		<column field="col1" [header]="columns()[0].label" [sortable]="true" className="u-text-right u-text-preline" width="10%">
+			<ng-template let-rowData>
+				{{ (rowData.col1 ?? 0) == 0 ? "-" : (unitCostTypeId() === unitCostTypeEnum.Fixed ? currencyCode() + " " : "") + (rowData.col1 ?? 0 | formatValue : (unitCostTypeId() === unitCostTypeEnum.Fixed ?
+				"amount" : "percent") : unitCostPrecision) }}
+			</ng-template>
+		</column>
+		<column field="col2" [header]="columns()[1].label" [sortable]="true" className="u-text-right u-text-preline" width="10%">
+			<ng-template let-rowData>
+				{{ (rowData.col2 ?? 0) == 0 ? "-" : (unitCostTypeId() === unitCostTypeEnum.Fixed ? currencyCode() + " " : "") + (rowData.col2 ?? 0 | formatValue : (unitCostTypeId() === unitCostTypeEnum.Fixed ?
+				"amount" : "percent") : unitCostPrecision) }}
+			</ng-template>
+		</column>
+		<column field="col3" [header]="columns()[2].label" [sortable]="true" className="u-text-right u-text-preline" width="10%">
+			<ng-template let-rowData>
+				{{ (rowData.col3 ?? 0) == 0 ? "-" : (unitCostTypeId() === unitCostTypeEnum.Fixed ? currencyCode() + " " : "") + (rowData.col3 ?? 0 | formatValue : (unitCostTypeId() === unitCostTypeEnum.Fixed ?
+				"amount" : "percent") : unitCostPrecision) }}
+			</ng-template>
+		</column>
+		<column field="col4" [header]="columns()[3].label" [sortable]="true" className="u-text-right u-text-preline" width="10%">
+			<ng-template let-rowData>
+				{{ (rowData.col4 ?? 0) == 0 ? "-" : (unitCostTypeId() === unitCostTypeEnum.Fixed ? currencyCode() + " " : "") + (rowData.col4 ?? 0 | formatValue : (unitCostTypeId() === unitCostTypeEnum.Fixed ?
+				"amount" : "percent") : unitCostPrecision) }}
+			</ng-template>
+		</column>
+		<column field="col5" [header]="columns()[4].label" [sortable]="true" className="u-text-right u-text-preline" width="10%">
+			<ng-template let-rowData>
+				{{ (rowData.col5 ?? 0) == 0 ? "-" : (unitCostTypeId() === unitCostTypeEnum.Fixed ? currencyCode() + " " : "") + (rowData.col5 ?? 0 | formatValue : (unitCostTypeId() === unitCostTypeEnum.Fixed ?
+				"amount" : "percent") : unitCostPrecision) }}
+			</ng-template>
+		</column>
+		<column field="qoq" [header]="qoqHeaderLabel()" [sortable]="true" className="u-text-right" width="10%">
+			<ng-template let-rowData>
+				<span class="u-display-flex u-gap-xs u-justify-content-right u-color-trend-{{ rowData.qoqState }}">
+					<i class="icon {{ rowData.qoqIcon }}"></i>
+					<span>{{ (rowData.qoq ?? 0) == 0 ? "-" : (rowData.qoq ?? 0 | formatValue : "percent" : unitCostPrecision) }}</span>
+				</span>
+			</ng-template>
+		</column>
+	</intelica-table>
+	} @else {
+	<intelica-status-state [state]="statusStateEnum.NoData" />
+	} }
+	<!-- * SKELETON: businesses -->
+	@if (isloadingUnitCostByProduct()) {
+	<div class="skTable" style="--body-height: 192px">
+		<!-- Header -->
+		<div class="skTable__header">
+			<p-skeleton class="prSkeleton"></p-skeleton>
+		</div>
+		<!-- summary -->
+		<div class="skTable__summary">
+			<p-skeleton class="prSkeleton"></p-skeleton>
+		</div>
+		<!-- body ( row / cell ) -->
+		<div class="skTable__body">
+			@for (_ of [].constructor(4); track $index) {
+			<div class="skTable__row">
+				<div class="skTable__cell" style="--cell-width: 9%">
+					<p-skeleton class="prSkeleton"></p-skeleton>
+				</div>
+				<div class="skTable__cell">
+					<p-skeleton class="prSkeleton"></p-skeleton>
+				</div>
+				<div class="skTable__cell">
+					<p-skeleton class="prSkeleton"></p-skeleton>
+				</div>
+				<div class="skTable__cell">
+					<p-skeleton class="prSkeleton"></p-skeleton>
+				</div>
+				<div class="skTable__cell">
+					<p-skeleton class="prSkeleton"></p-skeleton>
+				</div>
+				<div class="skTable__cell">
+					<p-skeleton class="prSkeleton"></p-skeleton>
+				</div>
+				<div class="skTable__cell">
+					<p-skeleton class="prSkeleton"></p-skeleton>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+	<div class="skPaginator">
+		<div class="skPaginator__rowsPerPage">
+			<p-skeleton class="prSkeleton" [width]="'90px'" [height]="'12px'" />
+			<p-skeleton class="prSkeleton" [width]="'60px'" [height]="'32px'" [borderRadius]="'6px'" />
+		</div>
+		<div class="skPaginator__currentPage">
+			<p-skeleton class="prSkeleton" [width]="'32px'" [height]="'12px'" />
+			<p-skeleton class="prSkeleton" [width]="'40px'" [height]="'32px'" [borderRadius]="'6px'" />
+			<p-skeleton class="prSkeleton" [width]="'34px'" [height]="'12px'" />
+		</div>
+		<div class="skPaginator__controls">
+			<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'24px'" [borderRadius]="'8px'" />
+			<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'24px'" [borderRadius]="'8px'" />
+		</div>
+	</div>
+	}
+</ng-template>

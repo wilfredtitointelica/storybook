@@ -1,0 +1,152 @@
+<div class="u-display-flex u-flex-column u-gap-lg">
+	<!-- ACTIVE ALERT CONFIGURED (DRF-031/032/033) -->
+	<p-panel class="prPanel" showHeader="false">
+		@if (!loading() && data()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title">{{ "LBL_ACTIVE_ALERT_CONFIGURED" | term : globalTermService.languageCode }}</div>
+				<div class="amAlertDetailCard__meta">{{ headerTermKey() | term : globalTermService.languageCode }}</div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__feature">
+					<div class="amAlertDetailCard__label">{{ "LBL_CURRENT_SETTING" | term : globalTermService.languageCode }}</div>
+					<div class="amAlertDetailCard__highlight">
+						@if (!isVariationPercentage() && currencyCode()) {
+						<sup>{{ currencyCode() }}</sup>
+						}
+						<span>{{ formattedThreshold() }}</span>
+					</div>
+					<div class="amAlertDetailCard__meta">{{ "LBL_TRIGGERED_MONTHLY_BILLING" | term : globalTermService.languageCode }}</div>
+				</div>
+				<div class="amAlertDetailCard__row">
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__label">{{ "LBL_LAST_PAYMENT" | term : globalTermService.languageCode }}:</div>
+						<div class="amAlertDetailCard__highlight">
+							@if (currencyCode()) {
+							<sup>{{ currencyCode() }}</sup>
+							}
+							<span>{{ formattedActualValue() }}</span>
+						</div>
+					</div>
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__label">{{ "LBL_INCREMENT" | term : globalTermService.languageCode }}:</div>
+						<div class="amAlertDetailCard__highlight">
+							@if (!isVariationPercentage() && currencyCode()) {
+							<sup>{{ currencyCode() }}</sup>
+							}
+							<span>{{ formattedDeviation() }}</span>
+						</div>
+					</div>
+				</div>
+				<div class="amAlertDetailCard__row">
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__value">
+							<span class="u-bold">{{ "LBL_BILLING_DATE" | term : globalTermService.languageCode }}</span>
+							{{ billingDate() }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="amAlertDetailCard__footer">
+				<div class="amAlertDetailCard__start">{{ "LBL_MODIFY_IN_FEE_DETAIL" | term : globalTermService.languageCode }}</div>
+				<div class="amAlertDetailCard__end">
+					<p-button class="prButton" severity="secondary" label="{{ 'LBL_VIEW_DETAILS' | term : globalTermService.languageCode }}" (click)="onViewDetails()" />
+				</div>
+			</div>
+		</div>
+		} @if (loading()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title"><p-skeleton class="prSkeleton" [width]="'170px'" [height]="'28px'" /></div>
+				<div class="amAlertDetailCard__meta"><p-skeleton class="prSkeleton u-my-1" [width]="'340px'" [height]="'13px'" /></div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__feature">
+					<p-skeleton class="prSkeleton u-my-1" [width]="'80px'" [height]="'12px'" />
+					<p-skeleton class="prSkeleton u-my-1" [width]="'130px'" [height]="'40px'" />
+					<p-skeleton class="prSkeleton u-my-1" [width]="'200px'" [height]="'13px'" />
+				</div>
+			</div>
+		</div>
+		}
+	</p-panel>
+
+	<!-- FEE INFORMATION + BILLING PERIOD (DRF-034) -->
+	<div class="u-display-flex u-gap-lg">
+		@if (!loading() && data()) {
+		<p-panel class="prPanel u-flex-grow-1 u-flex-basis-0" showHeader="false">
+			<div class="amAlertDetailCard">
+				<div class="amAlertDetailCard__header">
+					<div class="amAlertDetailCard__start">
+						<div class="amAlertDetailCard__title">{{ "LBL_FEE_INFORMATION" | term : globalTermService.languageCode }}</div>
+					</div>
+					<div class="amAlertDetailCard__end">
+						@if (feeBrand()) {
+						<i class="icon icon--md icon--outlined" [ngClass]="'icon-' + feeBrand()"></i>
+						}
+					</div>
+				</div>
+				<div class="amAlertDetailCard__body">
+					<div class="amAlertDetailCard__row">
+						<div class="amAlertDetailCard__group">
+							<div class="amAlertDetailCard__label">{{ "LBL_FEE_NAME" | term : globalTermService.languageCode }}:</div>
+							<div class="amAlertDetailCard__value">{{ data()?.feeName }}</div>
+						</div>
+					</div>
+					<div class="amAlertDetailCard__row">
+						<div class="amAlertDetailCard__group">
+							<div class="amAlertDetailCard__label">{{ "LBL_FEE_CODE" | term : globalTermService.languageCode }}:</div>
+							<div class="amAlertDetailCard__value">{{ data()?.feeCode }}</div>
+						</div>
+						@if (currencyCode()) {
+						<div class="amAlertDetailCard__group">
+							<div class="amAlertDetailCard__label">{{ "LBL_CURRENCY" | term : globalTermService.languageCode }}:</div>
+							<div class="amAlertDetailCard__value">{{ currencyCode() }}</div>
+						</div>
+						}
+					</div>
+				</div>
+			</div>
+		</p-panel>
+		<!--
+		<p-panel class="prPanel u-flex-grow-1 u-flex-basis-0" showHeader="false">
+			<div class="amAlertDetailCard">
+				<div class="amAlertDetailCard__header">
+					<div class="amAlertDetailCard__title">{{ "LBL_BILLING_PERIOD" | term : globalTermService.languageCode }}</div>
+				</div>
+				<div class="amAlertDetailCard__body">
+					<div class="amAlertDetailCard__wrap">
+						<div class="ptTimelineVertical | u-text-sm">
+							@for (event of timelineEvents(); track event.id) {
+							<div class="ptTimelineVertical__event">
+								<div class="ptTimelineVertical__separator"></div>
+								<div class="ptTimelineVertical__content">
+									<div class="ptTimelineVertical__status">{{ event.status }}</div>
+									<div class="ptTimelineVertical__date">{{ event.date }}</div>
+								</div>
+							</div>
+							}
+						</div>
+					</div>
+					@if (data()?.daysBetweenBillings != null) {
+					<div class="amAlertDetailCard__wrap">
+						<strong class="u-bold">{{ "LBL_DURATION" | term : globalTermService.languageCode }}:</strong>
+						{{ data()?.daysBetweenBillings }} {{ "LBL_DAYS" | term : globalTermService.languageCode }}
+					</div>
+					}
+				</div>
+			</div>
+		</p-panel>
+		-->
+		} @if (loading()) {
+		<p-panel class="prPanel u-flex-grow-1 u-flex-basis-0" showHeader="false">
+			<p-skeleton class="prSkeleton u-my-1" [width]="'100px'" [height]="'22px'" />
+			<p-skeleton class="prSkeleton u-my-1" [width]="'130px'" [height]="'22px'" />
+		</p-panel>
+		<p-panel class="prPanel u-flex-grow-1 u-flex-basis-0" showHeader="false">
+			<p-skeleton class="prSkeleton u-my-1" [width]="'100px'" [height]="'22px'" />
+			<p-skeleton class="prSkeleton u-my-1" [width]="'130px'" [height]="'22px'" />
+		</p-panel>
+		}
+	</div>
+</div>

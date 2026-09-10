@@ -1,0 +1,77 @@
+@if (loading()) {
+<div style="display: flex; justify-content: space-evenly; padding: 16px; gap: 16px; border-radius: 16px; background: #fcfcfd">
+	<div style="display: flex">
+		<div style="display: flex; flex-direction: column; gap: 1px">
+			<p-skeleton class="prSkeleton" width="213px" height="20px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="213px" height="31px"></p-skeleton>
+		</div>
+	</div>
+	<div style="width: 1px; height: 48px; background: #d8dae4"></div>
+	<div style="display: flex">
+		<div style="display: flex; flex-direction: column; gap: 1px">
+			<p-skeleton class="prSkeleton" width="213px" height="20px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="213px" height="31px"></p-skeleton>
+		</div>
+	</div>
+	<div style="width: 1px; height: 48px; background: #d8dae4"></div>
+	<div style="display: flex">
+		<div style="display: flex; flex-direction: column; gap: 1px">
+			<p-skeleton class="prSkeleton" width="213px" height="20px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="213px" height="31px"></p-skeleton>
+		</div>
+	</div>
+</div>
+} @else {
+<p-card class="prCard prCard--group">
+	<ng-template #content>
+		<p-card class="prCard prCard--data">
+			<ng-template #content>
+				<div class="prCard__section">
+					<div class="prCard__header">
+						<div class="prCard__title">{{ commonGlobalService.termText(feeUpdatesTerm.CARD_NEW_FEES) }}</div>
+					</div>
+					<div class="prCard__body">
+						<div class="prCard__values">
+							<div class="prCard__amount">{{ newFeesDisplay() }}</div>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+		</p-card>
+
+		<div class="line"></div>
+
+		<p-card class="prCard prCard--data">
+			<ng-template #content>
+				<div class="prCard__section">
+					<div class="prCard__header">
+						<div class="prCard__title">{{ commonGlobalService.termText(feeUpdatesTerm.CARD_TARIFF_CHANGES) }}</div>
+					</div>
+					<div class="prCard__body">
+						<div class="prCard__values">
+							<div class="prCard__amount">{{ tariffChangesDisplay() }}</div>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+		</p-card>
+
+		<div class="line"></div>
+
+		<p-card class="prCard prCard--data">
+			<ng-template #content>
+				<div class="prCard__section">
+					<div class="prCard__header">
+						<div class="prCard__title">{{ commonGlobalService.termText(feeUpdatesTerm.CARD_CEASED_FEES) }}</div>
+					</div>
+					<div class="prCard__body">
+						<div class="prCard__values">
+							<div class="prCard__amount">{{ ceasedFeesDisplay() }}</div>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+		</p-card>
+	</ng-template>
+</p-card>
+}

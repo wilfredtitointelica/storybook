@@ -1,0 +1,81 @@
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSorticon {
+
+	--size: var(--i-typography-font-size-md);
+	--color: var(--i-color-secondary-600);
+	--color-active: var(--i-color-primary-600);
+
+	display: flex;
+	font-size: var(--size);
+
+	// --- optional ( aquí va p-sorticon )
+
+	&__native {
+		display: none;
+	}
+
+	// --- structure ---
+
+	& :is(&__ascending, &__descending) {
+		display: none;
+		color: var(--color-active);
+	}
+
+	&__ascending {
+	
+	}
+
+	&__descending {
+	
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSorticon {
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS ( native or primeng )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSorticon {
+
+	& .icon {
+		font-size: 1em;
+	}
+
+}
+
+// --- case table ---
+
+.prTable {
+	& [aria-sort="ascending"] .ptSorticon__ascending {
+		display: block;
+	}
+
+	& [aria-sort="descending"] .ptSorticon__descending {
+		display: block;
+	}
+
+	& [aria-sort="none"] .ptSorticon__descending {
+		display: block;
+		color: var(--color);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skSorticon {
+	
+}

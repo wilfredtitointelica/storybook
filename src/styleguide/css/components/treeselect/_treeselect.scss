@@ -1,0 +1,431 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-BUTTON-COMPONENT: "prTreeselect ( Custom PrimeNG )";
+
+	--i-select-overlay-border-radius: var(--i-border-radius-lg); // radius/050
+
+	--i-select-list-header-padding: var(--i-spacing-container-xs); // var(--p-select-list-header-padding);
+
+	--i-inputtext-background: var(--i-color-secondary-50); // color/grey/50 || var(--p-inputtext-background);
+	--i-inputtext-color: var(--i-color-secondary-600); // color/grey/600 || var(--p-inputtext-color);
+	--i-inputtext-border-color: var(--i-color-secondary-200); // color/grey/400 || var(--p-inputtext-border-color);
+	--i-inputtext-hover-border-color: var(--i-color-primary-400); // color/blue/400 || var(--p-inputtext-hover-border-color);
+
+	--i-iconfield-icon-color: var(--i-color-primary-600); // color/blue/600 || var(--p-iconfield-icon-color);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prTreeselect {
+	&.p-treeselect {
+		border: var(--i-border-width-sm) solid var(--i-color-secondary-200);
+		border-radius: var(--i-border-radius-lg);
+		background: var(--i-color-secondary-50);
+		height: var(--i-sizing-lg);
+		box-shadow: none;
+
+		&:not(.p-disabled):is(:hover, .p-treeselect-open:hover) {
+			border-color: var(--i-color-primary-400);
+		}
+
+		/*
+		&:not(.p-disabled):active {
+			border-color: var(--i-color-secondary-400);
+		}
+		&:not(.p-disabled).p-focus {
+			border-color: var(--i-color-primary-600);
+		}
+		*/
+
+		&:not(.p-disabled):is(.p-focus, .p-treeselect-open) {
+			border-color: var(--i-color-primary-900);
+		}
+
+		&:not(.p-disabled).p-focus {
+			outline-color: var(--i-focus-border-color);
+		}
+
+		&.p-invalid {
+			border-color: var(--i-border-error);
+
+			& .p-treeselect-label.p-placeholder {
+				color: var(--i-text-color-error);
+			}
+
+			& .p-treeselect-dropdown-icon {
+				color: var(--i-icon-color-error);
+			}
+		}
+
+		&.p-variant-filled {
+			background: var(--i-color-secondary-50);
+
+			&:not(.p-disabled):hover,
+			&:not(.p-disabled).p-focus {
+				background: var(--i-color-secondary-50);
+			}
+		}
+
+		& .p-treeselect-label-container {
+			position: relative;
+			& .p-treeselect-label {
+				position: absolute;
+				inset: 0;
+				font-size: var(--i-typography-font-size-md);
+				color: var(--i-color-primary-900);
+
+				&.p-placeholder {
+					color: var(--i-form-field-placeholder);
+				}
+
+				& .p-chip {
+					background: var(--i-color-primary-50);
+					color: var(--i-color-primary-600);
+					font-size: var(--i-typography-font-size-sm);
+				}
+			}
+		}
+
+		& .p-treeselect-dropdown-icon {
+			color: var(--i-color-primary-900);
+		}
+
+		& .p-treeselect-clear-icon {
+			& .icon {
+				font-size: var(--i-icon-size-xs);
+			}
+		}
+	}
+
+	& .p-treeselect-label {
+		align-items: center;
+		display: flex;
+		height: 100%;
+		padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+
+		& > span {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		&.p-placeholder {
+			color: var(--i-form-field-placeholder);
+		}
+	}
+
+	& .p-tree-filter-input {
+		border-color: var(--i-color-secondary-200);
+		font-size: var(--i-form-field-size-sm);
+		height: var(--i-sizing-md);
+		box-shadow: none;
+		//margin-top: var(--i-spacing-container-xs);
+		padding: var(--i-spacing-container-xs) var(--i-spacing-container-md);
+		padding-inline-end: calc((var(--p-form-field-padding-x) * 1) + var(--p-icon-size)) !important;
+		&:enabled:focus {
+			border-color: var(--i-form-field-border);
+		}
+		&::placeholder {
+			color: var(--i-form-field-placeholder);
+		}
+		&::-webkit-search-cancel-button {
+			//display: none;
+		}
+	}
+
+	& .p-iconfield {
+		.p-inputtext:enabled:hover {
+			border-color: var(--i-inputtext-hover-border-color);
+		}
+		.p-inputtext:enabled:focus {
+			border-color: var(--i-color-secondary-900);
+		}
+		.p-inputtext {
+			background: var(--i-inputtext-background);
+			color: var(--i-color-primary-900);
+			font-size: var(--i-form-field-size-sm);
+			border: var(--i-border-width-sm) solid var(--i-inputtext-border-color);
+			padding-block: var(--i-spacing-container-xs);
+			height: 24px;
+		}
+		.p-icon {
+			color: var(--i-color-primary-900);
+			width: var(--i-sizing-2xs);
+			height: var(--i-sizing-2xs);
+		}
+		.p-inputicon:last-child {
+			margin-top: 0;
+			transform: translateY(-50%);
+			inset-inline-end: var(--i-spacing-container-md);
+			color: var(--i-color-primary-900);
+		}
+	}
+
+	& .p-tree-node:focus-visible > .p-tree-node-content {
+		outline-color: var(--i-focus-border-color);
+	}
+
+	& .p-tree-root {
+		.p-tree-root-children {
+			.p-tree-node-content {
+				padding: var(--i-spacing-container-xs) var(--i-spacing-container-sm);
+				color: var(--i-color-primary-900);
+				font-size: var(--i-typography-font-size-md);
+
+				&.p-tree-node-selected {
+					background: var(--i-color-secondary-100);
+					color: var(--i-color-primary-900);
+					pointer-events: none;
+				}
+
+				.p-tree-node-toggle-button {
+					width: var(--i-spacing-container-xl);
+					height: var(--i-spacing-container-xl);
+					color: var(--i-color-primary-900);
+
+					:is(.p-tree-node)[aria-expanded="true"] .icon-arrow-right {
+						rotate: 90deg;
+					}
+
+					&:enabled:hover {
+						background-color: transparent;
+					}
+				}
+
+				.p-checkbox {
+					width: var(--i-spacing-container-xl);
+					height: var(--i-spacing-container-xl);
+					border-color: var(--i-checkbox-border-color);
+					background: var(--i-checkbox-background);
+
+					&.p-checkbox-checked .p-checkbox-box,
+					&[data-p-partialchecked="true"] .p-checkbox-box {
+						border-color: var(--i-checkbox-checked-border-color);
+						background: var(--i-checkbox-checked-background);
+					}
+
+					.p-checkbox-box {
+						width: 1rem;
+						height: 1rem;
+
+						& .p-checkbox-icon {
+							color: #fff;
+						}
+					}
+				}
+			}
+
+			.p-tree-node-content.p-highlight {
+				background: var(--i-color-primary-50);
+			}
+		}
+	}
+
+	// --- select all ---
+
+	&__all {
+		//position: absolute;
+		//top: calc(28px + 0.25rem + var(--p-tree-gap));
+		//inset-inline: var(--p-treeselect-tree-padding);
+		display: flex;
+		align-items: center;
+		gap: var(--p-tree-node-gap);
+		padding: var(--i-spacing-container-xs) var(--i-spacing-container-sm);
+		color: var(--i-color-secondary-600);
+		font-size: var(--i-typography-font-size-md);
+		border-radius: var(--p-tree-node-border-radius);
+		background-color: red;
+
+		& label {
+			flex-grow: 1;
+		}
+
+		&:hover {
+			background: var(--p-tree-node-hover-background);
+			color: var(--p-tree-node-hover-color);
+		}
+	}
+
+	&:has(&__all) .p-tree-root {
+		// margin-top: 28px;
+	}
+
+	// --- custom  ---
+	/*
+	&:not(:has(.p-checkbox)) {
+		& .p-tree-node-content {
+			
+		}
+	}
+		*/
+
+	
+
+
+
+
+
+
+
+
+
+
+}
+
+////////////////////////////////////////////////////////////////
+/// POR MEJORAR :\
+
+.prTreeselect {
+	// --- ALL ( adaptado segun figma ) ---
+	& p-treenode:has([data-id*="__select_all__"]) {
+		position: sticky;
+		z-index: 1000;
+		top: 0;
+
+		& .p-tree-node {
+			padding-block: 6px;
+			background-color: #fff;
+			&::after {
+				content: "";
+				position: absolute;
+				inset: auto 0 0;
+				border-top: var(--i-line);
+			}
+		}
+
+		& .p-tree-node-toggle-button {
+			display: none;
+		}
+	}
+
+	// --- SCROLLBAR ( adaptado segun figma ) ---
+
+	& .p-treeselect-tree-container {
+		display: flex;
+	}
+
+	& .p-tree-selectable {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	& .p-tree-root {
+		height: 100%;
+		overflow: hidden auto;
+	}
+
+	& .p-tree-root-children {
+		padding-top: 0;
+	}
+
+	& .p-tree-node-label span {
+		white-space: nowrap;
+	}
+
+	& .p-tree-node,
+	& .p-tree-node-children {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-xs);
+	}
+}
+
+////////////////////////////////////////////////////////////////
+/// modifier
+
+.prTreeselect {
+
+	// --- childre aligned --- /
+	&--childrenAligned .p-tree-node-children {
+		padding: 0;
+	}
+
+	// --- --- //
+
+	&--labelAsToggle .p-tree-root-children {
+		gap: 0;
+	}
+
+	&--labelAsToggle .p-tree-node-content {
+		display: grid;
+		grid-template-areas: "overlap";
+		grid-template-columns: 1fr;
+		grid-template-rows: auto;
+		// padding: 0;
+
+		& .p-tree-node-toggle-button {
+			grid-area: overlap;
+			justify-content: left;
+			width: 100% !important;
+			border-radius: 0;
+			// height: auto;
+			// padding: var(--p-multiselect-option-padding, 0.5rem 0.75rem);
+		}
+
+		& .p-tree-node-label {
+			grid-area: overlap;
+			// padding: var(--p-multiselect-option-padding, 0.5rem 0.75rem);
+			// padding: var(--p-multiselect-option-padding, 0.5rem 0.75rem);
+
+			& > span {
+				padding-left: calc(var(--i-spacing-container-xl) + var(--p-tree-node-gap));
+			}
+		}
+
+		& .p-ink {
+			display: none;
+		}
+	}
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * OVERLAY ( panel )
+ *
+ * Por eso se estiliza vía una clase de bloque propia aplicada
+ * directo sobre el panel con `[panelStyleClass]="'prTreeselect__overlay'"`,
+ * independiente de dónde termine montado en el DOM.
+\*——————————————————————————————————————————————————————————*/
+
+.prTreeselect__overlay {
+	&.p-treeselect-overlay {
+		background-color: var(--i-color-secondary-50);
+		border: var(--i-border-width-10) solid transparent;
+		border-radius: var(--i-select-overlay-border-radius);
+		box-shadow: var(--i-shadow-x-0) var(--i-shadow-y-150) var(--i-shadow-y-200) var(--i-shadow-spread-40) var(--i-shadow-color-200),
+			var(--i-shadow-x-0) var(--i-shadow-y-100) var(--i-shadow-y-100) var(--i-shadow-spread-20) var(--i-shadow-color-100);
+		overflow: auto;
+
+		& .p-tree-node-content {
+			// --- hover ( referencia: prMultiselect .p-multiselect-option ) ---
+			&.p-tree-node-selectable:not(.p-tree-node-selected):not(.p-disabled):hover {
+				background-color: var(--i-color-secondary-100);
+				color: var(--i-color-primary-900);
+			}
+
+			// --- focus ( referencia: prMultiselect .p-checkbox focus-visible ) ---
+			&:not(.p-disabled):focus-visible {
+				outline: 1px solid var(--i-focus-border-color);
+				outline-offset: -1px;
+			}
+
+			.p-checkbox {
+				&:not(.p-disabled):has(.p-checkbox-input:focus-visible) .p-checkbox-box {
+					outline: 1px solid var(--i-focus-border-color);
+				}
+
+				&.p-checkbox-checked:not(.p-disabled):has(.p-checkbox-input:hover) .p-checkbox-box {
+					background: var(--i-color-primary-600);
+					border-color: var(--i-color-primary-600);
+				}
+			}
+		}
+	}
+}

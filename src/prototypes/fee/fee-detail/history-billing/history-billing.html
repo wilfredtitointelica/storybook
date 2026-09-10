@@ -1,0 +1,129 @@
+<div class="borderedSection">
+	@if (isLoading()) {
+	<div class="billingHistory">
+		<!-- Header Section -->
+		<div class="billingHistory__header">
+			<div class="d-flex flex-column gap-2">
+				<p-skeleton class="prSkeleton" width="200px" height="22px" borderRadius="6px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="150px" height="16px" borderRadius="6px"></p-skeleton>
+			</div>
+			<p-skeleton class="prSkeleton" width="40px" height="40px" borderRadius="6px"></p-skeleton>
+		</div>
+
+		<!-- Table Section -->
+		<div class="billingHistory__table u-mt-5">
+			<!-- Table Header Row -->
+			<div class="d-flex gap-3 u-mb-3" style="padding: 12px; border-bottom: 1px solid #e5e7eb">
+				<p-skeleton class="prSkeleton" width="80px" height="14px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="100px" height="14px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="120px" height="14px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="120px" height="14px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="140px" height="14px" borderRadius="4px" style="flex: 1"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="70px" height="14px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="70px" height="14px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="90px" height="14px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+			</div>
+
+			<!-- Table Data Rows -->
+			@for (row of [1, 2, 3, 4, 5]; track row) {
+			<div class="d-flex gap-3" style="padding: 12px; border-bottom: 1px solid #f2f2f5; align-items: center">
+				<p-skeleton class="prSkeleton" width="80px" height="18px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="100px" height="18px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="120px" height="18px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="120px" height="18px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="140px" height="18px" borderRadius="4px" style="flex: 1"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="70px" height="18px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="70px" height="18px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="90px" height="18px" borderRadius="4px" style="flex: 0 0 auto"></p-skeleton>
+			</div>
+			}
+		</div>
+	</div>
+	} @else {
+	<div class="billingHistory">
+		<div class="billingHistory__header">
+			<div>
+				<div class="history__title">{{ commonGlobalService.termText(feeDetailTerm.BILLING_HISTORY) }}</div>
+			</div>
+			<div>
+				<span [pTooltip]="exportTooltip" [tooltipDisabled]="items().length === 0 || isDownloading()" tooltipPosition="top" tooltipStyleClass="prTooltip">
+					<p-button
+						class="prButton prButton--icon downloadGA"
+						severity="secondary"
+						icon="icon icon-download"
+						size="large"
+						[disabled]="items().length === 0 || isDownloading()"
+						(onClick)="onDownloadClick()"
+					/>
+				</span>
+			</div>
+		</div>
+		<div class="billingHistory__table u-mt-5">
+			@if (items().length === 0) {
+			<intelica-status-state [state]="StatusStateEnum.NoData" [description]="'LBL_NO_DATA_SUBTITLE'" />
+			} @else {
+			<intelica-table
+				[ListData]="items()"
+				[ShowPagination]="true"
+				[ShowSearch]="false"
+				[ShowCheckbox]="false"
+				[scrollable]="true"
+				scrollHeight="284px"
+				[DefaultSortField]="'date'"
+				[DefaultSortOrder]="-1"
+			>
+				<column [field]="'date'" type="date" [header]="commonGlobalService.termText(feeDetailTerm.DATE)" [sortable]="true" className="u-text-center" width="128px">
+					<ng-template let-row>
+						<div class="u-display-inline-flex u-gap-md">
+							@if (row.isUnallocated) {
+							<i class="icon icon-alert" [pTooltip]="commonGlobalService.termText(feeDetailTerm.UNALLOCATED)" tooltipPosition="top" tooltipStyleClass="prTooltip"></i>
+							}
+							<span>{{ commonGlobalService.formatDayMonthYear(row.date) }}</span>
+						</div>
+					</ng-template>
+				</column>
+				<column [field]="'billingNumber'" [header]="commonGlobalService.termText(feeDetailTerm.BILLING_NUMBER)" [sortable]="true" className="u-text-center" />
+				<column [field]="'billingActivity'" [header]="commonGlobalService.termText(feeDetailTerm.BILLING_ACTIVITY)" [sortable]="true" className="u-text-center" />
+				<column [field]="'entityActivity'" [header]="commonGlobalService.termText(feeDetailTerm.ENTITY_ACTIVITY)" [sortable]="true" className="u-text-center" />
+				<column [field]="'description'" [header]="commonGlobalService.termText(feeDetailTerm.DESCRIPTION)" [sortable]="true">
+					<ng-template let-row>
+						<span tooltipStyleClass="prTooltip" pTooltip="{{ row.description }}" tooltipPosition="top">{{ row.description | truncate : 80 : false }}</span>
+					</ng-template>
+				</column>
+
+				@if (hasMultipleCurrencies()) {
+				<column [field]="'originalCurrency'" [header]="commonGlobalService.termText(feeDetailTerm.ORIGINAL_CURRENCY)" [sortable]="true" className="u-text-center" />
+				}
+				<column [field]="'price'" [header]="commonGlobalService.termText(feeDetailTerm.PRICE)" [sortable]="true" className="u-text-right">
+					<ng-template let-row>
+						<span>{{ row.price | number:'1.4-4' }}</span>
+					</ng-template>
+				</column>
+				<column [field]="'events'" [header]="commonGlobalService.termText(feeDetailTerm.EVENTS)" [sortable]="true" className="u-text-right">
+					<ng-template let-row>
+						<span>{{ row.events | number }}</span>
+					</ng-template>
+				</column>
+				@if (hasMultipleCurrencies()) {
+				<column [field]="'originalAmount'" [header]="commonGlobalService.termText(feeDetailTerm.ORIGINAL_AMOUNT)" [sortable]="true" className="u-text-right">
+					<ng-template let-row>
+						<span>{{ row.originalCurrency }} {{ row.originalAmount | number:'1.2-2' }}</span>
+					</ng-template>
+				</column>
+				<column [field]="'exchangeRate'" [header]="commonGlobalService.termText(feeDetailTerm.EXCHANGE_RATE)" [sortable]="true" className="u-text-right">
+					<ng-template let-row>
+						<span>{{ row.exchangeRate | number:'1.4-4' }}</span>
+					</ng-template>
+				</column>
+				}
+				<column [field]="'targetAmount'" [header]="totalAmountHeader()" [sortable]="true" className="u-text-right">
+					<ng-template let-row>
+						<span>{{ row.targetCurrency }} {{ row.targetAmount | number:'1.2-2' }}</span>
+					</ng-template>
+				</column>
+			</intelica-table>
+			}
+		</div>
+	</div>
+	}
+</div>

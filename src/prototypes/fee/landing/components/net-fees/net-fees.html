@@ -1,0 +1,99 @@
+<p-panel class="prPanel u-full-height" showHeader="false">
+	@if (hasError()) {
+	<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reload()" />
+	} @else {
+	<div class="u-display-flex u-flex-column u-gap-lg u-full-height">
+		<!-- TITLE -->
+		<div class="u-display-flex u-flex-column">
+			@if (isloadingNetFeesByScheme()) {
+			<p-skeleton class="prSkeleton u-my-1" [width]="'205.00px'" [height]="'16px'" />
+			<p-skeleton class="prSkeleton u-my-1" [width]="'190.00px'" [height]="'12px'" />
+			} @else {
+			<div class="prPanel__title">{{ "NET_FEES_BY_SCHEME_IN" | term : globalTermService.languageCode }} {{ "[" + currencyCode() + "]" }}</div>
+			<div class="u-text-md">{{ startDate() + " - " + endDate() }}</div>
+			}
+		</div>
+		<!-- GRAPH -->
+		@if (isloadingNetFeesByScheme()) {
+		<div class="skChartLine u-flex-grow-1">
+			<!-- y axis -->
+			<div class="skChartLine__yAxis">
+				@for (_ of [].constructor(5); track $index) {
+				<div class="skChartLine__label"><p-skeleton class="prSkeleton"></p-skeleton></div>
+				}
+			</div>
+			<!-- x axis -->
+			<div class="skChartLine__xAxis">
+				@for (_ of [].constructor(12); track $index) {
+				<div class="skChartLine__label"><p-skeleton class="prSkeleton"></p-skeleton></div>
+				}
+			</div>
+			<!-- area -->
+			<div class="skChartLine__area">
+				<div class="skChartLine__todayMarker"></div>
+				<div class="skChartLine__lines">
+					@for (_ of [].constructor(5); track $index) {
+					<div class="skChartLine__line"><p-skeleton class="prSkeleton"></p-skeleton></div>
+					}
+				</div>
+				<div class="skChartLine__graph">
+					<div class="skChartLine__path">
+						<svg viewBox="0 0 517 75" width="100%" height="100%" preserveAspectRatio="none">
+							<path
+								d="M0.5 64.987L47.4091 73.987L94.3182 31.987L141.227 68.987L188.136 0.820312L235.045 55.8203L281.955 42.8203L328.864 44.8203L375.773 71.8203L422.682 52.8203L469.591 48.8203L516.5 22.8203"
+								stroke="#E2E8F0"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								vector-effect="non-scaling-stroke"
+								fill="none"
+							/>
+						</svg>
+					</div>
+					<div class="skChartLine__points">
+						@for (_ of [].constructor(12); track $index) {
+						<div class="skChartLine__point"><p-skeleton class="prSkeleton"></p-skeleton></div>
+						}
+					</div>
+				</div>
+			</div>
+			<div class="skChartLine__legend">
+				@for (_ of [].constructor(1); track $index) {
+				<div class="skChartLine__indicator">
+					<p-skeleton class="prSkeleton"></p-skeleton>
+					<p-skeleton class="prSkeleton"></p-skeleton>
+				</div>
+				}
+			</div>
+		</div>
+		} @else if (!hasGraphTableData()) {
+		<div class="u-flex-grow-1">
+			<intelica-status-state [state]="statusStateEnum.NoData" />
+		</div>
+		} @else {
+		<div class="u-display-flex u-flex-column u-flex-grow-1">
+			<fee-graph-line class="u-flex-grow-1" [data]="graphTable()" [currencyCode]="currencyCode()" />
+		</div>
+		}
+		<!-- ACTION BAR -->
+		@if (isloadingNetFeesByScheme()) {
+		<div class="u-display-flex align-items-center u-gap-sm u-pt-5 u-bt-1">
+			<span class="u-flex-grow-1"><p-skeleton class="prSkeleton" [width]="'470px'" [height]="'12px'" /></span>
+			<p-skeleton class="prSkeleton u-ms-auto" [width]="'92.59px'" [height]="'32px'" borderRadius="8px" />
+		</div>
+		} @else {
+		<div class="u-display-flex align-items-center u-gap-sm u-pt-5 u-bt-1">
+			<span class="u-flex-grow-1 u-text-md">{{ "NET_FEES_BY_SCHEME_MESSAGE" | term: globalTermService.languageCode }}</span>
+			<p-button
+				class="prButton u-text-nowrap"
+				severity="secondary"
+				[label]="'VIEW_DETAILS' | term: globalTermService.languageCode"
+				[gaTrack]="'viewDetails'"
+				[disabled]="!hasGraphTableData()"
+				[routerLink]="['/fee/library']"
+			/>
+		</div>
+		}
+	</div>
+	}
+</p-panel>

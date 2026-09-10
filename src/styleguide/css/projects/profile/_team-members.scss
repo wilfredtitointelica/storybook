@@ -1,0 +1,48 @@
+.teamMember {
+	display: flex;
+	gap: var(--i-spacing-gap-sm);
+	padding: var(--i-card-body-padding);
+	border: var(--i-line);
+	border-radius: var(--i-border-radius-lg);
+	
+	// --- structure ---
+
+	&__info {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		gap: var(--i-spacing-gap-xs);
+		font-size: var(--i-text-body-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+		color: var(--i-color-primary-900);
+	}
+
+	&__status, &__actions {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+		margin-top: auto;
+	}
+
+	// --- info ---
+
+	&__name {
+		font-size: var(--i-typography-font-size-md);
+		line-height: var(--i-typography-lineHeight-md);
+		font-weight: bold;
+	}
+
+	&__mail {
+		font-weight: bold;
+	}
+
+	&__date {
+		font-size: var(--i-typography-font-size-xs);
+		line-height: var(--i-typography-lineHeight-xs);
+	}
+
+	// --- empty ---
+	& :is(&__name, &__mail, &__role, &__desc, &__date):empty {
+		display: none;
+	}
+
+}

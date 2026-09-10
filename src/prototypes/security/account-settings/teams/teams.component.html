@@ -1,0 +1,216 @@
+<!-- ================================================================ -->
+
+<!-- section title -->
+<div class="ptSectionTitle">
+	<div class="ptSectionTitle__content">
+		<!-- LOADED -->
+		@if (isReady()) {
+		<div class="ptSectionTitle__title">{{ "TitleTeams" | term : termService.languageCode }}</div>
+		<div class="ptSectionTitle__subtitle">{{ "SubTitleTeams" | term : termService.languageCode }}</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<p-skeleton class="prSkeleton" [width]="'60px'" [height]="'28px'" />
+		<p-skeleton class="prSkeleton u-my-1" [width]="'430px'" [height]="'16px'" />
+		}
+	</div>
+</div>
+
+<!-- panel: data members -->
+<p-panel class="prPanel" showHeader="false">
+	<div class="ptSplitGroup">
+		<!-- LOADED -->
+		@if (isReady()) {
+		<div class="ptSplitGroup__item">
+			<div class="u-display-flex u-flex-column u-text-center">
+				<span class="u-text-sm u-color-secondary">{{ "StatusTotalMembers" | term : termService.languageCode }}</span>
+				<span class="u-text-2xl u-bold">{{ teamStats().total }}</span>
+			</div>
+		</div>
+		<div class="ptSplitGroup__item">
+			<div class="u-display-flex u-flex-column u-text-center">
+				<span class="u-text-sm u-color-secondary">{{ "StatusActiveMembers" | term : termService.languageCode }}</span>
+				<span class="u-text-2xl u-bold">{{ teamStats().active }}</span>
+			</div>
+		</div>
+		<div class="ptSplitGroup__item">
+			<div class="u-display-flex u-flex-column u-text-center">
+				<span class="u-text-sm u-color-secondary">{{ "StatusPendingMembers" | term : termService.languageCode }}</span>
+				<span class="u-text-2xl u-bold">{{ teamStats().pending }}</span>
+			</div>
+		</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<div class="ptSplitGroup__item">
+			<div class="u-display-flex u-flex-column u-align-items-center">
+				<p-skeleton class="prSkeleton u-my-1" [width]="'80px'" [height]="'12px'" />
+				<p-skeleton class="prSkeleton" [width]="'50px'" [height]="'32px'" />
+			</div>
+		</div>
+		<div class="ptSplitGroup__item">
+			<div class="u-display-flex u-flex-column u-align-items-center">
+				<p-skeleton class="prSkeleton u-my-1" [width]="'80px'" [height]="'12px'" />
+				<p-skeleton class="prSkeleton" [width]="'50px'" [height]="'32px'" />
+			</div>
+		</div>
+		<div class="ptSplitGroup__item">
+			<div class="u-display-flex u-flex-column u-align-items-center">
+				<p-skeleton class="prSkeleton u-my-1" [width]="'80px'" [height]="'12px'" />
+				<p-skeleton class="prSkeleton" [width]="'50px'" [height]="'32px'" />
+			</div>
+		</div>
+		}
+	</div>
+</p-panel>
+
+<!-- panel: team members -->
+<p-panel class="prPanel prPanel--full" showHeader="false">
+	<div class="ptStackContent ptStackContent--scroll">
+		<!-- LOADED -->
+		@if (isReady()) {
+		<div class="ptStackContent__header">
+			<div class="ptStackContent__start">
+				<b class="u-bold">{{ "TitleTableTeamMemebers" | term : termService.languageCode }}</b>
+			</div>
+			<div class="ptStackContent__end">
+				<div class="u-display-flex u-gap-sm">
+					<div class="ptSearch" [gaTrack]="'search'">
+						<p-iconfield>
+							<input
+								type="text"
+								class="prInputText"
+								pInputText
+								[placeholder]="searchPlaceholder()"
+								[pTooltip]="searchTooltip()"
+								[tooltipPosition]="'top'"
+								tooltipStyleClass="prTooltip"
+								[(ngModel)]="searchInput"
+								(keydown.enter)="OnSearchEnter()"
+							/>
+							<p-inputicon>
+								<button class="ptSearch__icon ptSearch__icon--close">
+									@if(searchInput()) {
+									<i class="icon icon-cancel" (click)="ClearSearch()"></i>
+									}
+								</button>
+								@if(searchInput()) {
+								<span class="ptSearch__icon ptSearch__icon--divider"></span>
+								}
+								<button class="ptSearch__icon ptSearch__icon--search" (click)="OnSearchClick()">
+									<i class="icon icon-search"></i>
+								</button>
+							</p-inputicon>
+						</p-iconfield>
+					</div>
+					<p-button class="prButton" severity="secondary" icon="icon icon-user-multiple" [label]="'ButtonAddMember' | term : termService.languageCode" (click)="ShowAddMemberDialog()" />
+				</div>
+			</div>
+		</div>
+		<div class="ptStackContent__body">
+			@if(filteredMembers().length) {
+			<div class="u-display-flex u-flex-column u-gap-lg">
+				@for (member of filteredMembers(); track $index) {
+				<team-member
+					[member]="member"
+					[processingMemberID]="processingMemberID()"
+					(edit)="ShowEditMemberDialog($event)"
+					(delete)="ShowAlertDeleteMember($event)"
+					(approve)="OnApproveMember($event)"
+					(reject)="OnRejectMember($event)"
+				/>
+				}
+			</div>
+			} @else if (isNoMatchesState()) {
+			<div class="u-display-flex u-flex-column u-flex-grow-1">
+				<intelica-status-state [state]="statusStateEnum.NoMatches" [description]="'TeamSearchNoResultsDescription'" [searchTerm]="searchText()" />
+			</div>
+			} @else if (isNoDataState()) {
+			<div class="u-display-flex u-flex-column u-flex-grow-1">
+				<intelica-status-state [state]="statusStateEnum.NoData" [titleKey]="'TeamNoMembersTitle'" [description]="'TeamNoMembersDescription'" />
+			</div>
+			}
+		</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<div class="ptStackContent__header">
+			<div class="ptStackContent__start">
+				<div class="u-bold"><p-skeleton class="prSkeleton" [width]="'110px'" [height]="'24px'" /></div>
+			</div>
+			<div class="ptStackContent__end">
+				<div class="u-display-flex u-gap-sm">
+					<p-skeleton class="prSkeleton" [width]="'220px'" [height]="'32px'" />
+					<p-skeleton class="prSkeleton" [width]="'118.39px'" [height]="'32px'" />
+				</div>
+			</div>
+		</div>
+		<div class="ptStackContent__body">
+			<div class="u-display-flex u-flex-column u-gap-lg">
+				@for (_ of [].constructor(8); track $index) {
+				<div class="teamMember">
+					<div class="teamMember__info">
+						<span class="teamMember__name"><p-skeleton class="prSkeleton" [width]="'125px'" [height]="'20px'" /></span>
+						<span class="teamMember__mail"><p-skeleton class="prSkeleton" [width]="'180px'" [height]="'16px'" /></span>
+						<span class="teamMember__desc"><p-skeleton class="prSkeleton" [width]="'570px'" [height]="'16px'" /></span>
+						<span class="teamMember__date"><p-skeleton class="prSkeleton" [width]="'325px'" [height]="'12px'" /></span>
+						<p-skeleton class="prSkeleton" [width]="'108.63px'" [height]="'24px'" />
+					</div>
+					<div class="teamMember__actions">
+						<p-skeleton class="prSkeleton" [width]="'88.55px'" [height]="'32px'" />
+						<p-skeleton class="prSkeleton" [width]="'77.02px'" [height]="'32px'" />
+					</div>
+				</div>
+				}
+			</div>
+		</div>
+		}
+	</div>
+</p-panel>
+
+<!-- ================================================================ -->
+
+@if (isReady()) {
+<!-- dialog: new / edit -->
+<p-dialog
+	class="prDialog u-display-none"
+	[(visible)]="showMemberDialog"
+	[modal]="true"
+	[draggable]="false"
+	[resizable]="false"
+	[dismissableMask]="true"
+	[focusOnShow]="false"
+	appendTo="body"
+	maskStyleClass="prDialog prDialog--md"
+>
+	<ng-template #header>
+		<!-- new -->
+		@if(!selectedMember()) { {{ "AddTeamMemberTitle" | term : termService.languageCode }} }
+		<!-- edit -->
+		@if(selectedMember()) { {{ "EditTeamMemberTitle" | term : termService.languageCode }} }
+	</ng-template>
+	<ng-template #closeicon>
+		<i class="icon icon-cancel"></i>
+	</ng-template>
+	<ng-template #content>
+		<app-add-member-modal
+			[member]="selectedMember()"
+			[isLoading]="isAddingMember() || isSavingMember()"
+			[emailExistsError]="emailExistsError()"
+			(saveChanges)="OnSaveChanged($event)"
+			(addMember)="OnAddMember($event)"
+		/>
+	</ng-template>
+</p-dialog>
+
+<!-- toast -->
+<p-toast class="prToast prToast--limitWidth" position="bottom-center" />
+
+<!-- library: alert -->
+<intelica-alert class="u-display-none" />
+}
+
+<!-- ================================================================ -->

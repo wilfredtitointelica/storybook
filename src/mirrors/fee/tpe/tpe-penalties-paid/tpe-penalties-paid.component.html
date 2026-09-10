@@ -1,0 +1,385 @@
+<div class="d-flex flex-column gap-3 mt-3">
+	<!-- @if (isLoading()) {
+	<div style="display: flex">
+		<p-skeleton class="prSkeleton" width="300px" height="24px"></p-skeleton>
+	</div>
+	} @else { -->
+	<p-breadcrumb class="prBreadcrumb" [class]="'breadcrumbClickGA'" [model]="fullItems()">
+		<ng-template pTemplate="item" let-item>
+			<a *ngIf="!item.isPopover" [routerLink]="item.routerLink" [pTooltip]="item.tooltip" [tooltipPosition]="item.tooltipPosition" [tooltipStyleClass]="item.tooltipStyleClass">
+				<span>{{ item.label | term : globalTermService.languageCode }}</span>
+			</a>
+		</ng-template>
+		<ng-template pTemplate="separator">
+			<span class="breadcrumb-separator">
+				<i class="icon icon-arrow-right icon--xs"></i>
+			</span>
+		</ng-template>
+	</p-breadcrumb>
+	<!-- } -->
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle">
+			<div class="ptSectionTitle__icon">
+				<p-button routerLink="dashboard" class="prButton" [class]="'titleBackGA'" icon="icon icon-nav-left" />
+			</div>
+			<div class="ptSectionTitle__content">
+				<div class="ptSectionTitle__title">
+					{{ titleLabel() | term : globalTermService.languageCode }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="grPanel penaltiesPaidTpe">
+		<p-tabs [(value)]="selectedTab" class="prTabs">
+			<p-tablist id="tabsListGA">
+				<p-tab value="0">{{ "LBL_FEE" | term : globalTermService.languageCode }}</p-tab>
+				<p-tab value="1">{{ "LBL_MCC" | term : globalTermService.languageCode }}</p-tab>
+			</p-tablist>
+			<p-tabpanels>
+				<p-tabpanel value="0">
+					<div class="d-flex flex-column gap-2">
+						<div class="grPanel__header">
+							<div class="grPanel__section">
+								<div class="grPanel__title">{{ "LBL_PENALTIES_BY_FEE_CODE" | term : globalTermService.languageCode }}</div>
+							</div>
+							<div class="grPanel__subtitle">{{ "SELECT_FEE_TO_SEE_DESCRIPTION_AND_TARIFF" | term : globalTermService.languageCode }}</div>
+						</div>
+						@if (isLoadingFeeChart()) { @if (isNoData()) {
+						<div style="display: flex; height: 402px; width: 100%; justify-content: center">
+							<intelica-status-state [state]="statusStateEnum.NoData" />
+						</div>
+						} @else {
+						<div style="display: flex; height: 402px; width: 100%">
+							<div style="display: flex; margin-top: auto; flex-direction: row; gap: 50px; height: 402px">
+								<div style="display: flex; flex-direction: column; gap: 20px; margin-left: 20px; margin-top: 50px">
+									<p-skeleton class="prSkeleton" width="56px" height="17px"></p-skeleton>
+									<p-skeleton class="prSkeleton" width="56px" height="17px"></p-skeleton>
+									<p-skeleton class="prSkeleton" width="56px" height="17px"></p-skeleton>
+									<p-skeleton class="prSkeleton" width="56px" height="17px"></p-skeleton>
+									<p-skeleton class="prSkeleton" width="56px" height="17px"></p-skeleton>
+									<p-skeleton class="prSkeleton" width="56px" height="17px"></p-skeleton>
+									<p-skeleton class="prSkeleton" width="56px" height="17px"></p-skeleton>
+									<p-skeleton class="prSkeleton" width="56px" height="17px"></p-skeleton>
+								</div>
+								<div style="display: flex; flex-direction: row; flex: 1; gap: 100px">
+									<div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; margin-left: 40px; margin-bottom: 30px; padding-bottom: 10px">
+										<p-skeleton class="prSkeleton" width="73px" height="287.06px"></p-skeleton>
+										<p-skeleton class="prSkeleton" width="73px" height="16.8px"></p-skeleton>
+									</div>
+									<div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; margin-bottom: 30px; padding-bottom: 10px">
+										<p-skeleton class="prSkeleton" width="73px" height="50px"></p-skeleton>
+										<p-skeleton class="prSkeleton" width="73px" height="16.8px"></p-skeleton>
+									</div>
+									<div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; margin-bottom: 30px; padding-bottom: 10px">
+										<p-skeleton class="prSkeleton" width="73px" height="30px"></p-skeleton>
+										<p-skeleton class="prSkeleton" width="73px" height="16.8px"></p-skeleton>
+									</div>
+									<div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; margin-bottom: 30px; padding-bottom: 10px">
+										<p-skeleton class="prSkeleton" width="73px" height="8px"></p-skeleton>
+										<p-skeleton class="prSkeleton" width="73px" height="16.8px"></p-skeleton>
+									</div>
+									<div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; margin-bottom: 30px; padding-bottom: 10px">
+										<p-skeleton class="prSkeleton" width="73px" height="50px"></p-skeleton>
+										<p-skeleton class="prSkeleton" width="73px" height="16.8px"></p-skeleton>
+									</div>
+									<div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto; margin-bottom: 30px; padding-bottom: 10px">
+										<p-skeleton class="prSkeleton" width="73px" height="30px"></p-skeleton>
+										<p-skeleton class="prSkeleton" width="73px" height="16.8px"></p-skeleton>
+									</div>
+								</div>
+							</div>
+						</div>
+						} } @else if (hasFeeChartError()) {
+						<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadFeeChart()" />
+						} @else if (!hasFeeChartData()) {
+						<intelica-status-state [state]="statusStateEnum.NoData" />
+						} @else {
+						<intelica-echart
+							#feePenaltiesChart
+							id="feePenaltiesChart"
+							[class]="'feeChartGA'"
+							[config]="feeChartOptions"
+							[containerStyle]="{ width: '100%', height: '402px' }"
+							renderer="svg"
+							(event)="onSelectFee($event)"
+						/>
+						}
+					</div>
+					<hr class="panel__divisor" />
+					<div class="penaltiesPaidTpe mt-3">
+						<div class="penaltiesPaidTpe__mcc">
+							<div class="grPanel__header">
+								<div class="grPanel__section">
+									<div class="grPanel__title">{{ "Description" | term : globalTermService.languageCode }}</div>
+								</div>
+								@if (isLoadingFeeChart()) { @if (isNoData()) { } @else {
+								<p-skeleton class="prSkeleton enaltiesPaidTpe__description"></p-skeleton>
+								} } @else {
+								<div class="penaltiesPaidTpe__description">{{ selectedFeeBar?.description }}</div>
+								}
+							</div>
+						</div>
+						<div class="u-divider-vertical" style="width: 10px; height: 210px"></div>
+						<div class="penaltiesPaidTpe__merchant">
+							<div class="grPanel__header">
+								<div class="grPanel__section">
+									<div class="grPanel__title">{{ "Tariff" | term : globalTermService.languageCode }}</div>
+								</div>
+							</div>
+							<div class="grPanel_body">
+								<!-- Table -->
+								@if (isLoadingTariff()) { @if (isNoData() || emptyFees()) {
+								<div style="display: flex; height: 180px; width: 100%; justify-content: center">
+									<intelica-status-state [state]="statusStateEnum.NoData" />
+								</div>
+								} @else {
+								<div class="skTable" style="width: 100%">
+									<!-- Header -->
+									<div class="skTable__header">
+										<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+									</div>
+
+									<!-- Cell -->
+									<div class="skTable__body">
+										<div class="skTable__row" *ngFor="let row of [1]">
+											<div class="skTable__cell" style="width: 60%">
+												<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+											</div>
+											<div class="skTable__cell" style="width: 20%">
+												<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+											</div>
+											<div class="skTable__cell" style="width: 20%">
+												<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+											</div>
+										</div>
+									</div>
+								</div>
+								} } @else if (hasTariffError()) {
+								<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadTariffInfo()" />
+								} @else if (!hasTariffData()) {
+								<intelica-status-state [state]="statusStateEnum.NoData" />
+								} @else {
+								<intelica-table [ListData]="tariffTiers" [ShowPagination]="true">
+									<column header="{{ 'Description' | term : globalTermService.languageCode }}" field="description" className="u-text-left" />
+									<column header="{{ 'Metric' | term : globalTermService.languageCode }}" className="u-text-center">
+										<ng-template let-rowData>{{ tariffMethod }}</ng-template>
+									</column>
+									<column header="{{ 'Rate' | term : globalTermService.languageCode }}" field="tierValue" className="u-text-right" />
+								</intelica-table>
+								}
+							</div>
+						</div>
+					</div>
+				</p-tabpanel>
+				<p-tabpanel value="1">
+					<div class="penaltiesPaidTpe">
+						<div class="penaltiesPaidTpe__mcc" style="width: 518px">
+							<div class="grPanel__section">
+								<div class="grPanel__title">{{ "PENALTIES_BY_MCC" | term : globalTermService.languageCode }}</div>
+								<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent4">
+									<i class="icon icon--sm icon-info"></i>
+								</span>
+								<ng-template #tooltipContent4 class="prTooltip__wrap">
+									<span>{{ "MCC_VIEW_MORE_TOOLTIP" | term : globalTermService.languageCode }}</span>
+								</ng-template>
+							</div>
+							<div class="grPanel__subtitle">{{ "SELECT_MCC_TO_SEE_MERCHANT_DETAIL" | term : globalTermService.languageCode }}</div>
+							<div class="graphMccWrapper" style="max-height: 440px; height: 440px; overflow-y: auto">
+								@if (isLoadingMccChart()) {
+								<div style="display: flex; justify-content: center; margin-top: 30px">
+									<div style="display: flex; justify-content: center; flex-direction: column; gap: 17.12px">
+										<div style="display: flex; align-items: center; flex-direction: row; gap: 14px">
+											<p-skeleton class="prSkeleton" width="97px" height="16px"></p-skeleton>
+											<p-skeleton class="prSkeleton" width="415px" height="34.23px"></p-skeleton>
+										</div>
+										<div style="display: flex; align-items: center; flex-direction: row; gap: 14px">
+											<p-skeleton class="prSkeleton" width="97px" height="16px"></p-skeleton>
+											<p-skeleton class="prSkeleton" width="380px" height="34.23px"></p-skeleton>
+										</div>
+										<div style="display: flex; align-items: center; flex-direction: row; gap: 14px">
+											<p-skeleton class="prSkeleton" width="97px" height="16px"></p-skeleton>
+											<p-skeleton class="prSkeleton" width="300px" height="34.23px"></p-skeleton>
+										</div>
+
+										<div style="display: flex; align-items: center; flex-direction: row; gap: 14px">
+											<p-skeleton class="prSkeleton" width="97px" height="16px"></p-skeleton>
+											<p-skeleton class="prSkeleton" width="250px" height="34.23px"></p-skeleton>
+										</div>
+
+										<div style="display: flex; align-items: center; flex-direction: row; gap: 14px">
+											<p-skeleton class="prSkeleton" width="97px" height="16px"></p-skeleton>
+											<p-skeleton class="prSkeleton" width="200px" height="34.23px"></p-skeleton>
+										</div>
+									</div>
+								</div>
+								} @else if (hasMccChartError()) {
+								<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadMccChart()" />
+								} @else if (!hasMccChartData()) {
+								<intelica-status-state [state]="statusStateEnum.NoData" />
+								} @else {
+								<intelica-echart
+									#mccPenaltiesChart
+									id="mccPenaltiesChart"
+									class="echart echart--noPointerEnd"
+									[class]="'mccChartGA'"
+									[config]="mccChartOptions"
+									[containerStyle]="mccChartContainerStyle"
+									renderer="svg"
+									(event)="onSelectMcc($event)"
+								/>
+								}
+							</div>
+						</div>
+
+						<div class="u-divider-vertical" style="width: 10px; height: auto"></div>
+
+						<div class="penaltiesPaidTpe__merchant">
+							<div class="grPanel__header">
+								<div class="grPanel__section">
+									<div class="grPanel__title">
+										{{ "LBL_Merchant_Detail" | term : globalTermService.languageCode }}
+										@if (selectedMccBar) { | {{ selectedMccBar.description }}
+										}
+									</div>
+								</div>
+							</div>
+							<div class="grPanel_body">
+								@if (isLoadingMerchantDetail()) {
+								<div class="skTable" style="width: 100%">
+									<!-- Header -->
+									<div class="skTable__header">
+										<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+									</div>
+									<!-- Cell -->
+									<div class="skTable__body">
+										<div class="skTable__row" *ngFor="let row of [1, 2, 3, 4, 5]">
+											<div class="skTable__cell" style="width: 10%">
+												<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+											</div>
+											<div class="skTable__cell" style="width: 50%">
+												<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+											</div>
+											<div class="skTable__cell" style="width: 30%">
+												<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+											</div>
+											<div class="skTable__cell" style="width: 10%">
+												<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+											</div>
+										</div>
+									</div>
+								</div>
+								} @else if (hasMerchantDetailError()) {
+								<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadMerchantDetail()" />
+								} @else if (!hasMerchantDetailData()) {
+								<div style="max-height: 440px; height: 440px; overflow-y: auto">
+									<intelica-status-state [state]="statusStateEnum.NoData" />
+								</div>
+								} @else {
+								<intelica-table [ListData]="mccDetails()" [ShowPagination]="true">
+									<column header="{{ 'LBL_MERCHANT_ID' | term : globalTermService.languageCode }}" field="merchantId" className="u-text-center" [sortable]="true" />
+									<column header="{{ 'LBL_MERCHANT_NAME' | term : globalTermService.languageCode }}" field="merchantName" className="u-text-left" [sortable]="true" />
+									<column header="{{ 'LBL_AMOUNT' | term : globalTermService.languageCode }} ({{ currency() }})" field="amount" [sortable]="true" className="u-text-right">
+										<ng-template let-data>
+											<span>{{ data.amount | number : "1.2-2" }}</span>
+										</ng-template>
+									</column>
+									<column className="u-text-center">
+										<ng-template let-data>
+											<div class="prTable__body--content">
+												<p-button class="prButton" [class]="'detailFieldsTableGA'" icon="icon icon-file" (click)="openMerchantPenaltiesModal(data)" />
+											</div>
+										</ng-template>
+									</column>
+								</intelica-table>
+								}
+							</div>
+						</div>
+					</div>
+				</p-tabpanel>
+			</p-tabpanels>
+		</p-tabs>
+	</div>
+</div>
+<!-- Dialog Large -->
+<p-dialog class="prDialog prDialog--xl" [(visible)]="showMerchantDetail" [modal]="true" [draggable]="false">
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title">{{ "FEE_DETAIL_MERCHANT" | term : globalTermService.languageCode }}: {{ seletecdMerchantDetail?.merchantName?.toUpperCase() }}</div>
+		</div>
+		<ng-template #closeicon>
+			<i class="icon icon-cancel"></i>
+		</ng-template>
+	</ng-template>
+	<ng-template #content>
+		@if (isLoadingMerchantPenaltiesTable()) { @if (isNoData()) {
+		<intelica-status-state [state]="statusStateEnum.NoData" />
+		} @else {
+		<div class="skTable">
+			<!-- Header -->
+			<div class="skTable__header">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<!-- Cell -->
+			<div class="skTable__body">
+				<div class="skTable__row" *ngFor="let row of [1, 2, 3, 4, 5]">
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+					</div>
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+					</div>
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+					</div>
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+					</div>
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+					</div>
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+					</div>
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+					</div>
+				</div>
+			</div>
+		</div>
+		} } @else if (hasMerchantPenaltiesError()) {
+		<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadMerchantPenalties()" />
+		} @else if (!hasMerchantPenaltiesData()) {
+		<intelica-status-state [state]="statusStateEnum.NoData" />
+		} @else {
+		<intelica-table [ListData]="merchantPenalties()" [ShowPagination]="true" [scrollable]="true" scrollHeight="400px">
+			<column header="{{ 'Date' | term : globalTermService.languageCode }}" field="date" className="u-text-center" [sortable]="true">
+				<ng-template let-data>
+					<span>{{ data.date | date : "dd MMM, yyyy" : "UTC" }}</span>
+				</ng-template>
+			</column>
+			<column header="{{ 'FeeCode' | term : globalTermService.languageCode }}" field="feeCode" className="u-text-center" [sortable]="true">
+				<ng-template let-data>
+					<span class="u-text-link" [class]="'feecodeTableGA'">{{ data.feeCode }}</span>
+				</ng-template>
+			</column>
+			<column header="{{ 'FeeName' | term : globalTermService.languageCode }}" field="feeName" className="u-text-left" [sortable]="true" />
+			<column header="{{ 'LBL_CURRENCY_RATE' | term : globalTermService.languageCode }}" field="currencyRate" className="u-text-center" [sortable]="true" />
+			<column header="{{ 'LBL_T_RATE' | term : globalTermService.languageCode }}" field="rate" className="u-text-right" [sortable]="true" />
+			<column header="{{ 'LBL_EVENTS' | term : globalTermService.languageCode }}" field="events" className="u-text-center" [sortable]="true" />
+			<column header="{{ 'LBL_CURRENCY_BILLING' | term : globalTermService.languageCode }}" field="currencyBilling" className="u-text-center" [sortable]="true" />
+			<column header="{{ 'LBL_AMOUNT' | term : globalTermService.languageCode }}" field="amount" [sortable]="true" className="u-text-right">
+				<ng-template let-data>
+					<span>
+						{{ data.amount | number : "1.2-2" }}
+					</span>
+				</ng-template>
+			</column>
+		</intelica-table>
+		}
+	</ng-template>
+	<ng-template #footer>
+		<p-button class="prButton" label="{{ 'Close' | term : globalTermService.languageCode }}" (click)="showMerchantDetail = false" />
+	</ng-template>
+</p-dialog>
+<p-toast class="prToast" position="bottom-right" />

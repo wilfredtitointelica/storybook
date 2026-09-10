@@ -1,0 +1,39 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK
+\*——————————————————————————————————————————————————————————*/
+
+.methodCode {
+	display: flex;
+	gap: var(--i-spacing-gap-lg); // 16px
+	width: 27rem; // 432px;
+	margin-inline: auto;
+	justify-content: center;
+
+	&__option {
+		flex-grow: 1;
+		flex-basis: 100%;
+
+		& > :nth-child(n) {
+			height: 100%;
+			cursor: pointer;
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS BLOCK ( --modifier ) 
+\*——————————————————————————————————————————————————————————*/
+
+.methodCode {
+
+	// --- case: authentication ---
+
+	&--onlyEmail .option-email {
+		max-width: calc(50% - var(--i-spacing-gap-lg));
+	}
+
+	&--onlyEmail .option-authenticator {
+		display: none;
+	}
+	
+}

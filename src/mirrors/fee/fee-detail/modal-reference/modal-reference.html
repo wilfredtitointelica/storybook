@@ -1,0 +1,113 @@
+<div class="refModalCnt">
+	@if (!showDetail()) { @if (isLoading()) {
+	<p-skeleton class="prSkeleton u-mb-3" width="100%" height="16px" borderRadius="8px"></p-skeleton>
+
+	<div style="border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden">
+		<div style="display: flex; gap: 1rem; padding: 12px; border-bottom: 1px solid #e5e7eb; background-color: #fafafa">
+			<p-skeleton class="prSkeleton" width="35%" height="14px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="20%" height="14px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="20%" height="14px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="15%" height="14px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="8%" height="14px" borderRadius="8px"></p-skeleton>
+		</div>
+		@for (row of [1, 2, 3, 4, 5]; track row) {
+		<div style="display: flex; gap: 1rem; padding: 12px; border-bottom: 1px solid #f2f2f5; align-items: center">
+			<p-skeleton class="prSkeleton" width="35%" height="18px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="20%" height="18px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="20%" height="18px" borderRadius="12px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="15%" height="18px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="36px" height="36px" borderRadius="8px" style="flex-shrink: 0"></p-skeleton>
+		</div>
+		}
+	</div>
+
+	<div style="display: flex; align-items: center; justify-content: end; gap: 8px; padding: 1rem 0">
+		<div style="display: flex; align-items: center; gap: 0.5rem">
+			<p-skeleton class="prSkeleton" width="90px" height="14px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="60px" height="32px" borderRadius="8px"></p-skeleton>
+		</div>
+		<div style="display: flex; gap: 0.5rem">
+			<p-skeleton class="prSkeleton" width="32px" height="32px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="32px" height="32px" borderRadius="8px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<div class="refModalCnt__subtitle">{{ commonGlobalService.termText(feeDetailTerm.REFERENCES_SUBTITLE) }}</div>
+
+	@if (items().length === 0) {
+	<div class="refModalCnt__empty">
+		<i class="refModalCnt__empty--icon icon icon-no-results"></i>
+		<h3 class="refModalCnt__empty--title">{{ commonGlobalService.termText(feeDetailTerm.NO_REFERENCES_AVAILABLE) }}</h3>
+		<p class="refModalCnt__empty--description">{{ commonGlobalService.termText(feeDetailTerm.NO_REFERENCES_DESCRIPTION) }}</p>
+		<p-message class="prMessage" severity="info" icon="icon icon-info">
+			<b>{{ commonGlobalService.termText(feeDetailTerm.NOTE) }}</b>
+			{{ commonGlobalService.termText(feeDetailTerm.REFERENCES_NOTE_INFO) }}
+		</p-message>
+	</div>
+	} @else {
+	<intelica-table [AllowedPageSizes]="[5,10,25,50,100]" [ShowSearch]="false" [ShowPagination]="true" [ShowCheckbox]="false" [RowsPerPage]="5" [ListData]="items()">
+		<column [field]="'fileName'" [header]="commonGlobalService.termText(feeDetailTerm.FILE_NAME)" [sortable]="false"></column>
+		<column [field]="'documentType'" [header]="commonGlobalService.termText(feeDetailTerm.DOCUMENT_TYPE)" [sortable]="false" className="u-text-center"></column>
+		<column [field]="'documentCategory'" [header]="commonGlobalService.termText(feeDetailTerm.DOCUMENT_CATEGORY)" [sortable]="false">
+			<ng-template #content let-data>
+				<div class="prTable__body--content">
+					<p-badge [value]="data.documentCategory" severity="secondary" class="prBadge"></p-badge>
+				</div>
+			</ng-template>
+		</column>
+		<column [field]="'publicationDate'" [header]="commonGlobalService.termText(feeDetailTerm.PUBLICATION_DATE)" [sortable]="false" className="u-text-center"></column>
+		<column [field]="''" [header]="commonGlobalService.termText(feeDetailTerm.ACTION)" [sortable]="false">
+			<ng-template #content let-data>
+				<div class="prTable__body--content">
+					@if (data.path) {
+					<p-button
+						class="prButton viewActionTableGA"
+						icon="icon icon-view"
+						tooltipStyleClass="prTooltip"
+						[pTooltip]="commonGlobalService.termText(feeDetailTerm.VIEW)"
+						tooltipPosition="top"
+						(onClick)="onViewReference(data)"
+					></p-button>
+					}
+				</div>
+			</ng-template>
+		</column>
+	</intelica-table>
+	} } } @if (showDetail() && selectedReference()) {
+	<div class="refModalCnt__detail">
+		<div class="refModalCnt__detail--header">
+			<div>
+				<div class="refModalCnt__detail--title">{{ selectedReference()?.fileName }}</div>
+				<p class="refModalCnt__detail--published">{{ commonGlobalService.termText(feeDetailTerm.PUBLISHED) }}: {{ selectedReference()?.publicationDate }}</p>
+			</div>
+			<div>
+				<p-button
+					[label]="commonGlobalService.termText(feeDetailTerm.DOWNLOAD_PDF)"
+					icon="icon icon-download"
+					iconPos="left"
+					severity="secondary"
+					class="prButton downloadPDFGA"
+					[disabled]="isLoadingPdf() || !pdfSafeUrl()"
+					(onClick)="onDownloadPdf()"
+				/>
+			</div>
+		</div>
+
+		<div class="refModalCnt__detail--viewer">
+			@if (isLoadingPdf()) {
+			<p-skeleton class="prSkeleton" width="100%" height="340px" borderRadius="8px"></p-skeleton>
+			} @else if (pdfSafeUrl()) {
+			<iframe [src]="pdfSafeUrl()" class="refModalCnt__detail--iframe" frameborder="0" width="100%" height="500px"></iframe>
+			} @else {
+			<div class="refModalCnt__detail--placeholder">
+				<i class="icon icon-pdf icon--lg"></i>
+			</div>
+			}
+		</div>
+
+		<div class="refModalCnt__detail--footer">
+			<p-button [label]="commonGlobalService.termText(feeDetailTerm.BACK)" class="prButton" severity="secondary" (onClick)="onBack()"></p-button>
+		</div>
+	</div>
+	}
+</div>

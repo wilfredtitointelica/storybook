@@ -1,0 +1,13 @@
+@forward "tokens.figma"; 		// Foundations, alias, semantics, components (exportados de Figma)
+@forward "tokens.extensions"; // Motion, shadows, líneas, otros tokens “extra”
+@forward "tokens.navigation"; // Tokens comunes para navegación
+@forward "tokens.feedback";   // Tokens comunes para mensajes y notificaciones
+@forward "tokens.form-field"; // Tokens comunes para campos de formularios
+
+@forward "tokens.control.draft"; // borrador inicial
+
+// ----------------------------------------------------------------------------------------
+// Structure for naming design tokens
+// --{namespace}-{category?}-{component}-{element?}-{modifier/variant?}-{state?}-{property}
+// ----------------------------------------------------------------------------------------
+// {...?} is optional

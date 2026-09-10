@@ -1,0 +1,118 @@
+@if (isLoading()) {
+<div class="rateSimulation">
+	<div class="d-flex flex-column gap-2">
+		<p-skeleton class="prSkeleton" width="200px" height="18px" borderRadius="8px"></p-skeleton>
+		<p-skeleton class="prSkeleton" width="100%" height="36px" borderRadius="8px"></p-skeleton>
+	</div>
+	<div class="d-flex flex-column gap-2">
+		<p-skeleton class="prSkeleton" width="160px" height="18px" borderRadius="8px"></p-skeleton>
+		<div class="itemColDivOutput">
+			<div class="itemColDivOutput__grid">
+				@for (item of [1, 2, 3]; track item) {
+				<div class="itemColDivOutput__item u-gap-xs">
+					<p-skeleton class="prSkeleton" width="100px" height="14px" borderRadius="8px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="80px" height="20px" borderRadius="8px"></p-skeleton>
+				</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+} @else if (isSimulatorEnabled()) {
+<div class="rateSimulation">
+	<div class="rateSimulation__container">
+		<div class="rateSimulation__tittle">{{ commonGlobalService.termText(feeDetailTerm.SIMULATE_DIFFERENT_EVENTS) }}</div>
+		@if (minAmount() !== null) {
+		<div>{{ commonGlobalService.termText(feeDetailTerm.CONDITIONAL_RATE_MIN) }} {{ currency() }} {{ minAmount() | number: "1.2-2" }}</div>
+		} @if (maxAmount() !== null) {
+		<div>{{ commonGlobalService.termText(feeDetailTerm.CONDITIONAL_RATE_MAX) }} {{ currency() }} {{ maxAmount() | number: "1.2-2" }}</div>
+		} @if (isAssociated()) {
+		<p-message class="prMessage" severity="info" size="small" icon="icon icon-info">
+			<ng-template #container>
+				<div class="prMessage__wrap">
+					<div class="prMessage__summary">
+						<span class="prMessage__body">{{ commonGlobalService.termText(feeDetailTerm.SIMULATE_ASSOCIATED_INFO) }}</span>
+					</div>
+				</div>
+			</ng-template>
+		</p-message>
+		}	
+		<div class="rateSimulation__inputWrap">
+			<input
+				class="prInputtext rateSimulatorGA"
+				type="text"
+				[placeholder]="commonGlobalService.termText(feeDetailTerm.ENTER_TOTAL_EVENTS)"
+				[title]="commonGlobalService.termText(feeDetailTerm.ENTER_TOTAL_EVENTS)"
+				pInputText
+				[ngModel]="events()"
+				(ngModelChange)="events.set($event)"
+				(keypress)="onKeyPress($event)"
+				(paste)="onPaste($event)"
+				(blur)="onBlur()"
+				(focus)="onFocus()"
+				[maxlength]="maxLength"
+			/>
+			@if (events()) {
+			<button class="rateSimulation__clearBtn" type="button" aria-label="Clear" (click)="clearEvents()">
+				<i class="icon icon-cancel icon--xs"></i>
+			</button>
+			}
+		</div>
+	</div>
+	@if (errorMessage(); as err) {
+	<div>
+		<p-message class="prMessage" severity="error" size="small" icon="icon icon-alert">
+			<ng-template #container>
+				<div class="prMessage__wrap">
+					<div class="prMessage__summary">
+						<span class="prMessage__body">
+							<b>{{ err.title }}</b>
+							<br />
+							{{ err.body }}
+						</span>
+					</div>
+				</div>
+			</ng-template>
+		</p-message>
+	</div>
+	}
+	<div>
+		<div class="rateSimulation__tittle">{{ commonGlobalService.termText(feeDetailTerm.CALCULATION_OUTPUT) }}</div>
+		<div class="itemColDivOutput">
+			<div class="itemColDivOutput__grid">
+				<div class="itemColDivOutput__item">
+					<div class="itemColDivOutput__label">{{ commonGlobalService.termText(feeDetailTerm.TIER_USED) }}</div>
+					<div class="itemColDivOutput__value">{{ hasResult() ? tierUsedLabel() : "-" }}</div>
+				</div>
+
+				<div class="itemColDivOutput__item">
+					<div class="itemColDivOutput__label">{{ commonGlobalService.termText(isRateApply() ? feeDetailTerm.RATE_APPLY : feeDetailTerm.EFFECTIVE_RATE) }}</div>
+					<div class="itemColDivOutput__value">
+						@if (hasResult()) { @if (isVolume()) {
+						<span class="itemColDivOutput__amount">{{ outputRate() === null ? "" : (outputRate() | number: "1.0-6") }}</span>
+						<span class="itemColDivOutput__percentage">{{ rateUnit() }}</span>
+						} @else {
+						<span class="itemColDivOutput__currency">{{ rateUnit() }}</span>
+						<span class="itemColDivOutput__amount">{{ outputRate() === null ? "" : (outputRate() | number: "1.0-6") }}</span>
+						} } @else {
+						<span>-</span>
+						}
+					</div>
+				</div>
+
+				<div class="itemColDivOutput__item itemColDivOutput__item--highlight">
+					<div class="itemColDivOutput__label">{{ commonGlobalService.termText(feeDetailTerm.FINAL_AMOUNT) }}</div>
+					<div class="itemColDivOutput__value">
+						@if (hasResult()) {
+						<span class="itemColDivOutput__currency">{{ currency() }}</span>
+						<span class="itemColDivOutput__amount">{{ finalAmount() === null ? "" : (finalAmount() | amount: false : 2 : true) }}</span>
+						} @else {
+						<span>-</span>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+}

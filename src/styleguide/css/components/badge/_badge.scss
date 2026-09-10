@@ -1,0 +1,218 @@
+// :root {
+// --i-badge-text-sm-font-size: var(--i-typography-font-size-xs);
+// --i-badge-text-lg-font-size: var(--i-typography-font-size-sm);
+// --i-badge-text-xl-font-size: var(--i-typography-font-size-md);
+
+// --i-badge-md-height: var(--i-sizing-md);
+// --i-badge-lg-height: var(--i-sizing-lg);
+
+// --i-badge-xs-lineHeight: var(--i-typography-lineHeight-xs);
+// --i-badge-sm-lineHeight: var(--i-typography-lineHeight-sm);
+// --i-badge-md-lineHeight: var(--i-typography-lineHeight-md);
+
+// --i-badge-border-radius: var(--i-border-radius-full);
+// --i-badge-font-weight-regular: var(--i-typography-font-weight-regular);
+
+// --i-badge-sm-padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+// --i-badge-lg-padding: var(--i-spacing-container-md) var(--i-spacing-container-lg);
+// --i-badge-xl-padding: var(--i-spacing-container-md) var(--i-spacing-container-xl);
+
+// --i-badge-gap: var(--i-spacing-gap-xs);
+// --i-badge-border-width: var(--i-border-width-sm);
+
+// --- Default ---
+// --i-badge-default-background: var(--i-color-secondary-50);
+// --i-badge-default-border-color: var(--i-color-secondary-600);
+// --i-badge-default-color: var(--i-color-secondary-700);
+
+// --- STATES ---
+
+// --- Info ---
+// --i-badge-info-background: var(--i-color-primary-50);
+// --i-badge-info-border-color: var(--i-color-primary-600);
+// --i-badge-info-color: var(--i-color-primary-600);
+
+// --- Success ---
+// --i-badge-success-background: var(--i-color-success-50);
+// --i-badge-success-border-color: var(--i-color-success-600);
+// --i-badge-success-color: var(--i-color-success-800);
+
+// --- Warning ---
+// --i-badge-warning-background: var(--i-color-tertiary-100);
+// --i-badge-warning-border-color: var(--i-border-warning);
+// --i-badge-warning-color: var(--i-color-tertiary-800);
+
+// --- Error ---
+// --i-badge-error-background: var(--i-color-error-100);
+// --i-badge-error-border-color: var(--i-color-error-600);
+// --i-badge-error-color: var(--i-color-error-600);
+
+// --- Disabled ---
+// --i-badge-disabled-background: var(--i-color-neutral-200);
+// --i-badge-disabled-border-color: var(--i-color-neutral-400);
+// --i-badge-disabled-color: var(--i-color-neutral-400);
+// }
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+.prBadge {
+
+	--accent-background-color: var(--i-color-primary-100);
+	--accent-border-color: var(--i-color-primary-900);
+	--accent-color: var(--i-color-primary-900);
+
+	// --- Base ---
+	&.p-badge {
+		border-radius: var(--i-border-radius-full);
+		font-weight: var(--i-typography-font-weight-regular);
+		border-width: var(--i-border-width-sm);
+		border-style: solid;
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+		width: max-content;
+		// accent color
+		background-color: var(--accent-background-color);
+		border-color: var(--accent-border-color);
+		color: var(--accent-color);
+		text-align: center;
+	}
+	// --- Default ---
+	&.p-badge-secondary {
+		--accent-background-color: var(--i-color-secondary-50);
+		--accent-border-color: var(--i-color-secondary-600);
+		--accent-color: var(--i-color-primary-900);
+	}
+
+	// --- Info ---
+	&.p-badge-info {
+		--accent-background-color: var(--i-color-primary-100);
+		--accent-border-color: var(--i-color-primary-900);
+		--accent-color: var(--i-color-primary-900);
+	}
+
+	// --- Success ---
+	&.p-badge-success {
+		--accent-background-color: var(--i-color-success-50);
+		--accent-border-color: var(--i-color-success-800);
+		--accent-color: var(--i-color-success-800);
+	}
+
+	// --- Warning ---
+	&.p-badge-warn {
+		--accent-background-color: var(--i-color-warning-100);
+		--accent-border-color: var(--i-color-warning-800);
+		--accent-color: var(--i-color-warning-700);
+	}
+
+	// --- Error ---
+	&.p-badge-danger {
+		--accent-background-color: var(--i-color-error-50);
+		--accent-border-color: var(--i-color-error-700);
+		--accent-color: var(--i-color-error-700);
+	}
+
+	// --- Disabled ---
+	&.prBadge--disabled {
+		--accent-background-color: var(--i-color-neutral-200);
+		--accent-border-color: var(--i-color-neutral-400);
+		--accent-color: var(--i-color-neutral-400);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [badgeSize="small | large | xlarge"]
+\*——————————————————————————————————————————————————————————*/
+.prBadge {
+	// --- Small ---
+	&.p-badge-sm {
+		font-size: var(--i-typography-font-size-xs);
+		line-height: var(--i-typography-lineHeight-xs);
+		min-height: var(--i-sizing-md);
+		padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+
+		&::before {
+			font-size: 12px;
+		}
+	}
+
+	// --- Large ---
+	&.p-badge-lg {
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+		min-height: var(--i-sizing-lg);
+		padding: var(--i-spacing-container-md) var(--i-spacing-container-lg);
+	}
+
+	// --- Extra large ---
+	&.p-badge-xl {
+		font-size: var(--i-typography-font-size-md);
+		line-height: var(--i-typography-lineHeight-md);
+		min-height: 2.5rem;
+		padding: var(--i-spacing-container-md) var(--i-spacing-container-xl);
+	}
+
+	&.p-badge-lg,
+	&.p-badge-xl {
+		&::before {
+			font-size: 16px;
+		}
+	}
+	&--yellow {
+		&.p-badge {
+			font-weight: 700;
+			font-size: 10px;
+			line-height: 12px;
+			color: #D7AE0A;
+			border-color: #D7AE0A;
+			background: #FFFAF0;
+		}
+	}
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+.prBadge {
+
+	// --- accents colors ---
+	/*
+	&--accentA{
+		--accent-background-color: var(--i-color-olive-50);
+		--accent-border-color: var(---i-color-olive-900);
+		--accent-color: var(--i-color-olive-900);
+	}
+
+	&--accentB{
+		--accent-background-color: var(--i-color-oceanblue-50);
+		--accent-border-color: var(---i-color-oceanblue-900);
+		--accent-color: var(--i-color-oceanblue-900);
+	}
+
+	&--accentC{
+		--accent-background-color: var(--i-color-teal-50);
+		--accent-border-color: var(---i-color-teal-900);
+		--accent-color: var(--i-color-teal-900);
+	}
+
+	&--accentD{
+		--accent-background-color: var(--i-color-pastelgreen-50);
+		--accent-border-color: var(---i-color-pastelgreen-900);
+		--accent-color: var(--i-color-pastelgreen-900);
+	}
+
+	&--accentE{
+		--accent-background-color: var(--i-color-olive-50);
+		--accent-border-color: var(--i-color-olive-900);
+		--accent-color: var(--i-color-olive-900);
+	}
+
+	&--accentF{
+		--accent-background-color: var(--i-color-yellow-50);
+		--accent-border-color: var(---i-color-yellow-900);
+		--accent-color: var(--i-color-yellow-900);
+	}
+	*/
+	
+}

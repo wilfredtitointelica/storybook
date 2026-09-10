@@ -1,0 +1,297 @@
+@if (isLoading) {
+<div class="skTable">
+	<!-- Header -->
+	<div class="u-display-flex u-gap-xs u-justify-content-end">
+		<p-skeleton class="prSkeleton" width="170px" height="32px"></p-skeleton>
+		<p-skeleton class="prSkeleton" width="80px" height="32px"></p-skeleton>
+		<p-skeleton class="prSkeleton" width="73px" height="32px"></p-skeleton>
+		<p-skeleton class="prSkeleton" width="186px" height="32px"></p-skeleton>
+		<p-skeleton class="prSkeleton" width="40px" height="32px"></p-skeleton>
+	</div>
+	<!-- Header -->
+	<div class="skTable__header">
+		<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+	</div>
+	<!-- summary -->
+	<div class="skTable__summary">
+		<p-skeleton class="prSkeleton"></p-skeleton>
+	</div>
+	<!-- Cell -->
+	<div class="skTable__body">
+		<div class="skTable__row" *ngFor="let row of [1, 2, 3, 4, 5]">
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+		</div>
+	</div>
+</div>
+} @else {
+<intelica-table-fetch
+	#itltable
+	class="tableFeeLibrary"
+	[class.prTable--disabled]="isSystemErrorState || isNoDataState"
+	[ngClass]="{ ptEmptyTable: isEmptyState }"
+	[ShowCheckbox]="false"
+	[ShowSearch]="true"
+	[SearchFields]="searchFields"
+	[ShowPagination]="true"
+	[CurrentPage]="CurrentPage"
+	[RowsPerPage]="RowsPerPage"
+	[TotalItems]="TotalInicial"
+	[SortOrder]="SortOrder"
+	[DefaultSortField]="SortField ?? ''"
+	[SortField]="SortField"
+	[FilteredList]="ListData"
+	(EmitQueryParametersChange)="OnQueryParametersChange($event)"
+>
+	<ng-template #additionalCentralTemplate>
+		<div class="u-display-flex u-gap-sm ps-2">
+			<p-button
+				class="prButton"
+				[label]="commonGlobalService.termText(libraryTerm.BTN_REFUND)"
+				severity="secondary"
+				(click)="openModal(allocatedModal.REFUND)"
+				[disabled]="isLoading || ListData.length === 0"
+				[style]="{ 'min-width': '79px' }"
+			/>
+			<p-button
+				class="prButton"
+				[label]="commonGlobalService.termText(libraryTerm.BTN_EXCLUDED)"
+				severity="secondary"
+				(click)="openModal(allocatedModal.EXCLUDED)"
+				[disabled]="isLoading || ListData.length === 0"
+				[style]="{ 'min-width': '72px' }"
+			/>
+			@if ((clientInformation()?.banks?.length ?? 0) > 1) {
+			<p-button
+				class="prButton"
+				[label]="commonGlobalService.termText(libraryTerm.BTN_GROUP_VIEW)"
+				severity="secondary"
+				(click)="openModal(allocatedModal.GROUP_VIEW)"
+				[disabled]="isLoading || ListData.length === 0"
+				[style]="{ 'min-width': '94px' }"
+			/>
+			}
+			<p-multiselect
+				class="prMultiselect"
+				[options]="columnOptions"
+				[filter]="columnOptions.length > 10"
+				dropdownIcon="icon icon-arrow-down"
+				[(ngModel)]="selectedColumnFields"
+				optionLabel="label"
+				optionValue="field"
+				[selectedItemsLabel]="commonGlobalService.termText(libraryTerm.COLUMNS_SELECTED)"
+				[maxSelectedLabels]="2"
+				[showToggleAll]="true"
+				[style]="{ 'min-width': '186px' }"
+				[placeholder]="commonGlobalService.termText(libraryTerm.CHOOSE_COLUMNS)"
+				[disabled]="isLoading || ListData.length === 0"
+				[pt]="{ pcHeaderCheckbox: { input: { class: 'columnOptionsAllGA' } } }"
+			/>
+			<!-- <span [pTooltip]="exportTooltip" tooltipPosition="top" tooltipStyleClass="prTooltip"> -->
+			<p-button class="prButton downloadGA" severity="secondary" (click)="downloadExcel()" [disabled]="isLoading || isDownloading() || ListData.length === 0">
+				<i class="icon icon-download" pButtonIcon></i>
+			</p-button>
+			<!-- </span> -->
+		</div>
+	</ng-template>
+
+	@if (totalAmountColumnIndex === -1) {
+	<rowResumenComponent className="text-start" [colspan]="visibleColumns.length">
+		<ng-template>{{ commonGlobalService.termText(libraryTerm.TOTAL) }}</ng-template>
+	</rowResumenComponent>
+	} @else {
+	<rowResumenComponent className="text-start" [colspan]="totalAmountColumnIndex">
+		<ng-template>{{ commonGlobalService.termText(libraryTerm.TOTAL) }}</ng-template>
+	</rowResumenComponent>
+	<rowResumenComponent className="text-end">
+		<ng-template>{{ totalFeeAmount | amount : false : 2 : true }}</ng-template>
+	</rowResumenComponent>
+	@for (column of totalTrailingColumns; track column) {
+	<rowResumenComponent></rowResumenComponent>
+	} } @for (column of visibleFixedColumns; track column.field) { @if (column.field === "feeCode") {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth">
+		<ng-template let-rowData>
+			<a
+				[class]="'feecodeTableGA'"
+				class="prLink"
+				role="button"
+				tabindex="0"
+				(click)="navigateToDetail(rowData, $event)"
+				(keydown.enter)="$any($event.target).click()"
+				(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+				[pTooltip]="feeCodeTooltip"
+				[tooltipDisabled]="!rowData.feeDescription"
+				tooltipStyleClass="prTooltip"
+				tooltipPosition="top"
+			>{{ rowData.feeCode }}</a>
+			<ng-template #feeCodeTooltip>
+				<strong>{{ commonGlobalService.termText(libraryTerm.ABOUT_THE_FEE) }}</strong>
+				<div>{{ rowData.feeDescription }}</div>
+			</ng-template>
+		</ng-template>
+	</column>
+	} @else if (column.field === "feeName") {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth">
+		<ng-template let-rowData>
+			<div class="ptParagraphTruncate" style="--lines-to-show: 2">
+				<span #feeNameText class="ptParagraphTruncate__text" tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="commonService.isTextTruncated(feeNameText) ? rowData.feeName : ''">{{ rowData.feeName }}</span>
+			</div>
+		</ng-template>
+	</column>
+	} @else {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth" />
+	} } @for (column of visibleBaseColumns; track column.field) { @if (column.field === "feeAmount") {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth">
+		<ng-template let-rowData>
+			<span>{{ rowData.feeAmount | amount : false : 2 : true }}</span>
+		</ng-template>
+	</column>
+	} @else if (isCatalogColumn(column.field)) {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth">
+		<ng-template let-rowData>
+			@if (canEditCatalog(rowData)) {
+			<p-select
+				class="prSelect"
+				dropdownIcon="icon icon-arrow-down"
+				[options]="
+					column.field === 'customCategory'
+						? getCustomCategoryOptions(rowData.clientId)
+						: column.field === 'generalAccount'
+						? getGeneralAccountOptions(rowData.clientId)
+						: getCostCenterOptions(rowData.clientId)
+				"
+				[ngModel]="column.field === 'customCategory' ? rowData.customCategoryId : column.field === 'generalAccount' ? rowData.generalAccountId : rowData.costCenterId"
+				(ngModelChange)="onCatalogSelectionChange(rowData, column.field, $event)"
+				optionLabel="description"
+				optionValue="id"
+				[filter]="true"
+				filterBy="description,code"
+				[showClear]="true"
+				[placeholder]="commonGlobalService.termText(libraryTerm.SELECT)"
+				appendTo="body"
+				panelStyleClass="prSelect"
+				style="width: 9rem"
+			>
+				<ng-template let-option #selectedItem>
+					<span>{{ option?.description ?? rowData[column.field] }}</span>
+				</ng-template>
+			</p-select>
+			} @else {
+			<span>{{ rowData[column.field] }}</span>
+			}
+		</ng-template>
+	</column>
+	} @else if (column.field === "brandDescription") {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth">
+		<ng-template let-rowData>
+			@if (commonService.resolveBrandIconClass(rowData.brandDescription, rowData.brandCode); as brandIconClass) {
+			<i [class]="brandIconClass" class="icon--outlined" aria-hidden="true"></i>
+			} @else {
+			<span>{{ rowData.brandDescription }}</span>
+			}
+		</ng-template>
+	</column>
+	} @else if (column.field === "lastBillingDate") {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth">
+		<ng-template let-rowData>
+			<span>{{ commonService.formatUtcDate(rowData.lastBillingDate) }}</span>
+		</ng-template>
+	</column>
+	} @else if (column.field === "category" || column.field === "subCategory") {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth">
+		<ng-template let-rowData>
+			<div class="ptParagraphTruncate" style="--lines-to-show: 2">
+				<span #columnFieldText class="ptParagraphTruncate__text" tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="commonService.isTextTruncated(columnFieldText) ? rowData[column.field] : ''">{{ rowData[column.field] }}</span>
+			</div>
+		</ng-template>
+	</column>
+	} @else {
+	<column [field]="column.field" [header]="commonService.resolveColumnHeader(column)" [sortable]="column.sortable ?? false" [className]="column.className" [minWidth]="column.minWidth" />
+	} }
+</intelica-table-fetch>
+@if (isSystemErrorState) {
+<intelica-status-state [state]="StatusStateEnum.SystemError" [description]="'LBL_SYSTEM_ERROR_SUBTITLE'" (reload)="reloadPage()" />
+} @else if (isNoMatchesState) {
+<intelica-status-state [state]="StatusStateEnum.NoMatches" [description]="'LBL_NO_MATCHES_SUBTITLE'" [searchTerm]="searchText" />
+} @else if (isNoDataState) {
+<intelica-status-state [state]="StatusStateEnum.NoData" [description]="'LBL_NO_DATA_SUBTITLE'" />
+} }
+
+<!-- Modals -->
+<p-dialog class="prDialog prDialog--xl prDialog--noOverflow" [(visible)]="incentivesVisible" [modal]="true" [draggable]="false" [closeOnEscape]="true" [dismissableMask]="true" [resizable]="false">
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title">{{ commonGlobalService.termText(libraryTerm.REFUND_MANAGEMENT) }}</div>
+		</div>
+		<ng-template #closeicon>
+			<i class="icon icon-cancel"></i>
+		</ng-template>
+	</ng-template>
+	<ng-template #content>
+		<div class="prDialog__body">
+			<fee-modal-allocated-refund [filter]="filter()" [visible]="incentivesVisible" [crncyCode]="modalCurrencyCode"></fee-modal-allocated-refund>
+		</div>
+	</ng-template>
+	<ng-template #footer>
+		<p-button class="prButton" [label]="commonGlobalService.termText(libraryTerm.CLOSE)" (click)="incentivesVisible = false" />
+	</ng-template>
+</p-dialog>
+
+<p-dialog class="prDialog prDialog--xl" [(visible)]="excludedVisible" [modal]="true" [draggable]="false" [closeOnEscape]="true" [dismissableMask]="true" [resizable]="false" [focusOnShow]="false">
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title">{{ commonGlobalService.termText(libraryTerm.EXCLUDED_CHARGES) }}</div>
+		</div>
+		<ng-template #closeicon>
+			<i class="icon icon-cancel"></i>
+		</ng-template>
+	</ng-template>
+
+	<ng-template #content>
+		<div class="prDialog__body">
+			<fee-modal-allocated-excluded [filter]="filter()" [visible]="excludedVisible" [crncyCode]="modalCurrencyCode"></fee-modal-allocated-excluded>
+		</div>
+	</ng-template>
+
+	<ng-template #footer>
+		<p-button class="prButton" [label]="commonGlobalService.termText(libraryTerm.CLOSE)" (click)="excludedVisible = false" />
+	</ng-template>
+</p-dialog>
+
+<p-dialog class="prDialog prDialog--xl" [(visible)]="groupViewVisible" [modal]="true" [draggable]="false" [closeOnEscape]="true" [dismissableMask]="true" [resizable]="false" [focusOnShow]="false">
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title">{{ commonGlobalService.termText(libraryTerm.GROUPED_VIEW_BY_INSTITUTION) }}</div>
+		</div>
+		<ng-template #closeicon>
+			<i class="icon icon-cancel"></i>
+		</ng-template>
+	</ng-template>
+	<ng-template #content>
+		<div class="prDialog__body">
+			<fee-modal-allocated-group-view [filter]="filter()" [visible]="groupViewVisible" [crncyCode]="modalCurrencyCode"></fee-modal-allocated-group-view>
+		</div>
+	</ng-template>
+	<ng-template #footer>
+		<p-button class="prButton" [label]="commonGlobalService.termText(libraryTerm.CLOSE)" (click)="groupViewVisible = false" />
+	</ng-template>
+</p-dialog>

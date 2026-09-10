@@ -1,0 +1,62 @@
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/	
+.ptSplitGroup {
+	
+	--gap: var(--i-spacing-gap-lg);
+
+	display: flex;
+	gap: calc(var(--gap) * 2);
+
+	&__item {
+		position: relative;
+		display: flex;
+		flex-grow: 1;
+		flex-direction: column;
+	}
+
+	&__item::after {
+		content: '';
+		position: absolute;
+		inset-block: 0;
+		inset-inline: auto 0;
+		border: 0;
+		border-left: var(--i-line);
+		transform: translateX(var(--gap));
+	}
+
+	&__item:last-child::after {
+		display: none;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSplitGroup {
+
+	// --- vertical ---
+
+	&--vertical {
+		flex-direction: column;
+		flex-grow: 1;
+	}
+
+	&--vertical &__item::after {
+		inset-inline: 0;
+		inset-block: auto 0;
+		border: 0;
+		border-top: var(--i-line);
+		transform: translateY(var(--gap));
+	}
+
+	// --- equal ---
+
+	&--equalItem &__item {
+		flex-basis: 0;
+	}
+
+}

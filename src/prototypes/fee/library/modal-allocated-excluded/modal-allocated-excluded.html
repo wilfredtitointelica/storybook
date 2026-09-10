@@ -1,0 +1,114 @@
+@if (isLoading()) {
+<div class="skTable">
+	<div class="d-flex justify-content-end mb-2">
+		<p-skeleton class="prSkeleton" width="40px" height="32px"></p-skeleton>
+	</div>
+	<div class="skTable__header">
+		<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+	</div>
+	<!-- summary -->
+	<div class="skTable__summary">
+		<p-skeleton class="prSkeleton"></p-skeleton>
+	</div>
+	<div class="skTable__body">
+		<div class="skTable__row" *ngFor="let row of [1, 2, 3, 4, 5]">
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+			<div class="skTable__cell">
+				<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+			</div>
+		</div>
+	</div>
+</div>
+} @else { @if (showTable()) {
+<intelica-table
+	#itltable
+	class="tableFeeLibraryModal"
+	[class.prTable--disabled]="isSystemErrorState || isNoDataState"
+	[ngClass]="{ ptEmptyTable: isEmptyState }"
+	[ListData]="listData()"
+	[ShowPagination]="true"
+	[ShowSearch]="true"
+	[SearchFields]="searchFields"
+	[ShowCheckbox]="false"
+	[SelectedIdentifier]="'id'"
+	[DefaultSortField]="'feeAmount'"
+	[DefaultSortOrder]="-1"
+	(EmitListDataFilter)="onFilteredDataChange($event)"
+	(EmitSearchEvent)="onSearchChange($event)"
+	[scrollable]="true"
+	[scrollHeight]="'400px'"
+>
+	<ng-template #additionalTemplate>
+		<span class="tableFeeLibraryModal__text">{{ commonGlobalService.termText(libraryTerm.VIEW_ALL_EXCLUDED_FEES) }}</span>
+	</ng-template>
+	<ng-template #additionalCentralTemplate>
+		<div class="d-flex gap-2 ps-2">
+			<!-- <span [pTooltip]="exportTooltip" tooltipPosition="top" tooltipStyleClass="prTooltip"> -->
+			<p-button class="prButton" severity="secondary" (click)="downloadExcel()" [disabled]="isDownloading() || listData().length === 0 || isNoMatchesState">
+				<i class="icon icon-download" pButtonIcon></i>
+			</p-button>
+			<!-- </span> -->
+		</div>
+	</ng-template>
+
+	<rowResumenComponent className="text-start" [colspan]="totalAmountColumnIndex">
+		<ng-template>{{ commonGlobalService.termText(libraryTerm.TOTAL) }}</ng-template>
+	</rowResumenComponent>
+	<rowResumenComponent className="text-end">
+		<ng-template>{{ totalFeeAmount | amount : false : 2 : true }}</ng-template>
+	</rowResumenComponent>
+
+	<column field="date" formatType="date" [header]="commonGlobalService.termText(libraryTerm.EXCLUDED_DATE)" [sortable]="true" className="text-center" minWidth="120px">
+		<ng-template let-rowData>
+			<span>{{ rowData.date ? (rowData.date | date : "d MMM, y" : "UTC") : "-" }}</span>
+		</ng-template>
+	</column>
+	<column field="brandDescription" [header]="commonGlobalService.termText(libraryTerm.BRAND)" [sortable]="true" className="text-center" minWidth="100px">
+		<ng-template let-rowData>
+			@if (commonService.resolveBrandIconClass(rowData.brandDescription, rowData.brandCode); as brandIconClass) {
+			<i [class]="brandIconClass" class="icon--outlined" aria-hidden="true"></i>
+			} @else {
+			<span>{{ rowData.brandDescription }}</span>
+			}
+		</ng-template>
+	</column>
+	@if (showClientColumn) {
+	<column field="clientName" [header]="commonGlobalService.termText(libraryTerm.INSTITUTION)" [sortable]="true" className="text-center" minWidth="135px"></column>
+	}
+	<column field="category" [header]="commonGlobalService.termText(libraryTerm.CATEGORY)" [sortable]="true" className="text-center" minWidth="160px"></column>
+	<column field="feeCode" [header]="commonGlobalService.termText(libraryTerm.FEE_CODE)" [sortable]="true" className="text-center" minWidth="100px"></column>
+	<column field="feeName" [header]="commonGlobalService.termText(libraryTerm.FEE_NAME)" [sortable]="true" minWidth="235px">
+		<ng-template let-rowData>
+			<span tooltipStyleClass="prTooltip" pTooltip="{{ rowData.feeName }}" tooltipPosition="top">{{ rowData.feeName | truncate : 68 : false }}</span>
+		</ng-template>
+	</column>
+	<column field="feeAmount" [header]="amountHeader" [sortable]="true" className="text-end" minWidth="120px">
+		<ng-template let-rowData>
+			<span>{{ rowData.feeAmount | amount : false : 2 : true }}</span>
+		</ng-template>
+	</column>
+</intelica-table>
+} @if (isSystemErrorState) {
+<intelica-status-state [state]="StatusStateEnum.SystemError" [description]="'LBL_SYSTEM_ERROR_SUBTITLE'" (reload)="reloadPage()" />
+} @else if (isNoMatchesState) {
+<intelica-status-state [state]="StatusStateEnum.NoMatches" [description]="'LBL_NO_MATCHES_SUBTITLE'" [searchTerm]="searchText" />
+} @else if (isNoDataState) {
+<intelica-status-state [state]="StatusStateEnum.NoData" [description]="'LBL_NO_DATA_SUBTITLE'" />
+} }

@@ -1,0 +1,86 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS NAVIGATIONS
+ * Common tokens for forms
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-FORM-FIELD: 'Custom Form Field Tokens';
+
+	// --- Layout ---
+  --i-form-field-text: #636B8D;
+  --i-form-field-text-hover: #636B8D;
+  --i-form-field-text-pressed: #636B8D;
+  --i-form-field-text-select: #9CA2BA;
+  --i-form-field-text-disabled: #9CA2BA;
+  --i-form-field-text-focused: #9CA2BA;
+  --i-form-field-text-alert: #970C0C;
+  --i-form-field-text-success:#136729;
+
+  // --- placeholder ---
+
+  --i-form-field-placeholder: #9CA2BA;
+  --i-form-field-placeholder-hover: #9CA2BA;
+  --i-form-field-placeholder-pressed: #9CA2BA;
+  --i-form-field-placeholder-select: #9CA2BA;
+  --i-form-field-placeholder-disabled: #9CA2BA;
+  --i-form-field-placeholder-focused: #9CA2BA;
+  --i-form-field-placeholder-alert: #970C0C;
+  --i-form-field-placeholder-success:#136729;
+
+  // --- background ---
+
+  --i-form-field-background: #FCFCFD;
+  --i-form-field-background-hover: #FCFCFD;
+  --i-form-field-background-pressed: #FCFCFD;
+  --i-form-field-background-select: #FCFCFD;
+  --i-form-field-background-disabled: #D8DAE4;
+  --i-form-field-background-focused: #FCFCFD;
+  --i-form-field-background-alert: #FCFCFD;
+  --i-form-field-background-success: #FCFCFD;
+
+  // --- border ---
+
+  --i-form-field-border: #9CA2BA;
+  --i-form-field-border-hover: #7490E2;
+  --i-form-field-border-pressed: #9CA2BA;
+  --i-form-field-border-select: #9CA2BA;
+  --i-form-field-border-disabled: #D8DAE4;
+  --i-form-field-border-focused: var(--i-color-primary-900); // #2A52C5;
+  --i-form-field-border-alert: #C61010;
+  --i-form-field-border-success: #23BE4C;
+
+  // --- icon ---
+
+  --i-form-field-icon: #2A52C5;
+  --i-form-field-icon-hover: #2A52C5;
+  --i-form-field-icon-pressed: #2A52C5;
+  --i-form-field-icon-select: #2A52C5;
+  --i-form-field-icon-disabled: #9CA2BA;
+  --i-form-field-icon-focused: #2A52C5;
+  --i-form-field-icon-alert: #2A52C5;
+  --i-form-field-icon-success: #2A52C5;
+
+  // --- space ---
+
+  --i-form-field-padding-x: 6px;
+  --i-form-field-padding-y: 8px;
+  
+  --i-form-field-radius: 8px;
+  
+  --i-form-field-size: 14px;
+  --i-form-field-size-sm: 12px;
+  --i-form-field-size-md: var();
+  --i-form-field-size-lg: var();
+  
+  --i-form-field-icon-size: 16px;
+  --i-form-field-icon-size-sm: 12px;
+  --i-form-field-icon-size-md: var();
+  --i-form-field-icon-size-lg: var();
+
+  --i-form-field-border-width: 1px;
+  --i-form-field-border-style: solid;
+
+  // gap
+
+  --i-form-field-gap: 6px;
+
+}

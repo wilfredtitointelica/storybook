@@ -1,0 +1,117 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → TopBar Button Dropdown
+	 Basados en colors, spacing, size y border-radius
+	 *——————————————————————————————————————————*/
+
+	/* Botón principal */
+	--i-topbar-btn-min-width: 96px; /* ancho mínimo del botón */
+	--i-topbar-btn-height: 32px; /* altura del botón */
+	--i-topbar-btn-bg: #f2f3f5; /* background del botón */
+	--i-topbar-btn-border: none; /* border del botón */
+	--i-topbar-btn-border-radius: 8px; /* border-radius del botón */
+
+	/* Label del botón */
+	--i-topbar-btn-label-font-weight: 400; /* peso de fuente label */
+	--i-topbar-btn-label-color: #636b8d; /* color label */
+	--i-topbar-btn-label-line-height: 24px; /* altura de línea label */
+	--i-topbar-btn-label-font-size: 16px; /* tamaño de fuente label */
+
+	/* Botón secundario/icon */
+	--i-topbar-btn-icon-bg: transparent; /* background botón icon */
+	--i-topbar-btn-icon-border: none; /* border botón icon */
+	--i-topbar-btn-icon-width: 32px; /* ancho botón icon */
+	--i-topbar-btn-icon-height: 32px; /* altura botón icon */
+	--i-topbar-btn-icon-padding: 4px; /* padding botón icon */
+
+	/* Estado activo */
+	--i-topbar-btn-active-border-bottom: 2px solid #2a52c5; /* border-bottom cuando está activo */
+	--i-topbar-btn-active-border-radius-left: 0; /* border-bottom-left-radius activo */
+	--i-topbar-btn-active-border-radius-right: 0; /* border-bottom-right-radius activo */
+	--i-topbar-btn-active-label-font-weight: 700; /* peso de fuente label activo */
+	--i-topbar-btn-active-label-color: #2a52c5; /* color label activo */
+}
+
+.ptTopBarButtonDropdown {
+	&__content {
+		& .prButton {
+			& .p-button {
+				min-width: var(--i-topbar-btn-min-width);
+				height: var(--i-topbar-btn-height);
+				background: var(--i-topbar-btn-bg);
+				border: var(--i-topbar-btn-border);
+				border-radius: var(--i-topbar-btn-border-radius);
+
+				& .p-button-label {
+					font-weight: var(--i-topbar-btn-label-font-weight);
+					color: var(--i-topbar-btn-label-color);
+					line-height: var(--i-topbar-btn-label-line-height);
+					font-size: var(--i-topbar-btn-label-font-size);
+				}
+
+				&:not(:disabled):active {
+					background: var(--i-topbar-btn-bg);
+					color: var(--i-topbar-btn-label-color);
+					border: var(--i-topbar-btn-border);
+				}
+
+				&:not(:disabled):hover {
+					background: var(--i-topbar-btn-bg);
+					color: var(--i-topbar-btn-label-color);
+					border: var(--i-topbar-btn-border);
+				}
+			}
+
+			&--icon {
+				& .p-button {
+					background: var(--i-topbar-btn-icon-bg);
+					border: var(--i-topbar-btn-icon-border);
+					height: var(--i-topbar-btn-icon-height);
+					width: var(--i-topbar-btn-icon-width);
+					padding: var(--i-topbar-btn-icon-padding);
+
+					&:not(:disabled):hover {
+						background: var(--i-topbar-btn-icon-bg);
+						border: var(--i-topbar-btn-icon-border);
+					}
+
+					&:not(:disabled):active {
+						background: var(--i-topbar-btn-icon-bg);
+						border: var(--i-topbar-btn-icon-border);
+					}
+				}
+			}
+		}
+	}
+
+	&__popover {
+	}
+
+	/* estatus */
+	&.active {
+		& .prButton {
+			& .p-button {
+				border-bottom: var(--i-topbar-btn-active-border-bottom);
+				border-bottom-left-radius: var(--i-topbar-btn-active-border-radius-left);
+				border-bottom-right-radius: var(--i-topbar-btn-active-border-radius-right);
+
+				& .p-button-label {
+					font-weight: var(--i-topbar-btn-active-label-font-weight);
+					color: var(--i-topbar-btn-active-label-color);
+				}
+
+				&:not(:disabled):active {
+					border-bottom: var(--i-topbar-btn-active-border-bottom);
+					border-bottom-left-radius: var(--i-topbar-btn-active-border-radius-left);
+					border-bottom-right-radius: var(--i-topbar-btn-active-border-radius-right);
+				}
+
+				&:not(:disabled):hover {
+					border-bottom: var(--i-topbar-btn-active-border-bottom);
+					border-bottom-left-radius: var(--i-topbar-btn-active-border-radius-left);
+					border-bottom-right-radius: var(--i-topbar-btn-active-border-radius-right);
+				}
+			}
+		}
+	}
+}

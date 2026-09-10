@@ -1,0 +1,166 @@
+/* =============================================================
+   Saving Opportunities 
+   ============================================================= */
+
+/* =============================================================
+   compartido entre paginas
+   ============================================================= */
+
+/* =============================================================
+   saving-opportunities-dashboard
+   ============================================================= */
+.saving-opportunities intelica-status-state {
+	.ptStatusState__container {
+		padding: 0;
+	}
+	.ptStatusState__description:empty {
+		display: none;
+	}
+}
+
+/* ── total-identified-saving-opportunity ── */
+.soTotalIdentifiedSavingOpportunity {
+	&__row {
+		gap: var(--i-spacing-gap-xl);
+
+		.ptAmount.ptAmount--4xl {
+			align-items: flex-start;
+		}
+	}
+	&__insightsCard.p-card {
+		border-radius: var(--i-border-radius-lg);
+	}
+	&__trendCompare {
+		color: var(--i-text-color-default);
+		font-weight: normal;
+	}
+	&__amountMain.ptAmount__main {
+		padding-block: 0;
+	}
+}
+
+/* ── Performance Rating ── */
+.soDashboardAside {
+	width: 272px;
+	min-width: 0;
+}
+
+/* ── priority-opportunities ── */
+.soSavingsOpportunityCard {
+	flex: 0 0 210px;
+
+	.ptParagraphTruncate__text {
+		min-height: calc(3 * var(--i-typography-lineHeight-md));
+	}
+}
+.soPriorityOpportunitiesRow {
+	overflow-x: auto;
+
+	&--scrollable {
+		cursor: grab;
+		padding-bottom: var(--i-spacing-gap-xs);
+	}
+	&--dragging {
+		cursor: grabbing;
+		user-select: none;
+	}
+	/* estado "bloqueado" */
+	&--locked {
+		filter: blur(3px);
+		pointer-events: none;
+		user-select: none;
+	}
+}
+
+/* =============================================================
+   total-opportunity-value
+   ============================================================= */
+
+/* ── category-bar ── */
+.soCategoryBar__bar {
+	&.p-progressbar {
+		height: var(--i-sizing-xs);
+	}
+	.p-progressbar-value {
+		background-color: var(--i-color-secondary-600);
+	}
+}
+
+/* ── overall-score ── */
+.soBodyAside {
+	width: 424px;
+	min-width: 0;
+}
+
+.soRatingCalculation {
+	.ptTableLite__row > .ptTableLite__cell:nth-child(1) {
+		width: 38.8%;
+	} // 152/392
+	.ptTableLite__row > .ptTableLite__cell:nth-child(2) {
+		width: 15.3%;
+	} // 60/392
+	.ptTableLite__row > .ptTableLite__cell:nth-child(3) {
+		width: 15.3%;
+	} // 60/392
+	.ptTableLite__row > .ptTableLite__cell:nth-child(4) {
+		width: 30.6%;
+	} // 120/392
+	.ptTableLite__cell {
+		padding-block: var(--i-spacing-container-md);
+	}
+}
+
+/* =============================================================
+   opportunities
+   ============================================================= */
+
+/* ── opportunity-kpi-cards ── */
+.ptAmount__legend.soKpiLegend--normal {
+	font-weight: normal;
+}
+
+/* =============================================================
+   minimal-approval-rate
+   ============================================================= */
+
+/* ── compliance-snapshot ── */
+.soComplianceSnapshotCard {
+	&__caption {
+		font-size: var(--i-text-body-size-xs);
+		line-height: var(--i-typography-lineHeight-xs);
+		color: var(--i-text-color-default);
+	}
+	&__legend.ptAmount__legend {
+		font-weight: normal;
+	}
+	&__metricsRow {
+		height: 100px;
+	}
+}
+
+/* ── reduce-your-costs ── */
+.soReduceCostsPanel {
+	width: 424px;
+
+	.ptCallout {
+		padding: var(--i-spacing-container-2xl);
+	}
+	.ptCallout__title {
+		font-size: var(--i-typography-font-size-2xl);
+		line-height: var(--i-typography-lineHeight-2xl);
+	}
+	.ptCallout__description {
+		width: 225px;
+		font-size: var(--i-typography-font-size-lg);
+		line-height: var(--i-typography-lineHeight-lg);
+		color: var(--i-text-color-default);
+	}
+	.ptCallout__media {
+		inset: auto;
+		top: 0px;
+		left: 252px;
+		width: 42%;
+		height: 100%;
+		background-image: url("./../../../images/saving-opps/saving-opps-mar.svg");
+	}
+}

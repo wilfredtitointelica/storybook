@@ -1,0 +1,169 @@
+<!-- ================================================================ -->
+
+<!-- section title -->
+<div class="ptSectionTitle">
+	<div class="ptSectionTitle__content">
+		<!-- LODADED -->
+		@if (isReady()) {
+		<div class="ptSectionTitle__title">{{ "NotificationTitle" | term : termService.languageCode }}</div>
+		<div class="ptSectionTitle__subtitle">{{ "NotificationSubTitle" | term : termService.languageCode }}</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<p-skeleton class="prSkeleton" [width]="'80px'" [height]="'28px'" />
+		<p-skeleton class="prSkeleton u-my-1" [width]="'430px'" [height]="'16px'" />
+		}
+	</div>
+</div>
+
+<!-- panel: notifications -->
+<p-panel class="prPanel panelNotificationsGA" showHeader="false">
+	<!-- LOADED -->
+	@if (isReady()) {
+	<!-- email notifications -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-display-flex u-gap-sm u-align-items-center">
+			<span class="u-bold">{{ notificationPreferences().email.heading ?? "" | term : termService.languageCode }}</span>
+		</div>
+		<!-- master -->
+		@if (emailNotificationsMasters()?.length) { @for (master of emailNotificationsMasters(); track master.id) {
+		<div class="u-display-flex u-flex-wrap u-gap-sm u-text-md notificationsMasterGa">
+			<div class="u-me-auto">
+				<div class="u-bold">{{ master.title | term : termService.languageCode }}</div>
+				{{ master.description ?? "" | term : termService.languageCode }}
+			</div>
+			<div class="u-my-auto">
+				<p-toggleswitch
+					[inputId]="master.id"
+					class="prToggleswitch u-display-flex"
+					[gaTrack]="'notificationToggle'"
+					[attr.data-label]="master.title | term : termService.languageCode"
+					[ngModel]="master.checked"
+					(ngModelChange)="OnToggleChange(master, $event)"
+					[disabled]="master.blocked"
+				/>
+			</div>
+			<div class="u-display-flex u-full-width u-hide-empty">
+				@if (master?.alert?.visible) {
+				<p-message class="prMessage u-me-auto" [severity]="master.checked ? 'success' : 'warn'" [icon]="`icon ${master.checked ? 'icon-success' : 'icon-warning'}`">
+					<span>
+						<b>{{ (master.checked ? master.alert?.checkedTitleKey : master.alert?.uncheckedTitleKey) ?? "" | term : termService.languageCode }}</b>
+						{{ (master.checked ? master.alert?.checkedBodyKey : master.alert?.uncheckedBodyKey) ?? "" | term : termService.languageCode }}
+					</span>
+				</p-message>
+				}
+			</div>
+		</div>
+		}
+		<hr class="u-divider-horizontal u-m-0" />
+		}
+
+		<!-- items  -->
+		@if (emailNotificationsItems()?.length) { @for (item of emailNotificationsItems(); track item.id) {
+		<div class="u-display-flex u-text-md notificationsListGA" [class.u-color-secondary]="!item.checked || isEmailMasterOff()">
+			<div class="u-me-auto">
+				<div class="u-bold">{{ item.title | term : termService.languageCode }}</div>
+				{{ item.description ?? "" | term : termService.languageCode }}
+			</div>
+			<div class="u-my-auto" [attr.data-switch-label]="item.title | term : termService.languageCode">
+				<p-toggleswitch
+					[inputId]="item.id"
+					class="prToggleswitch u-display-flex"
+					[gaTrack]="'notificationToggle'"
+					[attr.data-label]="item.title | term : termService.languageCode"
+					[ngModel]="isEmailMasterOff() ? false : item.checked"
+					(ngModelChange)="OnToggleChange(item, $event)"
+					[disabled]="item.blocked || isEmailMasterOff()"
+				/>
+			</div>
+		</div>
+		} }
+	</div>
+	<!-- divider -->
+	@if (emailNotificationsMasters()?.length) {
+	<hr class="u-divider-horizontal" />
+	}
+	<!-- administrative notifications -->
+	<div class="u-display-flex u-flex-column u-gap-lg adminNotificationsGA">
+		<div class="u-bold">{{ notificationPreferences().administrative.heading ?? "" | term : termService.languageCode }}</div>
+		<!--items  -->
+		@if (administrativeNotificationsItems()?.length) { @for (item of administrativeNotificationsItems(); track item.id) {
+		<div class="u-display-flex u-text-md" [class.u-color-secondary]="!item.checked">
+			<div class="u-me-auto">
+				<div class="u-bold">{{ item.title | term : termService.languageCode }}</div>
+				{{ item.description ?? "" | term : termService.languageCode }}
+			</div>
+			<div class="u-my-auto">
+				<p-toggleswitch
+					[inputId]="item.id"
+					class="prToggleswitch u-display-flex"
+					[gaTrack]="'notificationToggle'"
+					[attr.data-label]="item.title | term : termService.languageCode"
+					[ngModel]="item.checked"
+					(ngModelChange)="OnToggleChange(item, $event)"
+					[disabled]="item.blocked"
+				/>
+			</div>
+		</div>
+		} }
+	</div>
+	}
+
+	<!-- SKELETON -->
+	@if (!isReady()) {
+	<!-- email notifications -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-display-flex u-gap-sm u-align-items-center">
+			<p-skeleton class="prSkeleton" [width]="'135px'" [height]="'24px'" />
+		</div>
+		<!-- master -->
+		@for (_ of [].constructor(1); track $index) {
+		<div class="u-display-flex u-flex-wrap u-gap-sm">
+			<div class="u-me-auto">
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-mb-1" [width]="'165px'" [height]="'16px'" /></div>
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'235px'" [height]="'12px'" /></div>
+			</div>
+			<div class="u-my-auto">
+				<p-skeleton class="prSkeleton" [width]="'48px'" [height]="'24px'" borderRadius="48px" />
+			</div>
+		</div>
+		}
+		<hr class="u-divider-horizontal u-m-0" />
+		<!-- items -->
+		@for (_ of [].constructor(5); track $index) {
+		<div class="u-display-flex">
+			<div class="u-me-auto">
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-mb-1" [width]="'105px'" [height]="'16px'" /></div>
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'325px'" [height]="'12px'" /></div>
+			</div>
+			<div class="u-my-auto">
+				<p-skeleton class="prSkeleton" [width]="'48px'" [height]="'24px'" borderRadius="48px" />
+			</div>
+		</div>
+		}
+	</div>
+	<!-- divider -->
+	<hr class="u-divider-horizontal" />
+	<!-- administrative notifications -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-display-flex u-gap-sm u-align-items-center">
+			<p-skeleton class="prSkeleton" [width]="'70px'" [height]="'24px'" />
+		</div>
+		<!-- items -->
+		@for (_ of [].constructor(2); track $index) {
+		<div class="u-display-flex u-flex-wrap u-gap-sm">
+			<div class="u-me-auto">
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-mb-1" [width]="'150px'" [height]="'16px'" /></div>
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'405px'" [height]="'12px'" /></div>
+			</div>
+			<div class="u-my-auto">
+				<p-skeleton class="prSkeleton" [width]="'48px'" [height]="'24px'" borderRadius="48px" />
+			</div>
+		</div>
+		}
+	</div>
+	}
+</p-panel>
+
+<!-- ================================================================ -->

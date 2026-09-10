@@ -1,0 +1,251 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-SEARCHRESULT-COMPONENT: "ptSearchResult ( Custom Native & PrimeNG )";
+
+	// --i-searchresult-property: var(--i-);
+
+	// --- general ---
+
+	--i-searchresult-gap: var(--i-spacing-gap-sm);
+	--i-searchresult-font-size: var(--i-text-body-size-sm);
+
+	// --- category ---
+
+	--i-searchresult-category-color: currentColor; // var(--i-color-secondary-600);
+	--i-searchresult-category-border: 1px solid var(--i-divider-color-default);
+
+	// --- item ---
+
+	--i-searchresult-item-gap: var(--i-spacing-gap-xs);
+	--i-searchresult-item-color: var(--i-color-primary-base);
+	--i-searchresult-item-name-color: currentColor; // var(--i-color-primary-base);
+
+	// --- empty ---
+
+	--i-searchresult-empty-color: var(--i-color-secondary-400);
+	--i-searchresult-empty-font-size: var(--i-typography-font-size-md); // 14px
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptSearchResult )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearchResult {
+	display: flex;
+	gap: var(--i-searchresult-gap);
+	flex-direction: column;
+	font-size: var(--i-searchresult-font-size);
+	height: 100%;
+
+	// --- common ---
+
+	&__filter,
+	&__result,
+	&__scroll,
+	&__section,
+	&__content {
+		display: flex;
+		gap: var(--i-searchresult-gap);
+	}
+
+	// --- filter ---
+
+	&__filter {
+	}
+
+	// --- results ---
+
+	&__result {
+		flex-grow: 1;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	&__scroll {
+		flex-grow: 1;
+		flex-basis: 0;
+		flex-direction: column;
+		padding-right: 0.5rem; // 8px
+		overflow: hidden auto;
+	}
+
+	&__action {
+		display: flex;
+		justify-content: center;
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	&__empty {
+		margin: auto;
+		color: var(--i-searchresult-empty-color);
+		font-size: var(--i-searchresult-empty-font-size);
+	}
+
+	// --- section ---
+
+	&__section {
+		flex-direction: column;
+	}
+
+	&__title {
+		position: sticky;
+		top: auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		min-height: 1.75rem; // 28px
+		font-weight: bold;
+		color: var(--i-searchresult-category-color);
+		border-bottom: var(--i-searchresult-category-border);
+		background-color: var(--i-popover-background);
+	}
+
+	&__content {
+		flex-direction: column;
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	// --- item ---
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 6px;
+		border-radius: 8px;
+		text-decoration: none;
+		color: currentColor;
+		cursor: pointer;
+
+		& > i {
+			flex-shrink: 0;
+		}
+
+		&:focus-visible {
+			outline: 1px solid var(--i-color-primary-base);
+			outline-offset: -1px;
+		}
+	}
+
+	&__info {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-searchresult-item-gap);
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	&__name,
+	&__lastView {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem; // 4px
+		line-height: 1rem; // 16px
+	}
+
+	&__name {
+		color: var(--i-searchresult-item-name-color);
+
+		& > span:last-child {
+			// for textTooltip
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+	}
+
+	&__lastView {
+		&:empty,
+		&:has(span:empty) {
+			display: none;
+		}
+	}
+	&__nameline {
+		text-decoration: underline;
+		text-underline-offset: var(--i-spacing-25);
+		text-decoration-thickness: 1px;
+		text-decoration-color: currentColor;
+		color: inherit !important;
+	}
+}
+
+.ptSearchResult {
+	// --- state item ---
+
+	&__item:hover {
+		background-color: var(--i-color-secondary-100);
+	}
+
+	&__item:active {
+		background-color: var(--i-color-primary-100);
+	}
+
+	&__item:active :is(&__name, &__lastView) {
+		// color: white;
+	}
+
+	&__item:disabled {
+		color: var(--i-color-secondary-400);
+		background-color: var(--i-color-secondary-200);
+	}
+}
+
+.ptSearchResult {
+	// --- hide elements ---
+
+	&:not(:has(&__add, &__item)) &__scroll {
+		display: none;
+	}
+
+	&:has(&__add, &__item) &__empty {
+		display: none;
+	}
+
+	&__section:not(:has(&__item)) {
+		display: none;
+	}
+
+	&__section:has(&__add) {
+		display: flex;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearchResult {
+	// --- hide sectiontitle ---
+
+	&--hideSectionTitle &__title {
+		display: none;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED MODIFIERS PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearchResult {
+	// --- button add ---
+
+	&__title .p-button.p-button-icon-only {
+		width: auto;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skSearch {
+}

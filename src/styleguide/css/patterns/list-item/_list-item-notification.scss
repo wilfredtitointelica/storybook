@@ -1,0 +1,191 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-LISTITEM-NOTIFICATION: 'ptListitemNotification ( Patterns )';
+
+	// --i-listitem-notification-property: var(--i-);
+
+	// --- general ---
+
+	--i-listitem-notification-width: auto; // old: 25.5rem; // 408px
+	--i-listitem-notification-gap: var(--i-spacing-gap-sm); // 8px
+	--i-listitem-notification-font-size: var(--i-text-body-size-xs); // 10px
+	--i-listitem-notification-border-radius: var(--i-border-radius-lg); // 8px
+
+	// --- structure ---
+
+	--i-listitem-notification-main-background: var(--i-color-neutral-100);
+
+	// --- elements ---
+
+	--i-listitem-notification-title-color: var(--i-color-primary-base);
+	--i-listitem-notification-title-font-size: var(--i-text-body-size-sm); // 12px
+	--i-listitem-notification-title-line-height: var(--i-typography-size-sm); // 16px
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemNotification {
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-listitem-notification-gap);
+	width: var(--i-listitem-notification-width);
+	font-size: var(--i-listitem-notification-font-size);
+	overflow: hidden;
+	interpolate-size: allow-keywords;
+
+	// --- structure ---
+
+	&__container {
+		position: relative;
+	}
+
+	&__main {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		padding: 8px;
+		gap: 8px;
+		background-color: var(--i-listitem-notification-main-background);
+		border-radius: var(--i-listitem-notification-border-radius);
+		transform: translateX(0);
+		transition: transform var(--i-motion-slow);
+	}
+
+	&__header {
+
+	}
+
+	&__footer {
+		display: flex;
+		align-items: center;
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	&__aside {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
+	// --- elements ---
+
+	&__indicator {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		max-width: 24px;
+		font-size: 8px;
+		font-weight: bold;
+		line-height: 1em;
+	}
+
+	&__actions {
+		display: flex;
+		gap: 8px;
+		margin-left: auto;
+	}
+
+	&__message {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%; height: 100%;
+		gap: 8px;
+		font-size: 14px;
+		background-color: var(--i-color-neutral-100);
+		border-radius: var(--i-listitem-notification-border-radius);
+
+		&--approved {
+			color: var(--i-color-success-800);
+			background-color: var(--i-color-success-50);
+		}
+
+		&--rejected {
+			color: var(--i-color-error-800);
+			background-color: var(--i-color-error-50);
+		}
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * STATE ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemNotification {
+
+	&:hover &__main {
+		background-color: var(--i-color-primary-100);
+	}
+
+	&:hover .prCard {
+		background-color: var(--i-color-primary-50);	
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ANIMATION ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemNotification {
+
+	// --- approved || rejected ---
+
+	&:has(&__message--approved) &__main {
+		transform: translateX(100%);
+	}
+
+	&:has(&__message--rejected) &__main {
+		transform: translateX(-100%);
+	}
+
+	// --- hidden component ---
+
+	& {
+		height: auto;
+		transition-property: height, padding-top, margin-top;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: var(--i-motion-duration-base, 300ms);
+	}
+
+	&:has(&__message--approved, &__message--rejected),
+	&--hiding {
+		height: 0 !important;
+		padding-top: 0 !important;
+		transition-delay: calc(var(--duration-message, 1000ms) - var(--i-motion-duration-base, 300ms));
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemNotification {
+
+	// --- simple ---
+	&--simple &__main {
+		padding: 0;
+		background: transparent;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skListitemNotification {
+	
+}

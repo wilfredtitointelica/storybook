@@ -1,0 +1,96 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+  --NOTE-MESSAGE-COMPONENT: "prAccordion ( Custom PrimeNG )";
+
+  --i-accordion-panel-border-width: 0 0 var(--i-border-width-10) 0; // stroke/010
+  --i-accordion-panel-border-color: var(--i-color-neutral-400); // Neutral 400
+
+  --i-accordion-header-background: var(--i-color-neutral-50); // Neutral 50;
+  --i-accordion-header-color: var(--i-color-neutral-700); // Neutral 700
+  --i-accordion-header-padding: var(--i-spacing-200); // 8px
+  --i-accordion-header-border-width: var(--i-border-width-none); // stroke/000
+  --i-accordion-header-border-color: var(
+    --i-color-primary-200
+  ); // color/blue/200
+  --i-accordion-header-font-weight: var(--i-typography-font-weight-bold); // 600
+  --i-accordion-header-border-radius: var(--i-border-radius-200); // 16px
+  --i-accordion-header-active-background: var(
+    --i-color-neutral-50
+  ); // Neutral 50
+  --i-accordion-header-active-color: var(
+    --i-color-primary-700
+  ); // color/blue/600
+  --i-accordion-header-first-border-width: var(--i-border-width-none);
+  --i-accordion-header-hover-background: var(--i-color-neutral-50);
+  --i-accordion-header-hover-color: var(--i-color-neutral-800);
+  --i-accordion-header-active-hover-background: var(--i-color-neutral-50);
+  --i-accordion-header-active-hover-color: var(--i-color-neutral-700);
+
+  --i-accordion-content-border-radius: var(--i-border-radius-200); //16px
+  --i-accordion-content-border-color: var(--i-color-neutral-50);
+  --i-accordion-content-background: var(--i-color-neutral-50);
+  --i-accordion-content-color: var(--i-color-neutral-700);
+  --i-accordion-content-padding: var(--i-spacing-200); // 16px
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prAccordion {
+  & .p-accordionpanel {
+    border: none;
+    border-width: var(--i-accordion-panel-border-width);
+    border-color: var(--i-accordion-panel-border-color);
+
+    &:first-child > .p-accordionheader {
+      border-width: var(--i-accordion-header-first-border-width);
+    }
+    &:last-child.p-accordionpanel-active > .p-accordionheader {
+      border-top-left-radius: var(--i-spacing-0);
+      border-top-right-radius: var(--i-spacing-0);
+    }
+
+    &:not(.p-disabled).p-accordionpanel-active > .p-accordionheader {
+      background: var(--i-accordion-header-active-background);
+      color: var(--i-accordion-header-active-color);
+    }
+    &:not(.p-accordionpanel-active):not(.p-disabled)
+      > .p-accordionheader:hover {
+      background: var(--i-accordion-header-hover-background);
+      color: var(--i-accordion-header-hover-color);
+    }
+    &:not(.p-disabled).p-accordionpanel-active > .p-accordionheader:hover {
+      background: var(--i-accordion-header-active-hover-background);
+      color: var(--i-accordion-header-active-hover-color);
+    }
+
+    & .p-accordionheader {
+      padding: var(--i-spacing-0);
+      color: var(--i-accordion-header-color);
+      background: var(--i-accordion-header-background);
+      border-width: var(--i-accordion-header-border-width);
+      border-color: var(--i-accordion-header-border-color);
+      font-weight: var(--i-accordion-header-font-weight);
+      font-size: var(--i-typography-font-size-md);
+    }
+  }
+
+  & .p-accordioncontent-content {
+    border-width: var(--i-accordion-content-border-width);
+    border-color: var(--i-accordion-content-border-color);
+    background-color: var(--i-accordion-content-background);
+    color: var(--i-accordion-content-color);
+    padding: var(--i-spacing-0);
+    padding-top: var(--i-spacing-200);
+  }
+
+  // --- Focus
+  .p-accordionpanel:not(.p-disabled) .p-accordionheader:focus-visible {
+    outline-color: var(--i-focus-border-color);
+    outline-offset: -3px;
+  }
+}

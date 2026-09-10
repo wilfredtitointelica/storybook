@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Estructura de Archivos y Estilos de un Componente</title>
+		<style>
+			html {
+				line-height: 1.5;
+				font-family: Georgia, serif;
+				font-size: 20px;
+				color: #1a1a1a;
+				background-color: #fdfdfd;
+			}
+			body {
+				margin: 0 auto;
+				max-width: 50em;
+				padding: 50px;
+				hyphens: auto;
+				overflow-wrap: break-word;
+				text-rendering: optimizeLegibility;
+				font-kerning: normal;
+			}
+			pre code {
+				font-family: Menlo, Monaco, "Lucida Console", Consolas, monospace;
+				font-size: 85%;
+				color: #1a1a1a;
+				white-space: pre-wrap;
+			}
+			.highlight {
+				color: blue;
+			}
+			h1,
+			h2,
+			h3,
+			h4 {
+				margin-block: 1em;
+			}
+			hr {
+				background-color: #1a1a1a;
+				border: none;
+				height: 1px;
+				margin: 2em 0;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>📁 Estructura de Archivos y Estilos de un Componente</h1>
+		<p>
+			Esta guía explica cómo estructurar, nombrar y organizar los estilos SCSS de un componente, usando convenciones
+			<strong>BEM</strong>
+			,
+			<strong>partials</strong>
+			, y un prefijo de ejemplo (
+			<code>.gr*</code>
+			) para las clases.
+		</p>
+		<hr />
+
+		<h2>📂 Estructura de archivos .scss</h2>
+		<pre><code>components/
+  table/
+    _table.scss
+    _table.compact.scss
+    _table.striped.scss
+    _index.scss
+</code></pre>
+
+		<hr />
+		<h2>🎨 Estilos Base</h2>
+		<pre><code>// _table.scss
+<span class="highlight">.grTable</span> {
+  width: 100%;
+  border-collapse: collapse;
+
+  <span class="highlight">&__head</span> {
+    font-weight: bold;
+    background: $color-gray-light;
+  }
+
+  <span class="highlight">&__row</span> {
+    border-bottom: 1px solid $color-border;
+  }
+
+  <span class="highlight">&__cell</span> {
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
+}
+</code></pre>
+
+		<hr />
+		<h2>🎨 Estilos Variantes</h2>
+
+		<h3>👉 Variante Compacta</h3>
+		<pre><code>// _table.compact.scss
+<span class="highlight">@use './table';</span>
+
+<span class="highlight">.grTable</span> {
+	<span class="highlight">&--compact</span> {
+    &__cell {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+}
+</code></pre>
+
+		<h3>👉 Variante Striped</h3>
+		<pre><code>// _table.striped.scss
+<span class="highlight">@use './table';</span>
+
+<span class="highlight">.grTable</span> {
+	<span class="highlight">&--striped</span> {
+    &__row:nth-child(even) {
+      background-color: $color-gray-lighter;
+    }
+  }
+}
+</code></pre>
+
+		<hr />
+		<h2>📄 Ejemplo HTML</h2>
+		<pre><code>&lt;table class="<span class="highlight">grTable</span> <span class="highlight">grTable--compact</span> <span class="highlight">grTable--striped</span>"&gt;
+  &lt;thead class="<span class="highlight">grTable__head</span>"&gt;
+    &lt;tr class="<span class="highlight">grTable__row</span>"&gt;
+      &lt;th class="<span class="highlight">grTable__cell</span>"&gt;Nombre&lt;/th&gt;
+      &lt;th class="<span class="highlight">grTable__cell</span>"&gt;Edad&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr class="<span class="highlight">grTable__row</span>"&gt;
+      &lt;td class="<span class="highlight">grTable__cell</span>"&gt;Ana&lt;/td&gt;
+      &lt;td class="<span class="highlight">grTable__cell</span>"&gt;25&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+
+		<hr />
+		<h2>📦 Index del Componente</h2>
+		<pre><code>// _index.scss
+<span class="highlight">@forward './table';</span>
+<span class="highlight">@forward './table.compact';</span>
+<span class="highlight">@forward './table.striped';</span>
+</code></pre>
+
+		<hr />
+		<h2>
+			📥 Importación en
+			<code>main.scss</code>
+		</h2>
+		<p>
+			En el archivo
+			<code>main.scss</code>
+			centralizas los estilos importando los entry points de cada componente:
+		</p>
+		<pre><code>// main.scss
+<span class="highlight">@use 'components/table';</span>
+@use 'components/button';
+@use 'components/modal';
+...
+</code></pre>
+
+		<hr />
+		<h2>
+			📌 Diferencia entre
+			<code>@use</code>
+			y
+			<code>@forward</code>
+		</h2>
+		<ul>
+			<li>
+				<strong>@use</strong>
+				: Se utiliza para
+				<em>importar</em>
+				un archivo SCSS dentro de otro. Encapsula en un namespace y se usa directamente.
+			</li>
+			<li>
+				<strong>@forward</strong>
+				: Se utiliza para
+				<em>re-exportar</em>
+				varios archivos SCSS desde un punto de entrada (ej. un index). Sirve para organizar y centralizar imports.
+			</li>
+		</ul>
+
+		<hr />
+		<h2>
+			📘 ¿Por qué usar un
+			<code>_index.scss</code>
+			?
+		</h2>
+		<p>
+			El archivo
+			<code>_index.scss</code>
+			actúa como
+			<strong>punto de entrada</strong>
+			para cada componente. Esto te permite:
+		</p>
+		<ul>
+			<li>
+				Importar el componente con un solo
+				<code>@use</code>
+				, en lugar de múltiples líneas.
+			</li>
+			<li>
+				Agregar nuevas variantes sin modificar el
+				<code>main.scss</code>
+				.
+			</li>
+			<li>Mantener la arquitectura más limpia y escalable a medida que crecen los componentes.</li>
+		</ul>
+	</body>
+</html>

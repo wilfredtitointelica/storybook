@@ -1,0 +1,76 @@
+@if (visible()) {
+<div class="ptListitemNotification ptListitemNotification--simple" [class.ptListitemNotification--hiding]="!status()" [ngStyle]="{ '--duration-message': durationMessage() }">
+	<!-- MAIN -->
+	<div class="ptListitemNotification__main" [ngStyle]="{ cursor: cursorStyle }" (click)="onNotificationClick.emit(notification)">
+		<div class="ptListitemNotification__header">
+			<!-- CARD -->
+			<p-card class="prCard prCard--compact">
+				<ng-template #title>
+					<div class="prCard__row">
+						<div class="prCard__title u-color-primary">
+							{{ domain.GlobalTermService.languageCode === "es" ? brandFile?.impactType?.descriptionEs : brandFile?.impactType?.descriptionEn }}
+							<div class="ptListitemNotification__indicator">
+								@if (hasIndicator()) {
+								<span class="u-dot u-color-success"></span>
+								}
+							</div>
+						</div>
+						<div class="prCard__wrap">
+							<p-button
+								class="prButton prButton--autoWidth prButton--borderTransparent"
+								severity="secondary"
+								icon="icon icon-cancel"
+								size="small"
+								(click)="onCloseNotification($event, notification)"
+								[disabled]="isBusy(notification.recipientId, actionClose)"
+							/>
+						</div>
+					</div>
+					<div class="prCard__row">
+						<div class="prCard__title">{{ brandFile?.announcementName }}</div>
+						<div class="prCard__wrap">{{ domain.getTerm("LBL_EFFECTIVE_DATE") }} {{ notification.createdAt | date : 'd MMM, y' }}</div>
+					</div>
+				</ng-template>
+				<ng-template #content>
+					<div class="prCard__row">
+						<p-badge class="prBadge" severity="info" badgeSize="small" [value]="impactTypeDescription" />
+						<div class="prCard__wrap u-ms-auto u-py-1">
+							<i class="icon {{ brandFile?.icon }} icon--sm icon--outlined"></i>
+						</div>
+					</div>
+
+					<div class="prCard__row">
+						<span>{{ domain.getTerm("LBL_CODE") }}: {{ " " }}</span>
+						<span>{{ brandFile?.content?.code }}</span>
+					</div>
+
+					<div class="prCard__row">
+						<span>{{ domain.getTerm("LBL_AUDIENCE") }}: {{ " " }}</span>
+						<span>{{ domain.GlobalTermService.languageCode === "es" ? brandFile?.content?.audienceEs : brandFile?.content?.audienceEn }}</span>
+					</div>
+
+					<div class="prCard__row">
+						<span>{{ domain.getTerm("LBL_JURISDICTION") }}: {{ " " }}</span>
+						<span>{{ domain.GlobalTermService.languageCode === "es" ? brandFile?.content?.jurisdictionEs : brandFile?.content?.jurisdictionEn }}</span>
+					</div>
+				</ng-template>
+			</p-card>
+		</div>
+		<div class="ptListitemNotification__footer">
+			<div class="ptListitemNotification__actions" *ngIf="notification.actions?.length">
+				<p-button
+					*ngFor="let action of notification.actions"
+					class="prButton"
+					[severity]="domain.getSeverity(domain.getJsonData(action.metaData)?.severity)"
+					icon="icon {{ domain.getJsonData(action.metaData)?.icon }}"
+					tooltipStyleClass="prTooltip"
+					tooltipPosition="top"
+					pTooltip="{{ domain.getTerm(domain.getJsonData(action.metaData)?.termCode) }}"
+					(click)="onActionClick($event, notification, action)"
+					[disabled]="isBusy(notification.recipientId, action.code)"
+				/>
+			</div>
+		</div>
+	</div>
+</div>
+}

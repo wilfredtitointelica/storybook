@@ -1,0 +1,60 @@
+<p-button class="prButton prButton--topBarIcon" [class.is-active]="activeButton()" icon="icon icon-user" (click)="popoverUserProfile.toggle($event)" id="headerPerfilGA"></p-button>
+<p-popover
+	styleClass="prPopover prPopover--noRoundedTR prPopover--topAnchoredRight"
+	#popoverUserProfile
+	(onShow)="activeButton.set(true)"
+	(onHide)="activeButton.set(false)"
+	[appendTo]="popoverTarget"
+>
+	<div class="prPopover__body u-gap-sm">
+		<div class="ptUserCard u-auto-width">
+			<div class="ptUserCard__info">
+				<div class="ptUserCard__name">{{ displayName() }}</div>
+			</div>
+			<div class="ptUserCard__role">
+				@if( userProfile().length > 1 ) {
+				<p-select
+					class="prSelect prSelect--minimal prSelect--selfOverlayRight"
+					[options]="userProfile()"
+					[ngModel]="selectedUserProfile()"
+					optionLabel="name"
+					placeholder="Choose an option"
+					showClear="false"
+					dropdownIcon="icon icon-arrow-down"
+					showToggleAll="false"
+					appendTo="self"
+					panelStyleClass="prSelect prSelect--minimal"
+					selectOnFocus="false"
+					filter="true"
+					filterPlaceholder="Search text here"
+					filtericon="icon icon-cancel"
+					(ngModelChange)="onProfileChange($event, popoverUserProfile)"
+				>
+					<ng-template #dropdownicon>
+						<i class="icon icon-arrow-down"></i>
+					</ng-template>
+					<ng-template #filtericon>
+						<i class="icon icon-search"></i>
+					</ng-template>
+					<ng-template #clearicon>
+						<i class="icon icon-cancel"></i>
+					</ng-template>
+				</p-select>
+				} @else {
+				{{ "TypeProfileUser" | term : globalTermService.languageCode }}
+				}
+			</div>
+		</div>
+		<hr class="u-divider-horizontal u-m-0" />
+		<p-button
+			class="prButton prButton--profile"
+			variant="text"
+			icon="icon icon-settings"
+			label="{{ 'SettingsProfile' | term : globalTermService.languageCode }}"
+			(onClick)="onSettings()"
+			id="headerPerfilSettingsGA"
+		></p-button>
+		<p-button class="prButton prButton--profile" variant="text" icon="icon icon-sign-out" label="{{ 'SignOut' | term : globalTermService.languageCode }}" (onClick)="onSingOut()"></p-button>
+	</div>
+</p-popover>
+<div #popoverTarget class="u-relative"></div>

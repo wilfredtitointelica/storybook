@@ -1,0 +1,118 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-NAME-COMPONENT: "prCard prCard--option ( Custom PrimeNG )";
+
+	--i-name-color: var(); // example token
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( primeNG )
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--option {
+	}
+
+	&--option.p-card {
+		border-width: var(--i-border-width-sm);
+		border-style: solid;
+		border-color: var(--i-color-secondary-200);
+      background-color: var(--i-color-secondary-50);
+		&:hover {
+			border-color: var(--i-color-primary-900); // #2952c4;
+		}
+		&:active,
+		&.is-active {
+			border-color: var(--i-color-primary-900); // #2952c4;
+			background: var(--i-color-secondary-100); //#e5edfa;
+		}
+		&.is-disabled,
+		[disabled] {
+			border-color: #d9d9e3;
+			background: #d9d9e3;
+			color: #9ca3ba;
+		}
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+			outline-offset: 2px;
+		}
+	}
+
+	&--option .p-card-body {
+		padding: var(--i-spacing-gap-md) var(--i-spacing-container-2xl);
+	}
+
+	&--option .p-card-content {
+		gap: var(--i-spacing-gap-sm);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BEM ELEMENTS ( .prName )
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--option &__icon {
+		display: flex;
+		justify-content: center;
+	}
+
+	&--option &__text {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+	}
+
+	&--option &__icon {
+		color: var(--i-color-primary-900);
+	}
+
+	&--option &__title {
+		font-size: var(--i-typography-font-size-sm);
+		font-weight: var(--i-typography-font-weight-bold);
+		line-height: var(--i-typography-lineHeight-200);
+		justify-content: center;
+		color: var(--i-color-primary-900); // #4f5470;
+	}
+
+	&--option &__subtitle {
+		font-size: var(--i-typography-font-size-xs);
+		font-weight: var(--i-typography-font-weight-regular);
+		line-height: var(--i-typography-lineHeight-xs);
+		color: var(--i-color-primary-900); // #4f5470;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--option.p-card .icon {
+		font-size: var(--i-typography-font-size-2xl);
+		color: currentColor;
+	}
+
+	&--option.p-card {
+		&.is-disabled,
+		[disabled] {
+			color:var(--i-color-secondary-400);
+			/*
+			& .icon {
+				color: #9ca3ba;
+			}
+			*/
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skPrCard {
+}

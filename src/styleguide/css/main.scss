@@ -1,0 +1,158 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+@use "tokens";
+
+/*——————————————————————————————————————————————————————————*\
+ * BASE
+\*——————————————————————————————————————————————————————————*/
+
+@use "base/reset";
+@use "base/scroll-bar";
+@use "base/scroll-detect";
+@use "base/typography";
+@use "base/icon";
+@use "base/brand";
+
+/*——————————————————————————————————————————————————————————*\
+ * BOOTSTRAP
+\*——————————————————————————————————————————————————————————*/
+
+@use "bootstrap/bootstrap-grid.min.css"; // :root removed
+@use "bootstrap/bootstrap-reset.scss"; // :root removed
+
+/*——————————————————————————————————————————————————————————*\
+ * LAYOUT
+\*——————————————————————————————————————————————————————————*/
+
+@use "layouts/dashboard";
+@use "layouts/header";
+@use "layouts/sidebar";
+@use "layouts/filterbar";
+@use "layouts/login";
+@use "layouts/security";
+
+/*——————————————————————————————————————————————————————————*\
+ * COMPONENTS
+\*——————————————————————————————————————————————————————————*/
+@use "components/accordion"; // estilos no oficiales del DS
+@use "components/avatar";
+@use "components/badge";
+@use "components/button";
+@use "components/breadcrumb";
+@use "components/card";
+@use "components/carousel";
+@use "components/chip";
+@use "components/confirmdialog";
+@use "components/datepicker";
+@use "components/dialog";
+@use "components/dragdrop";
+@use "components/graph";
+@use "components/input";
+@use "components/icon-field";
+@use "components/message";
+@use "components/mettergroup";
+@use "components/multiselect";
+@use "components/paginator";
+@use "components/panel";
+@use "components/panelmenu";
+@use "components/picklist";
+@use "components/pills";
+@use "components/popover";
+@use "components/select";
+@use "components/selectbutton";
+@use "components/stepper";
+@use "components/table";
+@use "components/tabs";
+@use "components/tag";
+@use "components/timeline";
+@use "components/toast";
+@use "components/toolbar";
+@use "components/toggleswitch";
+@use "components/tooltip";
+@use "components/tree";
+@use "components/treeselect";
+@use "components/treetable";
+@use "components/progressbar";
+@use "components/confirm-dialog";
+@use "components/skeleton";
+@use "components/splitbutton";
+@use "components/swal-alert";
+
+/*——————————————————————————————————————————————————————————*\
+ * PATTERN
+\*——————————————————————————————————————————————————————————*/
+
+@use "patterns/loading";
+@use "patterns/cards";
+@use "patterns/search-table";
+@use "patterns/search-default";
+@use "patterns/filter-bar";
+@use "patterns/section-title";
+// new
+@use "patterns/advance-filters";
+@use "patterns/field";
+@use "patterns/list-item";
+@use "patterns/search";
+@use "patterns/status-last-update";
+@use "patterns/user-card";
+@use "patterns/split-group";
+@use "patterns/stack-content";
+@use "patterns/qr-code";
+@use "patterns/paragraph-truncate";
+@use "patterns/timeline-vertical";
+@use "patterns/compound-input";
+@use "patterns/amount";
+@use "patterns/by-network";
+@use "patterns/callout";
+@use "patterns/sorticon";
+@use "patterns/status-dot";
+@use "patterns/status-state";
+@use "patterns/table-lite";
+@use "patterns/cookie-consent";
+//@use "patterns/form";
+
+/*——————————————————————————————————————————————————————————*\
+ * UTILITIES
+\*——————————————————————————————————————————————————————————*/
+
+@use "utilities/functions";
+@use "utilities/helpers";
+@use "utilities/mixins";
+
+/*——————————————————————————————————————————————————————————*\
+ * PROJECTS
+\*——————————————————————————————————————————————————————————*/
+
+@use "projects/opt-out";
+@use "projects/tpe";
+@use "projects/login" as projectLogin;
+@use "projects/alerts";
+@use "projects/alert-management";
+@use "projects/filesharing";
+@use "projects/profile";
+@use "projects/library-new";
+@use "projects/project-event";
+@use "projects/fee-library";
+@use "projects/fee-detail";
+@use "projects/rbc-dashboard";
+@use "projects/incontrol-panel"; // landing
+@use "projects/fee-updates"; // dashboard
+@use "projects/dashboard" as projectDashboard; // landing
+@use "projects/etl-dashboard";
+@use "projects/saving-opportunities";
+
+/*——————————————————————————————————————————————————————————*\
+ * DEV-TOOLS
+\*——————————————————————————————————————————————————————————*/
+
+@use "dev-tools/demo";
+@use "dev-tools/structure-debug";
+@use "dev-tools/tabulation-debug";
+
+/*——————————————————————————————————————————————————————————*\
+ * FONTS
+\*——————————————————————————————————————————————————————————*/
+
+@use "../fonts/incontrol-icons/incontrol-icons.css";

@@ -1,0 +1,82 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → Input Search Dropdown
+	 *——————————————————————————————————————————*/
+
+	/* Input base */
+	--i-inputsearch-border-radius: 8px;
+	--i-inputsearch-height: 32px;
+	--i-inputsearch-border-color: #9ca2ba;
+	--i-inputsearch-border-color-focus: #7490e2;
+	--i-inputsearch-text-color: #636b8d;
+	--i-inputsearch-placeholder-color: #9ca2ba;
+	--i-inputsearch-padding-right: 50px;
+
+	/* Iconos */
+	--i-inputsearch-icon-size: 12px;
+	--i-inputsearch-icon-color: #2a52c5;
+	--i-inputsearch-icon-search-right: 7px;
+	--i-inputsearch-icon-ellipsis-right: 19px;
+	--i-inputsearch-icon-times-right: 31px;
+
+	/* Header variant */
+	--i-inputsearch-header-min-width: 120px;
+	--i-inputsearch-header-width: 464px;
+}
+
+
+/* ------------------------------------------- */
+/* header -> search ptInputSearchDropdown */
+/* ------------------------------------------- */
+.ptInputSearchDropdown {
+	position: relative;
+
+	&__wrap {
+		& .prInputText {
+			width: 100%; 
+			border-radius: var(--i-inputsearch-border-radius);
+			height: var(--i-inputsearch-height);
+			border-color: var(--i-inputsearch-border-color);
+			color: var(--i-inputsearch-text-color);
+			padding-right: var(--i-inputsearch-padding-right);
+
+			&.p-inputtext:enabled:focus {
+				border-color: var(--i-inputsearch-border-color-focus);
+			}
+			&::placeholder {
+				color: var(--i-inputsearch-placeholder-color);
+			}
+		}
+
+		& .grIcon {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			font-size: var(--i-inputsearch-icon-size);
+			color: var(--i-inputsearch-icon-color);
+
+			&.pi-search {
+				right: var(--i-inputsearch-icon-search-right);
+			}
+			&.pi-ellipsis-v {
+				right: var(--i-inputsearch-icon-ellipsis-right);
+			}
+			&.pi-times {
+				right: var(--i-inputsearch-icon-times-right);
+				cursor: pointer;
+			}
+		}
+	}
+
+	&__popover {}
+}
+
+/* ------------------------------------------- */
+/* modifier ptInputSearchDropdown--header */
+/* ------------------------------------------- */
+.ptInputSearchDropdown {
+	&--header {
+		min-width: var(--i-inputsearch-header-min-width);
+		width: var(--i-inputsearch-header-width);
+	}
+}

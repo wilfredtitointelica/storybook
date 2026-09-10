@@ -1,0 +1,14 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PRIMENG / TIMELINE
+\*——————————————————————————————————————————————————————————*/
+
+/*\
+	.p-timeline ( .p-timeline-horizontal )
+		.p-timeline-event
+			.p-timeline-event-opposite
+			.p-timeline-event-separator
+				.p-timeline-event-marker
+				.p-timeline-event-connector
+			.p-timeline-event-content
+
+\*/

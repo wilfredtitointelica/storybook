@@ -1,0 +1,29 @@
+.cookiesConsentBanner {
+	position: fixed;
+	bottom: var(--i-spacing-gap-xl);
+	left: var(--i-spacing-gap-xl);
+	right: var(--i-spacing-gap-xl);
+	z-index: 1000;
+}
+
+.cookiesConsentContainer {
+	background: var(--i-background-default);
+	padding: var(--i-spacing-gap-xl);
+	gap: var(--i-spacing-gap-xl);
+	border-radius: var(--i-border-radius-2xl);
+	box-shadow:
+		0 var(--i-shadow-y-sm) calc(var(--i-shadow-blur-xs) / 2) var(--i-shadow-color-base),
+		0 var(--i-shadow-y-md) calc(var(--i-shadow-blur-sm) / 2) var(--i-shadow-color-base);
+}
+
+.cookieSectionsGroup {
+	gap: var(--i-spacing-gap-xl);
+}
+
+.cookieSectionHeaderNecessary {
+	align-items: flex-end;
+}
+
+.cookieAlwaysActive {
+	color: var(--i-text-color-success);
+}

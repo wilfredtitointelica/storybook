@@ -1,0 +1,73 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-QRCODE-COMPONENT: 'ptQrCode ( Custom Native & PrimeNG )';
+
+	// --i-qrcode-property: var(--i-);
+
+	--i-qrcode-width: 16.25rem; // 260px
+	--i-qrcode-padding: var(--i-spacing-container-xl); // 16px
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptQrCode {
+	aspect-ratio: 1/1;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: var(--i-qrcode-width); 
+	padding: var(--i-qrcode-padding);
+
+	&__container {
+		position: relative;
+		flex-grow: 1;
+
+		&:empty::before {
+			position: absolute;
+			inset: 0;
+			content: "QR";
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 8rem;
+			font-weight: bold;
+			color: var(--i-color-neutral-base);
+			outline: var(--i-line-border-width) dashed currentColor;
+			outline-offset: -1px;
+			opacity: 0.5;
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifiers )
+\*——————————————————————————————————————————————————————————*/
+
+.ptQrCode {
+	
+	&--full {
+		max-width: auto;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.ptQrCode {
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skQrCode {
+	
+}

@@ -1,0 +1,187 @@
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptAmount {
+	--color-amount: currentColor;
+	--padding-main: 0;
+	--size-value: var(--i-typography-font-size-md);
+	--size-currency: var(--i-typography-font-size-md);
+	--size-trend: var(--i-typography-font-size-lg);
+	--size-trend-icon: var(--i-icon-size-sm);
+	--size-brand-icon: var(--i-icon-size-sm);
+
+	display: inline-flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-sm);
+	width: fit-content;
+
+	// --- structure ---
+
+	&__title {
+		font-weight: bold;
+		font-size: var(--i-typography-font-size-md);
+		line-height: var(--i-typography-lineHeight-md);
+	}
+
+	&__legend {
+		font-size: var(--i-typography-font-size-sm);
+		font-weight: bold;
+		line-height: var(--i-typography-lineHeight-sm);
+		text-align: center;
+	}
+
+	&__main {
+		position: relative;
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+		align-items: flex-start;
+		justify-content: center;		
+		padding-block: var(--padding-main);
+	}
+
+	&__trend {
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+		align-items: center;
+		justify-content: center;
+		font-size: var(--size-trend);
+		font-weight: bold;
+		color: var(--color-amount);
+		line-height: 1;
+		flex-wrap: balance;
+
+		& .icon {
+			font-size: var(--size-trend-icon);
+		}
+	}
+
+	// --- elements ---
+
+	&__brand {
+		align-self: center;
+
+		&:first-child {
+			margin-right: var(--i-spacing-gap-md);
+		}
+
+		&:empty {
+			display: none;
+		}
+
+		& .icon {
+			font-size: var(--size-brand-icon);
+		}
+	}
+
+	&__currency {
+		font-size: var(--size-currency);
+	}
+
+	&__value {
+		font-size: var(--size-value);
+	}
+
+	&__currency,
+	&__value {
+		display: inline-block;
+		font-weight: bold;
+		line-height: 1cap;
+	}
+
+	// adjust
+
+	&:has(&__title, &__legend) &__main {
+		padding-top: 0;
+	}
+
+	&:has(&__trend) &__main {
+		padding-bottom: 0;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptAmount {
+	// --- amount state ---
+
+	&--positive {
+		--color-amount: var(--i-color-success-800);
+	}
+	&--negative {
+		--color-amount: var(--i-color-error-700);
+	}
+	&--neutral {
+		--color-amount: var(--i-color-secondary-700);
+	}
+
+	// --- size ---
+
+	&--6xl {
+		--padding-main: var(--i-spacing-container-md);
+		--size-value: var(--i-typography-font-size-6xl);
+		--size-currency: var(--i-typography-font-size-md);
+		--size-trend: var(--i-typography-font-size-xl);
+		--size-trend-icon: var(--i-icon-size-lg);
+		--size-brand-icon: var(--i-icon-size-md);
+	}
+
+	&--5xl {
+		--padding-main: var(--i-spacing-container-md);
+		--size-value: var(--i-typography-font-size-5xl);
+		--size-currency: var(--i-typography-font-size-md);
+		--size-trend-icon: var(--i-icon-size-md);
+	}
+
+	&--4xl {
+		--padding-main: var(--i-spacing-container-md);
+		--size-value: var(--i-typography-font-size-4xl);
+		--size-currency: var(--i-typography-font-size-md);
+		--size-trend-icon: var(--i-icon-size-md);
+	}
+
+	&--3xl {
+		--padding-main: var(--i-spacing-container-md);
+		--size-value: var(--i-typography-font-size-3xl);
+		--size-currency: var(--i-typography-font-size-sm);
+		--size-trend: var(--i-typography-font-size-sm);
+	}
+
+	&--2xl {
+		--padding-main: var(--i-spacing-container-md);
+		--size-value: var(--i-typography-font-size-2xl);
+		--size-currency: var(--i-typography-font-size-sm);
+	}
+
+	&--md {
+		--size-value: var(--i-typography-font-size-md);
+		--size-currency: var(--i-typography-font-size-md);
+	}
+
+	// --- centered ---
+
+	&--centered {
+		align-items: center;
+	}
+
+	// --- digit ( considerando punto y letra ) ---
+
+	&--5digits &__value {
+		width: 7ch;
+	}
+	&--4digits &__value {
+		width: 6ch;
+	}
+	&--3digits &__value {
+		width: 5ch;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skAmountHero {
+}

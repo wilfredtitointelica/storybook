@@ -1,0 +1,48 @@
+<div class="alignedLeftArea">
+	<div class="ptTablePaginator">
+		<p-paginator
+			class="prPaginator"
+			[class]="'paginatorTableGA'"
+			[first]="first"
+			[rows]="rows"
+			[totalRecords]="totalRecords"
+			(onPageChange)="pageChange.emit($event)"
+			[showJumpToPageInput]="false"
+			[showCurrentPageReport]="false"
+			[showPageLinks]="false"
+			[showFirstLastIcon]="false"
+			[templateLeft]="templateLeft"
+		>
+			<ng-template #previouspagelinkicon>
+				<i class="icon icon-arrow-left"></i>
+			</ng-template>
+			<ng-template #nextpagelinkicon>
+				<i class="icon icon-arrow-right"></i>
+			</ng-template>
+			<ng-template pTemplate="templateLeft" #templateLeft>
+				<span>{{ "ROWS_PER_PAGE" | term : globalTermService.languageCode }}:</span>
+				<p-select class="prSelect" panelStyleClass="prSelect paginatorSelectTableGA" [options]="options" optionLabel="label" optionValue="value" [ngModel]="rows" (ngModelChange)="onRowsChanged($event)">
+					<ng-template #dropdownicon>
+						<i class="icon icon-arrow-down"></i>
+					</ng-template>
+				</p-select>
+				<span>
+					{{ "PAGE" | term : globalTermService.languageCode }}
+					<p-inputnumber
+						class="p-paginator-jtp-input"
+						inputId="integeronly"
+						[(ngModel)]="pageInputValue"
+						[useGrouping]="false"
+						[min]="1"
+						[max]="totalPages"
+						[minFractionDigits]="0"
+						[maxFractionDigits]="0"
+						(keydown.enter)="onPageInputApply()"
+						(onBlur)="onPageInputApply()"
+					/>
+					{{ "OF" | term : globalTermService.languageCode }} {{ totalPages }}
+				</span>
+			</ng-template>
+		</p-paginator>
+	</div>
+</div>

@@ -1,0 +1,20 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → Popover Search Header
+	 *——————————————————————————————————————————*/
+
+	--i-popover-searchheader-width: 464px;
+	--i-popover-searchheader-padding: 24px;
+}
+
+/* ------------------------------------------- */
+/* modifier popover -> inputSearchDropdown */
+/* ------------------------------------------- */
+.prPopover {
+	&--searchHeader {
+		& .p-popover-content {
+			width: var(--i-popover-searchheader-width);
+			padding: var(--i-popover-searchheader-padding);
+		}
+	}
+}

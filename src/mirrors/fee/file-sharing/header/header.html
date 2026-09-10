@@ -1,0 +1,150 @@
+@if(loading) {
+<div class="ptFilterbar mb-3">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- filter view group -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter range ( datepicker ) -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter action -->
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+					<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+				</div>
+			</div>
+		</div>
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks u-ms-auto">
+			<!-- filter actions advanced -->
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-skeleton class="prSkeleton" [width]="'9rem'" [height]="'2rem'" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+} @else {
+<div class="ptFilterbar mb-3">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- filter view group -->
+			@if (showOptionGroup && clientOptions.length > 1) {
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-bank"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						class="prMultiselect"
+						[options]="clientOptions"
+						[(ngModel)]="selectedClientsFilterTemp"
+						optionLabel="bankName"
+						[placeholder]="'LBL_SELECT_CLIENT' | term : GlobalTermService.languageCode"
+						[selectedItemsLabel]="clientSelectionLabel"
+						[maxSelectedLabels]="1"
+						[filter]="clientOptions.length > 10"
+						[showToggleAll]="true"
+						[disabled]="loading"
+						[style]="{ width: '12rem' }"
+					>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			}
+			<!-- filter range ( datepicker ) -->
+			<fee-datepicker-range [minDate]="minDate ?? null" [maxDate]="maxDate ?? null" [disabled]="loading" />
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter actions -->
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-button class="prButton" [class]="'actionFiltersGA'" [label]="'LBL_APPLY' | term : GlobalTermService.languageCode" (onClick)="applyFilters()" [disabled]="loading" />
+					<p-button class="prButton" [class]="'actionFiltersGA'" severity="secondary" [label]="'LBL_RESET' | term : GlobalTermService.languageCode" (onClick)="resetFilters()" [disabled]="loading" />
+				</div>
+			</div>
+		</div>
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks u-ms-auto">
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-button id="advancedFiltersGA" class="prButton" severity="secondary" (click)="showDialog()" [disabled]="loading">
+						<i class="icon icon-filter p-button-icon-left" pButtonIcon></i>
+						<span pButtonLabel>{{ "LBL_ADVANCED" | term : GlobalTermService.languageCode }}</span>
+					</p-button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- filterbar: applied -->
+	@if (advancedFilterChipLabel) {
+	<div class="ptFilterbar__applied">
+		<div class="ptFilterbar__text">{{ "LBL_APPLIED_FILTERS" | term : GlobalTermService.languageCode }}:</div>
+		<div class="ptFilterbar__tags">
+			<p-tag class="prPillTag">
+				<span class="text-base">{{ advancedFilterChipLabel }}</span>
+				<i class="icon icon-cancel" (click)="removeAdvancedFilter()"></i>
+			</p-tag>
+		</div>
+		<div class="ptFilterbar__clean">
+			<!-- <p-button class="prButton prButton--compact u-ms-1" (click)="" link [label]="commonGlobalService.termText(libraryTerm.CLEAR_ALL)" /> -->
+		</div>
+	</div>
+	}
+</div>
+}
+
+<!-- MODAL -->
+<fee-modal-advanced-filter
+	[loading]="ListCategory.length > 0"
+	[busy]="loading"
+	[visibleLg]="visibleLg"
+	[categorySelectedVisual]="categorySelectedVisual"
+	[fileSharingFilteRequestTemp]="fileSharingFilteRequestTemp"
+	[ListCategory]="ListCategory"
+	(onClickApplyFilter)="applyAdvancedFilter($event)"
+	(closeDialogAdvanceFilter)="closeDialogAdvanceFilter($event)"
+/>
+
+<!-- HEADER TITLE -->
+@if (loading) {
+<div style="width: 100%; display: flex; justify-content: space-between">
+	<div style="display: flex; flex-direction: column; gap: 2px">
+		<p-skeleton class="prSkeleton" width="200px" height="32px"></p-skeleton>
+		<p-skeleton class="prSkeleton" width="200px" height="24px"></p-skeleton>
+	</div>
+	<div style="display: flex">
+		<p-skeleton class="prSkeleton" width="106px" height="32px"></p-skeleton>
+	</div>
+</div>
+} @else {
+<div class="filesharing__header">
+	<div class="filesharing__heading">
+		<div class="filesharing__title">{{ "PAGE_FILE_SHARING" | term : GlobalTermService.languageCode }}</div>
+	</div>
+	@if (!showOptionGroup) {
+	<div class="filesharing__actions">
+		<p-button
+			class="prButton"
+			[class]="'uploadGA'"
+			(click)="toggleUploadPanel()"
+			[label]="isFileDropVisible ? ('SM_CANCEL_UPLOAD_FILE' | term : GlobalTermService.languageCode) : ('SM_UPLOAD_FILE' | term : GlobalTermService.languageCode)"
+			[icon]="!isFileDropVisible ? 'icon icon-upload' : undefined"
+			iconPos="left"
+		></p-button>
+	</div>
+	}
+</div>
+}

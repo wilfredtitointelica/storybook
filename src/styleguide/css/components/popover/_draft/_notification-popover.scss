@@ -1,0 +1,65 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → Popover Notification
+	 Basados en spacing, colors, typography y layout
+	 *——————————————————————————————————————————*/
+
+	/* Popover general */
+	--i-popover-notification-margin-top: 8px;         /* margin-top del popover */
+	--i-popover-notification-content-width: 456px;    /* ancho del contenido del popover */
+	--i-popover-notification-content-gap: 32px;       /* gap entre elementos del contenido */
+	--i-popover-notification-content-padding: 24px;   /* padding del contenido */
+
+	
+
+	/* Empty State */
+	--i-popover-notification-empty-width: 408px;     /* ancho del estado vacío */
+	--i-popover-notification-empty-height: 148px;    /* altura del estado vacío */
+	--i-popover-notification-empty-color: #9ca2ba;   /* color del mensaje vacío */
+	--i-popover-notification-empty-font-weight: 400; /* peso de fuente del mensaje vacío */
+	--i-popover-notification-empty-font-size: 14px;  /* tamaño de fuente del mensaje vacío */
+	--i-popover-notification-empty-line-height: 20px;/* altura de línea del mensaje vacío */
+}
+
+.prPopover {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	&--notification {
+		&.p-popover {
+			margin-top: var(--i-popover-notification-margin-top);
+
+			& .p-popover-content {
+				width: var(--i-popover-notification-content-width);
+				display: flex;
+				flex-direction: column;
+				gap: var(--i-popover-notification-content-gap);
+				padding: var(--i-popover-notification-content-padding);
+			}
+		}
+	}
+
+	&--notification &__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&--notification &__item {
+	}
+
+	&--notification &__empty {
+		width: var(--i-popover-notification-empty-width);
+		height: var(--i-popover-notification-empty-height);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&--notification &__emptyMessage {
+		color: var(--i-popover-notification-empty-color);
+		font-weight: var(--i-popover-notification-empty-font-weight);
+		font-size: var(--i-popover-notification-empty-font-size);
+		line-height: var(--i-popover-notification-empty-line-height);
+	}
+}

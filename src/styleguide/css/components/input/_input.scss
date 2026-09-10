@@ -1,0 +1,418 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	// --- Layout ---
+	--i-input-wrap-gap: var(--i-spacing-gap-sm); // 8px
+	--i-input-shadow: var(--i-shadow-x-none); // 0px
+
+	// Label
+	--i-input-label-size: var(--i-typography-font-size-md); //14px || typography/font-size/m
+
+	// State
+	--i-input-label-color: var(--i-color-neutral-600); //#636b8d || color/grey/700
+	--i-input-label-disabled-color: var(--i-color-neutral-400); // #9ca2ba || color/grey/400
+	--i-input-label-invalid-color: var(--i-color-error-700); // #970c0c || color/error/700
+	--i-input-label-succes-color: var(--i-color-success-800); // #126629 || color/green/800
+
+	// Message
+	--i-input-message-color: var(--i-color-error-700); // #970c0c || color/error/700
+	--i-input-message-size: var(--i-typography-font-size-xs); // 10px
+
+	// regular input text
+	--i-inputtext-focus-border-color: var(--i-color-primary-900); // color/blue/600 || var(--p-inputtext-focus-border-color)
+	--i-inputtext-invalid-border-color: var(--i-color-error-700); // color/error/700 || var(--p-inputtext-invalid-border-color);
+}
+
+// Message Input RadioButton/Checkbox
+.prMessageInput {
+	.p-message-error.p-message-simple {
+		color: var(--i-input-message-color);
+	}
+	.p-message-text {
+		font-size: var(--i-input-message-size);
+	}
+}
+
+.prInputtext,
+.prInputText {
+	&.p-inputtext {
+		border: var(--i-border-width-sm) solid var(--i-border-default); /* var(--p-inputtext-border-color) || color/grey/400 */
+		border-radius: var(--i-border-radius-lg); // var(--p-inputtext-border-radius) || radius/100
+		background: var(--i-background-default); // var(--p-inputtext-background) || color/grey/50;
+		color: var(--i-color-primary-900); // var(--p-inputtext-color)  ||  color/grey/700
+		padding-block: var(--i-spacing-container-sm); // var(--p-inputtext-padding-y) || space/075
+		padding-inline: var(--i-spacing-container-md); // var(--p-inputtext-padding-x) || space/100
+		font-size: var(--i-typography-font-size-md); // typography/font-size/m
+		box-shadow: none;
+		height: 32px;
+
+		&::placeholder {
+			color: var(--i-color-secondary-400); // color/grey/400
+		}
+
+		&:enabled:hover {
+			border-color: var(--i-border-hover); // color/blue/400
+			background-color: var(--i-background-default); // color/grey/50
+		}
+
+		&:enabled:focus {
+			outline: none;
+			border-color: var(--i-color-primary-900); // color/grey/400
+			box-shadow: none;
+			background-color: var(--i-background-default); // color/grey/50
+		}
+
+		&.p-invalid:is(:hover, :enabled) {
+			border-color: var(--i-border-error); // color/error/700; || var(--p-inputtext-invalid-border-color)
+			//background: var(--i-background-error);
+			color: var(--i-text-color-error); // color/error/700 || var(--p-inputtext-invalid-placeholder-color)
+
+			&::placeholder {
+				color: var(--i-text-color-error); // color/error/700 || var(--p-inputtext-invalid-placeholder-color)
+			}
+		}
+
+		&:disabled {
+			background-color: #d8dae4; // color/grey/50
+			color: #9ca2ba; // color/grey/400
+			border-color: transparent; // no definido
+		}
+	}
+	&--success {
+		&.p-inputtext {
+			border-color: var(--i-border-success);
+			color: var(--i-text-color-success);
+
+			&::placeholder {
+				color: var(--i-text-color-success);
+			}
+		}
+	}
+}
+
+// Input Group Styling
+.prinputgroup {
+	.p-inputgroup-addon {
+		background-color: red;
+		border: 2px solid green;
+		border-radius: 6px;
+		color: brown;
+	}
+}
+
+.prInputnumber {
+	&.p-inputnumber {
+		border: var(--i-border-width-sm) solid var(--i-border-default); /* var(--p-inputtext-border-color) || color/grey/400 */
+		border-radius: var(--i-border-radius-lg); // var(--p-inputtext-border-radius) || radius/100
+		background: var(--i-background-default); // var(--p-inputtext-background) || color/grey/50;
+		color: var(--i-color-secondary-700); // var(--p-inputtext-color)  ||  color/grey/700
+		font-size: var(--i-typography-font-size-md); // typography/font-size/m
+
+		&::placeholder {
+			color: var(--i-color-secondary-400); // color/grey/400
+		}
+
+		&:enabled:hover {
+			border-color: var(--i-border-hover); // color/blue/400
+			background-color: var(--i-background-default); // color/grey/50
+		}
+
+		&:enabled:focus {
+			outline: none;
+			border-color: var(--i-color-secondary-400); // color/grey/400
+			box-shadow: none;
+			background-color: var(--i-background-default); // color/grey/50
+		}
+
+		&.p-invalid {
+			border-color: var(--i-border-error); // color/error/700; || var(--p-inputtext-invalid-border-color)
+			background: var(--i-background-error);
+
+			&::placeholder {
+				color: var(--i-text-color-error); // color/error/700 || var(--p-inputtext-invalid-placeholder-color)
+			}
+		}
+
+		&:disabled {
+			background-color: var(--i-background-disabled); // color/grey/50
+			color: var(--i-text-color-disabled); // color/grey/400
+			border-color: transparent; // no definido
+		}
+	}
+}
+
+.prInputotp {
+	&.p-inputotp {
+		& .p-inputotp-input {
+			&.p-inputtext {
+				background: var(--i-background-default);
+				border: var(--i-border-width-sm) solid var(--i-border-default);
+				color: var(--i-color-secondary-700);
+				width: 4rem;
+				height: 4rem;
+
+				&:enabled:hover {
+					border-color: var(--i-border-hover);
+				}
+
+				&:enabled:focus {
+					border-color: var(--i-inputtext-focus-border-color);
+					box-shadow: var(--i-inputtext-focus-ring-shadow);
+					outline: var(--i-inputtext-focus-ring-width) var(--i-inputtext-focus-ring-style) var(--i-inputtext-focus-ring-color);
+					outline-offset: var(--i-inputtext-focus-ring-offset);
+				}
+
+				&.p-invalid {
+					border-color: var(--i-inputtext-invalid-border-color);
+					background: var(--i-background-default);
+				}
+			}
+		}
+	}
+
+	&--success {
+		&.p-inputotp {
+			& .p-inputotp-input {
+				&.p-inputtext {
+					border-color: var(--i-border-success);
+					color: var(--i-text-color-success);
+					width: 4rem;
+					height: 4rem;
+				}
+			}
+		}
+	}
+
+	// ! NOTA: Reestructura este componente
+
+	// * modifier withSeparator ( use custom-preperty --order-separator )
+
+	&--withSeparator {
+		&::before {
+			order: var(--order-separator, 1);
+			content: "";
+			display: block;
+			width: 1rem;
+			border-top: var(--i-line);
+		}
+
+		@for $i from 1 through 10 {
+			& input:nth-child(#{$i}) {
+				order: $i;
+			}
+		}
+	}
+
+	// * modifier big ( mayor a size="large" )
+
+	&--big {
+		& input {
+			width: 4em;
+			height: 4em;
+		}
+	}
+}
+
+.prPassword {
+	&.p-password {
+		&:has(span) .p-password-input {
+			padding-inline-end: calc((0.75rem * 2) + var(--i-icon-sizing-sm));
+		}
+
+		& .p-inputtext {
+			font-size: var(--i-typography-font-size-md);
+			color: var(--i-color-secondary-700);
+			background: var(--i-background-default);
+			padding-block: var(--i-spacing-container-sm);
+			padding-inline: var(--i-spacing-container-md);
+			border: var(--i-border-width-sm) solid var(--i-border-default);
+			border-radius: var(--i-border-radius-lg);
+			outline-color: transparent;
+			flex-grow: 1;
+			height: 32px;
+
+			&::placeholder {
+				color: var(--i-color-secondary-400); // color/grey/400
+			}
+
+			&:not(.p-invalid):enabled:hover {
+				border-color: var(--i-border-hover); // color/blue/400
+				background-color: var(--i-background-default); // color/grey/50
+			}
+
+			&:not(.p-invalid):enabled:focus {
+				outline: none;
+				border-color: var(--i-color-primary-900); // color/grey/400
+				box-shadow: none;
+				background-color: var(--i-background-default); // color/grey/50
+			}
+
+			&.p-invalid {
+				color: var(--i-color-error-700);
+				border-color: var(--i-border-error); // color/error/700; || var(--p-inputtext-invalid-border-color)
+				background: var(--i-background-default);
+
+				&::placeholder {
+					color: var(--i-text-color-error); // color/error/700 || var(--p-inputtext-invalid-placeholder-color)
+				}
+
+				& ~ span {
+					display: inline-block;
+					vertical-align: baseline;
+					inset-inline-end: 0.5rem;
+					color: var(--i-text-color-error);
+					position: absolute;
+					top: 50%;
+					margin-top: calc(-1 * calc(var(--i-icon-sizing-sm) / 2));
+					width: var(--i-icon-sizing-sm);
+					height: var(--i-icon-sizing-sm);
+				}
+
+				& ~ .p-password-toggle-mask-icon {
+					color: var(--i-text-color-error);
+				}
+			}
+
+			&:disabled {
+				background-color: var(--i-background-disabled); // color/grey/200
+				color: var(--i-text-color-disabled); // color/grey/400
+				border-color: transparent; // no definido
+
+				& ~ .p-password-toggle-mask-icon {
+					color: var(--i-text-color-disabled);
+				}
+
+				& ~ span {
+					display: inline-block;
+					vertical-align: baseline;
+					inset-inline-end: 0.5rem;
+					color: var(--i-icon-color-disabled);
+					position: absolute;
+					top: 50%;
+					margin-top: calc(-1 * calc(var(--i-icon-sizing-sm) / 2));
+					width: var(--i-icon-sizing-sm);
+					height: var(--i-icon-sizing-sm);
+					pointer-events: none;
+					cursor: default;
+				}
+			}
+
+			& ~ span {
+				display: inline-block;
+				vertical-align: baseline;
+				inset-inline-end: 0.5rem;
+				color: var(--i-icon-color-default);
+				position: absolute;
+				top: 50%;
+				margin-top: calc(-1 * calc(var(--i-icon-sizing-sm) / 2));
+				width: var(--i-icon-sizing-sm);
+				height: var(--i-icon-sizing-sm);
+				cursor: pointer;
+			}
+		}
+
+		& .p-password-toggle-mask-icon {
+			color: var(--i-icon-color-default);
+			width: var(--i-icon-size-sm);
+			height: var(--i-icon-size-sm);
+			cursor: pointer;
+		}
+
+		& .p-password-toggle-mask-icon ,
+		& [data-pc-section="unmaskicon"],
+		& [data-pc-section="maskicon"] {
+			display: none !important;
+		}
+
+		& .p-filled + .p-password-toggle-mask-icon,
+		& .p-filled + [data-pc-section="unmaskicon"],
+		& .p-filled + [data-pc-section="maskicon"] {
+			display: block !important;
+		}
+
+		& ~ p-message {
+			& .p-message-error.p-message-simple {
+				color: var(--i-message-error-simple-color);
+
+				& .p-message-content {
+					justify-content: end;
+					& .p-message-text {
+						font-size: var(--i-message-text-font-size-xs);
+						font-weight: var(--i-message-text-font-weight);
+					}
+				}
+			}
+		}
+
+		& ~ small {
+			color: var(--i-message-error-simple-color);
+			font-size: var(--i-message-text-font-size-xs);
+			font-weight: var(--i-message-text-font-weight);
+			display: block;
+			width: 202px;
+			text-align: end;
+		}
+
+		/* &  .p-password-mask-icon {
+				background-image: url('../../../../fantasticon/incontrol-icons/source/icon-view-off.svg');
+				background-size: contain;
+				color: transparent;	
+			} 
+		&  .p-password-unmask-icon  {
+				background-image: url('../../../../fantasticon/incontrol-icons/source/icon-view.svg');
+				background-size: contain;
+				color: transparent;	
+			}  */
+
+		// ! REESTRUCTURAR CSS
+
+		& .p-password-toggle-mask-icon {
+			inset-inline-end: 8px;
+
+			& .p-password-input {
+				padding-inline-end: calc(6px + var(--i-icon-size-sm) + 8px);
+			}
+		}
+	}
+
+	&--success {
+		&.p-password {
+			& .p-inputtext {
+				border-color: var(--i-border-success);
+				background: var(--i-background-default);
+				color: var(--i-text-color-success);
+
+				&::placeholder {
+					color: var(--i-text-color-success);
+				}
+
+				& ~ span {
+					display: inline-block;
+					vertical-align: baseline;
+					inset-inline-end: 0.5rem;
+					color: var(--i-text-color-success);
+					position: absolute;
+					top: 50%;
+					margin-top: calc(-1 * calc(var(--i-icon-sizing-sm) / 2));
+					width: var(--i-icon-sizing-sm);
+					height: var(--i-icon-sizing-sm);
+				}
+			}
+
+			& .p-password-toggle-mask-icon {
+				color: var(--i-icon-color-success);
+				& &.p-password-mask-icon {
+					color: transparent;
+				}
+			}
+		}
+	}
+
+	&--readonly {
+		& input {
+			pointer-events: none;
+		}
+	}
+}

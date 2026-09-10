@@ -1,0 +1,13 @@
+.upload-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-status__ok {
+  color: #1f9d55;
+}
+
+.upload-status__error {
+  color: #d64545;
+}

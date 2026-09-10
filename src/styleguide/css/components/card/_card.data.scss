@@ -1,0 +1,104 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-NAME-COMPONENT: "prCard ( Custom PrimeNG )";
+
+	--i-name-color: var(); // example token
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--data.p-card {
+		box-shadow: none;
+	}
+	&--data .p-card-body {
+		background-color: transparent;
+		padding: var(--i-spacing-0);
+		gap: var(--i-spacing-0);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BEM MODIFIER ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--data &__section {
+		display: flex;
+		flex-direction: column;
+	}
+	&--data &__header {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: var(--i-spacing-gap-xs);
+		padding: 2px 5px;
+	}
+	&--data &__title {
+		flex-grow: 0;
+		font-weight: var(--i-typography-font-weight-regular);
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+		color: var(--i-color-primary-900);
+	}
+	&--data &__icon {
+	}
+	&--data &__icon .icon-alert {
+		color: var(--i-color-error-600);
+	}
+	&--data &__values {
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		gap: 2px;
+	}
+	&--data &__currency {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+		color: var(--i-color-primary-900);
+		padding: 4px 0;
+		// fix
+		line-height: 1.1;
+		padding: 0;
+	}
+	&--data &__amount {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-typography-font-size-2xl);
+		line-height: var(--i-typography-lineHeight-600);
+		color: var(--i-color-primary-900);
+		// --- fix ---
+		line-height: 1;
+	}
+
+	// --- money right ---
+	&--moneyRight &__body {
+		display: inline-flex;
+		flex-direction: column;
+		margin-inline: auto;
+	}
+	&--moneyRight &__values {
+		justify-content: right;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--data &__icon .icon {
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skPrCard {
+}

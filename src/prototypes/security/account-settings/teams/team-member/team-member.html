@@ -1,0 +1,51 @@
+<div class="teamMember">
+	<div class="teamMember__info">
+		<span class="teamMember__name">{{ member().firstName }} {{ member().lastName }}</span>
+		<span class="teamMember__mail">{{ member().email }}</span>
+		<span class="teamMember__role">{{ member().role === "other" ? member().otherRole : member().role }}</span>
+		<!---->
+		@if ( status() === 'pending' ) {
+		<span class="teamMember__desc">{{ transferText() }}</span>
+		<span class="teamMember__date">{{ requestedOnText() }}</span>
+		<p-badge class="prBadge icon" [ngClass]="badge()?.icon" severity="warn" badgeSize="small" [value]="badge()?.valueKey ?? '' | term : termService.languageCode" />
+		}
+	</div>
+	<div class="teamMember__status">
+		<!-- active -->
+		@if (status() === 'approve' && active()) {
+		<p-badge class="prBadge" severity="success" badgeSize="small" [value]="'MemeberChipUserStatus' | term : termService.languageCode" />
+		}
+		<!-- status -->
+		@if ( status() === 'approve' ) {
+		<p-badge class="prBadge" severity="info" badgeSize="small" [value]="badge()?.typeKey ?? '' | term : termService.languageCode" />
+		}
+	</div>
+	<div class="teamMember__actions">
+		<!---->
+		@if ( status() === 'pending' ) {
+		<p-button
+			class="prButton"
+			[gaTrack]="'actionMember'"
+			severity="primary"
+			icon="icon icon-input-success"
+			[label]="'MemeberButtonApprove' | term : termService.languageCode"
+			[disabled]="isProcessing()"
+			(click)="ApproveMember()"
+		/>
+		<p-button
+			class="prButton"
+			[gaTrack]="'actionMember'"
+			severity="secondary"
+			icon="icon icon-input-error"
+			[label]="'MemeberButtonReject' | term : termService.languageCode"
+			[disabled]="isProcessing()"
+			(click)="RejectMember()"
+		/>
+		}
+		<!---->
+		@if ( status() === 'approve' ) {
+		<p-button class="prButton" severity="secondary" icon="icon icon-edit" (click)="EditMember()" />
+		<p-button class="prButton" severity="secondary" icon="icon icon-delete" (click)="DeleteMember()" />
+		}
+	</div>
+</div>

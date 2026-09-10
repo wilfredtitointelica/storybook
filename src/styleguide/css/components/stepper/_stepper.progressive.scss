@@ -1,0 +1,35 @@
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( primeNG )
+ * Progressive mode: keeps previous steps styled as "completed"
+ * while highlighting the current active step.
+\*——————————————————————————————————————————————————————————*/
+
+.prStepper--progressive {
+
+	// --- Step ---
+
+	& .p-step-number {
+		color: var(--i-stepper-step-number-active-color);
+		background: var(--i-stepper-step-number-active-background);
+	}
+
+	& .p-step-active ~ .p-step .p-step-number {
+		color: var(--i-stepper-step-number-color);
+		background: var(--i-stepper-step-number-background);
+	}
+
+	& .p-step-title {
+		color: var(--i-stepper-step-title-active-color);
+	}
+
+	& .p-step-active ~ .p-step .p-step-title {
+		color: var(--i-stepper-step-title-color);
+	}
+
+	// --- Separator ---
+
+	& .p-step:has(~ .p-step-active) .p-stepper-separator {
+		background-color: var(--i-stepper-separator-active-background);
+	}
+
+}

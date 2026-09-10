@@ -1,0 +1,235 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-TABS-COMPONENT: "prTabs ( Custom PrimeNG )";
+
+	--i-tabs-: var(--i-);
+
+	// --- tab ---
+
+	--i-tabs-tab-color: var(--i-color-grey-400);
+	--i-tabs-tab-padding: var(--i-spacing-container-lg) var(--i-spacing-container-2xl);
+	--i-tabs-tab-border-radius: var(--i-border-radius-lg);
+	--i-tabs-tab-border: 1px solid var(--i-color-secondary-200);
+	--i-tabs-tab-background: var(--i-color-secondary-50);
+	--i-tabs-tab-line-height: 1.2;
+	
+	// --- panel ---
+
+	--i-tabs-tabpanels-padding: var(--i-spacing-gap-lg) var(--i-spacing-gap-sm);
+	--i-tabs-tabpanels-background: var(--i-color-secondary-50);
+	
+	// --- states ---
+	
+	--i-tabs-tab-hover-color: var(--i-color-primary-900);
+	--i-tabs-tab-hover-background: var(--i-color-secondary-100);
+	--i-tabs-tab-active-border: 2px solid var(--i-color-tertiary-500);
+	--i-tabs-tab-disabled-color: var(--i-color-secondary-400);
+	--i-tabs-tab-disabled-background: var(--i-color-secondary-200);
+	--i-tabs-tab-disabled-border-color: var(--i-color-secondary-400);
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prTabs {
+
+	width: auto;
+
+	// --- tablist ---
+
+	& .p-tablist {
+		background-color: transparent;
+	}
+
+	& .p-tablist-content {
+	}
+
+	& .p-tablist-tab-list {
+		border: none;
+		background: var(--i-card-background);
+	}
+
+	.p-tablist-active-bar {
+		z-index: 0;
+		background-color: transparent;
+		height: 2px;
+
+		// ! Nota: en flotantes ( como popover ) renderiza 0px ancho
+		display: none;
+	}
+
+	.p-tab {
+		flex-grow: 1;
+		padding: var(--i-tabs-tab-padding);
+		margin: 0;
+		line-height: var(--i-tabs-tab-line-height);
+		color: var(--i-tabs-tab-color);
+		text-align: center;
+		background-color: var(--i-tabs-tab-background);
+		border-top-left-radius: var(--i-tabs-tab-border-radius);
+		border-top-right-radius: var(--i-tabs-tab-border-radius);
+		font-size: var(--i-typography-font-size-md);
+		font-weight: 400;
+
+		// custom border
+
+		&,
+		&:not(.p-tab-active):not(.p-disabled):hover {
+			border-bottom: var(--i-tabs-tab-border);
+		}
+
+		// custom hover/active
+
+		&:not(.p-tab-active):not(.p-disabled):is(:hover, :active) {
+			color: var(--i-tabs-tab-hover-color);
+			background-color: var(--i-tabs-tab-hover-background);
+		}
+
+		// class active
+
+		&.p-tab-active {
+			border-bottom: var(--i-tabs-tab-active-border);
+			font-weight: bold;
+			color: var(--i-tabs-tab-hover-color);
+		}
+
+		// focus visible
+		&:not(.p-disabled):focus-visible	 {
+			outline-color: var(--i-color-primary-base);
+		}
+	}
+
+	// --- tabpanels ---
+
+	& .p-tabpanels {
+
+		padding: var(--i-tabs-tabpanels-padding);
+		background-color: var(--i-tabs-tabpanels-background);
+		color: var(--i-color-primary-900);
+	}
+
+	& .p-tabpanel {
+		
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [scrolleable]
+\*——————————————————————————————————————————————————————————*/
+
+.prTabs {
+	& .p-tabs-scrollable {
+	}
+
+	& .p-tablist-nav-button {
+	}
+
+	& .p-tablist-prev-button {
+	}
+
+	& .p-tablist-next-button {
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME / tab [disabled]
+\*——————————————————————————————————————————————————————————*/
+
+.prTabs {
+	& .p-tab.p-disabled {
+		color: var(--i-tabs-tab-disabled-color);
+		background-color: var(--i-tabs-tab-disabled-background);
+		border-bottom-color: var(--i-tabs-tab-disabled-border-color);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prTabs )
+\*——————————————————————————————————————————————————————————*/
+
+.prTabs {
+	&__list {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		height: 44px;
+	}
+	&__tabs {
+		display: flex;
+	}
+	&__action {
+		display: flex;
+		gap: 8px;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prTabs {
+
+	// --- full ---
+
+	&--full {
+		flex-grow: 1;
+	}
+
+	&--full .p-tabpanels {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&--full .p-tabpanel {
+		flex-grow: 1;
+		
+	}
+
+	// --- equal ---
+
+	&--equal .p-tab {
+		flex: 1;
+	}
+
+	&--noEqualTab .p-tab {
+		flex-grow: initial;
+	} 
+
+	// --- no padding ---
+
+	&--noPanelsPaddingBottom .p-tabpanels {
+		padding-bottom: 0;
+	}
+
+	&--noPanelPaddingInline .p-tabpanels {
+		padding-inline: 0;
+	}
+
+	&--noPanelPadding .p-tabpanels {
+		padding: 0;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.prTabs {
+
+	& .u-dot {
+		font-size: 6px;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/

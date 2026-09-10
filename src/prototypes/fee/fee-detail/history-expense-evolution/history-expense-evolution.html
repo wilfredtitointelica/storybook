@@ -1,0 +1,57 @@
+<div class="borderedSection">
+	@if (isLoading()) {
+	<div class="d-flex flex-column gap-1">
+		<p-skeleton class="prSkeleton" width="140px" height="20px" borderRadius="8px"></p-skeleton>
+		<p-skeleton class="prSkeleton" width="210px" height="16px" borderRadius="8px"></p-skeleton>
+	</div>
+	<div class="expEvoSkeletonChart" *ngIf="isLoading">
+		<div class="chart-body">
+			<div class="y-axis">
+				<p-skeleton class="prSkeleton" *ngFor="let y of yAxisLabels" width="48px" height="10px" borderRadius="4px" />
+			</div>
+
+			<div class="col-group" *ngFor="let h of barHeights">
+				<p-skeleton class="prSkeleton" width="100%" [height]="h" borderRadius="4px 4px 0 0" />
+			</div>
+		</div>
+
+		<div class="x-axis">
+			<p-skeleton class="prSkeleton" *ngFor="let x of xAxisLabels" width="100%" height="10px" borderRadius="4px" />
+		</div>
+
+		<div class="legend">
+			<div class="legend-item">
+				<p-skeleton class="prSkeleton" shape="circle" size="10px" />
+				<p-skeleton class="prSkeleton" width="72px" height="10px" borderRadius="4px" />
+			</div>
+		</div>
+	</div>
+
+	} @else {
+	<div class="u-display-flex u-align-items-start u-justify-content-between u-gap-sm">
+		<div>
+			<div class="history__title u-display-inline-flex u-align-items-center u-gap-sm">
+				{{ commonGlobalService.termText(feeDetailTerm.EXPENSE_EVOLUTION) }} @if (hasIncompleteHistory()) {
+				<i class="icon icon-info" [pTooltip]="commonGlobalService.termText(feeDetailTerm.INCOMPLETE_HISTORY_INFO)" tooltipPosition="top" tooltipStyleClass="prTooltip"></i>
+				}
+			</div>
+			<div>{{ subtitle() }}</div>
+		</div>
+		<div>
+			<span [pTooltip]="commonGlobalService.termText(feeDetailTerm.EXPENSE_EVOLUTION_DOWNLOAD_TOOLTIP)" tooltipPosition="top" tooltipStyleClass="prTooltip">
+				<p-button
+					class="prButton prButton--icon downloadGA"
+					severity="secondary"
+					icon="icon icon-download"
+					size="large"
+					[disabled]="chartData().length === 0 || isDownloading()"
+					(onClick)="onDownloadClick()"
+				/>
+			</span>
+		</div>
+	</div>
+	<div class="u-mt-5">
+		<div #chartHost class="expEvoAreaChart" [ngStyle]="containerStyle"></div>
+	</div>
+	}
+</div>

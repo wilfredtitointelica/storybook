@@ -1,0 +1,106 @@
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-STATUS-LAST-UPDATE: 'ptStatusLastUpdate ( Patterns )';
+
+	--i-status-last-update-gap: var(--i-spacing-gap-sm, .5rem); // 8px
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptStatusLastUpdate )
+\*——————————————————————————————————————————————————————————*/
+
+.ptStatusLastUpdate {
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-status-last-update-gap);
+
+	&__title {
+		color:var(--i-color-primary-900);
+		font-weight: var(--i-text-subtitle-weight);
+		line-height: var(--i-typography-lineHeight-lg);
+		overflow: hidden;
+		white-space: nowrap;
+		transition: height var(--i-motion-base);
+		interpolate-size: allow-keywords;
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-status-last-update-gap);
+	}
+	
+	&__item {
+		display: flex;
+		justify-content: center;
+		
+	}
+
+	&__brand {
+
+	}
+
+	&__date {
+		overflow: hidden;
+		flex-basis: 100%;
+		text-align: right;
+		white-space: nowrap;
+		transition: flex-basis var(--i-motion-base);
+		text-overflow: ellipsis;
+		padding-left: var(--i-status-last-update-gap);
+	}
+
+	// --- empty ---
+	
+	&:has(&__list:empty) {
+		display: none;
+	}
+
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCE ELEMENTOS
+\*——————————————————————————————————————————————————————————*/
+
+.ptStatusLastUpdate {
+
+	&__brand .icon {
+		font-size: 20px;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptStatusLastUpdate {
+
+	&--collapsed {
+		//align-items: center;
+	}
+
+	&--collapsed &__title {
+		display: none;
+		height: 0;
+	}
+
+	&--collapsed &__date {
+		display: none;
+		flex-basis: 0;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skStatusLastUpdate {
+
+}

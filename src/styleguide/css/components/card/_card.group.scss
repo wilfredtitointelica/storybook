@@ -1,0 +1,138 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-NAME-COMPONENT: "prCard prCard--group ( Custom PrimeNG )";
+
+	--i-name-color: var(); // example token
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--group {
+		> .p-card {
+			background: var(--i-color-secondary-50);
+		}
+
+		> .p-card-body {
+			padding: 14px 16px;
+		}
+
+		> .p-card-body > .p-card-content:first-child {
+			flex-direction: row;
+			gap: var(--i-spacing-gap-lg);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BEM ELEMENTS ( .prName )
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--group &__section {
+	}
+	&--group &__group {
+		display: flex;
+		justify-content: center;
+		gap: var(--i-spacing-gap-lg);
+	}
+	&--group &__left {
+		padding: 1px 0;
+	}
+	&__left:has(> .prCard__label):not(:has(> .prCard__date)) {
+		display: flex;
+		align-items: center;
+	}
+	&--group &__left &__label {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-typography-font-size-lg);
+		line-height: var(--i-typography-lineHeight-lg);
+		color: var(--i-color-primary-900);
+	}
+	&--group &__left &__date {
+		font-weight: var(--i-typography-font-weight-regular);
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+		color: var(--i-color-primary-900);
+	}
+	&--group &__right {
+		display: flex;
+	}
+	&--group &__right &__currency {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+		color: var(--i-color-secondary-700);
+		padding: 5px 0;
+	}
+	&--group &__right &__value {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-typography-font-size-3xl);
+		line-height: var(--i-typography-lineHeight-700);
+		color: var(--i-color-secondary-700);
+	}
+	&--group &__right &__currency.purple {
+		color: #845cd3;
+	}
+	&--group &__right &__value.purple {
+		color: #845cd3;
+	}
+	&--group &__right &__currency.blue-gray {
+		color: var(--i-color-teal-500);
+	}
+	&--group &__right &__value.blue-gray {
+		color: var(--i-color-teal-500);
+	}
+	&--group &__right &__currency.blue {
+		color: var(--i-color-primary-500);
+	}
+	&--group &__right &__value.blue {
+		color: var(--i-color-primary-500);
+	}
+	&--group &__right &__currency.sky-blue {
+		color: var(--i-color-primary-400);
+	}
+	&--group &__right &__value.sky-blue {
+		color: var(--i-color-primary-400);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BEM MODIFIER ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--noBg.p-card {
+		background: transparent;
+		box-shadow: none;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--group &.prCard {
+		position: relative;
+		flex: 1;
+	}
+
+	&--group .line {
+		width: 1px;
+		height: 48px;
+		background: #d8dae4;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skPrCard {
+}

@@ -1,0 +1,31 @@
+<div class="lySidebar">
+	<!-- LODADED -->
+	@if (termService.TermsReady()) {
+	<div class="lySidebar__blocks">
+		<div class="lySidebar__start">
+			<div class="lySidebar__product">{{ accountSettingsTitle() }}</div>
+		</div>
+		<div class="lySidebar__divider"></div>
+		<div class="lySidebar__center">
+			<p-panelmenu class="prPanelmenu" [model]="menuItems()" />
+		</div>
+	</div>
+	}
+
+	<!-- SKELETON -->
+	@if (!termService.TermsReady()) {
+	<div class="lySidebar__blocks">
+		<div class="lySidebar__start">
+			<p-skeleton class="prSkeleton" [width]="'110px'" [height]="'21px'" />
+		</div>
+		<div class="lySidebar__divider"></div>
+		<div class="lySidebar__center">
+			<div class="u-display-flex u-flex-column u-gap-lg">
+				@for (_ of [1,2,3,4]; track $index) {
+				<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'33px'" borderRadius="6px" />
+				}
+			</div>
+		</div>
+	</div>
+	}
+</div>

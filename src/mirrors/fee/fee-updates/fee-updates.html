@@ -1,0 +1,222 @@
+<div class="feeUpdates u-display-flex u-flex-column u-gap-md">
+	<p-toast class="prToast" position="bottom-right"></p-toast>
+
+	<fee-updates-header
+		[loading]="isLoadingFilters()"
+		[busy]="isBusy()"
+		[entities]="entities()"
+		[brands]="brands()"
+		[businesses]="businesses()"
+		[minDate]="minDate()"
+		[maxDate]="maxDate()"
+		(apply)="onApplyFilter($event)"
+		(reset)="onResetFilter()"
+	/>
+
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle__content">
+			<div class="ptSectionTitle__title">{{ commonGlobalService.termText(feeUpdatesTerm.TITLE) }}</div>
+		</div>
+		<div class="ptSectionTitle__actions">
+			<intelica-add-favorites [pageName]="commonGlobalService.termText(feeUpdatesTerm.TITLE)"></intelica-add-favorites>
+		</div>
+	</div>
+
+	<fee-updates-summary-cards [loading]="isLoadingSummary()" [summary]="summary()" />
+
+	<div class="grPanel">
+		<p-tabs class="prTabs prTabs--noPanelPaddingInline prTabs--noPanelsPaddingBottom" [value]="activeTab()" (valueChange)="activeTab.set($event?.toString() ?? FeeUpdatesTabEnum.NewFees)">
+			<p-tablist id="tabsListGA">
+				<div class="prTabs__list">
+					<div class="prTabs__tabs">
+						<p-tab [value]="FeeUpdatesTabEnum.NewFees" [pTooltip]="commonGlobalService.termText(feeUpdatesTerm.DESC_NEW_FEES)" tooltipStyleClass="prTooltip" tooltipPosition="top">
+							{{ commonGlobalService.termText(feeUpdatesTerm.TAB_NEW_FEES) }}
+						</p-tab>
+						<p-tab [value]="FeeUpdatesTabEnum.TariffChanges" [pTooltip]="commonGlobalService.termText(feeUpdatesTerm.DESC_TARIFF_CHANGES)" tooltipStyleClass="prTooltip" tooltipPosition="top">
+							{{ commonGlobalService.termText(feeUpdatesTerm.TAB_TARIFF_CHANGES) }}
+						</p-tab>
+						<p-tab [value]="FeeUpdatesTabEnum.CeasedFees" [pTooltip]="commonGlobalService.termText(feeUpdatesTerm.DESC_CEASED_FEES)" tooltipStyleClass="prTooltip" tooltipPosition="top">
+							{{ commonGlobalService.termText(feeUpdatesTerm.TAB_CEASED_FEES) }}
+						</p-tab>
+					</div>
+					<div class="prTabs__action">
+						@switch (activeTab()) { @case (FeeUpdatesTabEnum.NewFees) {
+						<div class="ptSearch" [class]="'searchGA'">
+							<p-iconfield>
+								<input
+									type="text"
+									class="prInputText"
+									pInputText
+									[pTooltip]="isNewFeesSearchDisabled() ? '' : newFeesSearchTooltip()"
+									tooltipPosition="top"
+									tooltipStyleClass="prTooltip"
+									[ngModel]="newFeesSearch()"
+									(ngModelChange)="onNewFeesSearchInput($event)"
+									(keyup.enter)="onNewFeesSearchExecute()"
+									[placeholder]="newFeesSearchPlaceholder()"
+									[disabled]="isNewFeesSearchDisabled()"
+								/>
+								<p-inputicon>
+									@if (newFeesSearch()) {
+									<button class="ptSearch__icon ptSearch__icon--close" type="button" [disabled]="isNewFeesSearchDisabled()" (click)="onNewFeesSearchClear()">
+										<i class="icon icon-cancel"></i>
+									</button>
+									} @if (newFeesSearch()) {
+									<span class="ptSearch__icon ptSearch__icon--divider"></span>
+									}
+									<button class="ptSearch__icon ptSearch__icon--search" type="button" [disabled]="isNewFeesSearchDisabled()" (click)="onNewFeesSearchExecute()">
+										<i class="icon icon-search"></i>
+									</button>
+								</p-inputicon>
+							</p-iconfield>
+						</div>
+						<span [pTooltip]="newFeesExportTooltip()" tooltipPosition="top" tooltipStyleClass="prTooltip" [tooltipDisabled]="!hasNewFees() || isDownloadingNewFees()">
+							<p-button
+								class="prButton prButton--icon downloadGA"
+								severity="secondary"
+								icon="icon icon-download"
+								size="large"
+								[disabled]="!hasNewFees() || isDownloadingNewFees()"
+								(onClick)="onDownloadNewFees()"
+							/>
+						</span>
+						} @case (FeeUpdatesTabEnum.TariffChanges) {
+						<div class="ptSearch" [class]="'searchGA'">
+							<p-iconfield>
+								<input
+									type="text"
+									class="prInputText"
+									pInputText
+									[pTooltip]="isTariffChangesSearchDisabled() ? '' : tariffChangesSearchTooltip()"
+									tooltipPosition="top"
+									tooltipStyleClass="prTooltip"
+									[ngModel]="tariffChangesSearch()"
+									(ngModelChange)="onTariffChangesSearchInput($event)"
+									(keyup.enter)="onTariffChangesSearchExecute()"
+									[placeholder]="tariffChangesSearchPlaceholder()"
+									[disabled]="isTariffChangesSearchDisabled()"
+								/>
+								<p-inputicon>
+									@if (tariffChangesSearch()) {
+									<button class="ptSearch__icon ptSearch__icon--close" type="button" [disabled]="isTariffChangesSearchDisabled()" (click)="onTariffChangesSearchClear()">
+										<i class="icon icon-cancel"></i>
+									</button>
+									} @if (tariffChangesSearch()) {
+									<span class="ptSearch__icon ptSearch__icon--divider"></span>
+									}
+									<button class="ptSearch__icon ptSearch__icon--search" type="button" [disabled]="isTariffChangesSearchDisabled()" (click)="onTariffChangesSearchExecute()">
+										<i class="icon icon-search"></i>
+									</button>
+								</p-inputicon>
+							</p-iconfield>
+						</div>
+						<span [pTooltip]="tariffChangesExportTooltip()" tooltipPosition="top" tooltipStyleClass="prTooltip" [tooltipDisabled]="!hasTariffChanges() || isDownloadingTariffChanges()">
+							<p-button
+								class="prButton prButton--icon downloadGA"
+								severity="secondary"
+								icon="icon icon-download"
+								size="large"
+								[disabled]="!hasTariffChanges() || isDownloadingTariffChanges()"
+								(onClick)="onDownloadTariffChanges()"
+							></p-button>
+						</span>
+						} @case (FeeUpdatesTabEnum.CeasedFees) {
+						<div class="ptSearch" [class]="'searchGA'">
+							<p-iconfield>
+								<input
+									type="text"
+									class="prInputText"
+									pInputText
+									[pTooltip]="isCeasedFeesSearchDisabled() ? '' : ceasedFeesSearchTooltip()"
+									tooltipPosition="top"
+									tooltipStyleClass="prTooltip"
+									[ngModel]="ceasedFeesSearch()"
+									(ngModelChange)="onCeasedFeesSearchInput($event)"
+									(keyup.enter)="onCeasedFeesSearchExecute()"
+									[placeholder]="ceasedFeesSearchPlaceholder()"
+									[disabled]="isCeasedFeesSearchDisabled()"
+								/>
+								<p-inputicon>
+									@if (ceasedFeesSearch()) {
+									<button class="ptSearch__icon ptSearch__icon--close" type="button" [disabled]="isCeasedFeesSearchDisabled()" (click)="onCeasedFeesSearchClear()">
+										<i class="icon icon-cancel"></i>
+									</button>
+									} @if (ceasedFeesSearch()) {
+									<span class="ptSearch__icon ptSearch__icon--divider"></span>
+									}
+									<button class="ptSearch__icon ptSearch__icon--search" type="button" [disabled]="isCeasedFeesSearchDisabled()" (click)="onCeasedFeesSearchExecute()">
+										<i class="icon icon-search"></i>
+									</button>
+								</p-inputicon>
+							</p-iconfield>
+						</div>
+						<span [pTooltip]="ceasedFeesExportTooltip()" tooltipPosition="top" tooltipStyleClass="prTooltip" [tooltipDisabled]="!hasCeasedFees() || isDownloadingCeasedFees()">
+							<p-button
+								class="prButton prButton--icon downloadGA"
+								severity="secondary"
+								icon="icon icon-download"
+								size="large"
+								[disabled]="!hasCeasedFees() || isDownloadingCeasedFees()"
+								(onClick)="onDownloadCeasedFees()"
+							></p-button>
+						</span>
+						} }
+					</div>
+				</div>
+			</p-tablist>
+			<p-tabpanels>
+				<p-tabpanel [value]="FeeUpdatesTabEnum.NewFees">
+					<fee-updates-new-fees
+						[loading]="isLoadingNewFees()"
+						[showClientColumn]="showClientColumn()"
+						[data]="newFeesData()"
+						[hasError]="newFeesError()"
+						[hasActiveSearch]="!!newFeesQuery().search"
+						[searchText]="newFeesQuery().search"
+						[currentPage]="newFeesQuery().pageNumber"
+						[rowsPerPage]="newFeesQuery().rowsPerPage"
+						[sortField]="newFeesQuery().sortField"
+						[sortOrder]="newFeesQuery().sortOrder"
+						(queryChange)="onNewFeesQueryChange($event)"
+						(feeCodeClick)="onFeeCodeClick($event)"
+						(reload)="onNewFeesReload()"
+					/>
+				</p-tabpanel>
+				<p-tabpanel [value]="FeeUpdatesTabEnum.TariffChanges">
+					<fee-updates-tariff-changes
+						[loading]="isLoadingTariffChanges()"
+						[showClientColumn]="showClientColumn()"
+						[data]="tariffChangesData()"
+						[hasError]="tariffChangesError()"
+						[hasActiveSearch]="!!tariffChangesQuery().search"
+						[searchText]="tariffChangesQuery().search"
+						[currentPage]="tariffChangesQuery().pageNumber"
+						[rowsPerPage]="tariffChangesQuery().rowsPerPage"
+						[sortField]="tariffChangesQuery().sortField"
+						[sortOrder]="tariffChangesQuery().sortOrder"
+						(queryChange)="onTariffChangesQueryChange($event)"
+						(feeCodeClick)="onFeeCodeClick($event)"
+						(reload)="onTariffChangesReload()"
+					/>
+				</p-tabpanel>
+				<p-tabpanel [value]="FeeUpdatesTabEnum.CeasedFees">
+					<fee-updates-ceased-fees
+						[loading]="isLoadingCeasedFees()"
+						[showClientColumn]="showClientColumn()"
+						[data]="ceasedFeesData()"
+						[hasError]="ceasedFeesError()"
+						[hasActiveSearch]="!!ceasedFeesQuery().search"
+						[searchText]="ceasedFeesQuery().search"
+						[currentPage]="ceasedFeesQuery().pageNumber"
+						[rowsPerPage]="ceasedFeesQuery().rowsPerPage"
+						[sortField]="ceasedFeesQuery().sortField"
+						[sortOrder]="ceasedFeesQuery().sortOrder"
+						(queryChange)="onCeasedFeesQueryChange($event)"
+						(feeCodeClick)="onFeeCodeClick($event)"
+						(reload)="onCeasedFeesReload()"
+					/>
+				</p-tabpanel>
+			</p-tabpanels>
+		</p-tabs>
+	</div>
+</div>

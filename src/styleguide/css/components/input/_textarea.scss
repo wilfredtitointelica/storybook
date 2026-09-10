@@ -1,0 +1,118 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-TEXTAREA-COMPONENT: "prTextarea ( Custom PrimeNG )";
+
+	// --- Layout ---
+	--i-textarea-font-size: var(--i-typography-font-size-lg); // typography/font-size/lg
+	--i-textarea-color: var(--i-color-secondary-700); // color/grey/700 || var(--p-inputtext-color);
+	--i-textarea-background: var(--i-color-neutral-50); // color/grey/50 || var(--p-inputtext-background)
+	--i-textarea-border-color: var(--i-color-neutral-400); // color/grey/400 || var(--p-inputtext-border-color);
+	--i-textarea-border-radius: var(--i-border-radius-100); // radius/100 || var(--p-inputtext-border-radius);
+	--i-textarea-padding-y: var(--i-spacing-100); // space/100 || var(--p-inputtext-padding-y);
+	--i-textarea-padding-x: var(--i-spacing-100); // space/100 || var(--p-inputtext-padding-x);
+	--i-textarea-placeholder-color: var(--i-color-neutral-400); // color/grey/400
+
+	--i-textarea-hover-border-color: var(--i-color-primary-400); // color/blue/400 || var(--p-inputtext-hover-border-color)
+
+	--i-textarea-focus-border-color: var(--i-color-neutral-400); // color/gray/400 || var(--p-inputtext-focus-border-color)
+	--i-textarea-focus-ring-shadow: none;
+	--i-textarea-focus-ring-width: 0;
+	--i-textarea-focus-ring-style: none;
+	--i-textarea-focus-ring-color: var(--i-opacity-transparent);
+	--i-textarea-focus-ring-offset: 0;
+
+	--i-textarea-disabled-background: var(--i-background-disabled); // color/grey/200
+	--i-textarea-disabled-color: var(--i-text-color-disabled); // color/grey/400
+
+	--i-textarea-invalid-border-color: var(--i-border-alert); // color/error/600 || var(--p-inputtext-invalid-border-color);
+
+	--i-textarea-sm-font-size: var(--i-typography-font-size-sm);
+	--i-textarea-sm-padding-y: var(--i-spacing-50);
+	--i-textarea-sm-padding-x: var(--i-spacing-50);
+
+	--i-textarea-lg-font-size: var(--i-typography-font-size-lg);
+	--i-textarea-lg-padding-y: var(--i-spacing-150);
+	--i-textarea-lg-padding-x: var(--i-spacing-150);
+
+	--i-message-error-simple-color: var(--i-color-error-700); // color/error/700
+	--i-message-text-font-size-xs: var(--i-typography-font-size-xs); // typography/font-size/xs
+	--i-message-text-font-weight: var(--i-typography-font-weight-400); // typography/font-weight/400
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+.prTextarea {
+	&.p-textarea {
+		font-size: var(--i-textarea-font-size);
+		color: var(--i-color-primary-900);
+		background: var(--i-textarea-background);
+		padding-block: var(--i-textarea-padding-y);
+		padding-inline: var(--i-textarea-padding-x);
+		border: 1px solid var(--i-border-default);
+		border-radius: var(--i-textarea-border-radius);
+
+		&::placeholder {
+			color: var(--i-textarea-placeholder-color);
+		}
+		&:enabled:hover {
+			border-color: var(--i-textarea-hover-border-color);
+		}
+		// --- Focus
+		&:enabled:focus-visible,
+		&:enabled:focus {
+			border: 1px solid var(--i-color-primary-900);
+		}
+		&:disabled {
+			background: var(--i-textarea-disabled-background);
+			color: var(--i-textarea-disabled-color);
+			border-color: transparent;
+		}
+		&.p-invalid {
+			border-color: var(--i-textarea-invalid-border-color);
+		}
+		&.p-invalid::placeholder {
+			color: var(--i-text-color-alert);
+		}
+
+		&.p-textarea-sm {
+			font-size: var(--i-textarea-sm-font-size);
+			padding-block: var(--i-textarea-sm-padding-y);
+			padding-inline: var(--i-textarea-sm-padding-x);
+		}
+		&.p-textarea-lg {
+			font-size: var(--i-textarea-lg-font-size);
+			padding-block: var(--i-textarea-lg-padding-y);
+			padding-inline: var(--i-textarea-lg-padding-x);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptRadioButton )
+\*——————————————————————————————————————————————————————————*/
+
+.ptTextarea {
+	display: grid;
+
+	.prTextarea {
+		&.p-textarea {
+			& ~ p-message {
+				& .p-message-error.p-message-simple {
+					color: var(--i-message-error-simple-color);
+
+					& .p-message-content {
+						//justify-content: flex-end;
+						& .p-message-text {
+							font-size: var(--i-message-text-font-size-xs);
+							font-weight: var(--i-message-text-font-weight);
+						}
+					}
+				}
+			}
+		}
+	}
+}

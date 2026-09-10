@@ -1,0 +1,20 @@
+<!-- 	TITLE -->
+<div class="ptSectionTitle">
+	<div class="ptSectionTitle__content">
+		<div class="ptSectionTitle__title">
+			{{ "INCONTROL_PANEL" | term : globalTermService.languageCode }}
+		</div>
+	</div>
+</div>
+<!-- 	PANELS -->
+<div class="ipPanelGrid">
+	<fee-fee-expense [dataTotalFeeExpense]="dataFeeExpenses()?.totalFees" [isloadingTotalFeeExpense]="isloadingFeeExpenses()" class="ipPanel ipPanel--feeExpense" />
+	<fee-net-fees [dataNetFeesByScheme]="dataFeeExpenses()?.netFees" [isloadingNetFeesByScheme]="isloadingFeeExpenses()" class="ipPanel ipPanel--netFees" />
+	<fee-perfomance-score class="ipPanel ipPanel--performanceScore" />
+	<fee-opportunities class="ipPanel ipPanel--opportunities" />
+	<fee-announcements class="ipPanel ipPanel--announcements" />
+	<div class="ipPanelRow">
+		<fee-unit-cost class="ipPanel ipPanel--unitCost" />
+		<fee-optimize-cta class="ipPanel ipPanel--optimizeCta" />
+	</div>
+</div>

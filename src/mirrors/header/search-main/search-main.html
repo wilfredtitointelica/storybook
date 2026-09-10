@@ -1,0 +1,20 @@
+<div class="ptSearchMain">
+	<!-- SEARCH: FORM -->
+	<div class="ptSearchMain__form">
+		<search-form (interaction)="OpenSearchResult($event)" placeholderInput="{{ 'SEARCH_FEES_REPORTS_AND_DASHBOARDS' | term : globalTermService.languageCode }}" />
+	</div>
+	<!-- SEARCH: RESULT -->
+	<p-popover
+		#popoverSearchResult
+		styleClass="prPopover prPopover--topAnchoredLeft"
+		focusOnShow="false"
+		(onShow)="isPopoverOpen.set(true)"
+		(onHide)="isPopoverOpen.set(false)"
+		[appendTo]="popoverTarget"
+	>
+		<div class="ptSearchMain__result">
+			<search-result (closeResult)="CloseSearchResult()" />
+		</div>
+	</p-popover>
+	<div #popoverTarget class="u-relative"></div>
+</div>

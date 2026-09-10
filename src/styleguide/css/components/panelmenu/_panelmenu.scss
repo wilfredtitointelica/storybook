@@ -1,0 +1,367 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-PANELMENU-COMPONENT: "prPanelmenu ( Custom PrimeNG )";
+
+	--i-panelmenu-gap: var(--i-spacing-container-xl);
+
+	// --- general ---
+
+	--i-panelmenu-item-height: var(--i-sizing-lg); // 32px
+	--i-panelmenu-item-padding: var(--i-spacing-container-sm);
+	--i-panelmenu-item-gap: var(--i-spacing-container-md);
+	--i-panelmenu-item-gap-sm: var(--i-spacing-container-sm);
+	--i-panelmenu-item-color: var(--i-color-primary-900);
+	--i-panelmenu-item-hover-color: var(--i-color-primary-900); // primary-600
+	--i-panelmenu-item-background: transparent;
+	--i-panelmenu-item-hover-background: var(--i-color-secondary-100);
+
+	// --- icon ---
+
+	--i-panelmenu-item-icon-color: var(--i-color-primary-900); // primary-600
+	--i-panelmenu-item-icon-size: var(--i-icon-size-sm); // 16px
+
+	// --- text ---
+
+	--i-panelmenu-item-text-line-height: 1.2em;
+
+	// --- chevron ---
+
+	--i-panelmenu-item-chevron-size: 0.875rem; // 14px
+
+	// --- decorative ---
+
+	--i-panelmenu-item-deco-color: var(--i-color-secondary-200);
+	--i-panelmenu-item-deco-border-radius: var(--i-border-radius-lg); // 8px
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME ( structure )
+\*——————————————————————————————————————————————————————————*/
+
+.prPanelmenu {
+	// * NOTE: styles in component <p-panelmenu>
+
+	&.p-panelmenu {
+		gap: var(--i-panelmenu-gap);
+	}
+
+	// --- panel ---
+
+	& .p-panelmenu-panel {
+		padding: 0;
+		background-color: var(--i-panelmenu-item-background);
+		border: 0;
+		//border-radius: 0;
+
+		// favorites separator
+		/*
+		&:last-child {
+			padding-top: var(--i-panelmenu-gap);
+			border-top: var(--i-line);
+		}
+		*/
+	}
+
+	// --- header ---
+
+	& .p-panelmenu-header {
+		color: var(--i-panelmenu-item-color);
+		position: relative;
+	}
+
+	& .p-panelmenu-header-content {
+		position: relative;
+		overflow: hidden;
+		color: currentColor;
+		border: 1px solid transparent;
+	}
+
+	& .p-panelmenu-header-link {
+		gap: var(--i-panelmenu-item-gap);
+		// min-height: var(--i-panelmenu-item-height);
+		padding: var(--i-panelmenu-item-padding);
+		width:100%;
+	}
+
+	& .p-panelmenu-header-icon {
+		color: var(--i-panelmenu-item-icon-color);
+		font-size: var(--i-panelmenu-item-icon-size);
+		min-width: 1em;
+		height: 1em;
+	}
+
+	// chevron
+
+	.p-panelmenu-header-icon:is(svg:first-child) ,
+		.p-panelmenu-submenu-icon // ! NOTA: en repo menu, prime lo imprime asi
+	{
+		order: 2;
+		margin-left: auto;
+		font-size: var(--i-panelmenu-item-chevron-size);
+		color: currentColor !important; // var(--i-panelmenu-item-color);
+		transform: rotateZ(90deg);
+		transition: all 0.3s ease-in-out;
+	}
+
+	.p-panelmenu-header-active 
+		.p-panelmenu-header-icon:is(svg:first-child),
+		.p-panelmenu-header-active 
+		.p-panelmenu-submenu-icon // ! NOTA: en repo menu, prime lo imprime asi
+	{
+		transform: rotateZ(-90deg);
+	}
+	.p-panelmenu-header-active {
+		color: var(--i-panelmenu-item-hover-color);
+		background-color: var(--i-color-primary-100);
+		border-radius: 6px;
+	}
+
+	& .p-panelmenu-header-label {
+		flex-grow: 1;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	// --- content ---
+
+	& .p-panelmenu-content-container {
+	}
+
+	& .p-panelmenu-content {
+		& > ul {
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
+
+.prPanelmenu {
+	// * NOTE: styles in component <p-panelmenu-sub>
+
+	& .p-panelmenu-submenu {
+		display: flex;
+		flex-direction: column;
+		padding-left: calc(var(--i-panelmenu-item-padding) + var(--i-panelmenu-item-icon-size));
+		padding-top: var(--i-panelmenu-gap);
+		gap: var(--i-panelmenu-gap);
+	}
+
+	& .p-panelmenu-item {
+		position: relative;
+		border: 0px solid transparent;
+		// deco
+
+		&::before,
+		&::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: flex;
+			width: calc(var(--i-panelmenu-item-icon-size) * 0.75);
+			border-width: 0px;
+			border-style: solid;
+			border-color: var(--i-panelmenu-item-deco-color);
+			transform: translateX(-100%);
+		}
+
+		&::before {
+			top: calc(var(--i-panelmenu-gap) * -1);
+			bottom: 50%;
+			border-left-width: 1px;
+			border-bottom-width: 1px;
+			border-bottom-left-radius: var(--i-panelmenu-item-deco-border-radius);
+		}
+
+		&:not(:last-child)::after {
+			border-left-width: 1px;
+			bottom: 0;
+		}
+
+		// fix
+
+		&:not(.ng-animating) {
+			overflow: visible;
+		}
+		// --- Focus
+		&:focus-visible {
+			outline: 0;
+		}
+	}
+
+	& .p-panelmenu-item-content {
+		color: var(--i-panelmenu-item-color) !important;
+		// ! [Bug] Parpadeo click en submenu
+		// ! Revisión: PrimeNG reconstruye y collapseda nodo html, no puedo saber que clase asigna.
+	}
+
+	& .p-panelmenu-item-link {
+		padding: var(--i-panelmenu-item-padding) var(--i-panelmenu-item-gap);
+		min-height: var(--i-panelmenu-item-height);
+		// --- Focus
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+		}
+		&.p-panelmenu-item-link-active {
+			color: var(--i-panelmenu-item-hover-color);
+			background-color: var(--i-color-primary-100);
+			border-radius: 6px;
+		}
+	}
+
+	& .p-panelmenu-item-label {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME ( :hover )
+\*——————————————————————————————————————————————————————————*/
+
+.prPanelmenu {
+	// --- hover ( header & item ) ---
+
+	& .p-panelmenu-header:not(.p-disabled) .p-panelmenu-header-content:hover,
+	& .p-panelmenu-item:not(.p-disabled) > .p-panelmenu-item-content:hover {
+		color: var(--i-panelmenu-item-hover-color) !important;
+		background-color: var(--i-panelmenu-item-hover-background) !important;
+		// ! [Bug] Parpadeo click en submenu
+		// ! Revisión: PrimeNG reconstruye y collapseda nodo html, no puedo saber que clase asigna.
+	}
+
+	// focus-visible ( header & item )
+	.p-panelmenu-header:not(.p-disabled):focus-visible .p-panelmenu-header-content,
+	.p-panelmenu-header:not(.p-disabled):focus-visible .p-panelmenu-header-content .p-panelmenu-header-icon {
+		color: var(--i-panelmenu-item-hover-color) !important;
+	}
+	.p-panelmenu-header:not(.p-disabled):focus-visible .p-panelmenu-header-content {
+		border: 1px solid var(--i-focus-border-color);
+	}
+
+	// --- icon ---
+
+	& .p-panelmenu-header:not(.p-disabled) .p-panelmenu-header-content:hover .p-panelmenu-header-icon {
+		color: var(--i-panelmenu-item-icon-color);
+
+		&:is(svg:first-child) {
+			color: var(--i-panelmenu-item-color);
+		}
+	}
+
+	& .p-panelmenu-header-legacy > .icon {
+		font-size: 0.875rem !important;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prPanelmenu )
+\*——————————————————————————————————————————————————————————*/
+
+.prPanelmenu {
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prPanelmenu {
+	&--collapsed {
+		line-height: var(--i-panelmenu-item-text-line-height);
+	}
+
+	// --- force prime ---
+
+	&--collapsed .p-panelmenu-header-link {
+		flex-direction: column;
+		margin-inline: auto;
+		text-align: center;
+		gap: var(--i-panelmenu-item-gap-sm);
+	}
+
+	&--collapsed .p-panelmenu-header-icon:is(svg:first-child),
+	&--collapsed .p-panelmenu-submenu-icon  // ! NOTA: en repo menu, prime lo imprime asi
+	{
+		display: none;
+	}
+
+	&--collapsed .p-panelmenu-header-label {
+		white-space: initial;
+		text-overflow: initial;
+		text-wrap: balance;
+	}
+
+	&--collapsed .p-panelmenu-submenu {
+		display: none;
+	}
+
+	&--collapsed .p-panelmenu-header-legacy {
+		display: none;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED IS ACTIVE
+\*——————————————————————————————————————————————————————————*/
+.prPanelmenu--collapsed .p-panelmenu-panel:has(.is-active) :not(.p-panelmenu-header-active, .favorites) .p-panelmenu-header-content {
+	&:before {
+		position: absolute;
+		//left: 1px;
+		//top: 5%;
+		inset: 0 auto 0 0;
+		content: "";
+		//height: 90%;
+		border-radius: 2px;
+		border-left: 2px solid var(--i-color-primary-900);
+	}
+
+	font-weight: bold;
+}
+.prPanelmenu {
+	// active header (when panel is NOT collapsed)
+	& .p-panelmenu-panel:has(.is-active) :not(.p-panelmenu-header-active, .favorites) .p-panelmenu-header-content,
+	// active header (when panel IS collapsed)
+	&--collapsed .p-panelmenu-panel:has(.is-active)  :not(.favorites) .p-panelmenu-header-content {
+		color: var(--i-panelmenu-item-hover-color) !important;
+		background-color: var(--i-color-primary-100) !important;
+
+		// ! [Bug] Parpadeo click en submenu
+		// ! Revisión: PrimeNG reconstruye y collapseda nodo html, no puedo saber que clase asigna.
+	}
+
+	// active header (when panel is NOT collapsed)
+	& .p-panelmenu-header-content:has(.p-panelmenu-item-link-active),
+	&:not(&--collapsed) .p-panelmenu-panel:has(.is-active) :not(.p-panelmenu-header-active, .favorites) .p-panelmenu-header-content,
+	&:not(&--collapsed) .p-panelmenu-header:is(.p-panelmenu-header-active) .p-panelmenu-header-content {
+		color: var(--i-panelmenu-item-hover-color) !important;
+		background-color: var(--i-color-primary-100) !important;
+
+		& :is(.p-panelmenu-header-icon, .p-panelmenu-submenu-icon) {
+			color: var(--i-panelmenu-item-hover-color);
+		}
+	}
+
+	// active header (when panel is YES collapsed)
+	& .p-panelmenu-panel:has(.is-active) :not(.favorites) .p-panelmenu-header-content {
+		color: var(--i-panelmenu-item-hover-color) !important;
+	}
+
+	// --- item ---
+	// active item inside the panel
+	& .p-panelmenu-panel .p-panelmenu-item-content:has(.is-active) {
+		// color: white !important;
+		background-color: var(--i-color-primary-100) !important;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skPanelmenu {
+}

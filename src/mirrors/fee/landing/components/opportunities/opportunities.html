@@ -1,0 +1,181 @@
+<p-panel class="prPanel u-full-height" showHeader="false">
+	@if (hasError()) {
+	<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reload()" />
+	} @else {
+	<div class="u-display-flex u-flex-column u-gap-none u-full-height">
+		<!-- TITLE -->
+		<div class="u-display-flex u-flex-column">
+			@if (isloadingMainOpportunities()) {
+			<p-skeleton class="prSkeleton u-my-1" [width]="'145.00px'" [height]="'16px'" />
+			} @else {
+			<div class="prPanel__title">{{ "MAIN_OPPORTUNITIES" | term : globalTermService.languageCode }}</div>
+			}
+		</div>
+		<!-- TABS -->
+		<p-tabs class="prTabs prTabs--noBackground prTabs--noPanelPaddingInline prTabs--noPanelsPaddingBottom prTabs--full | u-flex-grow-1" [value]="tabValue()">
+			<p-tablist [gaTrack]="'tabList'">
+				@if (isloadingMainOpportunities()) {
+				<div class="u-display-flex u-flex-column u-flex-grow-1" style="height: 42.8px">
+					<p-skeleton class="prSkeleton u-m-auto" [width]="'56px'" [height]="'14px'" />
+					<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'2px'" />
+				</div>
+				<div class="u-display-flex u-flex-column u-flex-grow-1" style="height: 42.8px">
+					<p-skeleton class="prSkeleton u-m-auto" [width]="'108px'" [height]="'14px'" />
+					<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'1px'" />
+				</div>
+				} @else {
+				<p-tab [value]="feeOpportunitiesTab.Penalties" (click)="onTabChange(feeOpportunitiesTab.Penalties)">{{ "PENALTIES" | term : globalTermService.languageCode }}</p-tab>
+				<p-tab [value]="feeOpportunitiesTab.OptOutServices" (click)="onTabChange(feeOpportunitiesTab.OptOutServices)">{{ "OPT_OUT_SERVICES" | term : globalTermService.languageCode }}</p-tab>
+				}
+			</p-tablist>
+			<p-tabpanels>
+				<p-tabpanel [value]="feeOpportunitiesTab.Penalties">
+					<ng-container *ngTemplateOutlet="metricCardTemplate"></ng-container>
+				</p-tabpanel>
+				<p-tabpanel [value]="feeOpportunitiesTab.OptOutServices">
+					<ng-container *ngTemplateOutlet="metricCardTemplate"></ng-container>
+				</p-tabpanel>
+			</p-tabpanels>
+		</p-tabs>
+	</div>
+	}
+</p-panel>
+
+<!-- * SKELETON: amount (shared) -->
+<ng-template #skeletonAmount>
+	<div class="ptAmount">
+		<div class="ptAmount__legend u-display-flex u-justify-content-center"><p-skeleton class="prSkeleton u-mx-auto u-my-1" [width]="'64px'" [height]="'8px'" /></div>
+		<div class="ptAmount__main">
+			<span class="ptAmount__currency"><p-skeleton class="prSkeleton" [width]="'23.47px'" [height]="'8.67px'" /></span>
+			<span class="ptAmount__value"><p-skeleton class="prSkeleton" [width]="'85.22px'" [height]="'23.14px'" /></span>
+		</div>
+		<div class="ptAmount__trend">
+			<p-skeleton class="prSkeleton" [width]="'16px'" [height]="'16px'" />
+			<p-skeleton class="prSkeleton u-my-1" [width]="'34px'" [height]="'10px'" />
+		</div>
+	</div>
+</ng-template>
+
+<!-- * TAB CONTENT -->
+<ng-template #metricCardTemplate>
+	@if (isloadingMainOpportunities()) {
+	<!-- SKELETON -->
+	<div class="ipMetricCard u-full-height">
+		<div class="ipMetricCard__main">
+			<div class="ipMetricCard__data">
+				<ng-container *ngTemplateOutlet="skeletonAmount"></ng-container>
+			</div>
+			<div class="ipMetricCard__data">
+				<ng-container *ngTemplateOutlet="skeletonAmount"></ng-container>
+			</div>
+		</div>
+		<div class="ipMetricCard__meta">
+			@for (_ of [].constructor(3); track $index) {
+			<div class="ipMetricCard__data">
+				<div class="u-display-flex u-full-width u-gap-lg u-px-4 u-align-items-center">
+					<div><p-skeleton class="prSkeleton" [width]="'36px'" [height]="'24px'" /></div>
+					<div class="u-display-flex u-flex-column u-flex-grow-1 u-gap-sm">
+						<div class="u-text-md u-text-lineHeight-tight"><p-skeleton class="prSkeleton" [width]="'40px'" [height]="'14px'" /></div>
+						<div class="ptAmount">
+							<div class="ptAmount__main">
+								<span class="ptAmount__currency"><p-skeleton class="prSkeleton" [width]="'27.39px'" [height]="'10.13px'" /></span>
+								<span class="ptAmount__value"><p-skeleton class="prSkeleton" [width]="'27.52px'" [height]="'10.13px'" /></span>
+							</div>
+						</div>
+					</div>
+					<div class="u-display-flex u-flex-column u-flex-grow-1 u-gap-sm">
+						<div class="u-text-md u-text-lineHeight-tight"><p-skeleton class="prSkeleton" [width]="'40px'" [height]="'14px'" /></div>
+						<div class="ptAmount">
+							<div class="ptAmount__main">
+								<span class="ptAmount__currency"><p-skeleton class="prSkeleton" [width]="'27.39px'" [height]="'10.13px'" /></span>
+								<span class="ptAmount__value"><p-skeleton class="prSkeleton" [width]="'27.52px'" [height]="'10.13px'" /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+	} @else if (!hasData()) {
+	<!-- NO DATA -->
+	<intelica-status-state [state]="statusStateEnum.NoData" />
+	} @else {
+	<!-- DATA -->
+	<div class="ipMetricCard u-full-height" [class.ipMetricCard--vertical]="brandMetrics().length <= 1">
+		<div class="ipMetricCard__main">
+			<!-- month amount -->
+			<div class="ipMetricCard__data">
+				<div class="ptAmount ptAmount--{{ brandMetrics().length <= 1 ? '4xl' : '3xl' }} ptAmount--{{ monthResolveState() }}">
+					<div class="ptAmount__legend u-display-flex u-justify-content-center">
+						<p-badge class="prBadge" [value]="dataMainOpportunities()?.monthShort" /></div>
+					<div class="ptAmount__main">
+						<span class="ptAmount__brand">
+							@if (brandMetrics().length == 1) {
+							<i class="icon icon-{{ brandMetrics()[0].brandIcon }} icon--outlined"></i>
+							}
+						</span>
+						<span class="ptAmount__currency">{{ currencyCode() }}</span>
+						<span class="ptAmount__value">{{ dataMainOpportunities()?.amountMonth ?? 0 | formatValue : "amount" : 2 }}</span>
+					</div>
+					<div class="ptAmount__trend">
+						<i class="icon icon-economic-{{ (dataMainOpportunities()?.percentMonth ?? 0) >= 0 ? 'growth' : 'decrease' }}"></i>
+						{{ ((dataMainOpportunities()?.percentMonth ?? 0) > 0 ? "+" : "") + (dataMainOpportunities()?.percentMonth ?? 0 | formatValue : "percent" : 2) }}
+						<b class="u-text-md u-color-primary">vs</b>
+						<p-badge class="prBadge" severity="secondary" [value]="dataMainOpportunities()?.monthShortComparison" />
+					</div>
+				</div>
+			</div>
+			<!-- year amount -->
+			<div class="ipMetricCard__data">
+				<div class="ptAmount ptAmount--{{ brandMetrics().length <= 1 ? '4xl' : '3xl' }} ptAmount--{{ yearResolveState() }}">
+					<div class="ptAmount__legend u-display-flex u-justify-content-center"><p-badge class="prBadge" [value]="('YTD' | term : globalTermService.languageCode) + ': ' + dataMainOpportunities()?.yearShort" /></div>
+					<div class="ptAmount__main">
+						<span class="ptAmount__brand">
+							@if (brandMetrics().length == 1) {
+							<i class="icon icon-{{ brandMetrics()[0].brandIcon }} icon--outlined"></i>
+							}
+						</span>
+						<span class="ptAmount__currency">{{ currencyCode() }}</span>
+						<span class="ptAmount__value">{{ dataMainOpportunities()?.amountYear ?? 0 | formatValue : "amount" : 2 }}</span>
+					</div>
+					<div class="ptAmount__trend">
+						<i class="icon icon-economic-{{ (dataMainOpportunities()?.percentYear ?? 0) >= 0 ? 'growth' : 'decrease' }}"></i>
+						{{ ((dataMainOpportunities()?.percentYear ?? 0) > 0 ? "+" : "") + (dataMainOpportunities()?.percentYear ?? 0 | formatValue : "percent" : 2) }}
+						<b class="u-text-md u-color-primary">vs</b>
+						<p-badge class="prBadge" severity="secondary" [value]="('YTD' | term : globalTermService.languageCode) + ': ' + dataMainOpportunities()?.yearShortComparison" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- brand metrics -->
+		<div class="ipMetricCard__meta">
+			@if (brandMetrics().length > 1) { @for (brandMetric of brandMetrics(); track brandMetric.brandId) {
+			<div class="ipMetricCard__data">
+				<div class="u-display-flex u-full-width u-gap-lg u-px-4 u-align-items-center">
+					<div><i class="icon icon-{{ brandMetric.brandIcon }} icon--outlined icon--md"></i></div>
+					<div class="u-display-flex u-flex-column u-flex-grow-1 u-flex-basis-0 u-gap-sm">
+						<div class="u-text-md u-text-lineHeight-tight">{{ brandMetric.monthShort }}</div>
+						<div class="ptAmount">
+							<div class="ptAmount__main">
+								<span class="ptAmount__currency">{{ currencyCode() }}</span>
+								<span class="ptAmount__value">{{ brandMetric.monthAmount | formatValue : "amount" : 2 }}</span>
+							</div>
+						</div>
+					</div>
+					<div class="u-display-flex u-flex-column u-flex-grow-1 u-flex-basis-0 u-gap-sm">
+						<div class="u-text-md u-text-lineHeight-tight">{{ "YTD" | term : globalTermService.languageCode }}</div>
+						<div class="ptAmount">
+							<div class="ptAmount__main">
+								<span class="ptAmount__currency">{{ currencyCode() }}</span>
+								<span class="ptAmount__value">{{ brandMetric.yearAmount | formatValue : "amount" : 2 }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			} }
+		</div>
+	</div>
+	}
+</ng-template>

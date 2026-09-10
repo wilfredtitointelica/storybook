@@ -1,0 +1,186 @@
+<div class="u-display-flex u-flex-column u-gap-lg">
+	<!-- NEW FEES GROUP -->
+	<p-panel class="prPanel" showHeader="false">
+		<!-- loaded -->
+		@if (!loading() && data()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__row">
+				<div class="amAlertDetailCard__group">
+					<div class="amAlertDetailCard__header">
+						<div class="amAlertDetailCard__title">{{ "LBL_NEW_FEES_GROUP" | term : globalTermService.languageCode }}</div>
+					</div>
+					<div class="amAlertDetailCard__body">
+						<div class="amAlertDetailCard__highlight">{{ data()!.totalCount }} {{ "LBL_FEES" | term : globalTermService.languageCode }}</div>
+						<!-- 
+						<div class="amAlertDetailCard__row">
+							<div class="amAlertDetailCard__group">
+								<div class="amAlertDetailCard__label">{{ "LBL_BILLING_PERIOD" | term : globalTermService.languageCode }}:</div>
+								<div class="amAlertDetailCard__value">{{ formatBillingPeriod(data()!.minBillingDate, data()!.maxBillingDate, globalTermService.languageCode) }}</div>
+							</div> 
+						</div>
+						-->
+					</div>
+				</div>
+				<div class="amAlertDetailCard__group">
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__title">{{ "LBL_TOTAL_AMOUNTS" | term : globalTermService.languageCode }}:</div>
+						@for (total of data()!.totalAmountsByBrand; track total.brandName) {
+						<div class="amAlertDetailCard__value">{{ total.brandName }}: {{ total.currencyCode }} {{ total.totalAmount | number : "1.2-2" }}</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+		<!-- skeleton -->
+		@if (loading()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title"><p-skeleton class="prSkeleton" [width]="'130px'" [height]="'28px'" /></div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__highlight"><p-skeleton class="prSkeleton" [width]="'90px'" [height]="'40px'" /></div>
+				<div class="amAlertDetailCard__row">
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__label | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'100px'" [height]="'13px'" /></div>
+						<div class="amAlertDetailCard__value | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'170px'" [height]="'13px'" /></div>
+					</div>
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__label | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'100px'" [height]="'13px'" /></div>
+						<div class="amAlertDetailCard__value | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'95px'" [height]="'13px'" /></div>
+						<div class="amAlertDetailCard__value | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'150px'" [height]="'13px'" /></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+	</p-panel>
+
+	<!-- FEE LIBRARY: heading -->
+	<div class="amAlertDetailHeading">
+		@if (!loading() && data()) {
+		<div class="amAlertDetailHeading__title">{{ "LBL_FEE_LIBRARY" | term : globalTermService.languageCode }}</div>
+		<div class="amAlertDetailHeading__meta">
+			{{ "LBL_SHOWING" | term : globalTermService.languageCode }} {{ visibleFees().length }} {{ "LBL_OF" | term : globalTermService.languageCode }} {{ data()!.fees.length }}
+			{{ "LBL_FEES" | term : globalTermService.languageCode }}
+		</div>
+		} @if (loading()) {
+		<div class="amAlertDetailHeading__title"><p-skeleton class="prSkeleton u-my-1" [width]="'120px'" [height]="'16px'" /></div>
+		<div class="amAlertDetailHeading__meta"><p-skeleton class="prSkeleton u-my-1" [width]="'110px'" [height]="'12px'" /></div>
+		}
+	</div>
+
+	<!-- FEE LIBRARY: items -->
+	@if (!loading()) { @for (fee of visibleFees(); track fee.alertId) {
+	<p-panel class="prPanel" showHeader="false">
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__start">
+					<div class="amAlertDetailCard__title">{{ fee.feeName }}</div>
+					<div class="amAlertDetailCard__meta">{{ "LBL_CODE" | term : globalTermService.languageCode }}: {{ fee.feeCode }}</div>
+				</div>
+				<div class="amAlertDetailCard__end">
+					<i class="icon icon--md icon--outlined" [ngClass]="'icon-' + fee.brandName.toLowerCase()"></i>
+				</div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__highlight">
+					<sup>{{ fee.currencyCode }}</sup>
+					<span>{{ fee.amount | number : "1.2-2" }}</span>
+				</div>
+				<div class="amAlertDetailCard__row">
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__label">{{ "LBL_BILLING_DATE" | term : globalTermService.languageCode }}:</div>
+						<div class="amAlertDetailCard__value">{{ formatLongDate(fee.billingDate, globalTermService.languageCode) }}</div>
+					</div>
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__label">{{ "LBL_BUSINESS_TYPE" | term : globalTermService.languageCode }}:</div>
+						<div class="amAlertDetailCard__value">{{ fee.businessName }}</div>
+					</div>
+				</div>
+				@if (fee.productCode) {
+				<div class="amAlertDetailCard__row">
+					<p-message class="prMessage u-flex-grow-1" [severity]="isMastercard(fee.brandName) ? 'warn' : 'info'" [icon]="'icon ' + (isMastercard(fee.brandName) ? 'icon-warning' : 'icon-info')" size="small">
+						@if (isMastercard(fee.brandName)) {
+						{{ "LBL_ICA_BILLABLE" | term : globalTermService.languageCode }}: ICA {{ fee.productCode }}
+						@if (fee.productActivityDescription) {
+						<br />
+						{{ "LBL_ACTIVITY" | term : globalTermService.languageCode }}: {{ fee.productActivityDescription }} } } @else { BIN: {{ fee.productCode }}
+						}
+					</p-message>
+				</div>
+				}
+			</div>
+			<div class="amAlertDetailCard__footer">
+				<div class="amAlertDetailCard__start">{{ "LBL_FOR_MORE_INFORMATION" | term : globalTermService.languageCode }}</div>
+				<div class="amAlertDetailCard__end">
+					<p-button
+						class="prButton"
+						severity="secondary"
+						label="{{ 'LBL_VIEW_DETAILS' | term : globalTermService.languageCode }}"
+						[class]="'viewDetailsGA'"
+						(click)="onViewDetails(fee.feeId, fee.bankId, fee.billingDate)"
+					/>
+				</div>
+			</div>
+		</div>
+	</p-panel>
+	} }
+
+	<!-- FEE LIBRARY: skeletons -->
+	@if (loading()) { @for (i of [1, 2, 3]; track i) {
+	<p-panel class="prPanel" showHeader="false">
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__start">
+					<div class="amAlertDetailCard__title"><p-skeleton class="prSkeleton" [width]="'220px'" [height]="'28px'" /></div>
+					<div class="amAlertDetailCard__meta"><p-skeleton class="prSkeleton u-my-1" [width]="'170px'" [height]="'13px'" /></div>
+				</div>
+				<div class="amAlertDetailCard__end">
+					<p-skeleton class="prSkeleton" [width]="'36px'" [height]="'24px'" />
+				</div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__highlight">
+					<sup><p-skeleton class="prSkeleton u-mt-1" [width]="'31.3px'" [height]="'14px'" /></sup>
+					<span><p-skeleton class="prSkeleton u-my-1" [width]="'63px'" [height]="'32px'" /></span>
+				</div>
+				<div class="amAlertDetailCard__row">
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__label | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'80px'" [height]="'13px'" /></div>
+						<div class="amAlertDetailCard__value | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'80px'" [height]="'13px'" /></div>
+					</div>
+					<div class="amAlertDetailCard__group">
+						<div class="amAlertDetailCard__label | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'90px'" [height]="'13px'" /></div>
+						<div class="amAlertDetailCard__value | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'40px'" [height]="'13px'" /></div>
+					</div>
+				</div>
+				<div class="amAlertDetailCard__row">
+					<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'44px'" />
+				</div>
+			</div>
+			<div class="amAlertDetailCard__footer">
+				<div class="amAlertDetailCard__start"><p-skeleton class="prSkeleton" [width]="'132px'" [height]="'13px'" /></div>
+				<div class="amAlertDetailCard__end"><p-skeleton class="prSkeleton" [width]="'95.31px'" [height]="'32px'" /></div>
+			</div>
+		</div>
+	</p-panel>
+	} }
+
+	<!-- SHOW MORE FEES -->
+	@if (!loading() && remainingCount() > 0) {
+	<p-button
+		class="prButton prButton--fullWidth"
+		severity="secondary"
+		icon="icon {{ showAllFees() ? 'icon-arrow-up' : 'icon-arrow-down' }}"
+		label="{{
+			showAllFees()
+				? ('LBL_SHOW_LESS' | term : globalTermService.languageCode)
+				: ('LBL_SHOW' | term : globalTermService.languageCode) + ' ' + remainingCount() + ' ' + ('LBL_MORE_FEES' | term : globalTermService.languageCode)
+		}}"
+		(click)="toggleShowAll()"
+	/>
+	} @if (loading()) {
+	<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" />
+	}
+</div>

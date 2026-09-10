@@ -1,0 +1,71 @@
+.ghAreaChart {
+	width: 100%;
+	transition: width 0.25s ease, height 0.25s ease;
+}
+.ptGaugeGraph {
+	position: relative;
+}
+.ghGauge {
+	width: 100%;
+	transition: width 0.25s ease, height 0.25s ease;
+}
+.gaugeBadge {
+	position: absolute;
+	bottom: 50px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.gaugeBadgeWrap {
+	margin-top: -1.5rem;
+}
+
+// --- tooltip graph ---
+
+.ghTooltip {
+	font-size: var(--i-typography-font-size-sm, 12px);
+	line-height: var(--i-typography-lineHeight-sm, 16px);
+	white-space: normal;
+	padding: 8px;
+	border-radius: 6px;
+	border: 1px solid var(--i-color-secondary-200, #d9d9e3);
+	background: var(--i-color-secondary-50, #fcfcfc);
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	&__title {
+		font-weight: bold;
+		font-size: var(--i-typography-font-size-md, 14px);
+		line-height: var(--i-typography-lineHeight-md, 20px);
+	}
+
+	&__description {
+	}
+
+	&__list {
+	}
+
+	&__label {
+	}
+
+	&__value {
+		font-weight: bold;
+	}
+}
+
+// --- modificador no pointer segun eje ---
+
+.echart {
+	&--noPointer {
+		cursor: default !important;
+	}
+
+	&--noPointerEnd text[text-anchor="end"],
+	&--noPointerStart text[text-anchor="start"] {
+		cursor: default !important;
+	}
+}

@@ -1,0 +1,533 @@
+<p-dialog
+	class="prDialog prDialog--lg"
+	[header]="commonGlobalService.termText(libraryTerm.ADVANCED_FILTER_TITLE)"
+	[modal]="true"
+	[visible]="dialogVisible"
+	[draggable]="false"
+	[resizable]="false"
+	(visibleChange)="onDialogVisibleChange($event)"
+>
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title">{{ commonGlobalService.termText(libraryTerm.ADVANCED_FILTER_TITLE) }}</div>
+		</div>
+		<ng-template #closeicon>
+			<i class="icon icon-cancel"></i>
+		</ng-template>
+	</ng-template>
+	<ng-template #content>
+		<div class="prDialog__body">
+			@if (advancedFilterPills.length > 0) {
+			<div class="u-display-flex u-flex-wrap u-gap-sm">
+				@for (pill of advancedFilterPills; track pill.key) {
+				<p-tag class="prPillTag">
+					<span class="text-base">{{ pill.label }}</span>
+					<i class="icon icon-cancel" (click)="onRemoveAdvancedFilter($any(pill.key))"></i>
+				</p-tag>
+				}
+			</div>
+			}
+			<div class="ptAdvanceFilters">
+				<p-tabs class="prTabVertical" [value]="isAllocatedTab ? '1' : '0'" scrollable>
+					<p-tablist>
+						<ng-template #previcon>
+							<i class="pi pi-minus"></i>
+						</ng-template>
+						@if (isAllocatedTab) {
+						<p-tab value="1" class="flex items-center !gap-2">
+							<p-button
+								class="prButtonAdvanceFilters"
+								tabindex="-1"
+								[label]="commonGlobalService.termText(libraryTerm.CATEGORIZATION)"
+								[badge]="categorizationAppliedCount"
+								[pTooltip]="categorizationAppliedCount ? commonGlobalService.termText(libraryTerm.CATEGORIZATION) : ''"
+								tooltipPosition="top"
+								tooltipStyleClass="prTooltip"
+							/>
+						</p-tab>
+						<p-tab value="2" class="flex items-center !gap-2">
+							<p-button
+								class="prButtonAdvanceFilters"
+								tabindex="-1"
+								[label]="commonGlobalService.termText(libraryTerm.RATES_AND_AMOUNTS_RANGES)"
+								[badge]="rateAndAmountAppliedCount"
+								[pTooltip]="rateAndAmountAppliedCount ? commonGlobalService.termText(libraryTerm.RATES_AND_AMOUNTS_RANGES) : ''"
+								tooltipPosition="top"
+								tooltipStyleClass="prTooltip"
+							/>
+						</p-tab>
+						<p-tab value="0" class="flex items-center !gap-2">
+							<p-button
+								class="prButtonAdvanceFilters"
+								tabindex="-1"
+								[label]="commonGlobalService.termText(libraryTerm.PRODUCT_TYPE)"
+								[badge]="firstSectionAppliedCount"
+								[pTooltip]="firstSectionAppliedCount ? commonGlobalService.termText(libraryTerm.PRODUCT_TYPE) : ''"
+								tooltipPosition="top"
+								tooltipStyleClass="prTooltip"
+							/>
+						</p-tab>
+						} @else {
+						<p-tab value="0" class="flex items-center !gap-2">
+							<p-button
+								class="prButtonAdvanceFilters"
+								tabindex="-1"
+								[label]="firstSectionLabel"
+								[badge]="firstSectionAppliedCount"
+								[pTooltip]="firstSectionAppliedCount ? firstSectionLabel : ''"
+								tooltipPosition="top"
+								tooltipStyleClass="prTooltip"
+							/>
+						</p-tab>
+						<p-tab value="1" class="flex items-center !gap-2">
+							<p-button
+								class="prButtonAdvanceFilters"
+								tabindex="-1"
+								[label]="commonGlobalService.termText(libraryTerm.CATEGORIZATION)"
+								[badge]="categorizationAppliedCount"
+								[pTooltip]="categorizationAppliedCount ? commonGlobalService.termText(libraryTerm.CATEGORIZATION) : ''"
+								tooltipPosition="top"
+								tooltipStyleClass="prTooltip"
+							/>
+						</p-tab>
+						<p-tab value="2" class="flex items-center !gap-2">
+							<p-button
+								class="prButtonAdvanceFilters"
+								tabindex="-1"
+								[label]="commonGlobalService.termText(libraryTerm.RATES_AND_AMOUNTS_RANGES)"
+								[badge]="rateAndAmountAppliedCount"
+								[pTooltip]="rateAndAmountAppliedCount ? commonGlobalService.termText(libraryTerm.RATES_AND_AMOUNTS_RANGES) : ''"
+								tooltipPosition="top"
+								tooltipStyleClass="prTooltip"
+							/>
+						</p-tab>
+						}
+						<ng-template #nexticon>
+							<i class="pi pi-plus"></i>
+						</ng-template>
+					</p-tablist>
+					<div class="u-divider-vertical" style="margin: 0; height: auto"></div>
+					<p-tabpanels>
+						<p-tabpanel value="0">
+							<div class="ptAdvanceFilters__container">
+								@if (isAllocatedTab) {
+								<div class="u-display-flex u-gap-lg">
+									<div class="u-display-flex u-flex-column u-flex-grow-1 u-flex-basis-0 u-gap-xs">
+										<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.CREDIT) }}</div>
+										<p-treeselect
+											class="prTreeselect"
+											panelStyleClass="prTreeselect__overlay"
+											[ngModel]="creditTreeSelectedNodes()"
+											(ngModelChange)="creditTreeSelectedNodes.set($event)"
+											[options]="creditTreeNodes()"
+											[metaKeySelection]="false"
+											filter="true"
+											[filterPlaceholder]="commonGlobalService.termText(libraryTerm.SEARCH_TEXT_HERE)"
+											filterInputAutoFocus="false"
+											selectionMode="checkbox"
+											[showClear]="false"
+											[placeholder]="commonGlobalService.termText(libraryTerm.CREDIT)"
+											(onNodeSelect)="onProductTypeTreeNodeChange($event, 'credit')"
+											(onNodeUnselect)="onProductTypeTreeNodeChange($event, 'credit')"
+										>
+											<ng-template #value>
+												@if (isCreditAllSelected) {
+												<span>{{ commonGlobalService.termText(libraryTerm.ALL_CREDIT_PRODUCTS) }}</span>
+												} @else if (selectedCreditProductIds.length === 0) {
+												<span class="p-placeholder">{{ commonGlobalService.termText(libraryTerm.CREDIT) }}</span>
+												} @else {
+												<span>{{ buildAllocatedProductSelectionLabel("credit") }}</span>
+												}
+											</ng-template>
+											<ng-template #dropdownicon>
+												<i class="icon icon-arrow-down"></i>
+											</ng-template>
+											<!-- <ng-template #clearicon>
+												<i class="icon icon-cancel"></i>
+											</ng-template> -->
+										</p-treeselect>
+									</div>
+
+									<div class="u-display-flex u-flex-column u-flex-grow-1 u-flex-basis-0 u-gap-xs">
+										<div class="ptAdvanceFilters__title">{{ commonService.resolveTermText(libraryTerm.DEBIT_PREPAID, "Debit / Prepaid") }}</div>
+										<p-treeselect
+											class="prTreeselect"
+											panelStyleClass="prTreeselect__overlay"
+											[ngModel]="debitPrepaidTreeSelectedNodes()"
+											(ngModelChange)="debitPrepaidTreeSelectedNodes.set($event)"
+											[options]="debitPrepaidTreeNodes()"
+											[metaKeySelection]="false"
+											filter="true"
+											[filterPlaceholder]="commonGlobalService.termText(libraryTerm.SEARCH_TEXT_HERE)"
+											filterInputAutoFocus="false"
+											selectionMode="checkbox"
+											[showClear]="false"
+											[placeholder]="commonGlobalService.termText(libraryTerm.DEBIT_PREPAID)"
+											(onNodeSelect)="onProductTypeTreeNodeChange($event, 'debitPrepaid')"
+											(onNodeUnselect)="onProductTypeTreeNodeChange($event, 'debitPrepaid')"
+										>
+											<ng-template #value>
+												@if (isDebitPrepaidAllSelected) {
+												<span>{{ commonGlobalService.termText(libraryTerm.ALL_DEBIT_PREPAID_PRODUCTS) }}</span>
+												} @else if (selectedDebitPrepaidProductIds.length === 0) {
+												<span class="p-placeholder">{{ commonService.resolveTermText(libraryTerm.DEBIT_PREPAID, "Debit / Prepaid") }}</span>
+												} @else {
+												<span>{{ buildAllocatedProductSelectionLabel("debitPrepaid") }}</span>
+												}
+											</ng-template>
+											<ng-template #dropdownicon>
+												<i class="icon icon-arrow-down"></i>
+											</ng-template>
+											<!-- <ng-template #clearicon>
+												<i class="icon icon-cancel"></i>
+											</ng-template> -->
+										</p-treeselect>
+									</div>
+								</div>
+								} @else {
+								<div class="d-flex justify-content-between gap-3">
+									@if (shouldShowEntityTypeSection) {
+									<div class="d-flex flex-column flex-grow-1 gap-1">
+										<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.ENTITY_TYPE) }}</div>
+										<p-select
+											class="prSelect"
+											dropdownIcon="icon icon-arrow-down"
+											[options]="entityTypeOptions"
+											[(ngModel)]="selectedEntityTypeId"
+											appendTo="body"
+											[showClear]="false"
+											optionLabel="name"
+											optionValue="id"
+											[placeholder]="commonGlobalService.termText(libraryTerm.ENTITY_TYPE)"
+											(onChange)="onEntityTypeChange($event.value)"
+											[filter]="true"
+											filterBy="name,brandName"
+											[style]="{ 'min-width': '258px' }"
+											appendTo="body"
+											panelStyleClass="prSelect"
+										>
+											<ng-template let-option #selectedItem>
+												@if (option) {
+												<div class="ptEntityOption">
+													@if (option.brandIconClass) {
+													<i [class]="option.brandIconClass + 'u-me-0 icon--outlined'" aria-hidden="true"></i>
+													} @else {
+													<span class="ptEntityOption__brand">{{ option.brandName }}</span>
+													}
+													<span class="ptEntityOption__name">{{ option.name }}</span>
+												</div>
+												}
+											</ng-template>
+											<ng-template let-option #item>
+												<div class="ptEntityOption">
+													@if (option.brandIconClass) {
+													<i [class]="option.brandIconClass + 'u-me-0 icon--outlined'" aria-hidden="true"></i>
+													} @else {
+													<span class="ptEntityOption__brand">{{ option.brandName }}</span>
+													}
+													<span class="ptEntityOption__name">{{ option.name }}</span>
+												</div>
+											</ng-template>
+										</p-select>
+									</div>
+									}
+
+									<div class="d-flex flex-column flex-grow-1 gap-1">
+										<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.INVOICE) }}</div>
+										<p-multiselect
+											class="prMultiselect"
+											[options]="invoiceOptions"
+											[(ngModel)]="selectedInvoiceNumbers"
+											[group]="true"
+											optionGroupLabel="label"
+											optionGroupChildren="items"
+											optionLabel="invoiceNumber"
+											optionValue="invoiceNumber"
+											appendTo="body"
+											[showClear]="false"
+											[disabled]="loadingInvoices"
+											[loading]="loadingInvoices"
+											[placeholder]="commonGlobalService.termText(libraryTerm.INVOICE)"
+											[filter]="invoiceOptionsCount > 10"
+											filterBy="invoiceNumber,brandName,relativeDateLabel"
+											[resetFilterOnHide]="true"
+											[showToggleAll]="false"
+											[selectionLimit]="20"
+											[maxSelectedLabels]="1"
+											[selectedItemsLabel]="invoiceSelectionLabel"
+											[emptyFilterMessage]="commonGlobalService.termText(libraryTerm.NO_RESULTS)"
+											[style]="{ width: '258px' }"
+											[virtualScroll]="true"
+											[virtualScrollItemSize]="55"
+											scrollHeight="320px"
+											panelStyleClass="prMultiselect"
+										>
+											<ng-template #dropdownicon>
+												<i class="icon icon-arrow-down"></i>
+											</ng-template>
+											<ng-template #group let-group>
+												<div class="ptInvoiceGroupHeader">{{ group.label }}</div>
+											</ng-template>
+											<ng-template #item let-option>
+												<div class="u-display-flex u-flex-grow-1 u-gap-sm">
+													<!-- option -->
+													<div class="u-display-flex u-flex-column">
+														<span class="u-text-md">{{ option.invoiceNumber }}</span>
+														<span class="u-text-sm u-bold">{{ option.relativeDateLabel }}</span>
+													</div>
+													<!-- brand -->
+													<div class="u-my-auto u-ms-auto">
+														@if (option.brandIconClass) {
+														<i class="icon icon--outlined" [ngClass]="option.brandIconClass" aria-hidden="true"></i>
+														} @else {
+														<span>{{ option.brandName }}</span>
+														}
+													</div>
+												</div>
+											</ng-template>
+										</p-multiselect>
+									</div>
+								</div>
+
+								@if (shouldShowEntityTypeSection && selectedEntityTypeId) {
+								<hr class="u-divider-horizontal m-0" />
+								<div class="d-flex justify-content-between gap-3">
+									@if (requiresEntityLevelTwo) {
+									<div class="d-flex flex-column gap-1">
+										<div class="ptAdvanceFilters__title">{{ entityLevelTwoLabel }}</div>
+										<p-select
+											class="prSelect"
+											dropdownIcon="icon icon-arrow-down"
+											[options]="entityLevelTwoOptions"
+											[(ngModel)]="selectedEntityLevelTwoId"
+											appendTo="body"
+											optionLabel="name"
+											optionValue="id"
+											[placeholder]="commonGlobalService.termText(libraryTerm.ENTITY_DETAIL)"
+											(onChange)="onEntityLevelTwoChange($event.value)"
+											[style]="{ 'min-width': '258px' }"
+											appendTo="body"
+											panelStyleClass="prSelect"
+										/>
+									</div>
+									}
+									<div><!-- empty --></div>
+								</div>
+								<div class="d-flex justify-content-between gap-3">
+									@if (shouldShowEntityProducts && hasEntityProductOptions) {
+									<div class="d-flex flex-column gap-1">
+										<div class="ptAdvanceFilters__title">{{ entityProductsLabel }}</div>
+										<p-multiselect
+											class="prMultiselect"
+											[options]="entityProductOptions"
+											[(ngModel)]="selectedEntityProductIds"
+											optionLabel="prodCod"
+											optionValue="prodId"
+											[placeholder]="commonGlobalService.termText(libraryTerm.ENTITY_VALUES)"
+											[filter]="entityProductOptions.length > 10"
+											filterBy="prodCod"
+											[showToggleAll]="false"
+											[maxSelectedLabels]="1"
+											[selectedItemsLabel]="entityValuesSelectionLabel"
+											[emptyFilterMessage]="commonGlobalService.termText(libraryTerm.NO_RESULTS)"
+											[style]="{ 'min-width': '258px' }"
+											appendTo="body"
+											panelStyleClass="prMultiselect"
+										>
+											<ng-template #dropdownicon>
+												<i class="icon icon-arrow-down"></i>
+											</ng-template>
+										</p-multiselect>
+									</div>
+									<div><!-- empty --></div>
+									}
+								</div>
+								} }
+							</div>
+						</p-tabpanel>
+						<p-tabpanel value="1">
+							<div class="ptAdvanceFilters__container">
+								<div class="ptAdvanceCategorization">
+									<div class="ptAdvanceCategorization__column">
+										<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.CATEGORY_AND_SUBCATEGORY) }}</div>
+										<p-treeselect
+											class="prTreeselect"
+											panelStyleClass="prTreeselect__overlay"
+											[ngModel]="categoryTreeSelectedNodes()"
+											(ngModelChange)="categoryTreeSelectedNodes.set($event)"
+											[options]="categoryTreeNodes()"
+											[metaKeySelection]="false"
+											filter="true"
+											[filterPlaceholder]="commonGlobalService.termText(libraryTerm.SEARCH_TEXT_HERE)"
+											filterInputAutoFocus="false"
+											selectionMode="checkbox"
+											[showClear]="false"
+											[placeholder]="commonGlobalService.termText(libraryTerm.CATEGORY_AND_SUBCATEGORY)"
+											(onNodeSelect)="onCategoryTreeNodeChange($event)"
+											(onNodeUnselect)="onCategoryTreeNodeChange($event)"
+										>
+											<ng-template #value>
+												@if (isCategoryAllSelected) {
+												<span>{{ commonGlobalService.termText(libraryTerm.ALL_CATEGORIES_AND_SUBCATEGORIES) }}</span>
+												} @else if (isCategoryEmpty) {
+												<span class="p-placeholder">{{ commonGlobalService.termText(libraryTerm.CATEGORY_AND_SUBCATEGORY) }}</span>
+												} @else {
+												<span>{{ categorySelectionLabel }}</span>
+												}
+											</ng-template>
+											<ng-template #dropdownicon>
+												<i class="icon icon-arrow-down"></i>
+											</ng-template>
+											<ng-template #itemtogglericon let-open>
+												<i class="icon" [class.icon-arrow-down]="open" [class.icon-arrow-right]="!open"></i>
+											</ng-template>
+											<!-- <ng-template #clearicon>
+												<i class="icon icon-cancel"></i>
+											</ng-template> -->
+										</p-treeselect>
+
+										<div class="d-flex flex-column gap-1 mt-3">
+											<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.PARENT_FEE_CODE) }}</div>
+											<input class="prInputtext" type="text" pInputText [(ngModel)]="selectedParentFeeCodeText" [placeholder]="commonGlobalService.termText(libraryTerm.PARENT_FEE_CODE)" />
+										</div>
+									</div>
+
+									<div class="ptAdvanceCategorization__column">
+										<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.CUSTOM_CATEGORY) }}</div>
+										<p-multiselect
+											[options]="filteredCustomCategories"
+											[(ngModel)]="selectedCustomCategoryIds"
+											optionLabel="description"
+											optionValue="id"
+											[placeholder]="commonGlobalService.termText(libraryTerm.CUSTOM_CATEGORY)"
+											[selectedItemsLabel]="customCategorySelectionLabel"
+											[maxSelectedLabels]="1"
+											[filter]="filteredCustomCategories.length > 10"
+											[showToggleAll]="false"
+											class="prMultiselect"
+											[style]="{ 'min-width': '136px' }"
+										>
+											<ng-template #dropdownicon>
+												<i class="icon icon-arrow-down"></i>
+											</ng-template>
+										</p-multiselect>
+
+										<div class="d-flex flex-column gap-1 mt-3">
+											<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.GROUP_NAME) }}</div>
+												<p-autoComplete
+													[ngModel]="selectedParentFeeName"
+													(ngModelChange)="onGroupNameModelChange($event)"
+													[suggestions]="groupNameSuggestions"
+													(completeMethod)="onSearchGroupNames($event)"
+													(onFocus)="onGroupNameFocus()"
+													[minLength]="2"
+													[delay]="0"
+													[dropdown]="false"
+													[fluid]="true"
+													[placeholder]="commonGlobalService.termText(libraryTerm.GROUP_NAME)"
+													[emptyMessage]="commonGlobalService.termText(libraryTerm.NO_RESULTS)"
+													class="prAutoComplete"
+													inputStyleClass="prAutoComplete__input"
+													panelStyleClass="prAutoComplete__panel"
+												>
+													<ng-template #footer>
+														@if (groupNameResultsTruncated) {
+														<div class="prAutoComplete__emptyMessage">{{ commonGlobalService.termText(libraryTerm.GROUP_NAME_RESULTS_TRUNCATED) }}</div>
+														}
+													</ng-template>
+												</p-autoComplete>
+										</div>
+									</div>
+									<!--  -->
+
+									<!--  -->
+								</div>
+							</div>
+						</p-tabpanel>
+						<p-tabpanel value="2">
+							<div class="ptAdvanceFilters__container">
+								<div class="d-flex justify-content-between">
+									<div class="d-flex flex-column gap-1">
+										<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.RATE_TYPE) }}</div>
+										<p-multiselect
+											[options]="masterTypeOfRates"
+											[(ngModel)]="selectedRateIds"
+											optionLabel="name"
+											optionValue="id"
+											[placeholder]="commonGlobalService.termText(libraryTerm.RATE_TYPE)"
+											[selectedItemsLabel]="rateTypeSelectionLabel"
+											[maxSelectedLabels]="1"
+											[filter]="masterTypeOfRates.length > 10"
+											[showToggleAll]="false"
+											class="prMultiselect"
+											[style]="{ 'min-width': '136px' }"
+										>
+											<ng-template #dropdownicon>
+												<i class="icon icon-arrow-down"></i>
+											</ng-template>
+										</p-multiselect>
+									</div>
+								</div>
+								<div class="ptAdvanceFilters__title">{{ commonGlobalService.termText(libraryTerm.AMOUNT_TYPE) }}</div>
+								<div class="row gap-3">
+									<div class="d-flex flex-column gap-1 col px-0">
+										<div class="ptAdvanceFilters__title ptAdvanceFilters__title--small">{{ commonGlobalService.termText(libraryTerm.MIN_AMOUNT) }}</div>
+										<div class="ptInputAmount">
+											<i class="icon-remove icon--sm" (click)="updateMinAmount(-1)"></i>
+											<input
+												class="prInputtext"
+												type="text"
+												inputmode="decimal"
+												maxlength="11"
+												pInputText
+												[ngModel]="minAmountInput"
+												(ngModelChange)="onMinAmountInput($event)"
+												(keydown)="onAmountKeyDown($event)"
+												(paste)="onAmountPaste($event, 'min')"
+												(focus)="onMinAmountFocus()"
+												(blur)="onMinAmountBlur()"
+												[style]="{ width: '252px' }"
+											/>
+											<i class="icon-add icon--sm" (click)="updateMinAmount(1)"></i>
+										</div>
+									</div>
+
+									<div class="d-flex flex-column gap-1 col px-0">
+										<div class="ptAdvanceFilters__title ptAdvanceFilters__title--small">{{ commonGlobalService.termText(libraryTerm.MAX_AMOUNT) }}</div>
+										<div class="ptInputAmount">
+											<i class="icon-remove icon--sm" (click)="updateMaxAmount(-1)"></i>
+											<input
+												class="prInputtext"
+												type="text"
+												inputmode="decimal"
+												maxlength="11"
+												pInputText
+												[ngModel]="maxAmountInput"
+												(ngModelChange)="onMaxAmountInput($event)"
+												(keydown)="onAmountKeyDown($event)"
+												(paste)="onAmountPaste($event, 'max')"
+												(focus)="onMaxAmountFocus()"
+												(blur)="onMaxAmountBlur()"
+												[style]="{ width: '252px' }"
+											/>
+											<i class="icon-add icon--sm" (click)="updateMaxAmount(1)"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</p-tabpanel>
+					</p-tabpanels>
+				</p-tabs>
+				<div class="ptAdvanceFilters__footer">
+					<div>
+						<p-button [class]="'actionFiltersGA'" class="prButton" [label]="commonGlobalService.termText(libraryTerm.RESET)" severity="secondary" (onClick)="resetAdvancedFilter()" [disabled]="busy()" />
+					</div>
+					<div>
+						<p-button class="prButton" [label]="commonGlobalService.termText(libraryTerm.APPLY)" (onClick)="applyAdvancedFilter()" [disabled]="busy()" />
+						<p-button class="prButton" [label]="commonGlobalService.termText(libraryTerm.CANCEL)" severity="secondary" (onClick)="closeAdvancedFilter()" [disabled]="busy()" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+</p-dialog>

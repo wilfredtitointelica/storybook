@@ -1,0 +1,242 @@
+/*\
+ * ptField
+   -------
+ ! Componente base para la construcción de campos de formulario.
+
+	Incluye:
+	 - ptField__label    : Etiqueta del campo.
+	 - ptField__inner    : Contenedor interno para control + mensajes.
+	 - ptField__control  : Elemento interactivo (inputtext, p-select, p-checkbox, p-password, etc.).
+	 - ptField__message  : Mensajes asociados al campo (error, ayuda, validación).
+	 - ptField__action   : Acción asociada al campo (ej. mostrar modal, activar control, etc.).
+
+	Este componente define la estructura estándar de un field aislado,
+	manteniendo consistencia visual y funcional en formularios.
+\*/
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-FIELD: 'ptField ( Pattern )';
+
+	// --- general ---
+
+	--i-field-gap: 4px;
+
+	// --- elements ---
+
+	--i-field-label-default-width: 6rem;
+	--i-field-message-font-size: var(--i-typography-font-size-xs);
+	--i-field-message-lineHeight: var(--i-typography-lineHeight-xs);
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptField )
+\*——————————————————————————————————————————————————————————*/
+
+.ptField {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	gap: var(--i-field-gap);
+
+	// --- label ---
+
+	&__label {
+		flex-basis: 100%;
+		font-weight: bold;
+	}
+
+	// --- inner ( control & message ) ---
+
+	&__inner {
+		position: relative;
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		column-gap: var(--i-field-gap);
+	}
+
+	&__control {
+		display: flex;
+		gap: var(--i-field-gap);
+
+		& > :nth-child(n) {
+			flex-grow: 1;
+		}
+	}
+
+	&__message {
+		flex-grow: 1;
+		display: flex;
+		justify-content: flex-end;
+		flex-basis: 100%;
+		text-align: right;
+
+		&:empty { display: none; }
+	}
+
+	// --- captio ---
+
+	&__caption {
+		width: 100%;
+		color: var(--i-color-primary-900);
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+	}
+
+	// --- action ---
+
+	&__action {
+		flex-grow: 0;
+	}
+}
+
+.ptField {
+
+	// --- structure for radiobutton & checkbox ---
+
+	&:has( > &__control ) {
+		align-items: baseline;
+		gap: var(--i-spacing-gap-sm);
+	}
+
+	&:has( > &__control ) 
+	&__control {
+		transform: translateY(-.1em);
+	}
+
+	&:has( > &__control ) 
+	&__inner &__label {
+		font-weight: normal;
+	}
+
+	&:has( > &__control ):has( .p-invalid )
+	&__inner &__label {
+		color: var(--i-color-error-700);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED MODIFIERS PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.ptField {
+
+	// --- adjust message ---
+
+	& .prMessage .p-message-text {
+		font-size: var(--i-field-message-font-size);
+		line-height: var(--i-field-message-lineHeight);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptField {
+
+	// --- inline label & fixed ---
+
+	&--inlineLabel, &--inlineLabelAuto {
+		flex-direction: row;
+		align-items: baseline;
+	}
+
+	&--inlineLabel &__label, &--inlineLabelAuto &__label {
+		padding-right: var(--i-field-gap);
+	}
+
+	&--inlineLabel &__label {
+		flex-basis: var(--label-width, var(--i-field-label-default-width)); // * custom property in tag html ( --label-width )
+	}
+
+	&--inlineLabelAuto &__label {
+		flex-basis: auto;
+	}
+
+	// --- float message ---
+
+	&--floatMessage {
+		
+	}
+
+	&--floatMessage &__message {
+		position: absolute;
+		inset: 100% 0 auto;
+	}
+
+	&--floatMessage:has(&__caption) &__inner {
+		margin-bottom: calc( var(--i-field-message-font-size) - var(--i-field-gap) );
+	}
+
+	// --- truncate message ---
+
+	&--truncateMessage {
+
+	}
+
+	&--truncateMessage &__message {
+		& p-message {
+			flex-grow: 1;
+		}
+
+		& p-message .p-message-content {
+			position: relative;
+			height: 1.333333333333333em;
+			justify-content: flex-end;
+		}
+
+		& p-message .p-message-text  {
+			position: absolute;
+			width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+
+	// --- read only ---
+
+	&--readonly {
+		
+	}
+
+	// --- disabled ---
+
+	&--disabled {
+		cursor: not-allowed;
+		user-select: none;
+		
+		& :nth-child(n) {
+			pointer-events: none;
+		}
+
+		// forced elements
+
+		&, & .p-component :nth-child(n), .icon::before {
+			color: var(--i-color-neutral-400);
+		}
+
+		& .p-component {
+			background: var(--i-color-neutral-200);
+			border-color: var(--i-color-neutral-200);
+		}
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skField {
+
+}

@@ -1,0 +1,39 @@
+:root {
+	/*——————————————————————————————————————————————————————————*
+     * 🎛 COMPONENT TOKENS → Popover
+     * Basados en Primitives (spacing, radius)
+     *——————————————————————————————————————————————————————————*/
+	--i-popover-margin-top: 0;
+	--i-popover-border-radius: var(--i-radius-xl); /* 16px */
+}
+
+// base
+.prPopover {
+	&.p-popover {
+		margin-top: var(--i-popover-margin-top);
+		border-radius: var(--i-popover-border-radius);
+		border-color: transparent;
+	}
+	/* Eliminamos pseudo-elementos que vienen por defecto en Prime */
+	&::before,
+	&::after {
+		display: none;
+	}
+
+	&__header {
+	}
+	&__body {
+	}
+	&__item {
+	}
+	&__itemHeader {
+	}
+	&__itemIcon {
+	}
+	&__itemTitle {
+	}
+	&__empty {
+	}
+	&__emptyMessage {
+	}
+}

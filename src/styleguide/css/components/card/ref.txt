@@ -1,0 +1,57 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PRIMENG / CARD
+\*——————————————————————————————————————————————————————————*/
+
+// --- PrimeNG ( base ) ---
+
+.p-card 
+	.p-card-body
+		.p-card-title
+		.p-card-content
+
+// --- PrimeNG ( template ) ---
+
+.p-card 
+	.p-card-header				( ng-template #header )
+	.p-card-body
+		.p-card-title			( ng-template #title )
+		.p-card-subtitle		( ng-template #subtitle )
+		.p-card-content		( ng-template #content )
+		.p-card-footer			( ng-template #footer )
+
+/*——————————————————————————————————————————————————————————*\
+ * REF. CUSTOM / CARD
+\*——————————————————————————————————————————————————————————*/
+
+// --- BEM ( base ) ---
+
+.prCard
+	.prCard__header
+		.prCard__row
+			.prCard__wrap
+				.prCard__title
+				.prCard__desc
+			.prCard__actions
+	.prCard__content
+		.prCard__placeholder
+
+// --- BEM ( 2da structure ) --- para NOTIFICACIONES
+
+.prCard .prCard--compact
+	.prCard__header
+		.prCard__row
+			.prCard__code
+			.prCard__wrap
+		.prCard__row
+			.prCard__title
+			.prCard__wrap
+	.prCard__content
+		.prCard__placeholder
+
+
+
+
+
+
+
+

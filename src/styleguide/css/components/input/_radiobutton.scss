@@ -1,0 +1,198 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-RADIOBUTTON-COMPONENT: "prRadioButton ( Custom PrimeNG )";
+
+	// --- General ---
+
+	--i-radiobutton-background: transparent; // #FCFCFC || color/grey/50
+
+	// Border
+	--i-radiobutton-border-color: var(--i-color-secondary-200); // #2a52c5 || color/blue/600
+	--i-radiobutton-border-width: var(--i-border-width-sm); // 1px || stroke/010
+
+	// Sizes
+	--i-radiobutton-height: var(--i-sizing-200); // 16px || sizing/xs
+	--i-radiobutton-width: var(--i-sizing-200); // 16px || sizing/xs
+
+	// State
+	--i-radiobutton-disabled-background: var(--i-color-secondary-200); // #D9D9E3 || color/grey/200
+	--i-radiobutton-disabled-border-color: var(--i-color-secondary-400); // #9CA3BA || color/grey/400
+	--i-radiobutton-hover-background: var(--i-color-primary-50); // #e5edfa || color/blue/100
+	--i-radiobutton-hover-border-color: var(--i-color-primary-700); // #2a52c5 || color/blue/600
+	--i-radiobutton-invalid-background: var(--i-color-error-50); // #FCEDED || color/error/50
+	--i-radiobutton-invalid-border-color: var(--i-color-error-700); // #970c0c || color/error/700
+	--i-radiobutton-pressed-border-color: var(--i-color-primary-700); // #21409A || color/blue/700
+
+	// --- Check ---
+
+	--i-radiobutton-checked-border-color: var(--i-color-primary-700); // #2a52c5 || color/blue/600
+
+	// State
+	--i-radiobutton-checked-disabled-background: var(--i-color-secondary-200); // #D9D9E3 || color/grey/200
+	--i-radiobutton-checked-disabled-border-color: var(--i-color-secondary-400); // #9CA3BA || color/grey/400
+	--i-radiobutton-checked-hover-background: var(--i-color-primary-700); // #e5edfa || color/blue/100
+	--i-radiobutton-checked-hover-border-color: var(--i-color-primary-700); // #2a52c5 || color/blue/600
+
+	// --- Icon ---
+
+	--i-radiobutton-icon-checked-color: var(--i-color-primary-50); // #2a52c5 || color/blue/600
+
+	// Sizes
+	--i-radiobutton-icon-size: var(--i-sizing-100, 8px); // 8px  || sizing/3xs
+
+	// State
+	--i-radiobutton-icon-checked-disabled-color: var(--i-color-secondary-400); // #9CA3BA || color/grey/400
+	--i-radiobutton-icon-checked-hover-color: var(--i-color-primary-50); // #2a52c5 || color/blue/600
+	--i-radiobutton-icon-checked-invalid-color: var(--i-color-error-700); // #970c0c || color/error/700
+	--i-radiobutton-icon-checked-pressed-color: var(--i-color-primary-700); // #21409A || color/blue/700
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prRadioButton {
+	&.p-radiobutton,
+	.p-radiobutton-box {
+		box-shadow: var(--i-input-shadow);
+		height: var(--i-radiobutton-height);
+		width: var(--i-radiobutton-width);
+	}
+
+	.p-radiobutton-box {
+		border: var(--i-radiobutton-border-width) solid var(--i-radiobutton-border-color);
+		background: var(--i-radiobutton-background);
+	}
+	.p-radiobutton-icon {
+		font-size: var(--i-radiobutton-icon-size);
+		width: var(--i-radiobutton-icon-size);
+		height: var(--i-radiobutton-icon-size);
+	}
+
+	&.p-radiobutton {
+		// --- Pressed
+		&:not(.p-disabled):has(.p-radiobutton-input:active) {
+			& .p-radiobutton-box {
+				border-color: var(--i-color-primary-700);
+				background: var(--i-color-primary-50);
+			}
+			&.p-radiobutton-checked .p-radiobutton-icon {
+				background: var(--i-color-primary-50);
+			}
+		}
+
+		// --- Checked
+		&.p-radiobutton-checked {
+			.p-radiobutton-box,
+			&:has(.p-radiobutton-input:active) .p-radiobutton-box {
+				border-color: var(--i-color-primary-700);
+				background: var(--i-color-primary-700);
+			}
+			.p-radiobutton-icon {
+				background: var(--i-radiobutton-icon-checked-color);
+			}
+			&:not(.p-disabled):has(.p-radiobutton-input:hover) .p-radiobutton-box {
+				background: var(--i-color-primary-600);
+				border-color: var(--i-color-primary-600);
+			}
+		}
+
+		// --- Hover
+		&:not(.p-disabled):has(.p-radiobutton-input:hover) {
+			& .p-radiobutton-box {
+				background: transparent;
+				border-color: var(--i-color-primary-600);
+			}
+			&.p-radiobutton-checked .p-radiobutton-box .p-radiobutton-icon {
+				background: var(--i-radiobutton-icon-checked-hover-color);
+			}
+		}
+
+		// --- Disabled
+		&.p-disabled {
+			.p-radiobutton-box {
+				background: var(--i-radiobutton-disabled-background);
+				border-color: var(--i-radiobutton-disabled-border-color);
+			}
+			&.p-radiobutton-checked,
+			&.p-radiobutton-checked:has(.p-radiobutton-input:active) {
+				.p-radiobutton-box {
+					background: var(--i-radiobutton-checked-disabled-background);
+					border-color: var(--i-radiobutton-checked-disabled-border-color);
+				}
+				.p-radiobutton-icon {
+					background: var(--i-radiobutton-icon-checked-disabled-color);
+				}
+			}
+		}
+
+		// --- Error
+		&.p-invalid,
+		&.p-invalid:not(.p-disabled):has(.p-radiobutton-input:hover) {
+			& .p-radiobutton-box {
+				background: var(--i-radiobutton-invalid-background);
+				border-color: var(--i-radiobutton-invalid-border-color);
+			}
+
+			&.p-radiobutton-checked .p-radiobutton-box .p-radiobutton-icon {
+				background: var(--i-radiobutton-icon-checked-invalid-color);
+			}
+		}
+
+		// --- focus
+		&:not(.p-disabled):has(.p-radiobutton-input:focus-visible) .p-radiobutton-box {
+			outline-color: var(--i-button-hyperlink-color);
+			border-color: var(--i-radiobutton-checked-border-color);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prRadioButton )
+\*——————————————————————————————————————————————————————————*/
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptRadioButton )
+\*——————————————————————————————————————————————————————————*/
+
+.ptRadioButton__label {
+	opacity: 1;
+}
+.ptRadioButton {
+	&__wrap {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		column-gap: var(--i-input-wrap-gap);
+		&:has(input:disabled) .ptRadioButton__label {
+			color: var(--i-input-label-disabled-color);
+			cursor: default;
+		}
+		&:has(.p-invalid) .ptRadioButton__label {
+			color: var(--i-input-label-invalid-color);
+			cursor: default;
+		}
+	}
+	&__label {
+		font-size: var(--i-input-label-size);
+		color: var(--i-color-primary-900);
+		cursor: pointer;
+	}
+
+	// --- Pendiente Abanto ---
+	.prMessageInput {
+		.p-message-error.p-message-simple {
+			margin-left: calc(var(--i-radiobutton-width) + calc(var(--i-input-wrap-gap)));
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skRadioButton {
+}

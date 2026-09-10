@@ -1,0 +1,51 @@
+/*\ 
+RASTREAR ELEMENTOS INTERACTIVO Y TABINDEX >-1
+\*/
+
+.inspect-tabulation {
+   --normal: #ff00aa;
+   --focus: #1aff1a;
+}
+
+/*\ 
+///////////////////////////////////////////////////////
+Rastreamos todos los elementos interactivos en los que 
+se enfoca al usar la tecla de tabulación (TAB).
+///////////////////////////////////////////////////////
+\*/ 
+
+.inspect-tabulation {
+   &  :is(  
+            [tabindex], 
+            a[href], 
+            button, 
+            input:not(.p-checkbox-input), 
+            select, 
+            textarea,
+            label[for], 
+            option, 
+            details, 
+            summary, 
+            fieldset, 
+            legend,
+            .p-checkbox-box 
+         )
+   {
+      &:not(.intSidebar__mask) {
+         position: relative;
+      }
+
+      & {
+         outline: 2px solid var(--normal) !important;
+         outline-offset: -1px !important;
+         box-shadow: none !important;
+         transition: none;
+      }
+
+      &:focus,
+      &:focus + .p-checkbox-box  {
+         z-index: 999;
+         outline-color: var(--focus) !important;
+      }
+   }
+}

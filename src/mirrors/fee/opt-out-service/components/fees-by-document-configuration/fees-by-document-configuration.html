@@ -1,0 +1,43 @@
+<p-dialog class="prDialog modalStepsOptOut prDialog--lg" [(visible)]="showDialog" [modal]="true" draggable="false" (onHide)="onClose()">
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title">{{ opcName() }}</div>
+		</div>
+		<ng-template #closeicon>
+			<i class="icon icon-cancel"></i>
+		</ng-template>
+	</ng-template>
+
+	<ng-template #content>
+		@if (isloadingTable()) {
+		<div class="skTable">
+			<div class="skTable__header">
+				<p-skeleton class="prSkeleton"></p-skeleton>
+			</div>
+			<div class="skTable__body">
+				@for (_ of [].constructor(5); track $index) {
+				<div class="skTable__row">
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton"></p-skeleton>
+					</div>
+					<div class="skTable__cell">
+						<p-skeleton class="prSkeleton"></p-skeleton>
+					</div>
+				</div>
+				}
+			</div>
+		</div>
+		} @else if (rows().length === 0) {
+		<intelica-status-state [state]="statusStateEnum.NoData" />
+		} @else {
+		<intelica-table #table [ListData]="rows()" [RowsPerPage]="10" [ShowPagination]="true" [ShowRowPerPage]="false">
+			<column field="code" [header]="'CODE' | term : globalTermService.languageCode" [sortable]="true" className="text-center" width="30%">
+				<ng-template let-rowData>
+					<span>{{ rowData.code }}</span>
+				</ng-template>
+			</column>
+			<column field="name" [header]="'NAME' | term : globalTermService.languageCode" [sortable]="true" className="text-left" width="70%"></column>
+		</intelica-table>
+		}
+	</ng-template>
+</p-dialog>

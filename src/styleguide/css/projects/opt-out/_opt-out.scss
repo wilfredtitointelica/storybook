@@ -1,0 +1,6 @@
+// project opt out
+.optOut {
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-lg); //16px
+}

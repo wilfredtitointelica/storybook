@@ -1,0 +1,37 @@
+// ! NO USADO
+
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( block )
+\*——————————————————————————————————————————————————————————*/
+
+.bpPublicationIndicator {
+
+	display: flex;
+	gap: var(--i-spacing-gap-sm);
+	align-items: baseline;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.bpPublicationIndicator {
+
+	&__status {
+		display: inline-block;
+		aspect-ratio: 1/1;
+		font-size: 12px;
+		width: 1em; height: 1em;
+		border-radius: 50%;
+		background-color: var(--i-color-green-amex-500);
+	}
+
+	&__summary {
+		
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/

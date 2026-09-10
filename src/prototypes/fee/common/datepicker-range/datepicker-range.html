@@ -1,0 +1,56 @@
+<!-- filter range ( datepicker ) -->
+<div class="ptFilterbar__itemset" (click)="onPanelInteract()">
+	<div class="ptFilterbar__icon"><i class="icon icon-calendar"></i></div>
+	<div class="ptFilterbar__wrap">
+		<p-datepicker
+			class="prDatapicker prDatapicker--reusable"
+			[panelStyleClass]="panelClasses()"
+			selectionMode="range"
+			[numberOfMonths]="1"
+			[readonlyInput]="true"
+			[showIcon]="false"
+			[view]="view()"
+			[dateFormat]="dateFormat()"
+			[hideOnDateTimeSelect]="false"
+			[ngModel]="dateRange()"
+			(ngModelChange)="onDateRangeChange($event)"
+			(onClose)="onCalendarClose()"
+			(onShow)="onCalendarShow()"
+			(onMonthChange)="onMonthChange()"
+			(onYearChange)="onMonthChange()"
+			[disabled]="disabled()"
+			[minDate]="minDate() ?? undefined"
+			[maxDate]="effectiveMaxDate()"
+			[disabledDates]="disabledDates()"
+			[inputStyle]="{ 'text-transform': 'lowercase' }"
+			[style]="{ width: '12.5rem' }"
+		>
+			<ng-template #previousicon>
+				<i class="icon icon-arrow-left" data-ga-track="datepicker_prev" data-ga-section="filter_range"></i>
+			</ng-template>
+			<ng-template #nexticon>
+				<i class="icon icon-arrow-right" data-ga-track="datepicker_next" data-ga-section="filter_range"></i>
+			</ng-template>
+			<ng-template pTemplate="footer" let-clearCallback="clearCallback">
+				<div class="footerDatapicker footerDatapicker--range">
+					<div class="footerDatapicker__box">
+						@for (p of presetsState(); track p.period) {
+						<p-button
+							[class.btnActive]="p.active"
+							[class.btnSecond]="!p.active && !p.disabled"
+							[disabled]="p.disabled"
+							[label]="p.label"
+							[pTooltip]="commonGlobalService.termText(term.NODATA)"
+							[tooltipDisabled]="!p.disabled"
+							tooltipPosition="top"
+							tooltipStyleClass="prTooltip"
+							(onClick)="applyPreset(p.period)"
+							class="u-text-nowrap"
+						/>
+						}
+					</div>
+				</div>
+			</ng-template>
+		</p-datepicker>
+	</div>
+</div>

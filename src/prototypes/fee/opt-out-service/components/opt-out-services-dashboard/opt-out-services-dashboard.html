@@ -1,0 +1,541 @@
+<div class="d-flex flex-column gap-3">
+	<p-toast class="prToast" position="bottom-right" />
+	<!-- section title -->
+	@if (isloadingAddToFavorites()) {
+	<div style="display: flex; justify-content: space-between">
+		<div style="display: flex; flex-direction: column; gap: 2px">
+			<p-skeleton class="prSkeleton" width="300px" height="28px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="515px" height="24px"></p-skeleton>
+		</div>
+		<div>
+			<p-skeleton class="prSkeleton" width="132px" height="32px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle__content">
+			<div class="ptSectionTitle__title">{{ "OPT_OUT_SERVICES_DASHBOARD" | term : globalTermService.languageCode }}</div>
+			<div class="ptSectionTitle__subtitle">{{ "OPT_OUT_SERVICES_DASHBOARD_SUBTITLE" | term : globalTermService.languageCode }}</div>
+		</div>
+		<div class="ptSectionTitle__actions">
+			<intelica-add-favorites [pageName]="'OPT_OUT_SERVICES_DASHBOARD' | term : globalTermService.languageCode"></intelica-add-favorites>
+		</div>
+	</div>
+	}
+	<!-- panel group -->
+	<div class="ptSectionPanel">
+		<!-- panel suscriptions -->
+		@if (isloadingSubscriptionsCard()) {
+		<div style="background: #fcfcfd; display: flex; flex-direction: column; flex: 2; border: 1px solid #e2e8f0; padding: 16px; border-radius: 16px; gap: 8px">
+			<div style="display: flex; flex-direction: column; gap: 2px">
+				<div style="display: flex; gap: 4px; align-items: center">
+					<p-skeleton class="prSkeleton" width="192px" height="24px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="16px" height="16px"></p-skeleton>
+					<p-skeleton class="prSkeleton u-ms-auto" width="100px" height="24px" borderRadius="32px"></p-skeleton>
+				</div>
+				<div>
+					<p-skeleton class="prSkeleton" width="120px" height="20px"></p-skeleton>
+				</div>
+			</div>
+			<div style="display: flex; flex-direction: row; gap: 16px">
+				<div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+					<p-skeleton class="prSkeleton" width="100%" height="20px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="40px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+				</div>
+				<div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+					<p-skeleton class="prSkeleton" width="100%" height="20px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="40px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+				</div>
+				<div style="display: flex; flex-direction: column; gap: 4px; flex: 1">
+					<p-skeleton class="prSkeleton" width="100%" height="20px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="40px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+				</div>
+			</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid #e2e8f0">
+				<p-skeleton class="prSkeleton" width="173px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="93px" height="32px"></p-skeleton>
+			</div>
+		</div>
+		} @else {
+		<div class="grPanel subscriptionsPanel">
+			<div class="grPanel__header">
+				<div class="grPanel__section">
+					<div class="grPanel__title">{{ "TOP_OPT_OUT_SUBSCRIPTIONS" | term : globalTermService.languageCode }}</div>
+					<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent1">
+						<i class="icon icon--sm icon-info"></i>
+					</span>
+					<p-badge class="prBadge ms-auto" badgeSize="small" [value]="('TOTAL_OPT_OUTS' | term : globalTermService.languageCode) + ': ' + dataSubscriptionsCard()?.totalOptOutSubscriptions" />
+
+					<ng-template #tooltipContent1 class="prTooltip__wrap">
+						<span>{{ "TOP_OPT_OUT_SUBSCRIPTIONS_TOOLTIP" | term : globalTermService.languageCode }}</span>
+					</ng-template>
+				</div>
+				<div class="grPanel__subtitle">
+					{{
+						filter().dateTypeId == periodFilterTypeEnum.CurrentYear
+							? ("CURRENT_YEAR" | term : globalTermService.languageCode)
+							: dataSubscriptionsCard()?.periodShortStart + " - " + dataSubscriptionsCard()?.periodShortEnd
+					}}
+				</div>
+			</div>
+			<div class="grPanel__body">
+				<div class="subscriptionsPanel__list">
+					@if(dataSubscriptionsCard()?.items?.length){ @for (item of dataSubscriptionsCard()?.items; track $index) {
+					<!-- -->
+					<div class="subscriptionsPanel__item" [class.subscriptionsPanel__item--single]="dataSubscriptionsCard()?.items?.length === 1">
+						<div class="subscriptionsPanel__header">
+							<div class="subscriptionsPanel__code">{{ item.optOutCode }}</div>
+							<div class="subscriptionsPanel__icon">
+								<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent2">
+									<i class="icon icon--xs icon-info"></i>
+								</span>
+
+								<ng-template #tooltipContent2 class="prTooltip__wrap">
+									<div>
+										<span class="u-text-nowrap u-me-1">{{ "FEE_NAME" | term : globalTermService.languageCode }}:</span>
+										{{ item.feeName }}
+									</div>
+								</ng-template>
+							</div>
+						</div>
+						<div class="subscriptionsPanel__body">
+							<div class="subscriptionsPanel__currency">
+								<div class="subscriptionsPanel__code">{{ currencyCode() }}</div>
+								<div class="subscriptionsPanel__value">{{ item.totalSavingsAmount | formatValue : "amount" : 2 }}</div>
+							</div>
+							<div class="subscriptionsPanel__percent">{{ item.regionalAdoptionRate | formatValue : "percent" : 0 }}</div>
+							<div class="subscriptionsPanel__usage">
+								<div class="subscriptionsPanel__source">
+									<div class="subscriptionsPanel__icon"><i class="icon icon--xs icon-bank"></i></div>
+									<div class="subscriptionsPanel__label">{{ "REGIONAL_ADOPTION_RATE" | term : globalTermService.languageCode }}</div>
+								</div>
+								<div class="subscriptionsPanel__progress">
+									<div class="subscriptionsPanel__percent">{{ item.regionalAdoptionRate | formatValue : "percent" : 0 }}</div>
+									<div class="subscriptionsPanel__progressbar">
+										<p-progressbar class="prProgressbar" [value]="item.regionalAdoptionRate" [showValue]="false" [style]="{ height: '16px' }" />
+									</div>
+								</div>
+								<div
+									class="subscriptionsPanel__status"
+									[ngClass]="{
+										'subscriptionsPanel__status--success': item.usageLevel === usageLevelEnum.High,
+										'subscriptionsPanel__status--warning': item.usageLevel === usageLevelEnum.Mid,
+										'subscriptionsPanel__status--danger': item.usageLevel === usageLevelEnum.Low
+									}"
+								>
+									{{ (item.usageLevel === usageLevelEnum.High ? "HIGH_USAGE" : item.usageLevel === usageLevelEnum.Mid ? "MID_USAGE" : "LOW_USAGE") | term : globalTermService.languageCode }}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- -->
+					} } @else {
+					<div class="ptState | u-mx-auto">
+						<intelica-status-state [state]="statusStateEnum.NoData" />
+					</div>
+					}
+				</div>
+			</div>
+			<div class="grPanel__footer">
+				<div class="subscriptionsPanel__text">{{ "VIEW_ALL_ACTIVE_SUBSCRIPTIONS" | term : globalTermService.languageCode }}</div>
+				<div class="subscriptionsPanel__action">
+					<p-button
+						[disabled]="dataSubscriptionsCard()?.items?.length === 0"
+						class="prButton"
+						[class]="'viewDetailsGA'"
+						[label]="'VIEW_DETAILS' | term : globalTermService.languageCode"
+						[routerLink]="['/fee', 'opt-out-service', 'top-subscriptions']"
+						severity="secondary"
+					/>
+				</div>
+			</div>
+		</div>
+		}
+		<!-- panel savings -->
+		@if (isloadingSavingsCard()) {
+		<div style="background: #fcfcfd; display: flex; flex-direction: column; flex: 1; border: 1px solid #e2e8f0; padding: 16px; border-radius: 16px; gap: 8px">
+			<div style="display: flex; flex-direction: column; gap: 2px">
+				<div style="display: flex; gap: 4px; align-items: center">
+					<p-skeleton class="prSkeleton" width="144.55px" height="24px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="16px" height="16px"></p-skeleton>
+				</div>
+				<div>
+					<p-skeleton class="prSkeleton" width="120px" height="20px"></p-skeleton>
+				</div>
+			</div>
+			<div style="display: flex; flex-direction: column; gap: 8px">
+				<div style="display: flex; flex-direction: column; gap: 5px">
+					<div style="display: flex; flex-direction: row; gap: 4px">
+						<div><p-skeleton class="prSkeleton" width="32.2px" height="20px"></p-skeleton></div>
+						<div><p-skeleton class="prSkeleton" width="140px" height="50px"></p-skeleton></div>
+					</div>
+					<div style="display: flex">
+						<p-skeleton class="prSkeleton" width="240px" height="24px"></p-skeleton>
+					</div>
+				</div>
+				<div style="display: flex; padding-bottom: 16px">
+					<p-skeleton class="prSkeleton" width="240px" height="24px"></p-skeleton>
+				</div>
+			</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid #e2e8f0">
+				<p-skeleton class="prSkeleton" width="97px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="93px" height="32px"></p-skeleton>
+			</div>
+		</div>
+		} @else {
+		<div class="grPanel savingsPanel">
+			<div class="grPanel__header">
+				<div class="grPanel__section">
+					<div class="grPanel__title">{{ "OPT_OUT_SAVINGS" | term : globalTermService.languageCode }}</div>
+					<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent4">
+						<i class="icon icon--sm icon-info"></i>
+					</span>
+
+					<ng-template #tooltipContent4 class="prTooltip__wrap">
+						<span>{{ "OPT_OUT_SAVINGS_TOOLTIP" | term : globalTermService.languageCode }}</span>
+					</ng-template>
+				</div>
+				<div class="grPanel__subtitle">{{ "CURRENT_YEAR" | term : globalTermService.languageCode }}</div>
+			</div>
+			<div class="grPanel__body">
+				<div class="savingsPanel__metric">
+					<div class="savingsPanel__currency">
+						<div class="savingsPanel__code">{{ currencyCode() }}</div>
+						<div class="savingsPanel__value">{{ dataSavingsCard()?.currentSavings ?? 0 | formatValue : "amount" : 2 }}</div>
+					</div>
+					<div class="savingsPanel__variation">
+						<div
+							class="savingsPanel__value"
+							[ngClass]="{
+								'u-color-trend-positive': dataSavingsCard()?.trend === variationTrendEnum.Increase || dataSavingsCard()?.trend === variationTrendEnum.SmallIncrease,
+								'u-color-trend-negative': dataSavingsCard()?.trend === variationTrendEnum.Decrease,
+								'u-color-trend-neutral': dataSavingsCard()?.trend === variationTrendEnum.Steady || dataSavingsCard()?.trend === variationTrendEnum.NoSavings,
+							}"
+						>
+							<i
+								class="icon icon--md"
+								[ngClass]="{
+									'icon-economic-growth':
+										dataSavingsCard()?.trend === variationTrendEnum.Increase ||
+										dataSavingsCard()?.trend === variationTrendEnum.SmallIncrease ||
+										dataSavingsCard()?.trend === variationTrendEnum.Steady ||
+										dataSavingsCard()?.trend === variationTrendEnum.NoSavings,
+									'icon-economic-decrease': dataSavingsCard()?.trend === variationTrendEnum.Decrease
+								}"
+							></i>
+							{{ ((dataSavingsCard()?.variationPercentage ?? 0) > 0 ? "+" : "") + (dataSavingsCard()?.variationPercentage ?? 0 | formatValue : "percent" : 1) }}
+						</div>
+						<div class="savingsPanel__label">{{ "VS_LAST_PERIOD" | term : globalTermService.languageCode }}</div>
+					</div>
+				</div>
+				<div
+					class="savingsPanel__total"
+					[ngClass]="{
+						'u-color-trend-positive': dataSavingsCard()?.trend === variationTrendEnum.Increase || dataSavingsCard()?.trend === variationTrendEnum.SmallIncrease,
+						'u-color-trend-negative': dataSavingsCard()?.trend === variationTrendEnum.Decrease,
+						'u-color-trend-neutral': dataSavingsCard()?.trend === variationTrendEnum.Steady || dataSavingsCard()?.trend === variationTrendEnum.NoSavings,
+					}"
+				>
+					{{ "TOTAL_SAVED" | term : globalTermService.languageCode }}
+				</div>
+			</div>
+			<div class="grPanel__footer">
+				<div
+					class="savingsPanel__text"
+					[ngClass]="{
+						'u-color-trend-positive': dataSavingsCard()?.trend === variationTrendEnum.Increase || dataSavingsCard()?.trend === variationTrendEnum.SmallIncrease,
+						'u-color-trend-negative': dataSavingsCard()?.trend === variationTrendEnum.Decrease,
+						'u-color-trend-neutral': dataSavingsCard()?.trend === variationTrendEnum.Steady || dataSavingsCard()?.trend === variationTrendEnum.NoSavings,
+					}"
+				>
+					@switch(dataSavingsCard()?.trend) { @case(variationTrendEnum.Increase) { {{ "GREAT_PROGRESS" | term : globalTermService.languageCode }} } @case(variationTrendEnum.SmallIncrease) {
+					{{ "SMALL_GAIN" | term : globalTermService.languageCode }} } @case(variationTrendEnum.Decrease) { {{ "SMALL_SETBACK" | term : globalTermService.languageCode }} } @case(variationTrendEnum.Steady)
+					{ {{ "STEADY_PACE" | term : globalTermService.languageCode }} } @case(variationTrendEnum.NoSavings) { {{ "NO_SAVINGS_YET" | term : globalTermService.languageCode }} } @default { - } }
+				</div>
+				<div class="savingsPanel__action">
+					<p-button
+						[disabled]="dataSavingsCard()?.trend === variationTrendEnum.NoSavings"
+						class="prButton"
+						[class]="'viewDetailsGA'"
+						[label]="'VIEW_DETAILS' | term : globalTermService.languageCode"
+						[routerLink]="['/fee', 'opt-out-service', 'savings']"
+						severity="secondary"
+					/>
+				</div>
+			</div>
+		</div>
+		}
+		<!-- panel upcoming -->
+		@if (isloadingUpcomingCard()) {
+		<div style="background: #fcfcfd; display: flex; flex-direction: column; flex: 1; border: 1px solid #e2e8f0; padding: 16px; border-radius: 16px; gap: 8px">
+			<div style="display: flex; flex-direction: column; gap: 2px">
+				<div style="display: flex; gap: 4px; align-items: center">
+					<p-skeleton class="prSkeleton" width="144.55px" height="24px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="16px" height="16px"></p-skeleton>
+				</div>
+			</div>
+			<div style="display: flex; flex-direction: column; height: 100%; align-items: center; justify-content: center; gap: 5px">
+				<p-skeleton class="prSkeleton" width="100%" height="52px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="100%" height="24px"></p-skeleton>
+			</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid #e2e8f0">
+				<p-skeleton class="prSkeleton" width="97px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="93px" height="32px"></p-skeleton>
+			</div>
+		</div>
+		} @else {
+		<div class="grPanel upcomingPanel">
+			<div class="grPanel__header">
+				<div class="grPanel__section">
+					<div class="grPanel__title">{{ "UPCOMING_OPT_OUTS" | term : globalTermService.languageCode }}</div>
+					<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent5">
+						<i class="icon icon--sm icon-info"></i>
+					</span>
+
+					<ng-template #tooltipContent5 class="prTooltip__wrap">
+						<span>{{ "UPCOMING_OPT_OUTS_TOOLTIP" | term : globalTermService.languageCode }}</span>
+					</ng-template>
+				</div>
+			</div>
+			<div class="grPanel__body">
+				<div class="upcomingPanel__status">
+					<div class="upcomingPanel__value">{{ dataUpcomingCard()?.pendingOptOuts }}</div>
+					<div class="upcomingPanel__label u-text-center">{{ "PENDING_OPT_OUTS_CONFIRMATION" | term : globalTermService.languageCode }}</div>
+				</div>
+			</div>
+			<div class="grPanel__footer">
+				@switch(dataUpcomingCard()?.status) { @case(upcomingOptOutStatusEnum.ActionRequired) {
+				<div class="upcomingPanel__text">{{ "ACTION_REQUIRED" | term : globalTermService.languageCode }}</div>
+				} @case(upcomingOptOutStatusEnum.NoActionsRequired) {
+				<div class="upcomingPanel__text">{{ "NO_ACTIONS_REQUIRED" | term : globalTermService.languageCode }}</div>
+				} @default {
+				<div class="upcomingPanel__text">-</div>
+				} }
+				<div class="upcomingPanel__action">
+					<p-button
+						[disabled]="dataUpcomingCard()?.status === upcomingOptOutStatusEnum.NoActionsRequired"
+						class="prButton"
+						[class]="'viewDetailsGA'"
+						[label]="'VIEW_DETAILS' | term : globalTermService.languageCode"
+						[routerLink]="['/fee', 'opt-out-service', 'upcoming']"
+						severity="secondary"
+					/>
+				</div>
+			</div>
+		</div>
+		}
+	</div>
+	<!-- panel graph -->
+	<div class="ptSectionCurrent">
+		@if (isloadingBillingGraph()) {
+		<div style="background: #fcfcfd; flex: 1; display: flex; flex-direction: column; border: 1px solid #e2e8f0; padding: 16px; border-radius: 16px; gap: 8px">
+			<div style="display: flex; flex-direction: column; gap: 2px">
+				<div style="display: flex; gap: 4px; align-items: center">
+					<p-skeleton class="prSkeleton" width="237px" height="24px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="16px" height="16px"></p-skeleton>
+				</div>
+				<div>
+					<p-skeleton class="prSkeleton" width="120px" height="20px"></p-skeleton>
+				</div>
+			</div>
+			<div style="display: flex; flex-direction: column; gap: 8px">
+				<div style="display: flex; justify-content: center; padding: 14px 16px; flex-direction: row; gap: 16px">
+					<div style="display: flex; position: relative; flex: 1; justify-content: center; flex-direction: row; gap: 16px">
+						<div style="display: flex; flex-direction: column; gap: 2px">
+							<p-skeleton class="prSkeleton" width="81px" height="24px"></p-skeleton>
+							<p-skeleton class="prSkeleton" width="81px" height="16px"></p-skeleton>
+						</div>
+						<div style="display: flex">
+							<p-skeleton class="prSkeleton" width="142px" height="42px"></p-skeleton>
+						</div>
+					</div>
+					<p-skeleton class="prSkeleton" width="1px" height="48px"></p-skeleton>
+					<div style="display: flex; position: relative; flex: 1; justify-content: center; flex-direction: row; gap: 16px">
+						<div style="display: flex; flex-direction: column; gap: 2px">
+							<p-skeleton class="prSkeleton" width="81px" height="24px"></p-skeleton>
+							<p-skeleton class="prSkeleton" width="81px" height="16px"></p-skeleton>
+						</div>
+						<div style="display: flex">
+							<p-skeleton class="prSkeleton" width="142px" height="42px"></p-skeleton>
+						</div>
+					</div>
+					<p-skeleton class="prSkeleton" width="1px" height="48px"></p-skeleton>
+					<div style="display: flex; position: relative; flex: 1; justify-content: center; flex-direction: row; gap: 16px">
+						<div style="display: flex; flex-direction: column; gap: 2px">
+							<p-skeleton class="prSkeleton" width="81px" height="24px"></p-skeleton>
+							<p-skeleton class="prSkeleton" width="81px" height="16px"></p-skeleton>
+						</div>
+						<div style="display: flex">
+							<p-skeleton class="prSkeleton" width="142px" height="42px"></p-skeleton>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="areaChartSkeleton">
+				<!-- Chart Container -->
+				<div class="areaChartSkeleton__container">
+					<!-- Y-Axis Labels -->
+					<div class="areaChartSkeleton__yAxis">
+						<div class="areaChartSkeleton__yAxisLabel" *ngFor="let label of yAxisLabels()">
+							<p-skeleton class="prSkeleton" width="65px" height="16px"></p-skeleton>
+						</div>
+					</div>
+					<!-- Chart Area -->
+					<div class="areaChartSkeleton__chartArea">
+						<!-- Grid Lines (Horizontal) -->
+						<div class="areaChartSkeleton__gridLines">
+							<div class="areaChartSkeleton__gridLine" *ngFor="let line of gridLines()"></div>
+						</div>
+						<!-- Area Path with Gradient Fill -->
+						<div class="areaChartSkeleton__areaPath">
+							<svg class="areaChartSkeleton__svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+								<!-- Gradient Definition -->
+								<defs>
+									<linearGradient id="areaGradient" x1="0" x2="0" y1="0" y2="1">
+										<stop offset="0%" stop-color="#e2e8f0" stop-opacity="0.6" />
+										<stop offset="50%" stop-color="#e2e8f0" stop-opacity="0.3" />
+										<stop offset="100%" stop-color="#e2e8f0" stop-opacity="0.05" />
+									</linearGradient>
+								</defs>
+
+								<!-- Area Fill -->
+								<path class="areaChartSkeleton__areaFill" [attr.d]="paths().area" fill="url(#areaGradient)"></path>
+
+								<!-- Dotted Line Path -->
+								<path class="areaChartSkeleton__dottedLine" [attr.d]="paths().line" fill="none" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="1,2" stroke-linecap="round"></path>
+							</svg>
+
+							<!-- Data Points (circles) -->
+							<div class="areaChartSkeleton__dataPoint" *ngFor="let point of dataPoints()" [style.left.%]="point.x" [style.bottom.%]="point.y">
+								<p-skeleton class="prSkeleton" shape="circle" size="8px" styleClass="areaChartSkeleton__point"></p-skeleton>
+							</div>
+						</div>
+					</div>
+
+					<!-- X-Axis Labels -->
+					<div class="areaChartSkeleton__xAxis">
+						<div class="areaChartSkeleton__xAxisLabel" *ngFor="let label of xAxisLabels()">
+							<p-skeleton class="prSkeleton" width="45px" height="16px"></p-skeleton>
+						</div>
+					</div>
+				</div>
+
+				<!-- Legend -->
+				<div class="areaChartSkeleton__legend">
+					<div class="areaChartSkeleton__legendItem">
+						<p-skeleton class="prSkeleton" shape="circle" size="10px" styleClass="areaChartSkeleton__legendDot"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="65px" height="16px"></p-skeleton>
+					</div>
+				</div>
+			</div>
+		</div>
+		} @else {
+
+		<div class="grPanel savingsPanel">
+			<div class="grPanel__header">
+				<div class="grPanel__section">
+					<div class="grPanel__title">{{ "OPT_OUTS_BILLING_EVOLUTION_GRAPH" | term : globalTermService.languageCode }}</div>
+					<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent4">
+						<i class="icon icon--sm icon-info"></i>
+					</span>
+
+					<ng-template #tooltipContent4 class="prTooltip__wrap">
+						<span>{{ "OPT_OUTS_BILLING_EVOLUTION_GRAPH_TOOLTIP" | term : globalTermService.languageCode }}</span>
+					</ng-template>
+				</div>
+				<div class="grPanel__subtitle">
+					{{
+						(filter().dateTypeId == periodFilterTypeEnum.CurrentYear ? "CURRENT_YEAR" : filter().dateTypeId == periodFilterTypeEnum.Last12Months ? "LAST_12_MONTHS" : "CUSTOM_PERIOD")
+							| term : globalTermService.languageCode
+					}}
+				</div>
+			</div>
+			<div class="grPanel__body">
+				<p-card class="prCard prCard--group prCard--noBg">
+					<ng-template #content>
+						@if(showForecastArea()){
+						<!-- Card 1 -->
+						<p-card class="prCard prCard--data">
+							<ng-template #content>
+								<div class="prCard__section">
+									<div class="prCard__group">
+										<div class="prCard__left">
+											<div class="prCard__label">{{ "LAST_MONTH" | term : globalTermService.languageCode }}</div>
+											<div class="prCard__date">{{ dataBillingGraph()?.lastMonth?.monthShort }}</div>
+										</div>
+										<div class="prCard__right">
+											<div class="prCard__currency u-color-grey-500">{{ currencyCode() }}</div>
+											<div class="prCard__value u-color-grey-500">{{ dataBillingGraph()?.lastMonth?.amount ?? 0 | formatValue : "amount" : 2 }}</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-card>
+
+						<div class="line"></div>
+						}
+
+						<!-- Card 2 -->
+						<p-card class="prCard prCard--data">
+							<ng-template #content>
+								<div class="prCard__section">
+									<div class="prCard__group">
+										<div class="prCard__left">
+											<div class="prCard__label">{{ (filter().dateTypeId == periodFilterTypeEnum.CurrentYear ? "CURRENT_YEAR" : "CUSTOM_PERIOD") | term : globalTermService.languageCode }}</div>
+											<div class="prCard__date">{{ dataBillingGraph()?.periodShortStart }} - {{ dataBillingGraph()?.periodShortEnd }}</div>
+										</div>
+										<div class="prCard__right">
+											<div class="prCard__currency u-color-grey-500">{{ currencyCode() }}</div>
+											<div class="prCard__value u-color-grey-500">{{ dataBillingGraph()?.selectedPeriod?.totalAmount ?? 0 | formatValue : "amount" : 2 }}</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-card>
+
+						@if(showForecastArea()){
+						<div class="line"></div>
+
+						<!-- Card 3 -->
+						<p-card class="prCard prCard--data">
+							<ng-template #content>
+								<div class="prCard__section">
+									<div class="prCard__group">
+										<div class="prCard__left">
+											<div class="prCard__label">{{ "FORECAST" | term : globalTermService.languageCode }}</div>
+											<!-- PROPUESTA: tooltip informativo del Forecast — no confirmado en el mirror real, ver
+											     README.md ("Opt-Out Billing Evolution Graph — tooltip de Forecast (solo Propuesta)"). -->
+											<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent6">
+												<i class="icon icon--sm icon-info"></i>
+											</span>
+
+											<ng-template #tooltipContent6 class="prTooltip__wrap">
+												<span>{{ "OPT_OUTS_FORECAST_TOOLTIP" | term : globalTermService.languageCode }}</span>
+											</ng-template>
+										</div>
+										<div class="prCard__right">
+											<div class="prCard__currency u-color-teal-500">{{ currencyCode() }}</div>
+											<div class="prCard__value u-color-teal-500">{{ dataBillingGraph()?.annualForecast?.amount ?? 0 | formatValue : "amount" : 2 }}</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-card>
+						}
+					</ng-template>
+				</p-card>
+				<div id="evolution_graph_plot" class="ghAreaChart" [ngStyle]="containerStyle()"></div>
+			</div>
+		</div>
+		}
+	</div>
+</div>

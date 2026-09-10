@@ -1,0 +1,240 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-TOAST-COMPONENT: "prToast ( Custom PrimeNG )";
+
+	--i-toast-message-content-color: var(--i-color-primary-900);
+	--i-toast-message-content-padding: var(--i-spacing-container-md); // 8px
+	--i-toast-message-content-sm-padding: var(--i-spacing-container-sm); // 6px
+	--i-toast-message-content-gap: var(--i-spacing-container-lg); // 12px
+
+	--i-toast-message-icon-size: var(--i-icon-size-sm); // 16px
+
+	--i-toast-message-text-font-size: var(--i-text-body-size-md); // 14px
+	--i-toast-message-text-font-size-sm: var(--i-text-body-size-sm); // 12px
+	--i-toast-message-text-line-height: var(--i-typography-lineHeight-md); // 20px
+	--i-toast-message-text-line-height-sm: var(--i-typography-lineHeight-sm); // 16px
+	--i-toast-message-text-gap: var(--i-spacing-gap-xs); // 4px
+
+	--i-toast-close-button-icon-size: var(--i-icon-size-xs);
+	--i-toast-close-button-icon-size-sm: var(--i-icon-size-xs);
+
+	// --- State ---
+
+	--i-toast-message-info-background: var(--i-background-info);
+	--i-toast-message-info-border-color: var(--i-border-info);
+	--i-toast-message-info-color: var(--i-border-info);
+	--i-toast-message-info-close-button-hover-background: var(--i-color-primary-200);
+
+	--i-toast-message-secondary-background: var(--i-color-secondary-50);
+	--i-toast-message-secondary-border-color: var(--i-color-secondary-600);
+	--i-toast-message-secondary-color: var(--i-color-secondary-600);
+	--i-toast-message-secondary-close-button-hover-background: var(--i-color-secondary-200);
+
+	--i-toast-message-error-background: var(--i-background-error);
+	--i-toast-message-error-border-color: var(--i-border-error);
+	--i-toast-message-error-color: var(--i-border-error);
+	--i-toast-message-error-close-button-hover-background: var(--i-color-error-100);
+
+	--i-toast-message-warn-background: var(--i-background-warning);
+	--i-toast-message-warn-border-color: var(--i-border-warning);
+	--i-toast-message-warn-color: var(--i-border-warning);
+	--i-toast-message-warn-close-button-hover-background: var(--i-color-warning-300);
+
+	--i-toast-message-success-background: var(--i-background-success);
+	--i-toast-message-success-border-color: var(--i-border-success);
+	--i-toast-message-success-color: var(--i-border-success);
+	--i-toast-message-success-close-button-hover-background: var(--i-color-success-200);
+
+	// --- Aditional ---
+	/*
+	--i-toast-wrap-gap: var(--i-spacing-gap-xs); // 4px
+	--i-toast-title-font-size: var(--i-text-subtitle-size-lg); // 16px
+	--i-toast-title-color: var(--i-color-neutral-900) ;
+	--i-toast-title-weight: var(--i-text-subtitle-weight);
+	--i-toast-title-line-height: var(--i-typography-lineHeight-lg); // 24px
+	*/
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prToast {
+	& .p-toast-message {
+		color: var(--i-message-color);
+		overflow: hidden;
+	}
+
+	& .p-toast-message-content {
+		align-items: flex-start;
+		padding: var(--i-toast-message-content-padding);
+		gap: var(--i-toast-message-content-gap);
+		font-size: var(--i-toast-message-text-font-size);
+		line-height: var(--i-toast-message-text-line-height);
+
+		& :is(.p-toast-summary, .p-toast-detail) {
+			color: var(--i-toast-message-content-color);
+		}
+	}
+
+	& .p-toast-message-icon {
+		place-items: center;
+		width: var(--i-toast-message-icon-size);
+		height: var(--i-toast-message-text-line-height);
+		font-size: var(--i-toast-message-icon-size);
+		line-height: 1em;
+		&::before {
+			color: currentColor;
+		}
+	}
+
+	& .p-toast-message-text {
+		font-size: inherit;
+		gap: var(--i-toast-message-text-gap);
+		&:has(.p-toast-summary:not(:empty)) {
+			gap: 0;
+		}
+	}
+
+	& .p-toast-summary {
+		font-weight: bold;
+		&:empty {
+			display: none;
+		}
+	}
+
+	& .p-toast-detail {
+	}
+
+	& .p-toast-close-button {
+		font-size: var(--i-toast-message-text-line-height);
+		width: 1em;
+		height: 1em;
+	}
+
+	& .p-toast-close-icon {
+		font-size: var(--i-toast-close-button-icon-size);
+		width: 1em;
+		height: 1em;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME {severity:"info|error|warn|success"} in TS
+\*——————————————————————————————————————————————————————————*/
+
+.prToast {
+	// --- Info ---
+
+	& .p-toast-message-info {
+		color: var(--i-toast-message-info-color);
+		background-color: var(--i-toast-message-info-background);
+		border-color: var(--i-toast-message-info-border-color);
+
+		& .p-toast-close-button:hover {
+			background-color: var(--i-toast-message-info-close-button-hover-background);
+		}
+
+		& .p-toast-message-icon {
+			color: var(--i-color-info-700);
+		}
+	}
+
+	// --- Secondary ---
+
+	& .p-toast-message-secondary {
+		color: var(--i-toast-message-secondary-color);
+		background-color: var(--i-toast-message-secondary-background);
+		border-color: var(--i-toast-message-secondary-border-color);
+
+		& .p-toast-close-button:hover {
+			background-color: var(--i-toast-message-secondary-close-button-hover-background);
+		}
+
+		& .p-toast-message-icon {
+			color: var(--i-color-info-700);
+		}
+	}
+
+	// --- Error ---
+
+	& .p-toast-message-error {
+		color: var(--i-toast-message-error-color);
+		background-color: var(--i-toast-message-error-background);
+		border-color: var(--i-toast-message-error-border-color);
+
+		& .p-toast-close-button:hover {
+			background-color: var(--i-toast-message-error-close-button-hover-background);
+		}
+	}
+
+	// --- Warn ---
+
+	& .p-toast-message-warn {
+		color: var(--i-toast-message-warn-color);
+		background-color: var(--i-toast-message-warn-background);
+		border-color: var(--i-toast-message-warn-border-color);
+
+		& .p-toast-close-button:hover {
+			background-color: var(--i-toast-message-warn-close-button-hover-background);
+		}
+
+		& .p-toast-message-icon {
+			color: var(--i-color-warning-700);
+		}
+	}
+
+	// --- Success ---
+
+	& .p-toast-message-success {
+		color: var(--i-toast-message-success-color);
+		background-color: var(--i-toast-message-success-background);
+		border-color: var(--i-toast-message-success-border-color);
+
+		& .p-toast-close-button:hover {
+			background-color: var(--i-toast-message-success-close-button-hover-background);
+		}
+
+		& .p-toast-message-icon {
+			color: var(--i-color-success-800);
+		}
+	}
+
+	// --- Icon ---
+
+	&:has(&__title) .p-message-icon {
+		height: var(--i-toast-message-title-line-height);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prToast )
+\*——————————————————————————————————————————————————————————*/
+
+.prToast {
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( prToast )
+\*——————————————————————————————————————————————————————————*/
+
+.prToast {
+	&--autoWidth.p-toast {
+		width: auto;
+	}
+
+	&--limitWidth.p-toast {
+		width: auto;
+		max-width: var(--limitWidth, 41.25rem); // 660px
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skToast {
+}

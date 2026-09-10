@@ -1,0 +1,208 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-SKELETON-CHART-LINE: "skChartLine ( Native HTML )";
+
+	// --i-skeleton-chartline-padding: 8px;
+	--i-skeleton-chartline-gap-y: 27px;
+	--i-skeleton-chartline-gap-x: 30px;
+	
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( .block )
+\*——————————————————————————————————————————————————————————*/
+
+.skChartLine {
+
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: 1fr auto;
+	grid-template-areas: "yAxis area" ". xAxis";
+	gap: var(--i-spacing-gap-xs) var(--i-spacing-gap-sm);
+
+	// --- custom ---
+
+	&:has(&__legend) {
+		grid-template-rows: 1fr auto auto;
+		grid-template-areas: "yAxis area" ". xAxis" "legend legend";
+	}
+
+	// --- forced ---
+
+	& p-skeleton {
+		width: 100% !important;
+		height: 100% !important;
+	}
+
+	// --- areas ---
+
+	&__yAxis 	{ grid-area: yAxis; 	}
+	&__xAxis 	{ grid-area: xAxis; 	}
+	&__area 		{ grid-area: area; 	}
+	&__legend 	{ grid-area: legend; }
+
+	// --- label ---
+
+	&__label {
+		height: 15px;
+	}
+
+	&__yAxis &__label {
+		min-width: 56px;
+	}
+
+	&__xAxis &__label {
+		flex-grow: 1;
+
+		& p-skeleton {
+			width: 100% !important;
+			max-width: 36px;
+			margin-inline: auto;
+		}
+	}
+
+	// --- area ---
+
+	&__area {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__todayMarker {
+
+	}
+
+	&__lines {
+		flex-grow: 1;
+		justify-content: space-between;
+	}
+
+	&__line {
+		display: flex;
+		align-items: center;
+		height: 15px;
+
+		& p-skeleton {
+			height: 1px !important;
+		}
+	}
+
+	&__graph {
+		position: absolute;
+		inset-inline: calc(var(--i-spacing-gap-lg) + 2.5%);
+		inset-block: 15%;
+	}
+
+	&__path {
+		position: absolute;
+		// inset: 0 calc(var(--i-spacing-gap-lg) + 1.75%);
+		inset: 0;
+
+		& svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	&__points {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+
+	&__point {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 1px; height: 1px;
+
+		// positions point
+
+		&:nth-child(1)  { left: -0.25%; bottom: 14%; }
+		&:nth-child(2)  { left: 9%; bottom: 1%; }
+		&:nth-child(3)  { left: 18.25%; bottom: 57%; }
+		&:nth-child(4)  { left: 27.25%; bottom: 9%; }
+		&:nth-child(5)  { left: 36.25%; bottom: 98%; }
+		&:nth-child(6)  { left: 45.5%; bottom: 26%; }
+		&:nth-child(7)  { left: 54.5%; bottom: 43%; }
+		&:nth-child(8)  { left: 63.5%; bottom: 40%; }
+		&:nth-child(9)  { left: 72.5%; bottom: 4%; }
+		&:nth-child(10) { left: 81.5%; bottom: 30%; }
+		&:nth-child(11) { left: 90.75%; bottom: 35%; }
+		&:nth-child(12) { left: 100%; bottom: 70%; }
+
+		// forced
+
+		& p-skeleton {
+			font-size: 11px;
+			min-width: 1em !important;
+			height: 1em !important;
+		}
+
+	}
+
+	// --- legend ---
+
+	&__legend {
+		display: flex;
+		justify-content: center;
+		gap: var(--i-spacing-gap-lg);
+	}
+
+	&__indicator {
+		display: flex;
+		align-items: center;
+		gap: var(--i-spacing-gap-xs);
+		padding-block: var(--i-spacing-container-lg);
+
+		& > p-skeleton:first-child {
+			width: 10px !important;
+			height: 10px !important;
+		}
+
+		& > p-skeleton:last-child {
+			width: 42px !important;
+			height: 8px !important;
+		}
+	}
+
+	// --- common ---
+
+	&__yAxis, &__lines {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-skeleton-chartline-gap-y);
+	}
+
+	&__xAxis {
+		display: flex;
+		gap: 2.5%;
+		padding-inline: var(--i-spacing-gap-lg);
+	}
+
+	&__yAxis {
+		justify-content: space-between;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENT ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.skChartLine {
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.skChartLine {
+	
+}
+

@@ -1,0 +1,170 @@
+<div class="u-display-flex u-flex-column u-gap-lg">
+	<!-- CURRENT STAGE -->
+	<p-panel class="prPanel" showHeader="false">
+		<!-- loaded -->
+		@if (demoLoaded.ready()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title">Current Stage: Opt Out Deadline</div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__wrap">
+					<div class="u-display-flex u-justify-content-between">
+						<span>Time Remaining</span>
+						<span>3 days</span>
+					</div>
+					<p-progressbar class="prProgressbar" [value]="progressbarValue()" [showValue]="false" [style]="{ height: '1rem' }" [ngClass]="'prProgressbar--' + progressbarStatus()"></p-progressbar>
+				</div>
+				<div class="amAlertDetailCard__feature">
+					<div class="amAlertDetailCard__meta">Estimated Cost</div>
+					<div class="amAlertDetailCard__highlight">
+						<sup>USD</sup>
+						<span>9,500.00</span>
+					</div>
+					<div class="amAlertDetailCard__meta">per year</div>
+				</div>
+			</div>
+			<div class="amAlertDetailCard__footer">
+				<div class="amAlertDetailCard__start">View in Opt Out</div>
+				<div class="amAlertDetailCard__end"><p-button class="prButton" severity="secondary" label="View details" [class]="'viewDetailsGA'" /></div>
+			</div>
+		</div>
+		}
+		<!-- skeleton -->
+		@if (!demoLoaded.ready()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title"><p-skeleton class="prSkeleton" [width]="'240px'" [height]="'28px'" /></div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__wrap">
+					<div class="u-display-flex u-justify-content-between | u-overflow-hidden">
+						<p-skeleton class="prSkeleton u-my-1" [width]="'100px'" [height]="'13px'" />
+						<p-skeleton class="prSkeleton u-my-1" [width]="'40px'" [height]="'13px'" />
+					</div>
+					<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'16px'" />
+				</div>
+				<div class="amAlertDetailCard__feature">
+					<div class="amAlertDetailCard__meta"><p-skeleton class="prSkeleton u-my-1" [width]="'95px'" [height]="'13px'" /></div>
+					<div class="amAlertDetailCard__highlight">
+						<sup><p-skeleton class="prSkeleton u-mt-1" [width]="'31.3px'" [height]="'14px'" /></sup>
+						<span><p-skeleton class="prSkeleton" [width]="'130px'" [height]="'40px'" /></span>
+					</div>
+					<div class="amAlertDetailCard__meta"><p-skeleton class="prSkeleton u-my-1" [width]="'50px'" [height]="'13px'" /></div>
+				</div>
+			</div>
+			<div class="amAlertDetailCard__footer">
+				<div class="amAlertDetailCard__start"><p-skeleton class="prSkeleton" [width]="'100px'" [height]="'13px'" /></div>
+				<div class="amAlertDetailCard__end"><p-skeleton class="prSkeleton" [width]="'95.31px'" [height]="'32px'"></p-skeleton></div>
+			</div>
+		</div>
+		}
+	</p-panel>
+
+	<!-- ACTIVE ALERT CONFIGURED -->
+	<p-panel class="prPanel" showHeader="false">
+		<!-- loaded -->
+		@if (demoLoaded.ready()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title">Description</div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="ptParagraphTruncate" style="--lines-to-show: 4" [class.ptParagraphTruncate--expanded]="!isParagraphTruncate()">
+					<div class="ptParagraphTruncate__text">
+						Issuers pay a monthly flat fee based on the number of accounts listed on the Account Screen Authorization File (ASAF). Visa Account Screen offers issuers the ability to decline all
+						authorizations for accounts negatively listed in the Account Screen Authorization File (ASAF), formerly known as Exception File, both when the issuer is available and during stand-in processing
+						(STIP). This fee became an opt-out service since October 2023. For more information, see the announcement AI13017.
+					</div>
+					<div class="ptParagraphTruncate__toggle">
+						<p-button class="prButton prButton--compact" [label]="isParagraphTruncate() ? 'View more' : 'Less more'" link (click)="ToggleParagraphTruncate()" />
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+		<!-- skeleton -->
+		@if (!demoLoaded.ready()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title"><p-skeleton class="prSkeleton" [width]="'90px'" [height]="'28px'" /></div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="ptParagraphTruncate">
+					<div class="ptParagraphTruncate__text">
+						<div class="u-overflow-hidden" style="padding-top: 2px">
+							<p-skeleton class="prSkeleton u-my-2" [width]="'95%'" [height]="'13px'" />
+							<p-skeleton class="prSkeleton u-my-2" [width]="'90%'" [height]="'13px'" />
+							<p-skeleton class="prSkeleton u-my-2" [width]="'80%'" [height]="'13px'" />
+							<p-skeleton class="prSkeleton u-my-2" [width]="'90%'" [height]="'13px'" />
+						</div>
+					</div>
+					<div class="ptParagraphTruncate__toggle">
+						<div class="u-overflow-hidden">
+							<p-skeleton class="prSkeleton u-my-1" [width]="'57px'" [height]="'12px'" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+	</p-panel>
+
+	<!-- COMMUNICATION TIMELINE -->
+	<p-panel class="prPanel" showHeader="false">
+		<!-- loaded -->
+		@if (demoLoaded.ready()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title">Communication Timeline</div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__wrap">
+					<div class="ptTimelineVertical | u-text-sm">
+						@for (event of timelineEvents(); track event.id) {
+						<div class="ptTimelineVertical__event">
+							<div class="ptTimelineVertical__separator"></div>
+							<div class="ptTimelineVertical__content">
+								<div class="ptTimelineVertical__status">{{ event.status }}</div>
+								<div class="ptTimelineVertical__description">{{ event.description }}</div>
+								<div class="ptTimelineVertical__date u-mt-3">Communicated: {{ event.date }}</div>
+							</div>
+						</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+		<!-- skeleton -->
+		@if (!demoLoaded.ready()) {
+		<div class="amAlertDetailCard">
+			<div class="amAlertDetailCard__header">
+				<div class="amAlertDetailCard__title"><p-skeleton class="prSkeleton" [width]="'90px'" [height]="'28px'" /></div>
+			</div>
+			<div class="amAlertDetailCard__body">
+				<div class="amAlertDetailCard__wrap">
+					<div class="ptTimelineVertical | u-text-sm">
+						@for (event of timelineEvents(); track event.id) {
+						<div class="ptTimelineVertical__event">
+							<div class="ptTimelineVertical__separator">
+								<p-skeleton class="prSkeleton" shape="circle" [size]="'17px'" />
+								<p-skeleton class="prSkeleton u-flex-grow-1" [width]="'1px'" [height]="'auto'" />
+							</div>
+							<div class="ptTimelineVertical__content">
+								<div class="ptTimelineVertical__status | u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'110px'" [height]="'12px'" /></div>
+								<div class="ptTimelineVertical__description | u-overflow-hidden">
+									<p-skeleton class="prSkeleton u-my-1" [width]="'90%'" [height]="'12px'" />
+									<p-skeleton class="prSkeleton u-my-1" [width]="'35%'" [height]="'12px'" />
+								</div>
+								<div class="ptTimelineVertical__date | u-overflow-hidden u-mt-3"><p-skeleton class="prSkeleton u-my-1" [width]="'150px'" [height]="'12px'" /></div>
+							</div>
+						</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+	</p-panel>
+</div>

@@ -1,0 +1,123 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-ICON-FIELD: "prIconfield ( Custom PrimeNG )";
+
+	--i-iconfield-icon-inset-start: 6px;
+	--i-iconfield-icon-inset-end: 8px;
+	--i-iconfield-padding-inline:  calc(6px + var(--i-icon-size-sm) + 8px);
+
+	--i-iconfield-button-sm-width: 2rem;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prIconfield:is(.p-iconfield) {
+
+	position: relative;
+
+	// --- input ---
+
+	& .p-inputtext {
+		width: 100%; height: 32px;
+
+		&:not(:first-child) {
+			padding-inline-start: var(--i-iconfield-padding-inline);
+		}
+
+		&:not(:last-child) {
+			padding-inline-end: var(--i-iconfield-padding-inline);
+		}
+
+		&.ng-invalid {
+			color: var(--i-color-error-700);
+			border-color: var(--i-border-error);
+
+			&::placeholder {
+				color: currentColor
+			}
+		}
+
+		&.p-invalid + p-button .p-button-icon {
+				color: var(--i-text-color-error);
+		}
+	}
+
+	// --- icon ( decorative ) ---
+
+	& p-inputicon {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		margin-top: 0;
+		color: var(--i-color-primary-base);
+
+		&:first-child {
+			inset-inline-start:  var(--i-iconfield-icon-inset-start);
+		}
+
+		&:last-child {
+			inset-inline-end:  var(--i-iconfield-icon-inset-end);
+		}
+
+		&:not(:first-child, :last-child) {
+			display: none;
+		}
+	}
+
+	// --- button ( clear ) ---
+
+	& p-button {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+
+		&:first-child {
+			display: none; // * Ocultar ( si fuese primero )
+		}
+
+		&:last-child {
+			inset-inline-end: 0; // var(--i-iconfield-icon-inset-end);
+		}
+
+		& .p-button {
+			padding: 0;
+			height: auto;
+			border-radius: 0;
+			color: var(--i-color-primary-900);
+			
+			&:is(&, &:hover, &:focus) {
+				border: 0;
+				background-color: transparent;
+			}
+		}
+
+		& .p-button-sm.p-button-icon-only {
+			width: var(--i-iconfield-button-sm-width);
+		}
+	} 
+
+	& .ng-invalid ~ p-button .p-button-icon {
+		color: var(--i-color-error-700);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prButton )
+\*——————————————————————————————————————————————————————————*/
+
+.prIconfield {
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skIconfield {
+
+}

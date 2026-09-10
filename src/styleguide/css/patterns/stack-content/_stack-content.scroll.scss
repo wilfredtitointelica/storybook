@@ -1,0 +1,34 @@
+// --- scroll auto ( default ) ---
+
+.ptStackContent {
+
+	&--scroll {
+		height: inherit;
+	}
+
+	&--scroll &__body {
+		flex-basis: 0;
+		overflow: hidden auto;
+	}
+
+}
+
+// --- scroll detect ( Scroll-Linked Animations Technique ) ---
+
+.ptStackContent {
+
+	&--scroll &__body {
+		// define animation
+		--can-scroll-y: 0;
+		animation: scroll-detect-stack-content-y;
+		animation-timeline: scroll(self y);
+
+		// add properties
+		padding-right: calc(.5rem * var(--can-scroll-y));
+	}
+	
+}
+
+@keyframes scroll-detect-stack-content-y {
+	from, to { --can-scroll-y: 1; }
+}

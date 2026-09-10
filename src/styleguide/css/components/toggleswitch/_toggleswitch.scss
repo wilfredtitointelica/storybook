@@ -1,0 +1,223 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-TOGGLESWITCH-COMPONENT: "prToggleswitch ( Custom PrimeNG )";
+
+	// --- General ---
+
+	--i-toggleswitch-background: var(--i-color-neutral-100); //#FCFCFD || color/grey/50
+	--i-toggleswitch-hover-background: var(--i-color-primary-100);
+
+	// Border
+	--i-toggleswitch-border-color: var(--i-color-secondary-400); //#7490e2 || color/blue/400
+	--i-toggleswitch-border-radius: var(--i-border-radius-full); //1000px || radius/full
+	--i-toggleswitch-border-width: var(--i-border-width-sm); // 1px || stroke/010
+
+	// Space & Sizes
+	--i-toggleswitch-gap: 2px;
+	--i-toggleswitch-height: 24px;
+	--i-toggleswitch-width: 48px;
+
+	// State
+	--i-toggleswitch-checked-border-color: var(--i-color-primary-900); //#7490e2 || color/blue/400
+	--i-toggleswitch-checked-background: var(--i-color-primary-100); //#E6ECF9 || color/blue/100
+	--i-toggleswitch-disabled-background: var(--i-color-neutral-200); //#d8dae4 || color/grey/200
+	--i-toggleswitch-hover-border-color: var(--i-color-primary-900); //#21409a || color/blue/700
+
+	// --- Handle ---
+
+	--i-toggleswitch-handle-color: var(--i-color-secondary-600); //#2a52c5 || color/blue/600
+	--i-toggleswitch-checked-handle-color: var(--i-color-primary-900); //#2a52c5 || color/blue/600
+
+	// Border
+	--i-toggleswitch-handle-border-radius: var(--i-border-radius-full); //1000px || radius/full
+
+	// Sizes
+	--i-toggleswitch-handle-size: 20px;
+
+	// State
+	--i-toggleswitch-handle-disabled-background: var(--i-color-neutral-400);
+	--i-toggleswitch-handle-hover-color: var(--i-color-primary-900);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prToggleswitch {
+	&.p-toggleswitch {
+		width: var(--i-toggleswitch-width);
+		height: var(--i-toggleswitch-height);
+
+		// --- Inactive ---
+		.p-toggleswitch-slider {
+			background: var(--i-toggleswitch-background);
+			border: var(--i-toggleswitch-border-width) solid var(--i-toggleswitch-border-color);
+			border-radius: var(--i-toggleswitch-border-radius);
+		}
+		.p-toggleswitch-handle {
+			border-radius: var(--i-toggleswitch-handle-border-radius);
+			background: var(--i-color-secondary-400);
+			height: var(--i-toggleswitch-handle-size);
+			inset-inline-start: var(--i-toggleswitch-gap);
+			margin-block-start: calc(-1 * calc(var(--i-toggleswitch-handle-size) / 2));
+			width: var(--i-toggleswitch-handle-size);
+		}
+
+		// --- Active ---
+		&.p-toggleswitch-checked {
+			.p-toggleswitch-slider {
+				background: var(--i-toggleswitch-background);
+				border: var(--i-toggleswitch-border-width) solid var(--i-toggleswitch-checked-border-color);
+			}
+			.p-toggleswitch-handle {
+				background: var(--i-toggleswitch-checked-handle-color);
+				inset-inline-start: calc(var(--i-toggleswitch-width) - calc(20px + var(--i-toggleswitch-gap)));
+			}
+		}
+
+		// --- Hover ---
+		&:not(.p-disabled):has(.p-toggleswitch-input:hover) {
+			.p-toggleswitch-slider {
+				background: var(--i-toggleswitch-background);
+				border: var(--i-toggleswitch-border-width) solid var(--i-toggleswitch-hover-border-color);
+			}
+			.p-toggleswitch-handle {
+				background: var(--i-color-secondary-400);
+			}
+			&.p-toggleswitch-checked {
+				.p-toggleswitch-slider {
+					background: var(--i-toggleswitch-hover-background);
+					border: var(--i-toggleswitch-border-width) solid var(--i-toggleswitch-hover-border-color);
+				}
+				.p-toggleswitch-handle {
+					background: var(--i-toggleswitch-handle-hover-color);
+				}
+			}
+		}
+		// --- Disabled ---
+		&.p-disabled {
+			.p-toggleswitch-slider {
+				background: var(--i-toggleswitch-disabled-background);
+				border: var(--i-stroke-none);
+			}
+			.p-toggleswitch-handle {
+				background: var(--i-toggleswitch-handle-disabled-background);
+			}
+		}
+
+		// --- Focus
+		&:not(.p-disabled):has(.p-toggleswitch-input:focus-visible) .p-toggleswitch-slider {
+			outline: 1px solid var(--i-focus-border-color);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prToggleswitch )
+\*——————————————————————————————————————————————————————————*/
+
+.prToggleswitch {
+	// BEM Component
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( prToggleswitch )
+\*——————————————————————————————————————————————————————————*/
+
+.prToggleswitch {
+	// --- slider ---
+
+	&--slider.p-toggleswitch {
+		--i-toggleswitch-width: 36px;
+		--i-toggleswitch-handle-size: 16px;
+
+		display: flex;
+
+		// slider
+
+		& .p-toggleswitch-slider,
+		&:not(.p-disabled):has(.p-toggleswitch-input:hover) .p-toggleswitch-slider {
+			height: 4px;
+			margin-block: auto;
+			background-color: var(--i-color-secondary-600);
+			border-color: var(--i-color-secondary-600);
+		}
+
+		&.p-toggleswitch-checked .p-toggleswitch-slider,
+		&:not(.p-disabled):has(.p-toggleswitch-input:hover).p-toggleswitch-checked .p-toggleswitch-slider {
+			background-color: var(--i-toggleswitch-checked-border-color);
+		}
+
+		&.p-disabled .p-toggleswitch-slider {
+			background-color: var(--i-color-secondary-200);
+		}
+
+		// handle
+
+		& .p-toggleswitch-handle {
+			inset-inline-start: 0;
+		}
+
+		& .p-toggleswitch-handle,
+		&:not(.p-disabled):has(.p-toggleswitch-input:hover) .p-toggleswitch-handle {
+			border: 1px solid var(--i-color-secondary-600);
+			background-color: var(--i-color-secondary-100);
+		}
+
+		&.p-toggleswitch-checked .p-toggleswitch-handle {
+			inset-inline-start: calc(var(--i-toggleswitch-width) - var(--i-toggleswitch-handle-size));
+		}
+
+		&.p-toggleswitch-checked .p-toggleswitch-handle,
+		&:not(.p-disabled):has(.p-toggleswitch-input:hover).p-toggleswitch-checked .p-toggleswitch-handle {
+			background-color: var(--i-color-secondary-50);
+			border: 1px solid var(--i-toggleswitch-checked-border-color);
+		}
+
+		&.p-disabled .p-toggleswitch-handle {
+			border-color: var(--i-color-secondary-200);
+		}
+	}
+
+	// --- forced checked ---
+	&--forcedChecked.p-toggleswitch {
+		&.p-disabled .p-toggleswitch-input {
+			cursor: not-allowed;
+			pointer-events: initial;
+		}
+
+		&.p-disabled .p-toggleswitch-slider {
+			pointer-events: none;
+			background-color: var(--i-toggleswitch-checked-border-color);
+		}
+
+		&.p-disabled .p-toggleswitch-handle {
+			pointer-events: none;
+			border-color: var(--i-toggleswitch-checked-border-color);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( grToggleswitch )
+\*——————————————————————————————————————————————————————————*/
+.grToggleswitch {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	column-gap: var(--i-input-wrap-gap);
+
+	&__label {
+		font-size: var(--i-input-label-size);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skToggleSwitch {
+}

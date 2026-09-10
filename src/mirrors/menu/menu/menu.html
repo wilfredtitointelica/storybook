@@ -1,0 +1,93 @@
+@if (isLoading()) {
+<div class="prPanelmenu" [class.prPanelmenu--collapsed]="collapsed()">
+	@for (row of skeletonRows; track row) {
+	<div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1rem">
+		<p-skeleton width="11rem" height="1rem"></p-skeleton>
+	</div>
+	}
+</div>
+} @else {
+<p-panelmenu class="prPanelmenu" [model]="menuItems" [class.prPanelmenu--collapsed]="collapsed()">
+	<ng-template #item let-item>
+		<!-- ITEM WITH ROUTERPATH -->
+		@if (item.routerPath) {
+		<a
+			class="p-panelmenu-header-link"
+			[class.is-active]="isActive(item)"
+			tabindex="-1"
+			(mouseenter)="checkTextOverflow(textElement, item)"
+			tooltipStyleClass="prTooltip"
+			tooltipPosition="right"
+			[pTooltip]="item.isTextOverflow ? item.label : ''"
+			[routerLink]="item.routerPath"
+			routerLinkActive="is-active"
+			[routerLinkActiveOptions]="{ exact: true }"
+			(click)="openSidebar.emit(true)"
+		>
+			@if (item.items?.length) {
+			<span class="icon icon-arrow-right p-panelmenu-submenu-icon"></span>
+			} @if (item.icon) {
+			<span [class]="item.icon + ' p-panelmenu-header-icon'"></span>
+			}
+			<span
+				#textElement
+				class="p-panelmenu-header-label"
+				(mousedown)="$event.preventDefault()"
+				(mouseenter)="checkTextOverflow(textElement, item)"
+				tooltipStyleClass="prTooltip"
+				tooltipPosition="right"
+				[pTooltip]="item.isTextOverflow ? item.label : ''"
+			>
+				{{ item.label }}
+			</span>
+		</a>
+		}
+		<!-- ITEM WITH URL -->
+		@if (item.url) {
+		<div class="u-display-flex u-gap-xs u-align-items-center">
+			<a class="p-panelmenu-header-link u-flex-grow-1" [class.is-active]="isActive(item)" tabindex="-1" [href]="item.url" target="_blank" (click)="$event.stopPropagation(); openSidebar.emit(true)">
+				@if (item.items?.length) {
+				<span class="icon icon-arrow-right p-panelmenu-submenu-icon"></span>
+				} @if (item.icon) {
+				<span [class]="item.icon + ' p-panelmenu-header-icon'"></span>
+				}
+				<span
+					#textElement
+					class="p-panelmenu-header-label"
+					(mousedown)="$event.preventDefault()"
+					(mouseenter)="checkTextOverflow(textElement, item)"
+					tooltipStyleClass="prTooltip"
+					tooltipPosition="right"
+					[pTooltip]="item.isTextOverflow ? item.label : ''"
+				>
+					{{ item.label }}
+				</span>
+				<span class="p-panelmenu-header-legacy" [class]="'legacyLinkGA'" tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="'Open in legacy portal'">
+					<i class="icon icon-external-link"></i>
+				</span>
+			</a>
+		</div>
+		}
+		<!-- GROUP -->
+		@if (!item.routerPath && !item.url) {
+		<span class="p-panelmenu-header-link" [class.is-active]="isActive(item)" (click)="openSidebar.emit(true)">
+			@if (item.items?.length) {
+			<span class="icon icon-arrow-right p-panelmenu-submenu-icon"></span>
+			} @if (item.icon) {
+			<span [class]="item.icon + ' p-panelmenu-header-icon'"></span>
+			}
+			<span
+				#textElement
+				class="p-panelmenu-header-label"
+				(mouseenter)="checkTextOverflow(textElement, item)"
+				tooltipStyleClass="prTooltip"
+				tooltipPosition="right"
+				[pTooltip]="item.isTextOverflow ? item.label : ''"
+			>
+				{{ item.label }}
+			</span>
+		</span>
+		}
+	</ng-template>
+</p-panelmenu>
+}

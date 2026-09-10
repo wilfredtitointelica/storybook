@@ -1,0 +1,38 @@
+<div class="history">
+	@if (loading()) {
+	<div class="history__header">
+		<p-skeleton class="prSkeleton" width="170px" height="22px" borderRadius="8px"></p-skeleton>
+		<p-skeleton class="prSkeleton" style="margin-top: 12px" width="300px" height="16px" borderRadius="8px"></p-skeleton>
+	</div>
+	} @else {
+	<div class="history__header">
+		<div class="history__title u-display-inline-flex u-align-items-center u-gap-sm">
+			{{ commonGlobalService.termText(feeDetailTerm.HISTORICAL_CHANGES) }}
+			<i class="icon icon-info" [pTooltip]="commonGlobalService.termText(feeDetailTerm.HISTORICAL_CHANGES_INFO)" tooltipStyleClass="prTooltip" tooltipPosition="top"></i>
+		</div>
+		<div>{{ commonGlobalService.termText(feeDetailTerm.HISTORICAL_CHANGES_DESCRIPTION) }}</div>
+	</div>
+	} @if (hasError()) {
+	<intelica-status-state [state]="StatusStateEnum.SystemError" [description]="'LBL_SYSTEM_ERROR_SUBTITLE'" (reload)="reload.emit()" />
+	} @else {
+	<div class="historyGridCtr">
+		<div class="grid-item">
+			<fee-history-last-twelve [isLoading]="loading()" [kpiData]="kpiData()" [activePeriod]="activePeriod()" />
+		</div>
+		<div class="grid-item">
+			<fee-history-expense-evolution
+				[isLoading]="loading()"
+				[chartData]="chartData()"
+				[activePeriod]="activePeriod()"
+				[hasIncompleteHistory]="hasIncompleteHistory()"
+				[currency]="kpiData()?.currency ?? ''"
+				[isDownloading]="isDownloadingExpenseEvolution()"
+				(downloadRequest)="expenseEvolutionDownloadRequest.emit()"
+			/>
+		</div>
+		<div class="grid-item full-width">
+			<fee-history-billing [isLoading]="loading()" [historyData]="historyData()" [isDownloading]="isDownloading()" (downloadRequest)="downloadRequest.emit($event)" />
+		</div>
+	</div>
+	}
+</div>

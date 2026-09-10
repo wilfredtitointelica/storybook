@@ -1,0 +1,67 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-CHIP: "prChip ( Custom PrimeNG )";
+
+	--i-chip-: var(--i-);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prChip {
+	&.p-chip {
+		gap: var(--i-spacing-gap-xs);
+		padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+		height: var(--i-spacing-container-2xl);
+		font-size: var(--i-typography-font-size-xs);
+		font-weight: var(--i-typography-font-weight-regular);
+		line-height: var(--i-typography-lineHeight-sm);
+		color: var(--i-color-primary-400);
+		background-color: var(--i-color-primary-100);
+	}
+
+	& .p-chip-label {
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [removable="true"]
+\*——————————————————————————————————————————————————————————*/
+
+.prChip {
+	& .p-chip-remove-icon {
+		width: 1em;
+		height: 1em;
+		font-size: 1.2em;
+		color: currentColor;
+		// --- Focus
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENT ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.prChip {
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prChip {
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skChip {
+}

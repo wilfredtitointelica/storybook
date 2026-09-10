@@ -1,0 +1,190 @@
+<div class="grPanel">
+	<div class="grPanel__body">
+		<p-fileUpload #fu class="prFileUpload" name="myfile[]" [multiple]="true" [customUpload]="true" (onSelect)="onFilesAdded($event)">
+			<ng-template #content let-files let-uploadedFiles="uploadedFiles" let-removeFileCallback="removeFileCallback">
+				<div class="prFileUpload__body">
+					<div class="prFileUpload__content">
+						<div class="prFileUpload__icon"><i class="icon icon-upload"></i></div>
+						<div class="prFileUpload__hyperlink">
+							<span class="prFileUpload__text">{{ "PLEASE-DRAG-PLACE" | term : GlobalTermService.languageCode }}</span>
+							<p-button class="prFileUpload__button prButton" [class]="'uploadedFilesGA'" [label]="'SM_FILES' | term : GlobalTermService.languageCode" link (click)="fu.choose()"></p-button>
+							<span class="prFileUpload__text">{{ "SM_HERE" | term : GlobalTermService.languageCode }}</span>
+						</div>
+						<div class="prFileUpload__requirements">
+							<div class="prFileUpload__requirement">
+								<span class="prFileUpload__label">{{ "ALLOWED-FILE-FORMATS" | term : GlobalTermService.languageCode }}:</span>
+								<span class="prFileUpload__value">{{ extensionsAllowed }}</span>
+							</div>
+							<div class="prFileUpload__requirement">
+								<span class="prFileUpload__label">{{ "MAX-FILE-SIZE" | term : GlobalTermService.languageCode }}:</span>
+								<span class="prFileUpload__value">{{ maxFileSize.toUpperCase() }}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+		</p-fileUpload>
+	</div>
+</div>
+
+<!-- Modal -->
+<p-dialog
+	class="prDialog prDialog--xl"
+	[(visible)]="modalVisible"
+	[modal]="true"
+	(onHide)="closeModal()"
+	[draggable]="false"
+	[resizable]="false"
+	[closeOnEscape]="true"
+	[dismissableMask]="true"
+	[contentStyle]="{ overflow: 'hidden' }"
+>
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title d-flex align-items-center">{{ "SM_UPLOAD_FILE" | term : GlobalTermService.languageCode }}</div>
+		</div>
+	</ng-template>
+
+	<ng-template #content>
+		<div class="prDialog__body">
+			<div class="prDialog__content">
+				<div class="prDialog__action gap-3">
+					<p-button class="prButton" [label]="'SM_ADD_FILE' | term : GlobalTermService.languageCode" severity="secondary" [disabled]="uploadStarted" (onClick)="fu.choose()"></p-button>
+				</div>
+			</div>
+			@if (loading) {
+			<div class="skTable">
+				<div class="skTable__header">
+					<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+				</div>
+				<div class="skTable__line">
+					<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+				</div>
+				<div class="skTable__body">
+					@for (_ of skeletonRows; track $index) {
+					<div class="skTable__row">
+						@for (__ of skeletonColumns; track $index) {
+						<div class="skTable__cell">
+							<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+						</div>
+						}
+					</div>
+					}
+				</div>
+			</div>
+			} @else {
+			<!-- Component Reutilizable Table -->
+			<intelica-table #itltable [ShowSearch]="false" [ShowPagination]="true" [RowsPerPage]="10" [AllowedPageSizes]="[10, 20, 50, 100]" [ListData]="files" [scrollable]="true" [scrollHeight]="'400px'">
+				<column
+					field="extension"
+					[headerTooltip]="('ALLOWED-FILE-FORMATS' | term : GlobalTermService.languageCode) + ' : ' + extensionsAllowed"
+					[header]="'SM_FILE_TYPE' | term : GlobalTermService.languageCode"
+					className="text-center"
+					width="10%"
+				></column>
+				<column field="name" [header]="'SM_FILE_NAME' | term : GlobalTermService.languageCode" className="text-center" width="30%">
+					<ng-template #content let-data>
+						<input
+							pInputText
+							type="text"
+							class="prInputtext u-text-ellipsis u-full-width"
+							[maxlength]="200"
+							(input)="ValidInputFileName($event, data)"
+							[(ngModel)]="data.name"
+							(ngModelChange)="validFile(data)"
+							[disabled]="!isPreparingProcess()"
+							spellcheck="false"
+						/>
+					</ng-template>
+				</column>
+				<column field="description" [header]="'SM_DESCRIPTION' | term : GlobalTermService.languageCode" className="text-center" width="25%">
+					<ng-template #content let-data>
+						<div class="formRowInputWrap">
+							<input
+								pInputText
+								type="text"
+								class="prInputtext u-text-ellipsis u-full-width"
+								[maxlength]="2000"
+								[(ngModel)]="data.description"
+								[placeholder]="'SM_DECRIPTION_OPTIONAL' | term : GlobalTermService.languageCode"
+								[disabled]="!isPreparingProcess() || !data.isCorrect"
+								spellcheck="false"
+							/>
+						</div>
+					</ng-template>
+				</column>
+				<column field="description" [header]="'CATEGORY' | term : GlobalTermService.languageCode" className="text-center" width="15%">
+					<ng-template #content let-data>
+						<p-select
+							class="prSelect u-full-width"
+							dropdownIcon="icon icon-arrow-down"
+							[(ngModel)]="data.category"
+							[options]="ListCategory"
+							optionLabel="categoryDescription"
+							optionValue="categoryId"
+							placeholder="Select category"
+							[disabled]="!isPreparingProcess() || !data.isCorrect"
+							appendTo="body"
+							style="min-width: 182px"
+							panelStyleClass="prSelect"
+						></p-select>
+					</ng-template>
+				</column>
+				<column
+					field="SM_SIZE"
+					[headerTooltip]="('MAX-FILE-SIZE' | term : GlobalTermService.languageCode) + ' : ' + maxFileSize.toUpperCase()"
+					[header]="'SM_SIZE' | term : GlobalTermService.languageCode"
+					className="text-center"
+					width="7%"
+				>
+					<ng-template #content let-data>
+						<span>{{ data.size | size }}</span>
+					</ng-template>
+				</column>
+				<column field="status" [header]="'SM_STATUS' | term : GlobalTermService.languageCode" className="text-center" width="5%">
+					<ng-template #content let-data>
+						@if (data.status === 2) {
+						<!-- <p-progressBar class="prProgressBar prProgressBar--hidelabel" [value]="data.load"></p-progressBar> -->
+						<p-progress-spinner
+							class="prProgressSpinner"
+							ariaLabel="loading"
+							[pTooltip]="'LBL_LOADING_UPLOAD' | term : GlobalTermService.languageCode"
+							tooltipPosition="top"
+							tooltipStyleClass="prTooltip"
+							[style]="{ width: '30px', height: '30px' }"
+						></p-progress-spinner>
+						} @else {
+						<span class="upload-status u-vertical-middle" tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="getStatusTooltip(data)">
+							@if (isStatusOk(data)) {
+							<i class="icon icon-input-success icon--sm upload-status__ok"></i>
+							} @else {
+							<i class="icon icon-input-error icon--sm upload-status__error"></i>
+							}
+						</span>
+						}
+					</ng-template>
+				</column>
+				<column width="4%" className="text-center">
+					<ng-template #content let-data>
+						<!-- <p-button class="prButton prButton--icon" size="large" severity="secondary" (onClick)="removeFileFromTable(data)">
+							<i class="icon icon-delete"></i>
+						</p-button> -->
+
+						<p-button class="prButton" icon="icon icon-delete" size="large" (onClick)="removeFileFromTable(data)" />
+					</ng-template>
+				</column>
+			</intelica-table>
+			}
+			<!-- End Table -->
+		</div>
+	</ng-template>
+
+	<ng-template #footer>
+		@if (!IsUploadedFiles()) {
+		<p-button class="prButton" [label]="'SM_CANCEL' | term : GlobalTermService.languageCode" severity="secondary" (onClick)="CancelProcess()"></p-button>
+		<p-button class="prButton" [class]="'uploadModalGA'" [label]="'SM_UPLOAD' | term : GlobalTermService.languageCode" [disabled]="!FilesReady()" (onClick)="processFiles()"></p-button>
+		} @else {
+		<p-button class="prButton" [label]="'SM_OK' | term : GlobalTermService.languageCode" (onClick)="completeProcess()"></p-button>
+		}
+	</ng-template>
+</p-dialog>

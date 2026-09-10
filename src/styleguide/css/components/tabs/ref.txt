@@ -1,0 +1,17 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PRIMENG / TABS
+\*——————————————————————————————————————————————————————————*/
+
+/*\
+	.p-tabs ( .p-tabs-scrollable )
+		.p-tablist
+			.p-tablist-nav-button ( .p-tablist-prev-button )
+			.p-tablist-content ( p-tablist-viewport )
+				.p-tablist-tab-list
+					.p-tab ( .p-tab-active | p-disabled )
+					.p-tablist-active-bar
+			.p-tablist-nav-button ( .p-tablist-next-button )
+		.p-tabpanels
+			.p-tabpanel ( .p-tabpanel-active )
+
+\*/

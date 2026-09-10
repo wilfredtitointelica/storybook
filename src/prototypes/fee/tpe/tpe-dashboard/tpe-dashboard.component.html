@@ -1,0 +1,515 @@
+<div class="tpe">
+	<!-- @if (isLoadingFilter()) {
+	<div style="display: flex; justify-content: space-between">
+		<div style="display: flex; flex-direction: column; gap: 1px">
+			<p-skeleton class="prSkeleton" width="189px" height="28px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="195px" height="24px"></p-skeleton>
+		</div>
+		<div>
+			<p-skeleton class="prSkeleton" width="130px" height="32px"></p-skeleton>
+		</div>
+	</div>
+	} @else { -->
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle__content">
+			<div class="ptSectionTitle__title">
+				{{ "MastercardTPE" | term : globalTermService.languageCode }}
+			</div>
+			@if (!client()) { @if (isNoData()) {
+			<div class="ptSectionTitle__subtitle">{{ "LBL_LAST_UPDATE" | term : globalTermService.languageCode }}:</div>
+			} @else {
+			<div class="ptSectionTitle__subtitle">
+				<p-skeleton class="prSkeleton"></p-skeleton>
+			</div>
+			} } @else {
+			<div class="ptSectionTitle__subtitle">
+				{{ "LBL_LAST_UPDATE" | term : globalTermService.languageCode }}:
+				{{ client()!.lastUpdate | date : "dd MMM, yyyy" }}
+			</div>
+			}
+		</div>
+		<div class="ptSectionTitle__actions">
+			<intelica-add-favorites [pageName]="'MastercardTPE' | term : globalTermService.languageCode"></intelica-add-favorites>
+		</div>
+	</div>
+	<!-- } -->
+	<div class="ptSectionPanel">
+		<!---->
+		@if (isLoadingPenaltiesOverView() || !client()) { @if (isNoData()) {
+		<div class="grPanel penaltiesTpePanel">
+			<ng-container *ngTemplateOutlet="statusPanel; context: { title: 'PENALTIES_OVERVIEW' }"></ng-container>
+		</div>
+		} @else {
+		<div class="grPanel ratingTpePanel" style="background: #fcfcfd; border: 1px solid #e2e8f0; padding: 16px; border-radius: 16px; gap: 8px">
+			<p-skeleton class="prSkeleton" width="140px" height="24px"></p-skeleton>
+			<div style="display: flex; flex-direction: column; gap: 25.33px">
+				<div style="display: flex; flex-direction: row">
+					<p-skeleton class="prSkeleton" width="161px" height="52px"></p-skeleton>
+				</div>
+				<div style="display: flex; flex-direction: column; gap: 4px">
+					<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="100%" height="28px"></p-skeleton>
+				</div>
+			</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid #e2e8f0; margin-top: auto">
+				<p-skeleton class="prSkeleton" width="168px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="93px" height="32px"></p-skeleton>
+			</div>
+		</div>
+		} } @else if (hasPenaltiesOverViewError()) {
+		<div class="grPanel penaltiesTpePanel">
+			<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadPenaltiesOverView()" />
+		</div>
+		} @else if (!hasPenaltiesOverViewData()) {
+		<div class="grPanel penaltiesTpePanel">
+			<ng-container *ngTemplateOutlet="statusPanel; context: { title: 'PENALTIES_OVERVIEW' }"></ng-container>
+		</div>
+		} @else {
+		<div class="grPanel penaltiesTpePanel">
+			<div class="grPanel__header">
+				<div class="grPanel__section">
+					<div class="grPanel__title">
+						{{ "PENALTIES_OVERVIEW" | term : globalTermService.languageCode }}
+					</div>
+				</div>
+			</div>
+			<div class="grPanel__body">
+				<div class="penaltiesTpePanel__metric">
+					<div class="penaltiesTpePanel__currency">
+						<div class="penaltiesTpePanel__code">{{ client()!.clientCurrency }}</div>
+						<div class="penaltiesTpePanel__value">
+							{{ penaltiesOverView()!.amountPaid | amount : true : 2 }}
+						</div>
+					</div>
+				</div>
+				<div class="penaltiesTpePanel__description">
+					<div class="penaltiesTpePanel__label">
+						{{ "MOST_COMMON_FEE" | term : globalTermService.languageCode }}
+					</div>
+					<div class="penaltiesTpePanel__value">
+						<div class="ptParagraphTruncate" style="--lines-to-show: 3" (mouseenter)="checkTextOverflow(textTruncatePenalties)">
+							<span
+								class="ptParagraphTruncate__text"
+								#textTruncatePenalties
+								tooltipStyleClass="prTooltip"
+								tooltipPosition="bottom"
+								[pTooltip]="isTextOverflow ? penaltiesOverView()!.mostCommonFeeCode + '-' + penaltiesOverView()!.mostCommonFeeName : ''"
+							>
+								{{ penaltiesOverView()!.mostCommonFeeCode }} -
+								{{ penaltiesOverView()!.mostCommonFeeName }}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grPanel__footer">
+				<div class="penaltiesTpePanel__text">
+					{{ "EXPLORE_PENALTY_BREAKDOWN" | term : globalTermService.languageCode }}
+				</div>
+				<div class="penaltiesTpePanel__action">
+					<p-button
+						class="prButton"
+						[class]="'tpe_viewDetailsGA'"
+						label="{{ 'LBL_VIEW_DETAILS' | term : globalTermService.languageCode }}"
+						[routerLink]="['/fee', 'tpe', 'penalties-paid']"
+						severity="secondary"
+					/>
+				</div>
+			</div>
+		</div>
+		} @if (isLoadingMerchantNonCompliance()) { @if (isNoData()) {
+		<div class="grPanel merchantsTpePanel">
+			<ng-container *ngTemplateOutlet="statusPanel; context: { title: 'NON_COMPLIANT_MERCHANTS' }"></ng-container>
+		</div>
+		} @else {
+		<div class="grPanel ratingTpePanel" style="background: #fcfcfd; border: 1px solid #e2e8f0; padding: 16px; border-radius: 16px">
+			<p-skeleton class="prSkeleton" width="195px" height="24px"></p-skeleton>
+			<div style="display: flex; flex-direction: column; padding-top: 29.5px; padding-bottom: 29.5px">
+				<div style="display: flex; flex-direction: column; gap: 16px">
+					<div style="display: flex; flex-direction: column; gap: 4px">
+						<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="100%" height="28px"></p-skeleton>
+					</div>
+					<div style="display: flex; flex-direction: column; gap: 4px">
+						<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="100%" height="32px"></p-skeleton>
+					</div>
+				</div>
+			</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid #e2e8f0; margin-top: auto">
+				<p-skeleton class="prSkeleton" width="169px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="93px" height="32px"></p-skeleton>
+			</div>
+		</div>
+		} } @else if (hasMerchantNonComplianceError()) {
+		<div class="grPanel merchantsTpePanel">
+			<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadMerchantNonCompliance()" />
+		</div>
+		} @else if (!hasMerchantNonComplianceData()) {
+		<div class="grPanel merchantsTpePanel">
+			<ng-container *ngTemplateOutlet="statusPanel; context: { title: 'NON_COMPLIANT_MERCHANTS' }"></ng-container>
+		</div>
+		} @else {
+		<div class="grPanel merchantsTpePanel">
+			<div class="grPanel__header">
+				<div class="grPanel__section">
+					<div class="grPanel__title">
+						{{ "NON_COMPLIANT_MERCHANTS" | term : globalTermService.languageCode }}
+					</div>
+				</div>
+			</div>
+			<div class="grPanel__body">
+				<div class="merchantsTpePanel__description">
+					<div class="merchantsTpePanel__label">
+						{{ "MERCHANT_WITH_MOST_TPE_PENALTIES" | term : globalTermService.languageCode }}
+					</div>
+					<div class="merchantsTpePanel__value">
+						{{ merchantNonCompliance()?.merchantWithMostPenalties ?? "-" }}
+					</div>
+				</div>
+				<div class="merchantsTpePanel__total">
+					<div class="merchantsTpePanel__label">
+						{{ "TOTAL_NON_COMPLIANT_MERCHANT" | term : globalTermService.languageCode }}
+					</div>
+					<div class="merchantsTpePanel__value">
+						{{ merchantNonCompliance()?.totalMerchants ?? 0 }}
+					</div>
+				</div>
+			</div>
+			<div class="grPanel__footer">
+				<div class="penaltiesTpePanel__text">
+					{{ "VIEW_PENALTIES_BY_MERCHANT" | term : globalTermService.languageCode }}
+				</div>
+				<div class="penaltiesTpePanel__action">
+					<p-button
+						class="prButton"
+						[class]="'tpe_viewDetailsGA'"
+						label="{{ 'LBL_VIEW_DETAILS' | term : globalTermService.languageCode }}"
+						[routerLink]="['/fee', 'tpe', 'merchant-report']"
+						severity="secondary"
+					/>
+				</div>
+			</div>
+		</div>
+		} @if (isLoadingRating()) { @if (isNoData()) {
+		<div class="grPanel contentErrorTpePanel">
+			<ng-container *ngTemplateOutlet="statusPanel; context: { title: 'LBL_RATING_TITLE' }"></ng-container>
+		</div>
+		} @else {
+		<div class="grPanel ratingTpePanel" style="background: #fcfcfd; border: 1px solid #e2e8f0; padding: 16px; border-radius: 16px; gap: 8.5px">
+			<p-skeleton class="prSkeleton" width="60px" height="24px"></p-skeleton>
+			<div style="display: flex; justify-content: center">
+				<p-skeleton class="prSkeleton" width="186px" height="186px"></p-skeleton>
+			</div>
+			<div style="display: flex; align-items: center; justify-content: space-between; padding-top: 16px; border-top: 1px solid #e2e8f0; margin-top: auto">
+				<p-skeleton class="prSkeleton" width="169px" height="20px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="93px" height="32px"></p-skeleton>
+			</div>
+		</div>
+		} } @else if (hasRatingError()) {
+		<div class="grPanel ratingTpePanel">
+			<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadRating()" />
+		</div>
+		} @else if (!hasRatingData()) {
+		<div class="grPanel ratingTpePanel">
+			<ng-container *ngTemplateOutlet="statusPanel; context: { title: 'LBL_RATING_TITLE' }"></ng-container>
+		</div>
+		} @else {
+		<div class="grPanel ratingTpePanel">
+			<div class="grPanel__header">
+				<div class="grPanel__section">
+					<div class="grPanel__title">
+						{{ "LBL_RATING_TITLE" | term : globalTermService.languageCode }}
+					</div>
+					<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent4">
+						<i class="icon icon--sm icon-info"></i>
+					</span>
+
+					<ng-template #tooltipContent4 class="prTooltip__wrap">
+						<span>{{ "LBL_TOOLTIP_RATING" | term : globalTermService.languageCode }}</span>
+					</ng-template>
+				</div>
+			</div>
+			<div class="grPanel__body">
+				<div class="ratingTpePanel__graph">
+					<div class="ptGaugeGraph">
+						<intelica-echart #ratingChart id="ratingChart" [config]="ratingChartConfig()" [containerStyle]="{ width: '186px', height: '186px' }" renderer="svg" />
+						<div class="d-flex justify-content-center" style="margin-block: -1rem 1rem">
+							<p-badge class="prBadge" badgeSize="large" [class]="ratingClass()" [value]="rating()?.description ?? '' | term : globalTermService.languageCode" [severity]="ratingSeverity()"></p-badge>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grPanel__footer">
+				<div class="ratingTpePanel__text">
+					{{ "REVIEW_RECOMMENDATIONS" | term : globalTermService.languageCode }}
+				</div>
+				<div class="ratingTpePanel__action">
+					<p-button
+						class="prButton"
+						[class]="'tpe_viewDetailsGA'"
+						label="{{ 'LBL_VIEW_DETAILS' | term : globalTermService.languageCode }}"
+						[routerLink]="['/fee', 'tpe', 'recomendations']"
+						severity="secondary"
+					/>
+				</div>
+			</div>
+		</div>
+		}
+	</div>
+
+	<div class="ptSectionPanel">
+		@if (isLoadingMonthlyExpense()) { @if (isNoData()) {
+		<ng-container *ngTemplateOutlet="statusPanelGraph"></ng-container>
+		} @else {
+		<div class="u-panel" style="min-height: 396px; flex-grow: 1; flex-basis: 0">
+			<div class="u-display-flex u-flex-column u-gap-md u-full-height">
+				<div class="u-display-flex u-justify-content-between" style="gap: 16px">
+					<div class="u-display-flex u-flex-column" style="gap: 1px">
+						<p-skeleton class="prSkeleton" width="204px" height="24px"></p-skeleton>
+
+						<p-skeleton class="prSkeleton" width="204px" height="18px"></p-skeleton>
+					</div>
+
+					<div class="u-display-flex" style="gap: 8px">
+						<p-skeleton class="prSkeleton" width="232px" height="32px"></p-skeleton>
+
+						<p-skeleton class="prSkeleton" width="232px" height="32px"></p-skeleton>
+					</div>
+				</div>
+
+				<div class="u-display-flex u-mt-auto" style="gap: 50px">
+					<div class="u-display-flex u-flex-column" style="gap: 30px">
+						<p-skeleton class="prSkeleton" width="25px" height="17px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="25px" height="17px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="25px" height="17px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="25px" height="17px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="25px" height="17px"></p-skeleton>
+						<p-skeleton class="prSkeleton" width="25px" height="17px"></p-skeleton>
+					</div>
+
+					<div class="u-display-flex u-flex-grow-1 u-justify-content-center" style="gap: 85px">
+						<div class="u-display-flex u-flex-column u-mt-auto" style="width: 6%; gap: 10px; padding-bottom: 10px">
+							<p-skeleton class="prSkeleton" width="100%" height="172px"></p-skeleton>
+
+							<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+						</div>
+
+						<div class="u-display-flex u-flex-column u-mt-auto" style="width: 6%; gap: 10px; padding-bottom: 10px">
+							<p-skeleton class="prSkeleton" width="100%" height="260px"></p-skeleton>
+
+							<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+						</div>
+
+						<div class="u-display-flex u-flex-column u-mt-auto" style="width: 6%; gap: 10px; padding-bottom: 10px">
+							<p-skeleton class="prSkeleton" width="100%" height="90px"></p-skeleton>
+
+							<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+						</div>
+
+						<div class="u-display-flex u-flex-column u-mt-auto" style="width: 6%; gap: 10px; padding-bottom: 10px">
+							<p-skeleton class="prSkeleton" width="100%" height="84px"></p-skeleton>
+
+							<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+						</div>
+
+						<div class="u-display-flex u-flex-column u-mt-auto" style="width: 6%; gap: 10px; padding-bottom: 10px">
+							<p-skeleton class="prSkeleton" width="100%" height="46px"></p-skeleton>
+
+							<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+						</div>
+
+						<div class="u-display-flex u-flex-column u-mt-auto" style="width: 6%; gap: 10px; padding-bottom: 10px">
+							<p-skeleton class="prSkeleton" width="100%" height="20px"></p-skeleton>
+
+							<p-skeleton class="prSkeleton" width="100%" height="16px"></p-skeleton>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		} } @else if (hasMonthlyExpenseError()) {
+		<p-card class="prCard expenseEvolutionPanel" [style.width]="'calc(100% - 282px)'">
+			<ng-template #content>
+				<intelica-status-state [state]="statusStateEnum.SystemError" (reload)="reloadMonthlyExpense()" />
+			</ng-template>
+		</p-card>
+		} @else {
+		<p-card class="prCard expenseEvolutionPanel" [style.width]="'calc(100% - 282px)'">
+			<ng-template #title>
+				<div class="prCard__row justify-content-between">
+					<div class="prCard__wrap">
+						<div class="prCard__title">
+							{{ "EXPENSE_EVOLUTION" | term : globalTermService.languageCode }}
+						</div>
+						<div class="prCard__subtitle">
+							{{ "AMOUNT_SHOW_IN_THOUSANDS_OF_DOLLARS" | term : globalTermService.languageCode }}
+						</div>
+					</div>
+
+					<div class="prCard__actionflex justify-content-end">
+						<p-select
+							#merchantFilter
+							class="prSelect"
+							[class]="'commerceSelectGA'"
+							dropdownIcon="icon icon-arrow-down"
+							[options]="availableMerchantOptions()"
+							[(ngModel)]="selectedMerchantId"
+							[filter]="availableMerchantOptions().length > 10"
+							filterBy="name"
+							[showClear]="true"
+							[virtualScroll]="true"
+							[virtualScrollOptions]="virtualScrollOptions"
+							variant="filled"
+							optionLabel="name"
+							optionValue="id"
+							placeholder="{{ 'TXT_MERCHANT' | term : globalTermService.languageCode }}"
+							style="width: 232px"
+						>
+							<ng-template #empty>
+								{{ "Nodata" | term : globalTermService.languageCode }}
+							</ng-template>
+							<ng-template let-option #item>
+								<div class="selectOptionGA">
+									<span>{{ option.name }}</span>
+								</div>
+							</ng-template>
+						</p-select>
+						<p-multiselect
+							class="prMultiselect"
+							[class]="'feesSelectGA'"
+							[options]="availableFeeOptions()"
+							[(ngModel)]="selectedFeeIds"
+							optionLabel="name"
+							optionValue="id"
+							placeholder="{{ 'ALL_FEES' | term : globalTermService.languageCode }}"
+							[maxSelectedLabels]="availableFeeOptions().length - 1"
+							[filter]="availableFeeOptions().length > 10"
+							[showToggleAll]="true"
+							panelStyleClass="prMultiselect"
+							style="width: 232px"
+							[readonly]="isReadonlyFee()"
+							[class.readonly-multiselect]="isReadonlyFee()"
+						>
+							<ng-template pTemplate="selectedItems">{{ selectedFeesLabel() }}</ng-template>
+							<ng-template #dropdownicon>
+								<i class="icon icon-arrow-down"></i>
+							</ng-template>
+						</p-multiselect>
+					</div>
+				</div>
+			</ng-template>
+			<ng-template #content>
+				<div class="prCard__body">
+					<div #wrapper class="graphMccWrapper" [style.heigth]="expenseChartViewportStyle.heigth" [style.width]="expenseChartViewportStyle.width" style="overflow-x: auto !important">
+						@if (hasMonthlyExpenseData()) {
+						<div [style.width]="chartWidth()">
+							<intelica-echart #monthlyExpenseChart id="monthlyExpenseChart" [config]="monthlyExpenseChartConfig()" [containerStyle]="expenseChartContainerStyle" renderer="svg" class="u-echart-fluid" />
+						</div>
+						} @else {
+						<div class="d-flex justify-content-center align-items-center" [style]="{ height: '304px' }">
+							<intelica-status-state [state]="statusStateEnum.NoData" />
+						</div>
+						}
+					</div>
+				</div>
+			</ng-template>
+		</p-card>
+		}
+		<div class="grPanel advertTpePanel u-p-0">
+			<div class="grPanel__body u-justify-content-center u-align-items-center">
+				<div class="advertTpePanel__img">
+					<div [ngClass]="'advertTpePanel__img advertTpePanel__img--' + globalTermService.languageCode.toLowerCase()"></div>
+					<p-button
+						[disabled]="isSendingSupport()"
+						(onClick)="showDialogGetSupport()"
+						class="prButton"
+						[class]="'supportBtnGA'"
+						label="{{ 'LBL_GET_EXPERT_SUPPORT' | term : globalTermService.languageCode }}"
+					></p-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- dialog -->
+<p-dialog class="prDialog prDialog--md" [(visible)]="isVisibleGetSupport" [modal]="true" [draggable]="false">
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title">
+				{{ "TXT_SEND_EMAIL" | term : globalTermService.languageCode }}
+			</div>
+		</div>
+		<ng-template #closeicon>
+			<i class="icon icon-cancel"></i>
+		</ng-template>
+	</ng-template>
+	<ng-template #content>
+		<div class="prDialog__body">
+			<div class="d-flex flex-column gap-3">
+				<div class="formGroup d-flex flex-column gap-2">
+					<label class="u-bold">{{ "LBL_SUBJECT" | term : globalTermService.languageCode }}</label>
+					<input [(ngModel)]="subjectText" class="prInputtext w-100" [maxLength]="100" type="text" placeholder="{{ 'LBL_SUBJECT' | term : globalTermService.languageCode }}" pInputText />
+				</div>
+				<div class="formGroup d-flex flex-column gap-2">
+					<label class="u-bold">{{ "LBL_BODY" | term : globalTermService.languageCode }}</label>
+					<textarea
+						[(ngModel)]="bodyText"
+						placeholder="{{ 'LBL_BODY' | term : globalTermService.languageCode }}"
+						class="prTextarea w-100"
+						rows="5"
+						cols="30"
+						pTextarea
+						[autoResize]="true"
+						[maxLength]="500"
+					></textarea>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+	<ng-template #footer>
+		<p-button [disabled]="!subjectText || !bodyText" class="prButton" label="{{ 'LBL_SEND' | term : globalTermService.languageCode }}" (click)="sendMailGetSupport()" />
+		<p-button class="prButton" severity="secondary" label="{{ 'Cancel' | term : globalTermService.languageCode }}" (click)="closeDialogGetSupport()" />
+	</ng-template>
+</p-dialog>
+<p-toast class="prToast" position="bottom-right" />
+
+<ng-template #statusPanel let-title="title">
+	<div class="grPanel__header">
+		<div class="grPanel__section">
+			<div class="grPanel__title">
+				{{ title | term : globalTermService.languageCode }}
+			</div>
+		</div>
+	</div>
+	<div class="grPanel__body">
+		<intelica-status-state [state]="statusStateEnum.NoData" />
+	</div>
+</ng-template>
+
+<ng-template #statusPanelGraph>
+	<p-card class="prCard expenseEvolutionPanel" [style.width]="'calc(100% - 282px)'">
+		<ng-template #title>
+			<div class="prCard__row justify-content-between">
+				<div class="prCard__wrap">
+					<div class="prCard__title">
+						{{ "EXPENSE_EVOLUTION" | term : globalTermService.languageCode }}
+					</div>
+					<div class="prCard__subtitle">
+						{{ "AMOUNT_SHOW_IN_THOUSANDS_OF_DOLLARS" | term : globalTermService.languageCode }}
+					</div>
+				</div>
+			</div>
+		</ng-template>
+		<ng-template #content>
+			<div class="prCard__body">
+				<div #wrapper class="graphMccWrapper" [style.heigth]="expenseChartViewportStyle.heigth" [style.width]="expenseChartViewportStyle.width" style="overflow-x: auto !important">
+					<div class="d-flex justify-content-center align-items-center" [style]="{ height: '304px' }">
+						<intelica-status-state [state]="statusStateEnum.NoData" />
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</p-card>
+</ng-template>

@@ -1,0 +1,170 @@
+<div class="ptSearchResult" [class.ptSearchResult--hideSectionTitle]="false">
+	<!-- RESULT -->
+	<!-- @for (results of resultsSearch(); track $index;) { -->
+	@if(isSearching()){
+	<!-- Skeleton -->
+	<div class="u-display-flex u-gap-sm">
+		<p-skeleton class="prSkeleton" width="45px" height="24px" />
+		<p-skeleton class="prSkeleton" width="50px" height="24px" />
+		<p-skeleton class="prSkeleton" width="62px" height="24px" />
+		<p-skeleton class="prSkeleton" width="76px" height="24px" />
+	</div>
+
+	<div class="u-display-flex u-flex-column" style="height: 1.75rem">
+		<p-skeleton class="prSkeleton u-my-auto" width="106px" height="18px" />
+		<p-skeleton class="prSkeleton" width="98%" height="1px" />
+	</div>
+
+	<div class="u-display-flex u-flex-column u-gap-sm">
+		<div class="u-display-flex" style="height: 1.75rem"><p-skeleton class="prSkeleton u-my-auto" width="100%" height="16px"></p-skeleton></div>
+		<div class="u-display-flex" style="height: 1.75rem"><p-skeleton class="prSkeleton u-my-auto" width="100%" height="16px"></p-skeleton></div>
+		<div class="u-display-flex" style="height: 1.75rem"><p-skeleton class="prSkeleton u-my-auto" width="100%" height="16px"></p-skeleton></div>
+		<div class="u-display-flex" style="height: 1.75rem"><p-skeleton class="prSkeleton u-my-auto" width="80%" height="16px"></p-skeleton></div>
+		<div class="u-display-flex" style="height: 1.75rem"><p-skeleton class="prSkeleton u-my-auto" width="80%" height="16px"></p-skeleton></div>
+	</div>
+	}@else {
+	<!-- FILTER -->
+	<div class="ptSearchResult__filter" id="headerSearchFilterGA">
+		@for (filterLabel of filterButtons(); track $index) {
+		<p-button
+			class="prButton"
+			severity="secondary"
+			size="small"
+			label="{{ filterLabel.label | term : globalTermService.languageCode }}"
+			(click)="onSelectSearchType(filterLabel.value)"
+			[class.is-active]="searchType() === filterLabel.value"
+		/>
+		}
+	</div>
+	<!-- RESULT -->
+	<!-- @for (results of resultsSearch(); track $index;) { -->
+	@if(isSearching()){
+	<div>Loading...</div>
+	}@else if(!isFirstSearch() && !hasMinSearchChars()) {
+	<div class="ptSearchResult__result" id="headerSearchResultsGA">
+		<div class="ptSearchResult__empty">{{ "TYPE_LEAST_2_CHAR" | term : globalTermService.languageCode }}</div>
+	</div>
+	}@else {
+	<div class="ptSearchResult__result" id="headerSearchResultsGA">
+		<!-- result: scroll -->
+		<div class="ptSearchResult__scroll">
+			@if(isFirstSearch()){
+			<!--  -->
+			@for (section of resultsFirstSearch(); track $index) {
+			<div class="ptSearchResult__section">
+				<div class="ptSearchResult__title">
+					<div>{{ section.title | term : globalTermService.languageCode }}</div>
+					<!-- custom create -->
+					@if ( this.customTerms.includes(section.title)&& customButtomTypes.includes(section.type) ) {
+					<div class="ptSearchResult__add">
+						<p-button
+							class="prButton"
+							severity="secondary"
+							size="small"
+							icon="icon icon-add"
+							tooltipStyleClass="prTooltip"
+							tooltipPosition="top"
+							pTooltip="{{ createButton().label | term : globalTermService.languageCode }}"
+							[routerLink]="createButton().route"
+							(click)="closeResult.emit()"
+						/>
+					</div>
+					}
+				</div>
+				<div class="ptSearchResult__content">
+					@for (item of section.items; track $index; let i = $index) {
+					<!-- <a class="ptSearchResult__item" [routerLink]="item.route"> -->
+					<a
+						class="ptSearchResult__item"
+						role="button"
+						tabindex="0"
+						(click)="onSelectSearchResult(item, section.title)"
+						(keydown.enter)="$any($event.target).click()"
+						(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+					>
+						@if (resolveResultIconClass(item, section.title); as resultIconClass) {
+						<i [class]="resultIconClass" aria-hidden="true"></i>
+						}
+						<div class="ptSearchResult__info">
+							<span class="ptSearchResult__name">
+								@if(section.isTerm) {
+								<span>{{ item.title | term : globalTermService.languageCode }}</span>
+								}@else{
+								<span #textTooltip (mouseenter)="checkTextOverflow(textTooltip)" tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="isTextOverflow ? item.title : ''">{{ item.title }}</span>
+								}
+								<!-- <span #textTooltip tooltipStyleClass="prTooltip" [pTooltip]="tooltipHasEllipsis()[i] ? item.title : ''" tooltipPosition="top">{{ item.title }}</span> -->
+							</span>
+							@if(item.selectedAt ){
+							<span class="ptSearchResult__lastView">
+								<span>{{ "LAST_VIEW" | term : globalTermService.languageCode }}:</span>
+								<span>{{ item.selectedAt | timeAgo }}</span>
+							</span>
+							}
+						</div>
+					</a>
+					}
+				</div>
+			</div>
+			}
+			<!--  -->
+			}@else {
+			<!--  -->
+			@for (section of resultsSearch(); track $index) {
+			<div class="ptSearchResult__section">
+				@if(resultsSearch().length>1){
+				<div class="ptSearchResult__title">
+					<div>{{ section.title | term : globalTermService.languageCode }}</div>
+				</div>
+				}
+				<div class="ptSearchResult__content">
+					@for (item of section.items; track $index; let i = $index) {
+					<!-- <a class="ptSearchResult__item" [routerLink]="item.route"> -->
+					<a
+						class="ptSearchResult__item"
+						role="button"
+						tabindex="0"
+						(click)="onSelectSearchResult(item, section.title)"
+						(keydown.enter)="$any($event.target).click()"
+						(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+					>
+						@if (resolveResultIconClass(item, section.title); as resultIconClass) {
+						<i [class]="resultIconClass" aria-hidden="true"></i>
+						}
+						<div class="ptSearchResult__info">
+							<span class="ptSearchResult__name">
+								<!-- <span>{{ item.title }}</span> -->
+								<div itlHighlight [text]="item.title" [highlight]="searchText()"></div>
+
+								<!-- <span #textTooltip tooltipStyleClass="prTooltip" [pTooltip]="tooltipHasEllipsis()[i] ? item.title : ''" tooltipPosition="top">{{ item.title }}</span> -->
+							</span>
+							@if(item.selectedAt ){
+							<span class="ptSearchResult__lastView">
+								<span>{{ "LAST_VIEW" | term : globalTermService.languageCode }}:</span>
+								<span>{{ item.selectedAt | timeAgo }}</span>
+							</span>
+							}
+						</div>
+					</a>
+					}
+				</div>
+			</div>
+			}
+			<!--  -->
+			}
+		</div>
+		<!-- result: empty -->
+		@if (!isFirstSearch() && hasMinSearchChars() && !hasSearchResults()) {
+		<div class="ptSearchResult__empty">{{ "NO_RESULTS_WERE_FOUND" | term : globalTermService.languageCode }}</div>
+		}
+		<!-- result: action -->
+		<div class="ptSearchResult__action">
+			@if (viewButton().label && hasSearchResults()) {
+			<p-button class="prButton" severity="secondary" label="{{ viewButton().label | term : globalTermService.languageCode }}" [routerLink]="viewButton().route" (click)="onViewButtonClick()" />
+			}
+		</div>
+	</div>
+	}
+	<!-- end  -->
+	}
+	<!-- end  -->
+</div>

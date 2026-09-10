@@ -1,0 +1,439 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+// ! PENDIENTE: mejorar naming tokens
+
+:root {
+	--NOTE-BUTTON-COMPONENT: "prButton ( Custom PrimeNG )";
+
+	--i-disabled-opacity: var(--i-opacity-100); // var(--p-disabled-opacity)
+	--i-button-outlined-danger-border-color: var(--i-button-secondary-error-border); // color/error/600 || var(--p-button-outlined-danger-border-color);
+	--i-button-outlined-success-border-color: var(--i-button-secondary-success-border); // color/succes/600 || var(--p-button-outlined-success-border-color)
+	--i-button-border-radius-sm: var(--i-border-radius-sm);
+
+	--i-button-outlined-danger-background: var(--i-color-error-50);
+	--i-button-outlined-sucess-color: var(--i-button-secondary-success-color);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+	display: flex;
+	width: max-content;
+	height: fit-content;
+	&:focus-visible {
+		outline: none;
+	}
+
+	// --- BASE ---
+	& .p-button {
+		background-color: var(--i-color-primary-base);
+		border: transparent;
+		border-radius: var(--i-button-border-radius-lg);
+		color: var(--i-button-primary-color);
+		font-size: var(--i-button-font-size-md);
+		gap: var(--i-button-gap-xs);
+		line-height: var(--i-button-font-lineHeight-md);
+		height: var(--i-button-sizing-lg);
+		padding: var(--i-button-padding-x-sm) var(--i-button-padding-y-md);
+
+		// --- Hover ---
+		&:not(:disabled):hover {
+			background: var(--i-color-primary-600); // var(--i-button-primary-hover-background);
+			border: transparent;
+			color: var(--i-color-primary-50); // var(--i-button-primary-hover-color);
+		}
+
+		// --- Pressed ---
+		&:not(:disabled):active {
+			background: var(--i-color-primary-base);  // var(--i-button-primary-pressed-background);
+			border: transparent;
+			color: var(--i-color-primary-50); // var(--i-button-primary-pressed-color);
+		}
+
+		// --- focus ---
+		&:focus,
+		&:focus-visible {
+			outline-color: var(--i-button-hyperlink-color);
+		}
+	}
+
+	& .p-button-icon {
+		font-size: 16px;
+	}
+
+	& .p-button-label {
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [size="small | large"]
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+	// --- Small ---
+	.p-button-sm {
+		border-radius: var(--i-button-border-radius-md);
+		font-size: var(--i-button-font-size-sm);
+		height: var(--i-button-sizing-md);
+		line-height: var(--i-button-font-lineHeight-sm);
+		padding: var(--i-button-padding-y-xs) var(--i-button-padding-x-sm);
+
+		&.p-button-icon-only {
+			width: 1rem;
+		}
+		& .p-button-icon {
+			font-size: var(--i-button-font-size-sm);
+		}
+	}
+
+	// --- Large ---
+	.p-button-lg {
+		border-radius: var(--i-button-border-radius-xl);
+		font-size: var(--i-button-font-size-lg);
+		line-height: var(--i-button-font-lineHeight-lg);
+		height: var(--i-button-sizing-xl);
+		padding: var(--i-button-padding-y-md) var(--i-button-padding-x-lg);
+
+		&.p-button-icon-only {
+			width: 2rem;
+		}
+		& .p-button-icon {
+			font-size: var(--i-button-font-size-lg);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [iconPos="left | right | top | bottom"]
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+	& .p-button-vertical {
+	}
+
+	& .p-button-icon-left {
+	}
+
+	& .p-button-icon-right {
+	}
+
+	& .p-button-icon-top {
+	}
+
+	& .p-button-icon-bottom {
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [disable="true"]
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+	& .p-button:disabled {
+		background: var(--i-button-primary-disabled-background);
+		color: var(--i-button-primary-disabled-color);
+		// cursor: no-drop;
+		opacity: var(--i-disabled-opacity);
+	}
+}
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME ACTIVE
+\*——————————————————————————————————————————————————————————*/
+
+.prButton.is-active {
+	& .p-button {
+		background: var(--i-button-secondary-pressed-background);
+		border: var(--i-button-border-width-sm) solid var(--i-button-secondary-pressed-border);
+		outline: 0px solid var(--i-button-secondary-pressed-border);
+		color: var(--i-button-secondary-pressed-color);
+
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+			outline-offset: 2px;
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [variant="text|link|outlined"]
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+	// --- LINK ---
+	& .p-button-text {
+		background-color: transparent;
+		color: var(--i-button-hyperlink-color);
+	}
+
+	// --- LINK ---
+	& .p-button-link {
+		background-color: transparent;
+		color: var(--i-button-hyperlink-color);
+		font-size: var(--i-button-font-size-sm);
+		text-decoration: underline;
+
+		&:disabled {
+			background-color: transparent;
+		}
+
+		&:not(:disabled):hover,
+		&:not(:disabled):active {
+			background-color: transparent;
+			color: var(--i-button-hyperlink-hover-color);
+		}
+
+		// --- Alert / Error ---
+		&.p-button-danger {
+			color: var(--i-button-hyperlink-error-color);
+
+			&:not(:disabled):hover {
+				background-color: transparent;
+				color: var(--i-button-hyperlink-error-color);
+			}
+		}
+
+		// --- Success ---
+		&.p-button-success {
+			color: var(--i-button-hyperlink-success-color);
+
+			&:not(:disabled):hover {
+				background-color: transparent;
+				color: var(--i-button-hyperlink-success-color);
+			}
+		}
+	}
+
+	// --- OUTLINE ---
+	& .p-button-outlined {
+		// --- Danger ---
+		&.p-button-danger {
+			border: 1px solid var(--i-button-outlined-danger-border-color);
+			color: var(--i-button-primary-error-color);
+
+			&:not(:disabled):hover,
+			&:not(:disabled):active {
+				background-color: var(--i-button-outlined-danger-background);
+				border: 1px solid var(--i-button-outlined-danger-border-color);
+				color: var(--i-button-primary-error-color);
+			}
+		}
+
+		// --- Success ---
+		&.p-button-success {
+			border: 1px solid var(--i-button-outlined-success-border-color);
+			color: var(--i-button-outlined-sucess-color);
+
+			&:not(:disabled):hover,
+			&:not(:disabled):active {
+				background-color: var(--i-button-secondary-success-background);
+				border: 1px solid var(--i-button-outlined-success-border-color);
+				color: var(--i-button-outlined-sucess-color);
+			}
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [icon="icon icon-name"]
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+	& .p-button-icon-only {
+		width: auto;
+		// background: transparent;
+		color: var(--i-icon-color-default);
+		padding: var(--i-spacing-container-xs);
+		border-radius: var(--i-button-border-radius-md);
+		height: auto;
+		background-color: transparent;
+
+		&::after {
+			display: none; // * PrimeNG lo agrega ( seguro por accesibilidad )
+		}
+
+		&:not(:disabled):hover {
+			background: transparent;
+			color: var(--i-icon-color-secondary-hover);
+		}
+		&:not(:disabled):active {
+			background: transparent;
+			color: var(--i-color-primary-600);
+		}
+
+		&:disabled {
+			background: transparent;
+			color: var(--i-icon-color-disabled);
+		}
+
+		&.prButton--icon .p-button-sm {
+			border-radius: var(--i-button-border-radius-sm);
+			height: var(--i-button-sizing-xs);
+			padding: var(--i-button-padding-y-2xs) var(--i-button-padding-x-2xs);
+		}
+
+		.p-button-lg {
+			border-radius: var(--i-button-border-radius-lg);
+			height: var(--i-button-sizing-lg);
+			padding: var(--i-button-padding-y-md) var(--i-button-padding-x-md);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [severity="secondary|danger|success"]
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+	// * PRIMARY es la base(default)
+
+	// --- SECONDARY ---
+	& .p-button-secondary {
+		background: var(--i-button-secondary-background);
+		border: var(--i-button-border-width-sm) solid var(--i-button-secondary-border);
+		color: var(--i-color-primary-900);
+
+		// --- Hover ---
+		&:not(:disabled):hover {
+			background: var(--i-color-secondary-100);
+			border: var(--i-button-border-width-sm) solid var(--i-button-secondary-hover-border);
+			color: var(--i-button-secondary-hover-color);
+		}
+
+		// --- Pressed ---
+		&:not(:disabled):active {
+			background: var(--i-button-secondary-pressed-background);
+			border: var(--i-button-border-width-sm) solid var(--i-button-secondary-pressed-border);
+			//outline: 1px solid var(--i-button-secondary-pressed-border);
+			color: var(--i-button-secondary-pressed-color);
+		}
+
+		// --- Disabled ---
+		&.p-component:disabled {
+			background: var(--i-button-secondary-disabled-background);
+			border-color: var(--i-button-secondary-disabled-border);
+			color: var(--i-button-secondary-disabled-color);
+			opacity: var(--i-disabled-opacity);
+		}
+	}
+
+	// --- DANGER ---
+	& .p-button-danger {
+		background: var(--i-button-primary-error-background);
+		border: 1px solid transparent;
+		color: var(--i-button-primary-error-color);
+
+		&:not(:disabled):hover,
+		&:not(:disabled):active {
+			background: var(--i-button-primary-error-background);
+			border: 1px solid transparent;
+			color: var(--i-button-primary-error-color);
+		}
+	}
+
+	// --- SUCCESS ---
+	& .p-button-success {
+		background: var(--i-button-primary-success-background);
+		border: 1px solid transparent;
+		color: var(--i-button-primary-success-color);
+
+		&:not(:disabled):hover,
+		&:not(:disabled):active {
+			background: var(--i-button-primary-success-background);
+			border: 1px solid transparent;
+			color: var(--i-button-primary-success-color);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prButton )
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ELEMENTS ( prButton )
+\*——————————————————————————————————————————————————————————*/
+
+.prButton {
+
+	// --- full width ---
+
+	&--inline {
+		display: inline-flex;
+	}
+
+	// --- full width ---
+
+	&--fullWidth,
+	&--fullWidth :is(.p-button, .p-button.p-button-icon-only) {
+		width: 100%;
+	}
+
+	// --- min width ---
+
+	&--minWidth,
+	&--minWidth :is(.p-button, .p-button.p-button-icon-only) {
+		min-width: 4rem; // 64px
+	}
+
+	// --- auto width ---
+
+	&--autoWidth :is(.p-button, .p-button.p-button-icon-only) {
+		width: auto;
+		min-width: auto;
+	}
+
+	// --- compact ---
+
+	&--compact :is(.p-button, .p-button.p-button-icon-only) {
+		padding: 0;
+		height: auto;
+	}
+
+	// --- border transparent ---
+	&--borderTransparent :is(.p-button, .p-button.p-button-icon-only) {
+		&,
+		&:hover {
+			border-color: transparent;
+			outline-color: transparent;
+		}
+	}
+
+	// --- profile ---
+
+	&--profile {
+		width: auto;
+
+		.p-button {
+			gap: var(--i-spacing-gap-sm);
+			width: 100%;
+			justify-content: flex-start;
+
+			&:not(:disabled):is(:hover,:active) {
+				color: var(--i-color-primary-900);
+				background-color: var(--i-color-secondary-100);
+			}
+		}
+
+		.p-button .p-button-label {
+			color: currentColor;
+		}
+
+		.p-button:active .p-button-label {
+			color: currentColor;
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skButton {
+}

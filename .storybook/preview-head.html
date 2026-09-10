@@ -1,0 +1,9 @@
+<!--
+  Fuente real de la plataforma (--i-text-body-family: "Lato" en tokens.figma.scss).
+  En producción se carga desde IntelicaContainerExternal/src/index.ejs. Sin esto, el navegador
+  usa una fuente de reemplazo con métricas distintas (line-height más alto), lo que hace que
+  cualquier lista/texto se vea con más espaciado del real.
+  Nota: el href real en index.ejs tiene un "%22" (comilla codificada) pegado al final por error;
+  acá se usa la URL correcta.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" />

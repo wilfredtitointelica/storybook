@@ -1,0 +1,129 @@
+:root {
+	/* === Card User === */
+	--i-user-card-gap: var(--i-spacing-gap-xs); /* 4px */
+	--i-user-card-padding: var(--i-spacing-gap-sm); /* 8px */
+
+	--i-user-card-info-gap: 6px; /* 6px */
+
+	--i-user-card-actions-width: 100%;
+
+	--i-user-card-avatar-width: 24px;
+	--i-user-card-avatar-height: 24px;
+	--i-user-card-avatar-background: #9ca2ba;
+	--i-user-card-avatar-color: #fff;
+	--i-user-card-avatar-border-radius: var(--i-border-radius-full); /* 999px */
+	--i-user-card-avatar-font-size: var(--i-typography-font-size-xs); /* 10px */
+	--i-user-card-avatar-font-weight: var(--i-typography-font-weight-bold); /* 700 */
+	--i-user-card-avatar-line-height: var(--i-typography-lineHeight-xs); /* 12px */
+
+	--i-user-card-username-color: #0f1e47;
+	--i-user-card-username-font-size: var(--i-typography-font-size-lg); /* 16px */
+	--i-user-card-username-font-weight: var(--i-typography-font-weight-bold); /* 700 */
+	--i-user-card-username-line-height: var(--i-typography-lineHeight-lg); /* 24px */
+
+	--i-user-card-select-width: 100%;
+	--i-user-card-select-height: 16px;
+	--i-user-card-select-background: transparent;
+	--i-user-card-select-border: none;
+
+	--i-user-card-select-label-font-size: var(--i-typography-font-size-sm); /* 12px */
+	--i-user-card-select-label-color: var(--i-color-secondary-700);
+	--i-user-card-select-label-line-height: var(--i-typography-lineHeight-sm); /* 16px */
+	--i-user-card-select-label-font-weight: var(--i-typography-font-weight-regular); /* 400 */
+	--i-user-card-select-label-padding: var(--i-spacing-gap-none); /* 0 */
+
+	--i-user-card-select-dropdown-height: 16px;
+	--i-user-card-select-dropdown-justify-content: end;
+
+	--i-user-card-select-dropdown-icon-width: 12px;
+	--i-user-card-select-dropdown-icon-height: 12px;
+}
+:root {
+	/* === Menu Item === */
+	--i-menu-item-gap: var(--i-spacing-gap-sm); /* 8 */
+	--i-menu-item-padding-y: var(--i-spacing-gap-xs); /* 4px*/
+	--i-menu-item-padding-x: var(--i-spacing-gap-sm); /* 8 */
+	--i-menu-item-align-items: center;
+
+	--i-menu-item-text-color: var(--i-color-secondary-700);
+	--i-menu-item-text-font-size: var(--i-typography-font-size-lg); /* 16px */
+	--i-menu-item-text-line-height: var(--i-typography-lineHeight-lg); /*24px */
+	--i-menu-item-text-font-weight: var(--i-typography-font-weight-regular); /* 400 */
+}
+
+.grCardUser {
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-user-card-gap);
+	padding: var(--i-user-card-padding);
+}
+
+.grCardUser__info {
+	display: flex;
+	gap: var(--i-user-card-info-gap);
+}
+
+.grCardUser__actions {
+	width: var(--i-user-card-actions-width);
+}
+
+.grCardUser__avatar {
+	width: var(--i-user-card-avatar-width);
+	height: var(--i-user-card-avatar-height);
+	background: var(--i-user-card-avatar-background);
+	color: var(--i-user-card-avatar-color);
+	border-radius: var(--i-user-card-avatar-border-radius);
+	font-size: var(--i-user-card-avatar-font-size);
+	font-weight: var(--i-user-card-avatar-font-weight);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	line-height: var(--i-user-card-avatar-line-height);
+}
+
+.grCardUser__userName {
+	color: var(--i-user-card-username-color);
+	font-size: var(--i-user-card-username-font-size);
+	font-weight: var(--i-user-card-username-font-weight);
+	line-height: var(--i-user-card-username-line-height);
+}
+
+.grCardUser__select .prSelect.p-select {
+	width: var(--i-user-card-select-width);
+	height: var(--i-user-card-select-height);
+	border: var(--i-user-card-select-border);
+	background: var(--i-user-card-select-background);
+}
+
+.grCardUser__select .prSelect.p-select .p-select-label {
+	font-size: var(--i-user-card-select-label-font-size);
+	color: var(--i-user-card-select-label-color);
+	line-height: var(--i-user-card-select-label-line-height);
+	font-weight: var(--i-user-card-select-label-font-weight);
+	padding: var(--i-user-card-select-label-padding);
+}
+
+.grCardUser__select .prSelect.p-select .p-select-dropdown {
+	height: var(--i-user-card-select-dropdown-height);
+	justify-content: var(--i-user-card-select-dropdown-justify-content);
+}
+
+.grCardUser__select .prSelect.p-select .p-select-dropdown .p-select-dropdown-icon {
+	width: var(--i-user-card-select-dropdown-icon-width);
+	height: var(--i-user-card-select-dropdown-icon-height);
+}
+
+/* Menu Item */
+.grMenuItem {
+	display: flex;
+	align-items: var(--i-menu-item-align-items);
+	gap: var(--i-menu-item-gap);
+	padding: var(--i-menu-item-padding-y) var(--i-menu-item-padding-x);
+}
+
+.grMenuItem__text {
+	color: var(--i-menu-item-text-color);
+	font-size: var(--i-menu-item-text-font-size);
+	line-height: var(--i-menu-item-text-line-height);
+	font-weight: var(--i-menu-item-text-font-weight);
+}

@@ -1,0 +1,56 @@
+:root {
+	/* === Card Menu (Input Search Dropdown) === */
+	--i-card-menu-header-font-size: var(--i-typography-font-size-sm);
+	--i-card-menu-header-color: var(--i-color-secondary-700);
+	--i-card-menu-header-font-weight: var(--i-typography-font-weight-bold);
+	--i-card-menu-header-line-height: var(--i-typography-lineHeight-sm);
+
+	--i-card-menu-divider-border-width: var(--i-border-width-sm);
+	--i-card-menu-divider-color: #9ca2ba;
+	--i-card-menu-divider-width: 400px;
+
+	--i-card-menu-item-padding: var(--i-spacing-container-sm);
+
+	--i-card-menu-item-title-color: var(--i-color-primary-600);
+	--i-card-menu-item-title-font-weight: var(--i-typography-font-weight-bold);
+	--i-card-menu-item-title-font-size: var(--i-typography-font-size-sm);
+	--i-card-menu-item-title-line-height: var(--i-typography-lineHeight-sm);
+
+	--i-card-menu-item-subtitle-color: var(--i-color-secondary-700);
+	--i-card-menu-item-subtitle-font-weight: var(--i-typography-font-weight-regular);
+	--i-card-menu-item-subtitle-font-size: var(--i-typography-font-size-xs);
+	--i-card-menu-item-subtitle-line-height: var(--i-typography-lineHeight-xs);
+}
+
+.grCardMenu {
+	&__header {
+		font-size: var(--i-card-menu-header-font-size);
+		color: var(--i-card-menu-header-color);
+		font-weight: var(--i-card-menu-header-font-weight);
+		line-height: var(--i-card-menu-header-line-height);
+	}
+
+	&__divider {
+		border-width: var(--i-card-menu-divider-border-width);
+		color: var(--i-card-menu-divider-color);
+		width: var(--i-card-menu-divider-width);
+	}
+
+	&__item {
+		padding: var(--i-card-menu-item-padding);
+	}
+
+	&__itemTitle {
+		color: var(--i-card-menu-item-title-color);
+		font-weight: var(--i-card-menu-item-title-font-weight);
+		font-size: var(--i-card-menu-item-title-font-size);
+		line-height: var(--i-card-menu-item-title-line-height);
+	}
+
+	&__itemSubtitle {
+		color: var(--i-card-menu-item-subtitle-color);
+		font-weight: var(--i-card-menu-item-subtitle-font-weight);
+		font-size: var(--i-card-menu-item-subtitle-font-size);
+		line-height: var(--i-card-menu-item-subtitle-line-height);
+	}
+}

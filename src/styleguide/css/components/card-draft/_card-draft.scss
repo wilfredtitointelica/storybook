@@ -1,0 +1,182 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-CARD: 'prCard ( Custom PrimeNG )';
+
+	// --x-card-property: var(--i-);
+
+	// --- general ---
+
+	--x-card-gap: var(--i-spacing-container-xl);
+	--x-card-font-size: var(--i-text-body-size-sm); // 12px
+	--x-card-color: var(--i-color-secondary-700);
+	--x-card-background: var(--i-background-default);
+	--x-card-box-shadow: var(--i-shadow-depth-2);
+	--x-card-border-radius: var(--i-border-radius-2xl); // 16px
+	--x-card-sm-border-radius: var(--i-border-radius-lg); // 8px
+	
+	// --- body ---
+	
+	--x-card-body-padding: var(--i-spacing-container-xl);
+	--x-card-body-sm-padding: var(--i-spacing-container-md);
+	--x-card-body-gap: var(--i-spacing-container-sm);
+	--x-card-body-sm-gap: var(--i-spacing-container-sm);
+
+	// --- elements ---
+
+	--x-card-title-font-size: var(--i-text-body-size-lg);
+	--x-card-title-sm-font-size: var(--i-text-body-size-sm);
+	--x-card-title-line-height: var(--i-typography-lineHeight-lg);
+	--x-card-title-sm-line-height: var(--i-typography-lineHeight-md);
+
+	--x-card-desc-line-height: var(--i-typography-lineHeight-sm);
+
+	--x-card-action-gap: var(--i-spacing-gap-xs);
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+
+	&.p-card {
+		font-size: var(--x-card-font-size);
+		color: var(--x-card-color);
+		background-color: var(--x-card-background);
+		box-shadow: var(--x-card-box-shadow);
+		border-radius: var(--x-card-border-radius);
+	}
+
+	// --- header ---
+
+	& .p-card-header { 
+
+	}
+
+	// --- body ---
+
+	& .p-card-body { 
+		padding: var(--x-card-body-padding);
+		gap:var(--x-card-gap);
+	}
+
+	// --- elements ---
+
+	&  .p-card-title { 
+		font-size: var(--x-card-title-font-size);
+		font-weight: bold;
+	}
+
+	& .p-card-title:has(:not(&__title)) {
+		font-size: inherit;
+		font-weight: normal;
+	}
+
+	&  .p-card-subtitle { 
+
+	}
+
+	&  .p-card-content { 
+		display: flex;
+		flex-direction: column;
+		gap: var(--x-card-body-gap);
+
+		&:empty { display: none; }
+	}
+
+	&  .p-card-footer { 
+
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BEM ( prCard )
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+
+	// --- structure ---
+
+	&__header {
+		
+	}
+
+	&__body {
+		
+	}
+
+	&__row {
+		display: flex;
+		align-items: center;
+	}
+
+	&__wrap {
+		
+	}
+
+	// --- elements ---
+
+	&__title {
+		flex-grow: 1;
+		font-size: var(--x-card-title-font-size);
+		font-weight: bold;
+		line-height: var(--x-card-title-line-height);
+	}
+
+	&__desc {
+		font-size: var(--x-card-font-size);
+		line-height: var(--x-card-desc-line-height);
+		font-weight: normal;
+	}
+
+	&__action {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--x-card-action-gap);
+		margin-left: auto;
+	}
+
+	&__placeholder {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 6.5rem; // 104px
+		font-size: 1rem; // 16px
+		color: var(--i-color-primary-300);
+		border: 1px dashed currentColor;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+
+	&--compact {
+		&.p-card {
+			border-radius: var(--x-card-sm-border-radius);
+		}
+		
+		& .p-card-body {
+			gap: var(--x-card-body-sm-gap);
+			padding: var(--x-card-body-sm-padding);
+		}
+	}
+
+	&--compact &__title {
+		font-size: var(--x-card-title-sm-font-size);
+		line-height: var(--x-card-title-sm-line-height);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/

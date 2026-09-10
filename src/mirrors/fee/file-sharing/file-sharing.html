@@ -1,0 +1,40 @@
+<div class="filesharing">
+	<intelica-alert class="u-display-none" />
+	<p-toast class="prToast" position="bottom-right">
+		<ng-template pTemplate="message" let-message>
+			<span class="p-toast-message-icon" [ngClass]="message.icon"></span>
+			<div class="p-toast-message-text">
+				@if (message.summary) {
+				<span class="p-toast-summary">{{ message.summary }}</span>
+				} @if (message.detail) {
+				<span class="p-toast-detail">{{ message.detail }}</span>
+				}
+			</div>
+		</ng-template>
+	</p-toast>
+	<fee-header
+		[fileSharingFilteRequest]="fileSharingFilteRequest"
+		[ListPeriod]="ListPeriod"
+		[ListCategory]="ListCategory"
+		[clientOptions]="clientOptions"
+		[isFileDropVisible]="showUpload"
+		[showOptionGroup]="showOptionGroup"
+		[loading]="isloading()"
+		[minDate]="minDate"
+		[maxDate]="maxDate"
+		(onClickApplyFilter)="onApplyFilter($event)"
+		(openUploadPanel)="toggleUploadPanel()"
+	></fee-header>
+
+	<fee-upload *ngIf="showUpload" [extensionsAllowed]="ExtensionsAllowed" [maxFileSize]="MaxFileSize.toUpperCase()" [ListCategory]="ListCategory" (onProcessFile)="onProcessFile($event)"></fee-upload>
+	<div class="filesharing__body">
+		<fee-table
+			[ListFileSharingData]="ListFileSharingData"
+			[loading]="isloading()"
+			[hasError]="hasError"
+			(onDeleteFile)="confirmDeleteFile($event)"
+			(onReload)="FileSharingFilter()"
+			[AllowedPageSizes]="AllowedPageSizes"
+		></fee-table>
+	</div>
+</div>

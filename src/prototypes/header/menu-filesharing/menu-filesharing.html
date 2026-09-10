@@ -1,0 +1,9 @@
+<p-button
+	class="prButton prButton--topBar"
+	[routerLink]="['/fee/filesharing']"
+	[routerLinkActiveOptions]="{ exact: true }"
+	routerLinkActive="is-active"
+	(click)="showGlobalMenu()"
+	label="{{ 'filesharing' | term : globalTermService.languageCode }}"
+	id="headerFileSharingGA"
+></p-button>

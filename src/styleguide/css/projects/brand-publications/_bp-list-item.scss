@@ -1,0 +1,89 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( block )
+\*——————————————————————————————————————————————————————————*/
+
+.bpListItem {
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-sm);
+	padding: var(--i-spacing-container-lg);
+	font-size: var(--i-typography-font-size-sm);
+	border-radius: var(--i-border-radius-lg);
+	border: var(--i-border-width-sm) solid var(--i-border-default);
+	background: var(--i-background-default);
+	overflow: hidden;
+	cursor: pointer;
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.bpListItem {
+
+	// --- structure ---
+
+	&__meta {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+		align-items: center;
+	}
+
+	&__header {
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	&__footer {
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	// --- areas ---
+
+	&__badge {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+	}
+
+	&__date {
+		display: flex;
+		align-items: center;
+	}
+
+	&__summary {}
+
+	&__impact {}
+
+	&__brand {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+	}
+
+	&__action {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+	}
+
+	// --- adjustment of elements ---
+
+	&__date,
+	&__impact,
+	&__action {
+		margin-left: auto;
+		margin-bottom: auto;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.bpListItem {
+
+
+}

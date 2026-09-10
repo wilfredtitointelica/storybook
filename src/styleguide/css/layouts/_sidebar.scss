@@ -1,0 +1,342 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-SIDEBAR-LAYOUT: "lySidebar ( Custom Native & Primeng )";
+
+	// --- base ---
+
+	--i-sidebar-layout-width: 15.6rem; // 248px
+	--i-sidebar-layout-padding: var(--i-panel-padding); // 16px
+	--i-sidebar-layout-border-radius: var(--i-panel-border-radius); // 16px
+	--i-sidebar-layout-background: var(--i-panel-background);
+	--i-sidebar-layout-gap: var(--i-spacing-gap-lg, 1rem); // 16px
+	--i-sidebar-layout-font-size: var(--i-text-body-size-md);
+	--i-sidebar-layout-box-shadow: var(--i-panel-box-shadow);
+
+	// --- divider ---
+
+	--i-sidebar-layout-divider-border: var(--i-line);
+
+	// --- collpased
+
+	--i-sidebar-layout-collapsed-width: 6rem;
+	--i-sidebar-layout-collapsed-text: var(--i-text-body-size-xs);
+	--i-sidebar-layout-collpased-padding: var(--i-panel-md-padding);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * LAYOUT ( .lySidebar )
+\*——————————————————————————————————————————————————————————*/
+
+.lySidebar {
+	display: flex;
+	flex-direction: column;
+	width: var(--i-sidebar-layout-width);
+	height: 100%;
+	gap: var(--i-sidebar-layout-gap);
+	padding-inline: var(--i-sidebar-layout-padding);
+	padding-block: var(--i-sidebar-layout-padding);
+	border-radius: var(--i-sidebar-layout-border-radius);
+	background-color: var(--i-sidebar-layout-background);
+	transition: width var(--i-motion-duration-base) var(--i-motion-ease-in-out);
+	font-size: var(--i-sidebar-layout-font-size);
+	box-shadow: var(--i-sidebar-layout-box-shadow);
+
+	// --- panel ---
+
+	&__blocks {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-sidebar-layout-gap);
+		flex-grow: 1;
+		height: 100%;
+		transition: width var(--i-motion-duration-base) var(--i-motion-ease-in-out);
+	}
+
+	// --- structure --
+
+	&__start {
+		position: relative;
+	}
+
+	&__center {
+		flex-grow: 1;
+		overflow: hidden auto;
+
+		// scrollbar spacing
+
+		//scrollbar-gutter: stable;
+		//margin-right: calc(var(--i-scrollbar-witdh) * -1);
+	}
+
+	&__end {
+	}
+
+	&__divider {
+		width: 100%;
+		border-top: var(--i-sidebar-layout-divider-border);
+	}
+
+	// --- product --
+
+	&__product {
+		display: flex;
+		align-items: center;
+		color: var(--i-color-primary-900);
+		font-weight: var(--i-text-heading-weight);
+		white-space: nowrap;
+
+		overflow: hidden;
+
+		// reuse prPanelmenu tokens
+
+		padding-inline: var(--i-panelmenu-item-padding);
+		gap: var(--i-panelmenu-item-gap);
+
+		& > span {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			min-width: 0;
+			padding-right: 1px;
+		}
+
+		& .icon {
+			color: var(--i-color-primary-900);
+		}
+	}
+
+	&__project {
+		display: flex;
+		text-align: center;
+		flex-direction: column;
+		align-items: center;
+		padding-top: 16px;
+
+		&--img {
+			width: 62px;
+			height: 62px;
+			border-radius: 999px;
+			border: var(--i-border-width-10) solid var(--i-color-primary-500);
+			margin-bottom: var(--i-spacing-150);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			& img {
+				width: 54px; //--i-sizing-800
+				height: 54px; //--i-sizing-800
+				border-radius: 999px;
+			}
+		}
+
+		&--nameProfile {
+			margin-bottom: var(--i-spacing-75);
+			font-weight: var(--i-text-heading-weight);
+			color: var(--i-color-primary-500);
+		}
+
+		&--positionProfile {
+			font-size: var(--i-sizing-2xs);
+		}
+	}
+
+	// --- toggle --
+
+	&__toggle {
+		position: absolute;
+		z-index: 1;
+		right: 0;
+		top: 0;
+		transform: translate(50%, var(--i-sidebar-layout-padding));
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCE OTHERS
+\*——————————————————————————————————————————————————————————*/
+
+.lySidebar {
+	// --- panel ---
+
+	& .p-panelmenu-panel {
+		overflow: visible;
+	}
+
+	& .p-panelmenu-content-container {
+		overflow: hidden;
+	}
+
+	// --- icon ---
+
+	& :is(&__start, &__center) .icon {
+		// transform: scale(1.1);
+	}
+
+	// --- button ---
+
+	& :is(&__toggle) .p-button {
+		display: flex;
+		align-items: center;
+		width: var(--i-sizing-md);
+		height: var(--i-sizing-md);
+		padding: 0;
+	}
+
+	// --- favorite ---
+
+	& .p-panelmenu-panel:has(.favorites) {
+		position: relative;
+		margin-block: var(--i-panelmenu-gap);
+		//padding-block: var(--i-panelmenu-gap);
+		//border-block: var(--i-line);
+
+		&:first-child {
+			margin-top: 0;
+			border-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+			border-bottom: 0;
+
+			&::before {
+				content: "";
+				position: absolute;
+				inset: 0 0 auto;
+				border-top: var(--i-line);
+				transform: translateY(calc(var(--i-panelmenu-gap) * -1));
+			}
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER LAYOUT ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.lySidebar {
+	// --- collapsed ---
+
+	&--collapsed {
+		padding-inline: var(--i-sidebar-layout-collpased-padding);
+		width: var(--i-sidebar-layout-collapsed-width);
+		font-size: var(--i-sidebar-layout-collapsed-text);
+	}
+
+	&--collapsed &__product {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		white-space: initial;
+		margin-inline: auto;
+		padding-inline: calc(var(--i-panelmenu-item-padding) * 2);
+		line-height: var(--i-typography-lineHeight-xs);
+
+		// reuse prPanelmenu tokens
+
+		gap: var(--i-panelmenu-item-gap-sm);
+
+		& > span {
+			overflow: initial;
+			text-overflow: initial;
+			white-space: initial;
+		}
+	}
+
+	&--collapsed &__blocks {
+		margin: auto;
+		width: calc(var(--i-sidebar-layout-collapsed-width) - var(--i-sidebar-layout-collpased-padding) * 2);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skSidebarLayout {
+
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * SCROLL DETECT ( Scroll-Linked Animations Technique )
+\*——————————————————————————————————————————————————————————*/
+
+/*
+.lySidebar { 
+
+	&__center {
+		--scrollbar-offset: .5rem;
+		// define animation
+		--can-scroll-sidebar-y: 0;
+		animation: scroll-detect-sidebar-y;
+		animation-timeline: scroll(self y);
+
+		// add properties
+		padding-right: calc(var(--scrollbar-offset) * var(--can-scroll-sidebar-y));
+	}
+
+	&--collapsed &__center {
+		scrollbar-offset: 0rem;
+		margin-right: calc(var(--i-sidebar-layout-collpased-padding) * -1);
+	}
+
+}
+
+@keyframes scroll-detect-sidebar-y {
+	from, to { --can-scroll-sidebar-y: 1; }
+}
+*/
+
+/*——————————————————————————————————————————————————————————*\
+ * SCROLL STABLE ( usando padding y margin )
+\*——————————————————————————————————————————————————————————*/
+
+.lySidebar { 
+
+	&__center {
+		scrollbar-gutter: stable;
+		padding-right: .5rem;
+		margin-right: calc(var(--i-sidebar-layout-padding) * -1);
+	}
+
+	&--collapsed &__center {
+		padding-right: .0rem;
+		margin-right: calc(var(--i-sidebar-layout-collpased-padding) * -1);
+	}
+
+	&--collapsed &__product p-badge {
+		display: none;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.lySidebar { 
+
+	&:has(.ptStatusLastUpdate__list:empty) &__center ~ :is(&__divider, &__end) {
+		display: none;
+	}
+
+	&:not(&--collapsed) &__product {
+		position: relative;
+
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background-color: transparent;
+			animation: hideProductBefore var(--i-motion-duration-base) var(--i-motion-ease-in-out) forwards;
+		}
+	}
+
+}
+
+@keyframes hideProductBefore { 
+	to { display: none; }
+}

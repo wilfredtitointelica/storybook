@@ -1,0 +1,66 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK
+\*——————————————————————————————————————————————————————————*/
+
+.notificationLogin {
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-xl);
+
+	:is(&__intro, &__divider) {
+		width: 100%;
+		max-width: 21.25rem; // 340px / 16px
+		align-self: center;
+	}
+
+	&__back {
+		width: 100%;
+		max-width: 33.875rem; // 542px
+		align-self: center;
+	}
+
+	&__intro {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-lg);
+		font-size: 14px;
+	}
+	
+}
+
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS BLOCK ( --modifier ) 
+\*——————————————————————————————————————————————————————————*/
+
+.notificationLogin {
+
+	// --- wide ---
+
+	&--wide {
+
+	}
+
+	&--wide :is(&__intro, &__divider) {
+		max-width: 22.25rem; // 356px / 16px
+	}
+
+	// --- full ---
+
+	&--full {
+
+	}
+
+	&--full :is(&__intro, &__divider) {
+		max-width: 100%;
+	}
+
+}

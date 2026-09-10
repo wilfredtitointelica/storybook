@@ -1,0 +1,215 @@
+@if (isLoadingFilters()) {
+<div class="ptFilterbar">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- filter brand filter -->
+			@if(isGroup()){
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			}
+			<!-- filter range ( datepicker ) -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter brand -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter business -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><p-skeleton class="prSkeleton" [width]="'1rem'" [height]="'1rem'" /></div>
+				<div class="ptFilterbar__wrap"><p-skeleton class="prSkeleton" [width]="'12rem'" [height]="'2rem'" /></div>
+			</div>
+			<!-- filter divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter action -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__wrap">
+					<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+					<p-skeleton class="prSkeleton" [width]="'4rem'" [height]="'2rem'" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+} @else {
+<div class="ptFilterbar">
+	<div class="ptFilterbar__container">
+		<!-- filterbar: blocks -->
+		<div class="ptFilterbar__blocks">
+			<!-- filter brand filter -->
+			@if(isGroup()){
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-credit-card"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						class="prMultiselect prMultiselect--noBorderOverlay"
+						[options]="listFilters().clients"
+						[ngModel]="filterTemp().bankId"
+						(ngModelChange)="onBankChange($event)"
+						optionLabel="bankName"
+						optionValue="bankId"
+						[placeholder]="'ALL_INSTITUTIONS' | term : globalTermService.languageCode"
+						[selectedItemsLabel]="'ALL_INSTITUTIONS' | term : globalTermService.languageCode"
+						[maxSelectedLabels]="listFilters().clients.length - 1"
+						[filter]="listFilters().clients.length > 10"
+						filterPlaceholder="Buscar entidad"
+						[showToggleAll]="true"
+						[style]="{ width: '12rem' }"
+					>
+						<ng-template pTemplate="selectedItems">{{ selectedBankLabel() }}</ng-template>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			}
+			<!-- filter range ( datepicker ) -->
+			<div class="ptFilterbar__itemset" (click)="onPanelInteract()">
+				<div class="ptFilterbar__icon"><i class="icon icon-calendar"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-datepicker
+						#dpRange
+						class="prDatapicker prDatapicker--reusable"
+						[panelStyleClass]="panelClasses()"
+						[readonlyInput]="true"
+						[pTooltip]="isDatePickerDisabled() ? ('OPT_OUT_DISABLED_DATE_TOOLTIP' | term : globalTermService.languageCode) : ''"
+						[tooltipPosition]="'top'"
+						tooltipStyleClass="prTooltip"
+						[ngModel]="filterTemp().dates"
+						[numberOfMonths]="1"
+						[view]="'month'"
+						placeholder="mm, yyyy - mm, yyyy"
+						selectionMode="range"
+						dateFormat="M, yy"
+						[showIcon]="false"
+						[inputStyle]="{ 'text-transform': 'lowercase' }"
+						(onClose)="onCalendarClose()"
+						[minDate]="dynamicMinDate()"
+						[maxDate]="dynamicMaxDate()"
+						(ngModelChange)="OnDateRangeChange($event)"
+						[disabled]="isDatePickerDisabled()"
+						(onMonthChange)="onMonthChange()"
+						(onYearChange)="onMonthChange()"
+						[style]="{ width: '12rem' }"
+					>
+						<ng-template #previousicon>
+							<i class="icon icon-arrow-left" data-ga-track="datepicker_prev" data-ga-section="filter_range"></i>
+						</ng-template>
+						<ng-template #nexticon>
+							<i class="icon icon-arrow-right" data-ga-track="datepicker_next" data-ga-section="filter_range"></i>
+						</ng-template>
+						<ng-template pTemplate="footer">
+							<div class="footerDatapicker footerDatapicker--range">
+								<div class="footerDatapicker__box">
+									@for (p of presetsState(); track p.typeId) {
+									<p-button
+										class="u-text-nowrap"
+										[class.btnActive]="p.active"
+										[class.btnSecond]="!p.active && !p.disabled"
+										[disabled]="p.disabled"
+										[label]="p.label | term : globalTermService.languageCode"
+										[pTooltip]="'NODATA' | term : globalTermService.languageCode"
+										[tooltipDisabled]="!p.disabled"
+										tooltipPosition="top"
+										tooltipStyleClass="prTooltip"
+										(onClick)="applyPreset(p.typeId)"
+									/>
+									}
+								</div>
+							</div>
+						</ng-template>
+					</p-datepicker>
+				</div>
+			</div>
+			<!-- filter brand -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-credit-card"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						class="prMultiselect prMultiselect--noBorderOverlay"
+						[options]="listFilters().brands"
+						[ngModel]="filterTemp().brandId"
+						(ngModelChange)="onBrandChange($event)"
+						optionLabel="name"
+						optionValue="id"
+						[placeholder]="'ALL_BRANDS' | term : globalTermService.languageCode"
+						[selectedItemsLabel]="'ALL_BRANDS' | term : globalTermService.languageCode"
+						[maxSelectedLabels]="listFilters().brands.length - 1"
+						[filter]="listFilters().brands.length > 10"
+						filterPlaceholder="Buscar marca"
+						[showToggleAll]="true"
+						[style]="{ width: '12rem' }"
+						[readonly]="isBrandsReadonly()"
+						[class.readonly-multiselect]="isBrandsReadonly()"
+					>
+						<ng-template pTemplate="selectedItems">{{ selectedBrandLabel() }}</ng-template>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			<!-- filter business -->
+			<div class="ptFilterbar__itemset">
+				<div class="ptFilterbar__icon"><i class="icon icon-business"></i></div>
+				<div class="ptFilterbar__wrap">
+					<p-multiselect
+						class="prMultiselect prMultiselect--noBorderOverlay"
+						[options]="listFilters().business"
+						[ngModel]="filterTemp().businessId"
+						(ngModelChange)="onBusinessChange($event)"
+						optionLabel="name"
+						optionValue="id"
+						[placeholder]="'ALL_BUSINESSES' | term : globalTermService.languageCode"
+						[selectedItemsLabel]="'ALL_BUSINESSES' | term : globalTermService.languageCode"
+						[maxSelectedLabels]="listFilters().business.length - 1"
+						[filter]="listFilters().business.length > 10"
+						filterPlaceholder="Buscar negocio"
+						[showToggleAll]="true"
+						[style]="{ width: '12rem' }"
+						[readonly]="isBusinessesReadonly()"
+						[class.readonly-multiselect]="isBusinessesReadonly()"
+					>
+						<ng-template pTemplate="selectedItems">{{ selectedBusinessLabel() }}</ng-template>
+						<ng-template #dropdownicon>
+							<i class="icon icon-arrow-down"></i>
+						</ng-template>
+					</p-multiselect>
+				</div>
+			</div>
+			<!-- divider -->
+			<div class="ptFilterbar__divider"></div>
+			<!-- filter action -->
+			<div class="ptFilterbar__actions">
+				<div class="ptFilterbar__wrap">
+					<p-button
+						class="prButton"
+						[class]="'actionFiltersGA'"
+						[label]="'APPLY' | term : globalTermService.languageCode"
+						(onClick)="applyFilters()"
+						[disabled]="isApplying()"
+						[style]="{ 'min-width': '4rem' }"
+					></p-button>
+
+					<p-button
+						class="prButton"
+						[class]="'actionFiltersGA'"
+						[label]="'RESET' | term : globalTermService.languageCode"
+						severity="secondary"
+						(onClick)="resetFilters()"
+						[disabled]="isApplying()"
+						[style]="{ 'min-width': '4rem' }"
+					></p-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+}

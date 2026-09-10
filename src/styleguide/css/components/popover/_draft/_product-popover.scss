@@ -1,0 +1,89 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → Popover Product
+	 Basados en spacing, colors, typography y layout
+	 *——————————————————————————————————————————*/
+
+	/* Popover general */
+	--i-popover-product-margin-top: 8px; /* margin-top del popover */
+	--i-popover-product-content-width: 416px; /* ancho del contenido del popover */
+	--i-popover-product-content-gap: 16px; /* gap entre elementos del contenido */
+	--i-popover-product-content-padding: 24px; /* padding del contenido */
+
+	/* Header */
+	--i-popover-product-header-color: #636b8d; /* color del header */
+	--i-popover-product-header-font-size: 20px; /* tamaño de fuente del header */
+	--i-popover-product-header-font-weight: 700; /* peso de fuente del header */
+	--i-popover-product-header-line-height: 28px; /* altura de línea del header */
+
+	/* Item */
+	--i-popover-product-item-padding: 12px; /* padding de cada item */
+	--i-popover-product-item-gap: 8px; /* gap dentro de cada item */
+
+	/* Item Header */
+	--i-popover-product-item-header-gap: 8px; /* gap del header del item */
+
+	/* Item Title */
+	--i-popover-product-item-title-font-weight: 700; /* peso de fuente título item */
+	--i-popover-product-item-title-font-size: 16px; /* tamaño de fuente título item */
+	--i-popover-product-item-title-line-height: 24px; /* altura de línea título item */
+
+	/* Item Text */
+	--i-popover-product-item-text-font-weight: 400; /* peso de fuente texto item */
+	--i-popover-product-item-text-font-size: 12px; /* tamaño de fuente texto item */
+	--i-popover-product-item-text-line-height: 16px; /* altura de línea texto item */
+	--i-popover-product-item-text-color: #636b8d; /* color texto item */
+	--i-popover-product-item-text-margin: 0; /* margin texto item */
+}
+
+.prPopover {
+	&--product {
+		&.p-popover {
+			margin-top: var(--i-popover-product-margin-top);
+
+			& .p-popover-content {
+				width: var(--i-popover-product-content-width);
+				display: flex;
+				flex-direction: column;
+				gap: var(--i-popover-product-content-gap);
+				padding: var(--i-popover-product-content-padding);
+			}
+		}
+	}
+
+	&--product &__header {
+		color: var(--i-popover-product-header-color);
+		font-size: var(--i-popover-product-header-font-size);
+		font-weight: var(--i-popover-product-header-font-weight);
+		line-height: var(--i-popover-product-header-line-height);
+	}
+
+	&--product &__item {
+		padding: var(--i-popover-product-item-padding);
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-popover-product-item-gap);
+	}
+
+	&--product &__itemHeader {
+		display: flex;
+		gap: var(--i-popover-product-item-header-gap);
+	}
+
+	&--product &__itemIcon {
+	}
+
+	&--product &__itemTitle {
+		font-weight: var(--i-popover-product-item-title-font-weight);
+		font-size: var(--i-popover-product-item-title-font-size);
+		line-height: var(--i-popover-product-item-title-line-height);
+	}
+
+	&--product &__itemText {
+		font-weight: var(--i-popover-product-item-text-font-weight);
+		font-size: var(--i-popover-product-item-text-font-size);
+		line-height: var(--i-popover-product-item-text-line-height);
+		color: var(--i-popover-product-item-text-color);
+		margin: var(--i-popover-product-item-text-margin);
+	}
+}

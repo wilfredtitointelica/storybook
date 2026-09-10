@@ -1,0 +1,32 @@
+.prPopover {
+	&--filtersBar &__header {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-sizing-xs);
+		line-height: var(--i-typography-lineHeight-lg);
+		color: var(--i-color-secondary-700);
+	}
+
+	&--filtersBar &__body {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-lg);
+	}
+
+	&--filtersBar &__filters {
+		display: flex;
+		flex-direction: column;
+		gap: 10px; // no hay token
+	}
+
+	&--filtersBar &__actions {
+		display: flex;
+		justify-content: center;
+		gap: var(--i-spacing-container-sm);
+	}
+}
+.prPopover {
+	&--filtersBar .p-popover-content {
+		padding: var(--i-spacing-gap-lg);
+		min-width: 360px;
+	}
+}

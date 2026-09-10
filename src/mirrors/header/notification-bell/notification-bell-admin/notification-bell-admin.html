@@ -1,0 +1,115 @@
+<p-tabs class="prTabs prTabs--noPanelsPaddingBottom u-min-content" style="min-width: 420px" [value]="tabValue()">
+	<p-tablist id="headerNotificationsTabsGA">
+		<p-tab [value]="NotificationTab.Incontrol" (click)="tabValue.set(NotificationTab.Incontrol)">
+			<div class="u-display-flex u-gap-sm u-align-items-center u-justify-content-center">
+				{{ "LBL_INCONTROL_NOTIFICATIONS" | term : GlobalTermService.languageCode }}
+				<span *ngIf="hasUnreadIncontrol" class="u-dot u-color-error u-my-auto"></span>
+			</div>
+		</p-tab>
+	</p-tablist>
+	<p-tabpanels>
+		<p-tabpanel [value]="NotificationTab.Incontrol">
+			<div class="ptListitemGroup ptListitemGroup--fixedHeight ptListitemGroup--withDivider">
+				<div class="ptListitemGroup__body">
+					<!-- section: Request -->
+					@if (notificationsRequest.length) {
+					<div class="ptListitemGroup__section">
+						<div class="ptListitemGroup__category">
+							{{ "LBL_REQUESTS" | term : GlobalTermService.languageCode }}
+							<p-badge class="prBadge prBadge--info" badgeSize="small" [value]="getUnreadCount(unreadCountRequest())" severity="info" />
+							<p-button
+								*ngIf="viewAll(notificationsRequest.length)"
+								class="prButton u-ms-auto"
+								label="{{ 'LBL_VIEW_ALL' | term : GlobalTermService.languageCode }}"
+								size="small"
+								severity="secondary"
+								(click)="onSettingRequests()"
+							/>
+						</div>
+						<div class="ptListitemGroup__content">
+							<!-- request -->
+							@if (notificationsRequest.length) {
+							<ng-container *ngFor="let notification of notificationsRequestLimited; trackBy: trackByRecipientId">
+								<ng-container [ngSwitch]="notification.notificationTypeCode">
+									<list-item-team-request
+										*ngSwitchCase="'TEM'"
+										[notification]="notification"
+										[actionResult$]="actionResult$"
+										[lastActionError]="lastActionError"
+										[actionInFlight]="actionInFlight"
+										(onNotificationClick)="onNotificationClick($event)"
+										(onNotificationClose)="onNotificationClose($event.notification, $event.actionCode)"
+										(onNotificationActionClick)="onNotificationActionClick($event.event, $event.notification, $event.action)"
+										(setNotificationArray)="setNotificationArray()"
+									/>
+									<list-item-opt-out-request
+										*ngSwitchCase="'OPT'"
+										[notification]="notification"
+										[actionResult$]="actionResult$"
+										[lastActionError]="lastActionError"
+										[actionInFlight]="actionInFlight"
+										(onNotificationClick)="onNotificationClick($event)"
+										(onNotificationClose)="onNotificationClose($event.notification, $event.actionCode)"
+										(onNotificationActionClick)="onNotificationActionClick($event.event, $event.notification, $event.action)"
+										(setNotificationArray)="setNotificationArray()"
+									/>
+								</ng-container>
+							</ng-container>
+							}
+						</div>
+					</div>
+					}
+
+					<!-- section: Alerts notification -->
+					@if(notificationsGeneric.length){
+					<div class="ptListitemGroup__section">
+						<div class="ptListitemGroup__category">
+							{{ "LBL_NOTIFICATIONS" | term : GlobalTermService.languageCode }}
+							<p-badge class="prBadge prBadge--info" badgeSize="small" [value]="getUnreadCount(unreadCountGeneric())" severity="info" />
+							<p-button *ngIf="viewAll(notificationsGeneric.length)" class="prButton u-ms-auto" label="{{ 'LBL_VIEW_ALL' | term : GlobalTermService.languageCode }}" size="small" severity="secondary" />
+						</div>
+						<div class="ptListitemGroup__content">
+							<ng-container *ngFor="let notification of notificationsGenericLimited; trackBy: trackByRecipientId">
+								<list-item-generic-notification
+									[notification]="notification"
+									[actionResult$]="actionResult$"
+									[lastActionError]="lastActionError"
+									[actionInFlight]="actionInFlight"
+									(onNotificationClick)="onNotificationClick($event)"
+									(onNotificationClose)="onNotificationClose($event.notification, $event.actionCode)"
+									(setNotificationArray)="setNotificationArray()"
+								></list-item-generic-notification>
+							</ng-container>
+						</div>
+					</div>
+					}
+
+					<!-- section: Alerts notification -->
+					@if(notificationsProgress.length){
+					<div class="ptListitemGroup__section">
+						<div class="ptListitemGroup__category">{{ "LBL_SENT_ALERT_NOTIFICATIONS" | term : GlobalTermService.languageCode }}</div>
+						<div class="ptListitemGroup__content">
+							<ng-container *ngFor="let notification of notificationsProgressLimited; trackBy: trackByRecipientId">
+								<list-item-progress-bar
+									[notification]="notification"
+									[actionResult$]="actionResult$"
+									[lastActionError]="lastActionError"
+									[actionInFlight]="actionInFlight"
+									(onNotificationClick)="onNotificationClick($event)"
+									(onNotificationClose)="onNotificationClose($event.notification, $event.actionCode)"
+									(setNotificationArray)="setNotificationArray()"
+								></list-item-progress-bar>
+							</ng-container>
+						</div>
+					</div>
+					}
+
+					<!-- no notifications -->
+					@if (!notificationsRequest.length && !notificationsGeneric.length && !notificationsProgress.length) {
+					<div class="ptListitemGroup__empty">{{ "LBL_YOU_HAVE_NO_NOTIFICATIONS" | term : GlobalTermService.languageCode }}</div>
+					}
+				</div>
+			</div>
+		</p-tabpanel>
+	</p-tabpanels>
+</p-tabs>

@@ -1,0 +1,84 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+:root {
+	--i-avatar-circle-background-color: var(--i-color-grey-400);
+	--i-avatar-circle-color: var(--i-color-blue-50);
+	--i-avatar-defaul-outline-color: var(--i-color-grey-300);
+	--i-avatar-defaul-hover-outline-color: var(--i-color-primary-base);
+	--i-avatar-default-background-color: var(--i-color-grey-50);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prAvatar {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: var(--i-typography-font-weight-700);
+	transition: border 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+
+	// Estilo base para círculo
+	&.p-avatar-circle {
+		background-color: var(--i-avatar-circle-background-color);
+		color: var(--i-avatar-circle-color);
+	}
+
+	// Tamaños
+	&.avatar-sm {
+		width: 1.5rem;
+		height: 1.5rem;
+		font-size: var(--i-typography-font-size-50);
+	}
+
+	&.avatar-md {
+		width: 2rem;
+		height: 2rem;
+		font-size: var(--i-typography-font-size-150);
+	}
+
+	&.avatar-lg {
+		width: 2.5rem;
+		height: 2.5rem;
+		font-size: var(--i-typography-font-size-200);
+	}
+
+	// Avatar de perfil / tamaño grande
+	&.avatar-default {
+		width: 6.5rem;
+		height: 6.5rem;
+		font-size: var(--i-typography-font-size-200);
+		color: var(--i-color-blue-50);
+		outline-width: 1px;
+		outline-offset: -1px;
+		outline-style: solid;
+		outline-color: var(--i-avatar-defaul-outline-color);
+		position: relative;
+		transition: all ease 0.3s;
+
+		&:not(.avatar-action):hover {
+			outline-color: var(--i-avatar-defaul-hover-outline-color);
+			outline-width: 2px;
+		}
+	}
+
+	&:not([label]):not([image]):not(:has(.p-avatar-text)) {
+		background-color: var(--i-avatar-default-background-color);
+	}
+}
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prAvatar )
+\*——————————————————————————————————————————————————————————*/
+.prAvatar {
+	& {
+		position: relative;
+	}
+
+	&__action {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+	}
+}

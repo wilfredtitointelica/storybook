@@ -1,0 +1,97 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-LIST-ITEM: "ptListitemRich ( Patterns )";
+
+	// --i-listitemrich-property: var();
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemRich {
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-lg);
+	font-size: var(--i-typography-font-size-sm);
+	line-height: var(--i-typography-lineHeight-sm);
+
+	// --- structure ---
+
+	&__meta {
+
+	}
+
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-xs);
+	}
+
+	&__row {
+		display: flex;
+		gap: var(--i-spacing-gap-lg);
+		align-items: baseline;
+	}
+
+	// --- elements ---
+
+	&__badge {
+		flex-grow: 1;
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+	}
+
+	&__brand {
+		
+	}
+
+	&__title {
+		flex-grow: 1;
+		font-size: var(--i-typography-font-size-md);
+		line-height: var(--i-typography-lineHeight-md);
+		font-weight: bold;
+	}
+
+	&__date {
+		white-space: nowrap;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptListitemRich {
+
+	// --- interactive ---
+
+	&--interactive {
+		cursor: pointer;
+		padding: var(--i-spacing-container-md);
+		border-radius: var(--i-border-radius-lg);
+
+		&:hover {
+			background-color: var(--i-color-secondary-100);
+		}
+
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+			outline-offset: -2px;
+		}
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skListitemRich {
+}

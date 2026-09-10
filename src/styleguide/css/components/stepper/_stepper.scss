@@ -1,0 +1,152 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-STEPPER-COMPONENT: "prStepper ( Custom PrimeNG )";
+
+	--i-stepper-gap: var(--i-spacing-gap-lg, 1rem); // 16px
+
+	--i-stepper-steplist-gap: var(--i-spacing-gap-sm); // 8px
+
+	--i-stepper-steppanels-font-size: var(--i-typography-font-size-lg, 1rem); // 16px
+	--i-stepper-steppanels-padding: var(--i-spacing-container-xl, 1rem); // 16px
+	--i-stepper-steppanels-border-color: var(--i-color-neutral-200);
+	--i-stepper-steppanels-border-radius: var(--i-border-radius-2xl, 1rem); // 16px
+
+	--i-stepper-step-padding: var(--i-spacing-container-none, 0);
+	--i-stepper-step-gap: var(--i-spacing-gap-sm, 0.5rem); // 8px
+	--i-stepper-step-font-size: var(--i-typography-font-size-150, 0.875rem); // 14px
+	--i-stepper-step-color: var(--i-color-neutral-900);
+
+	--i-stepper-step-header-gap: var(--i-spacing-gap-sm, 0.5rem); // 8px
+
+	--i-stepper-step-number-font-size: var(--i-typography-font-size-sm, 0.75rem); // 12px
+	--i-stepper-step-number-color: var(--i-color-neutral-400);
+	--i-stepper-step-number-background: var(--i-color-neutral-200);
+	--i-stepper-step-number-active-color: #fff;
+	--i-stepper-step-number-active-background: var(--i-color-primary-base);
+	--i-stepper-step-number-size: var(--i-typography-font-size-2xl); // 24px
+	--i-stepper-step-number-radius: var(--i-border-radius-full);
+
+	--i-stepper-step-title-font-size: var(--i-typography-font-size-md, 0.875rem); // 14px
+	--i-stepper-step-title-color: var(--i-color-neutral-400);
+	--i-stepper-step-title-active-color: var(--i-color-neutral-900);
+	--i-stepper-step-title-weight: var(--i-typography-font-weight-bold); // 700
+	--i-stepper-step-title-line-height: var(--i-typography-lineHeight-md); // 20px
+
+	--i-stepper-separator-size: var(--i-border-radius-xs); // 1px
+	--i-stepper-separator-background: var(--i-color-neutral-200);
+	--i-stepper-separator-active-background: var(--i-color-neutral-900);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prStepper {
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-stepper-gap);
+
+	// --- List ---
+
+	& .p-steplist {
+		gap: var(--i-stepper-steplist-gap);
+	}
+
+	// --- Step ---
+
+	& .p-step {
+		padding: 2px /* var(--i-stepper-step-padding) */;
+		font-size: var(--i-stepper-step-font-size);
+		color: var(--i-stepper-step-color);
+		gap: var(--i-stepper-step-gap);
+		opacity: 1;
+	}
+
+	& .p-step-header {
+		gap: var(--i-stepper-step-header-gap);
+		// --- Focus
+		&:focus-visible {
+			outline: 1px solid var(--i-focus-border-color);
+			outline-offset: 1px;
+		}
+	}
+
+	& .p-step-number {
+		display: grid;
+		place-content: center;
+		width: var(--i-stepper-step-number-size);
+		height: var(--i-stepper-step-number-size);
+		min-width: auto;
+		font-size: var(--i-stepper-step-number-font-size);
+		border: 0;
+		border-radius: var(--i-stepper-step-number-radius);
+		overflow: hidden;
+		color: var(--i-stepper-step-number-color);
+		background: var(--i-stepper-step-number-background);
+	}
+
+	& .p-step-active .p-step-number {
+		background: var(--i-stepper-step-number-active-background);
+		color: var(--i-stepper-step-number-active-color);
+	}
+
+	& .p-step-title {
+		font-size: var(--i-stepper-step-title-font-size);
+		font-weight: var(--i-stepper-step-title-weight);
+		color: var(--i-stepper-step-title-color);
+		line-height: var(--i-stepper-step-title-line-height);
+	}
+
+	& .p-step-active .p-step-title {
+		color: var(--i-stepper-step-title-active-color);
+	}
+
+	// --- Panel ---
+
+	& .p-steppanels {
+		padding: var(--i-stepper-steppanels-padding);
+		font-size: var(--i-stepper-steppanels-font-size);
+		border: 1px solid var(--i-stepper-steppanels-border-color);
+		border-radius: var(--i-stepper-steppanels-border-radius);
+	}
+
+	& .p-steppanel {
+		color: inherit;
+	}
+
+	& .p-steppanel-content {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	// --- Separator ---
+
+	& .p-stepper-separator {
+		height: var(--i-stepper-separator-size);
+		background-color: var(--i-stepper-separator-background);
+	}
+
+	& .p-step:has(~ .p-step-active) .p-stepper-separator {
+		background-color: var(--i-stepper-separator-background);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prStepper )
+\*——————————————————————————————————————————————————————————*/
+
+.prStepper {
+	// BEM — Block Element Modifier
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skStepper {
+	// BEM — Version Skeleton
+}

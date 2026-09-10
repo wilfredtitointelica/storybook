@@ -1,0 +1,30 @@
+@if(globalTermService.TermsReady()) {
+<div class="lyHeader">
+	<div class="lyHeader__toggle">
+		@if (isInternal) {
+		<toggle-sidebar></toggle-sidebar>
+		}
+	</div>
+	<div class="lyHeader__brand">
+		<a class="brand-incontrol" [routerLink]="['/fee/landing/dashboard']" (click)="showGlobalMenu()"></a>
+	</div>
+	<div class="lyHeader__blocks">
+		<div class="lyHeader__start">
+			<menu-products />
+			<menu-alerts />
+		</div>
+		<div class="lyHeader__center">
+			<search-main />
+		</div>
+		<div class="lyHeader__end">
+			<menu-filesharing />
+			@if (isIntelicaUser) {
+			<language />
+			}
+			<notification-bell />
+			<user-profile />
+		</div>
+	</div>
+</div>
+<intelica-alert class="u-display-none" />
+}

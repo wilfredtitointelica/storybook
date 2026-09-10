@@ -1,0 +1,272 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-DASHBOARD-LAYOUT: "lyDashboard (Header, Sidebar, Filter and Main)";
+
+	--i-dashboard-layout-height: auto;
+	--i-dashboard-layout-padding: var(--i-spacing-container-xl, 1rem); // 16px
+	--i-dashboard-layout-gap: var(--i-spacing-gap-lg, 1rem); // 16px
+	--i-dashboard-layout-background: var(--i-color-neutral-100); // var(--i-surface-page)
+
+	// --- Areas ---
+
+	--i-dashboard-layout-header-height: 4rem; // 64px
+	--i-dashboard-layout-filter-height: auto; // old: 4rem ( 64px )
+	--i-dashboard-layout-sidebar-height: calc(100dvh - var(--i-dashboard-layout-header-height) - var(--i-dashboard-layout-padding));
+	--i-dashboard-layout-sidebar-width: auto; // old: 5.5rem ( 88px )
+	--i-dashboard-layout-main-height: var(--i-dashboard-layout-sidebar-height); // old: calc(var(--i-dashboard-layout-sidebar-height) - var(--i-dashboard-layout-filter-height) - var(--i-dashboard-layout-gap));
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * LAYOUT
+\*——————————————————————————————————————————————————————————*/
+
+:lang(es) {
+	.lyDashboard__main:before {
+		content: "Selecciona una opción del menú para ver el contenido aquí";
+	}
+}
+
+.lyDashboard {
+	& {
+		display: grid;
+		// min-height: 100dvh;
+		height: var(--i-dashboard-layout-height);
+		padding: var(--i-dashboard-layout-padding);
+		padding-top: 0;
+		gap: var(--i-dashboard-layout-gap);
+		//background-color: var(--i-dashboard-layout-background);
+	}
+
+	// --- structure without filter ---
+
+	& {
+		grid-template-areas:
+			"header header"
+			"sidebar main";
+		grid-template-columns: auto 1fr; // 8rem = 1280px minmax(80rem, 1fr)
+		grid-template-rows: auto 1fr;
+	}
+
+	// --- structure with filter ---
+
+	&:has(&__filter) {
+		grid-template-areas:
+			"header header"
+			"sidebar filter"
+			"sidebar main";
+		grid-template-columns: auto 1fr; // 8rem = 1280px minmax(80rem, 1fr)
+		grid-template-rows: auto auto 1fr;
+	}
+
+	// --- structure profile ( security ) ---
+
+	&:has(app-menu:empty) &__sidebar {
+		display: none;
+	}
+
+	&:has(app-menu:empty),
+	&:not(:has(&__sidebar)) {
+		grid-template-areas:
+			"header"
+			"main";
+		grid-template-columns: 1fr;
+		grid-template-rows: auto 1fr;
+	}
+
+	// --- blocks ---
+
+	&__header {
+		grid-area: header;
+		position: sticky;
+		z-index: 1100;
+		top: 0;
+		min-width: max-content;
+		height: var(--i-dashboard-layout-header-height);
+		padding-inline: var(--i-dashboard-layout-padding);
+		margin-inline: calc(var(--i-dashboard-layout-padding) * -1);
+		margin-block: 0 calc(var(--i-dashboard-layout-gap) * -1);
+		background-color: var(--i-dashboard-layout-background);
+	}
+
+	&__sidebar {
+		grid-area: sidebar;
+		position: sticky;
+		z-index: 1;
+		top: var(--i-dashboard-layout-header-height);
+		align-self: start;
+		height: var(--i-dashboard-layout-sidebar-height);
+		min-width: var(--i-dashboard-layout-sidebar-width);
+		//background-color: var(--i-dashboard-layout-background);
+	}
+
+	&__filter {
+		grid-area: filter;
+		position: sticky;
+		z-index: 1;
+		top: var(--i-dashboard-layout-header-height);
+		min-height: var(--i-dashboard-layout-filter-height);
+		//background-color: var(--i-dashboard-layout-background);
+
+		&::before {
+			content: "";
+			position: absolute;
+			z-index: -1;
+			inset: 0;
+			bottom: 50%;
+			background-color: var(--i-dashboard-layout-background);
+		}
+	}
+
+	&__main {
+		position: relative;
+		grid-area: main;
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-dashboard-layout-gap);
+		min-height: var(--i-dashboard-layout-main-height);
+		min-width: 0; // Permite que el área main se encoja correctamente dentro del grid
+
+		// for area reference only
+
+		&:before,
+		&:after {
+			content: "Select a menu option to view the content here";
+			display: none;
+			width: 100%;
+			height: 100%;
+			align-items: center;
+			justify-content: center;
+			outline: var(--i-line-border-width) dashed currentColor;
+			outline-offset: -1px;
+			color: var(--i-color-neutral-base);
+			opacity: 0.5;
+			border-radius: var(--i-panel-border-radius);
+			font-size: 2rem;
+		}
+
+		&:empty:before {
+			display: none;
+		}
+
+		&:has(> :only-child):after {
+			// display: flex;
+		}
+	}
+
+	&__footer {
+		position: absolute;
+		left: 0; top: 0;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCE OTHERS
+\*——————————————————————————————————————————————————————————*/
+
+.lyDashboard {
+	// --- application ---
+
+	:is(&__header, &__sidebar) [id^="single-spa-application"] {
+		height: 100%;
+	}
+
+	:is(&__main) [id^="single-spa-application"] {
+		&,
+		& > :first-child {
+			display: flex;
+			flex-direction: column;
+			min-height: 100%;
+		}
+	}
+
+	router-outlet {
+		display: none;
+	}
+}
+
+.p-overlay:has(.prSelect--minimal) {
+	z-index: 1101 !important;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER: Debug grid areas
+\*——————————————————————————————————————————————————————————*/
+
+.lyDashboard {
+	&--debugAreas :is(&__sidebar, &__filter, &__main) {
+		outline: 1px dashed var(--i-color-neutral-base);
+		outline-offset: -1px;
+	}
+
+	&--debugAreas :is(&__header, &__sidebar, &__filter, &__main)::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: var(--i-color-neutral-base);
+		color: white;
+		padding: 0.25rem 0.5rem;
+		font-size: 0.75rem;
+	}
+
+	&--debugAreas &__header::before {
+		content: "header";
+	}
+	&--debugAreas &__sidebar::before {
+		content: "sidebar";
+	}
+	&--debugAreas &__filter::before {
+		content: "filter";
+	}
+	&--debugAreas &__main::before {
+		content: "main";
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * CUSTOM LAYOUT
+\*——————————————————————————————————————————————————————————*/
+
+html:has(.lyDashboard) {
+	// --- force background ---
+
+	& {
+		background-color: var(--i-dashboard-layout-background);
+	}
+
+	// --- force scrollbar ---
+
+	& body::-webkit-scrollbar-track {
+		background-color: var(--i-dashboard-layout-background);
+	}
+
+	& body::-webkit-scrollbar-thumb {
+		border-color: var(--i-dashboard-layout-background);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * QUERIES CONTAINER
+\*——————————————————————————————————————————————————————————*/
+
+// ! Horizontal scroll-dependent styles
+// ! Using variables defined in css/base/__scroll-detect.scss
+
+@container --scroll-detect style(--scroll-x-active: 1) {
+	.lyDashboard {
+		& {
+			padding-bottom: var(--i-dashboard-layout-padding);
+		}
+
+		&__sidebar {
+			height: calc(var(--i-dashboard-layout-sidebar-height) - var(--i-scrollbar-width));
+		}
+	}
+
+	// forced
+	body {
+		height: calc(100dvh - var(--i-scrollbar-width));
+	}
+}

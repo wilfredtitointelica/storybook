@@ -1,0 +1,73 @@
+<div class="lyFilterbar lyFilterbar--minimal">
+	<div class="lyFilterbar__container">
+		<div class="lyFilterbar__blocks">
+			<!-- filter: type alerts -->
+			<div class="lyFilterbar__itemset f-types" [class]="'actionTypesGA'">
+				<div class="lyFilterbar__wrap">
+					@for (filter of filterTypes; track filter.type) {
+					<p-button
+						class="prButton"
+						severity="secondary"
+						label="{{ filter.termKey | term : globalTermService.languageCode }}"
+						[class.is-active]="activeTypes().includes(filter.type)"
+						(click)="ToggleType(filter.type)"
+					/>
+					}
+				</div>
+			</div>
+			<!-- <div class="lyFilterbar__divider"></div> -->
+			<!-- filter date -->
+			<!--  
+			<div class="lyFilterbar__itemset f-date">
+				<div class="lyFilterbar__icon"><i class="icon icon-calendar"></i></div>
+				<div class="lyFilterbar__text">{{ "LBL_FILTER_BY_DATE" | term : globalTermService.languageCode }}</div>
+				<div class="lyFilterbar__wrap">
+					<div class="prDatapicker prDatapicker--range">
+						<p-datepicker
+							#dateRangePicker
+							class="prDatapicker prDatapicker--dropdown"
+							[(ngModel)]="selectedDateRange"
+							[numberOfMonths]="2"
+							[readonlyInput]="false"
+							[showIcon]="false"
+							[view]="calendarView()"
+							selectionMode="range"
+							placeholder="dd mm, yyyy - dd mm, yyyy"
+							(onSelect)="onDateRangeChange()"
+							(onClose)="onDateRangeChange()"
+						>
+							<ng-template #footer let-clearCallback="clearCallback">
+								<div class="footerDatapicker footerDatapicker--range">
+									<div class="footerDatapicker__box">
+										<p-button
+											class="prButton"
+											[class.is-active]="selectedDateFilter() === 'last12'"
+											severity="secondary"
+											label="{{ 'LBL_LAST_12_MONTHS' | term : globalTermService.languageCode }}"
+											(click)="SetDateFilter('last12')"
+										></p-button>
+										<p-button
+											class="prButton"
+											[class.is-active]="selectedDateFilter() === 'year'"
+											severity="secondary"
+											label="{{ 'LBL_CURRENT_YEAR' | term : globalTermService.languageCode }}"
+											(click)="SetDateFilter('year')"
+										></p-button>
+										<p-button
+											class="prButton"
+											[class.is-active]="selectedDateFilter() === 'month'"
+											severity="secondary"
+											label="{{ 'LBL_CURRENT_MONTH' | term : globalTermService.languageCode }}"
+											(click)="SetDateFilter('month')"
+										></p-button>
+									</div>
+								</div>
+							</ng-template>
+						</p-datepicker>
+					</div>
+				</div>
+			</div>
+			-->
+		</div>
+	</div>
+</div>

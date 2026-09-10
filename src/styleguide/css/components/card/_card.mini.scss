@@ -1,0 +1,93 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-NAME-COMPONENT: "prCard prCard--mini ( Custom PrimeNG )";
+
+	--i-name-color: var(); // example token
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--mini.p-card {
+		border-width: var(--i-border-width-sm);
+		border-style: solid;
+		border-color: var(--i-color-secondary-200);
+		background-color: #ffffff;
+		border-radius: var(--i-border-radius-lg);
+	}
+	&--mini .p-card-body {
+		padding: var(--i-spacing-gap-sm);
+		gap: var(--i-spacing-0);
+	}
+	&--mini .p-card-content {
+		gap: var(--i-spacing-0);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BEM MODIFIER ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--mini &__wrap {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		gap: var(--i-spacing-gap-xs);
+	}
+	&--mini &__title {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-typography-font-size-lg);
+		line-height: var(--i-typography-lineHeight-lg);
+		color: #4e546f;
+	}
+	&--mini &__subtitle {
+		font-weight: var(--i-typography-font-weight-regular);
+		font-size: var(--i-typography-font-size-md);
+		line-height: var(-i-typography-lineHeight-md);
+		color: var(--i-color-secondary-600);
+	}
+	&--mini &__label {
+		font-weight: var(--i-typography-font-weight-bold);
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+		color: var(--i-color-secondary-600);
+	}
+	&--mini &__date {
+		font-weight: var(--i-typography-font-weight-regular);
+		font-size: var(--i-typography-font-size-sm);
+		line-height: var(--i-typography-lineHeight-sm);
+		color: var(--i-color-secondary-600);
+	}
+
+	&--mini &__action {
+		display: flex;
+		align-items: center;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--mini &__row .icon {
+		color: #2952c4;
+	}
+	&--mini &__action .icon {
+		color: var(--i-color-secondary-600);
+		font-size: var(--i-typography-font-size-2xl);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skPrCard {
+}

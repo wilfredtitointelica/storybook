@@ -1,0 +1,96 @@
+/*\ 
+RASTREAR SI CUMPLE ESTRUCTURA DE CLASES
+\*/
+
+.inspect-class {
+   --danger: #ff1a1a;
+   --success: #1aff1a;
+}
+
+/*\ 
+///////////////////////////////////////////////////////
+CASO: FILAS CON INPUTS
+///////////////////////////////////////////////////////
+.formRowInput
+   .formRowInputLeft
+   .formRowInputWrap || .formRowInputDate
+   .formRowInputClear
+///////////////////////////////////////////////////////
+\*/  
+
+.inspect-class {
+   & .formRowInput {
+      &:hover {
+         position: relative;
+         z-index: 100;
+      }
+
+      & > :nth-child(n) {
+         position: relative;
+      }
+
+      & > ::before ,
+      & > ::after {
+         content: '';
+         position: absolute;
+         z-index: 99;
+         text-align: left;
+         line-height: 1;
+         white-space: nowrap;
+      }
+
+      & > ::before {
+         content:'Falta Clase';
+         bottom:100%; left: 0;
+         display: flex;
+         align-items: center;
+         height: 0;
+         padding-inline: 4px;
+         font-size: .9rem;
+         background-color:var(--danger);
+         color: white;
+         overflow: hidden;
+         transition: all .1s ease-in-out;
+      }
+
+      & > :hover::before {
+         height: 1.4rem;
+      }
+
+      & > ::after {
+         inset: 0;
+         outline-width: 2px;
+         outline-style: solid;
+         outline-color:var(--danger);
+         outline-offset: -2px;
+         pointer-events: none;
+      }
+
+      & > :is(.formRowInputLeft, .formRowInputWrap, .formRowInputDate, .formRowInputClear) {
+         &::before {
+            content: 'Clase correcta';
+            color: black;
+            background-color: var(--success);
+         }
+         &::after {
+            outline-color: var(--success);
+         }
+      }
+
+      // INDICAR QUE CLASE FALTA
+      & > :nth-child(1)::before 
+      { content: '.formRowInputLeft'; }
+
+      & > :nth-child(2)::before 
+      { content: '.formRowInputWrap || .formRowInputDate'; }
+
+      & > :nth-child(2):is(.formRowInputWrap)::before 
+      { content: '.formRowInputWrap'; }
+
+      & > :nth-child(2):is(.formRowInputDate)::before 
+      { content: '.formRowInputDate'; }
+
+      & > :nth-child(3)::before 
+      { content: '.formRowInputClear'; }
+	}
+}

@@ -1,0 +1,44 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-SEARCHMAIN-COMPONENT: 'ptSearchMain ( use: ptSearhFrom & ptSearchResult )';
+
+	// --i-searchmain-property: var(--i-);
+
+	// --- general ---
+
+	--i-searchmain-width: 29rem; // 464px
+
+	// --- elements ---
+
+	--i-searchmain-result-height: 33rem; // 32.25rem; // 516px
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptSearchMain )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearchMain {
+
+	&__form, &__result {
+		width: var(--i-searchmain-width); 
+	}
+
+	// --- in popover ---
+
+	.prPopover &__result {
+		width: calc(var(--i-searchmain-width) - var(--i-popover-padding) * 2);
+		height: calc(var(--i-searchmain-result-height) - var(--i-popover-padding) * 2);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skSearchMain {
+	
+}

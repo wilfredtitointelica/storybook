@@ -1,0 +1,35 @@
+// --------------------------------------------------
+// 🎯 Mixin responsive (desktop → mobile)
+// --------------------------------------------------
+
+/*\
+	Filosofía:
+	-	Estilos base para pantallas grandes (desktop).
+	-	Con media queries se van adaptando los estilos hacia pantallas más pequeñas (tablet → móvil).
+	Media queries usadas:
+	-	@media (max-width: …) { … }
+	Ventaja:
+	-	Natural cuando el diseño nace en desktop (ej: dashboards).
+	-	Más fácil ir “recortando” o simplificando en pantallas chicas.
+	Uso:
+	-	@include respond(lg) { width: 220px; }
+\*/
+
+$breakpoints: (
+  sm	: var(--i-breakpoint-sm),
+  md	: var(--i-breakpoint-md),
+  lg	: var(--i-breakpoint-lg),
+  xl	: var(--i-breakpoint-xl),
+  2xl	: var(--i-breakpoint-2xl)
+);
+
+@mixin respond($size) {
+	$value: map-get($breakpoints, $size);
+	@if $value != null {
+	  @media (max-width: #{$value}) {
+		 @content;
+	  }
+	} @else {
+	  @warn "⚠️ Breakpoint `#{$size}` no existe en \$breakpoints.";
+	}
+ }

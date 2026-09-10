@@ -1,0 +1,75 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( block )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertHeader {
+	--custom-color: var(--accent-color, --i-color-primary-600);
+	--custom-background: var(--accent-background, --i-color-primary-50);
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-xs);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertHeader {
+
+	&__meta {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+		align-items: center;
+	}
+
+	&__badge {
+
+	}
+
+	&__brand {
+		display: flex;
+		gap: var(--i-spacing-gap-sm);
+	}
+
+	&__date {
+		font-size: var(--i-typography-font-size-sm);
+	}
+
+	&__title {
+		font-size: var(--i-typography-font-size-2xl);
+		font-weight: var(--i-typography-font-weight-bold);
+		line-height: var(--i-typography-lineHeight-2xl);
+		color: var(--custom-color);
+		//transition: all .1s ease-in-out;
+	}
+
+	// --- adjustment of elements ---
+
+	&__meta > &__date {
+		margin-left: auto;
+		margin-bottom: auto;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertHeader {
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED COLORS ( others elements )
+\*——————————————————————————————————————————————————————————*/
+
+.amAlertHeader {
+
+	// --- badge ---
+	& .prBadge {
+		color: var(--custom-color);
+		border-color: var(--custom-color);
+		background-color: var(--custom-background);
+	}
+}

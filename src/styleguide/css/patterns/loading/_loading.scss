@@ -1,0 +1,56 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-LOADING: "ptLoading";
+
+	// --i-loading-: var(--i-); 
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.ptLoading {
+	position: fixed;
+	z-index: 1000;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	inset: 0;
+	background-color: var(--i-color-surface-100);
+	padding: 1rem;
+
+	/*
+	&:has(svg) {
+		pointer-events:none;
+		//visibility: hidden;
+	}
+	*/
+	&:has(svg) {
+		display: flex;
+	}
+
+
+	&__svg {
+		font-size: 1rem;
+		aspect-ratio: 24 / 16 ; // 402px /  220px
+		width: 100%;
+		max-width: 24rem;
+		//background-color: tomato;
+		transform: translateY(-1.8rem);
+	}
+
+	/*
+	
+	&::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		inset-inline: 0;
+		height: 1px;
+		background-color: black;
+	}
+
+	*/
+}

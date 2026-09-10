@@ -1,0 +1,67 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-PROGRESS-TRACKER: "ptProgressTracker ( Patterns )";
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptProgressTracker )
+\*——————————————————————————————————————————————————————————*/
+
+.ptProgressTracker {
+	
+	display: flex;
+	flex-direction: column;
+	gap: var(--i-spacing-gap-xs);
+	font-size: var(--i-typography-font-size-sm);
+	height: auto;
+	interpolate-size: allow-keywords;
+	transition: all var(--i-motion-duration-base) var(--i-motion-ease-in-out);
+	overflow: hidden;
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( __elements )
+\*——————————————————————————————————————————————————————————*/
+
+.ptProgressTracker {
+
+	&__header {
+		font-weight: bold;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptProgressTracker {
+
+	// --- hidden ---
+
+	&--hidden {
+		margin-top: 0 !important;
+		height: 0;
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skProgressTracker {
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED
+\*——————————————————————————————————————————————————————————*/
+
+.ptSectionTitle +  .ptProgressTracker {
+	margin-top: var(--i-spacing-gap-lg);
+}
+

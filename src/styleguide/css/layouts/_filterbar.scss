@@ -1,0 +1,195 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+  --NOTE-FILTER-LAYOUT: "lyFilter ( Custom Native & Primeng )";
+
+  // --- base ---
+
+  --i-filterbar-layout-padding: var(--i-panel-padding); // 16px
+  --i-filterbar-layout-gap: var(--i-spacing-gap-sm, 0.5rem); // 8px
+  --i-filterbar-layout-border-radius: var(--i-panel-border-radius); // 16px
+  --i-filterbar-layout-background: var(--i-panel-background);
+  --i-filterbar-layout-font-size: var(--i-text-body-size-md);
+  --i-filterbar-layout-box-shadow: var(--i-panel-box-shadow);
+
+  // --- blocks ---
+
+  --i-filterbar-layout-blocks-gap: var(--i-spacing-gap-lg);
+
+  // --- divider ---
+
+  --i-filterbar-layout-divider-border: var(--i-line);
+  --i-filterbar-layout-divider-height: var(--i-control-height);
+
+  // --- itemset ---
+
+  --i-filterbar-layout-itemset-gap: var(--i-spacing-gap-sm);
+  --i-filterbar-layout-icon-color: var(--i-color-primary-600);
+  --i-filterbar-layout-text-font-size: var(--i-typography-font-size-sm);
+  --i-filterbar-layout-text-line-height: var(--i-typography-lineHeight-sm);
+
+  // --- applied ---
+
+  --i-filterbar-layout-applied-gap: var(--i-spacing-gap-xs);
+  --i-filterbar-layout-tags-height: var(--i-spacing-container-2xl);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * LAYOUT ( .lyFilterbar )
+\*——————————————————————————————————————————————————————————*/
+
+.lyFilterbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--i-filterbar-layout-gap);
+  padding-inline: var(--i-filterbar-layout-padding);
+  padding-block: var(--i-filterbar-layout-padding);
+  border-radius: var(--i-filterbar-layout-border-radius);
+  background-color: var(--i-filterbar-layout-background);
+  transition: width var(--i-motion-duration-base) var(--i-motion-ease-in-out);
+  font-size: var(--i-filterbar-layout-font-size);
+  box-shadow: var(--i-filterbar-layout-box-shadow);
+
+  // --- container ---
+
+  &__container {
+    /*
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-filterbar-layout-gap);
+		*/
+    // width: max-content;
+    flex-grow: 1;
+  }
+
+  // --- block ---
+
+  &__blocks {
+    display: flex;
+    align-items: center;
+    gap: var(--i-filterbar-layout-blocks-gap);
+  }
+
+  &__divider {
+    border-left: var(--i-filterbar-layout-divider-border);
+    min-height: var(--i-filterbar-layout-divider-height);
+  }
+
+  // --- itemset ---
+
+  &__itemset {
+    display: flex;
+    align-items: center; // baseline
+    gap: var(--i-filterbar-layout-itemset-gap);
+  }
+
+  &__icon {
+    color: var(--i-color-primary-900);
+    // transform: translateY(.25em);
+  }
+
+  &__text {
+    font-size: var(--i-filterbar-layout-text-font-size);
+    line-height: var(--i-filterbar-layout-text-line-height);
+    //white-space: nowrap;
+  }
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--i-filterbar-layout-itemset-gap);
+  }
+
+  // --- applied ---
+
+  &__applied,
+  &__tags {
+    display: flex;
+    align-items: center;
+    gap: var(--i-filterbar-layout-applied-gap);
+    flex-wrap: wrap;
+  }
+
+  &__applied {
+    padding-top: 0;
+    height: 0;
+    overflow: hidden;
+    interpolate-size: allow-keywords;
+    opacity: 0;
+  }
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * CUSTOM WIDTH ITEMSET
+\*——————————————————————————————————————————————————————————*/
+
+.lyFilterbar {
+  &__itemset.f-clients .lyFilterbar__wrap {
+    width: 12.5rem; // 200px
+  }
+
+  &__itemset.f-entities .lyFilterbar__wrap {
+    width: 12.5rem; // 200px
+  }
+
+  &__itemset.f-date .lyFilterbar__wrap {
+    width: 12.5rem; // 200px
+  }
+
+  &__itemset.f-brand .lyFilterbar__wrap {
+    width: 8.5rem; // 135px
+  }
+
+  &__itemset.f-business .lyFilterbar__wrap {
+    width: 8.5rem; // 135px
+  }
+
+  &__itemset.f-quaterly .lyFilterbar__wrap {
+    width: 8.5rem; // 135px
+  }
+
+  &__itemset.f-quaterlyComparative .lyFilterbar__wrap {
+    width: 9.5rem;
+  }
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.lyFilterbar {
+  // --- show applied ( if prChip ) ---
+
+  &__applied {
+    transition-property: height, padding-top, opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: var(--i-motion-duration-base, 300ms);
+  }
+
+  &__applied:has(.prChip:not([style*="display: none"])),
+  &__applied:has(.prPillTag:not([style*="display: none"])) {
+    height: auto;
+    padding-top: var(--i-filterbar-layout-gap);
+    opacity: 1;
+  }
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER LAYOUT ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.lyFilterbar {
+  &--minimal {
+    padding: 0;
+    box-shadow: none;
+  }
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skFilterbar {
+}

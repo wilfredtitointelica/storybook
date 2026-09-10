@@ -1,0 +1,43 @@
+<p-button
+	class="prButton prButton--topBarIcon | u-relative"
+	[class.is-active]="activeButton()"
+	[class.has-notifications]="hasUnread"
+	icon="icon icon-notification"
+	(click)="popoverCustomNotification.toggle($event)"
+	id="headerNotificationsGA"
+></p-button>
+<p-popover
+	styleClass="prPopover prPopover--customNotification prPopover--noRoundedTR prPopover--topAnchoredRight"
+	#popoverCustomNotification
+	(onShow)="activeButton.set(true)"
+	(onHide)="activeButton.set(false)"
+	[appendTo]="popoverTarget"
+>
+	<div class="prPopover__header">
+		{{ "LBL_NOTIFICATIONS" | term : GlobalTermService.languageCode }}
+		<p-button
+			class="prButton"
+			[disabled]="!hasMarkAllAsRead"
+			label="{{ 'LBL_MARK_ALL_AS_READ' | term : GlobalTermService.languageCode }}"
+			link
+			(click)="markAllAsRead()"
+			id="headerNotificationsMarkReadGA"
+		/>
+	</div>
+	<div class="prPopover__body">
+		@if(isAdmin() || isInternal()){
+		<notification-bell-admin
+			[notifications]="notifications"
+			[markResult$]="markResult$"
+			[unreadCountBrand]="unreadCountBrand"
+			[unreadCountRequest]="unreadCountRequest"
+			[unreadCountGeneric]="unreadCountGeneric"
+			[unreadCountProgress]="unreadCountProgress"
+			[unreadCountIncontrol]="unreadCountIncontrol"
+		></notification-bell-admin>
+		} @else {
+		<notification-bell-user [notifications]="notifications" [markResult$]="markResult$" [unreadCountBrand]="unreadCountBrand"></notification-bell-user>
+		}
+	</div>
+</p-popover>
+<div #popoverTarget class="u-relative"></div>

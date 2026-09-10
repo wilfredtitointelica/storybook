@@ -1,0 +1,79 @@
+<!-- Modal -->
+<p-dialog class="prDialog prDialog--lg" [(visible)]="visibleLg" [modal]="true" (onHide)="closeAllDialogs()" [resizable]="false" [draggable]="false">
+	<ng-template #header>
+		<div class="prDialog__header">
+			<div class="prDialog__title">{{ "LBL_ADVANCED_FILTER_TITLE" | term : GlobalTermService.languageCode }}</div>
+		</div>
+		<ng-template #closeicon><i class="icon icon-cancel"></i></ng-template>
+	</ng-template>
+	<ng-template #content>
+		<div class="prDialog__body">
+			@if (categoryChipLabel) {
+			<div class="u-display-flex u-flex-wrap u-gap-sm u-align-items-center">
+				<p-tag class="prPillTag">
+					<span class="text-base">{{ categoryChipLabel }}</span>
+					<i class="icon icon-cancel" (click)="removeAppliedCategory()"></i>
+				</p-tag>
+			</div>
+			}
+			<div class="ptAdvanceFilters">
+				<p-tabs class="prTabVertical" value="0" scrollable>
+					<p-tablist>
+						@if (!loading) {
+						<div style="display: flex; flex-direction: column; gap: 8px">
+							<p-skeleton class="prSkeleton" width="200px" height="32px"></p-skeleton>
+						</div>
+						} @else {
+						<p-tab value="0" class="flex items-center !gap-2">
+							<p-button class="prButtonAdvanceFilters" [label]="'CATEGORY' | term : GlobalTermService.languageCode" [badge]="'' + categorySelectedVisual.length" />
+						</p-tab>
+						}
+					</p-tablist>
+					<div class="u-divider-vertical" style="margin: 0; height: auto"></div>
+					<p-tabpanels>
+						<p-tabpanel value="0">
+							@if (!loading) {
+							<div style="display: flex; flex-direction: column; gap: 8px">
+								<p-skeleton class="prSkeleton" width="90px" height="20px"></p-skeleton>
+								<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px">
+									@for (i of [0, 1, 2, 3, 4, 5, 6, 7]; track i) {
+									<p-skeleton class="prSkeleton" width="262.5px" height="21px"></p-skeleton>
+									}
+								</div>
+							</div>
+							} @else {
+							<div class="ptAdvanceFilters__container">
+								<div class="ptAdvanceFilters__title">{{ "CATEGORY" | term : GlobalTermService.languageCode }}</div>
+								<div class="ptCheckbox">
+									<div class="ptCheckbox__wrap">
+										<p-checkbox class="prCheckbox" inputId="check-all" [binary]="true" [ngModel]="isAllSelected()" (onChange)="toggleAll($event.checked)"></p-checkbox>
+										<label class="ptCheckbox__label" for="check-all">{{ "SM_ALL" | term : GlobalTermService.languageCode }}</label>
+									</div>
+								</div>
+								<hr class="u-divider-horizontal m-0" />
+								<div class="ptAdvanceFilters__listcheck">
+									@for (category of ListCategory; track category.categoryId) {
+									<div class="ptCheckbox__wrap">
+										<p-checkbox class="prCheckbox" [inputId]="'check-' + category.categoryId" [value]="category.categoryId" [(ngModel)]="categorySelectedVisual"></p-checkbox>
+										<label [for]="'check-' + category.categoryId">{{ category.categoryDescription }}</label>
+									</div>
+									}
+								</div>
+							</div>
+							}
+						</p-tabpanel>
+					</p-tabpanels>
+				</p-tabs>
+				<div class="ptAdvanceFilters__footer">
+					<div>
+						<p-button class="prButton" [label]="'LBL_RESET' | term : GlobalTermService.languageCode" severity="secondary" (onClick)="resetFilter()" [disabled]="busy" />
+					</div>
+					<div>
+						<p-button class="prButton" [label]="'LBL_APPLY' | term : GlobalTermService.languageCode" (onClick)="applyFilter()" [disabled]="busy" />
+						<p-button class="prButton" [label]="'LBL_CANCEL' | term : GlobalTermService.languageCode" severity="secondary" (onClick)="closeAllDialogs()" [disabled]="busy" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</ng-template>
+</p-dialog>

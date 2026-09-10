@@ -1,0 +1,109 @@
+/*——————————————————————————————————————————————————————————*\
+ * BLOCK ( .block )
+\*——————————————————————————————————————————————————————————*/
+
+.ipMetricCard {
+
+	--gap: var(--i-spacing-gap-lg);
+
+	& {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--gap) * 2)
+	}
+
+	&__main, &__meta {
+		display: flex;
+		gap: calc(var(--gap) * 2);
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	// --- main ---
+
+	&__main {
+		flex-grow: 1;
+	}
+
+	// --- meta ---
+
+	&__meta {
+		flex-direction: column;
+		padding-bottom: calc(var(--gap)/2);
+	}
+
+	// --- data ---
+
+	&__data {
+		position: relative;
+		display: flex;
+		flex-grow: 1;
+		flex-basis: 0;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: var(--i-spacing-gap-sm);
+
+		&:empty { display: none; }
+	}
+
+	&__data::before {
+		content: '';
+		position: absolute;
+		inset-block: 0;
+		inset-inline: auto 0;
+		border: 0;
+		border-left: var(--i-line);
+		transform: translateX(var(--gap));
+	}
+
+	&__main &__data:last-child::before {
+		display: none;
+	}
+	
+	&__main:has(&__data ~ &__data:empty) &__data::before {
+		display: none;
+	}
+
+	&__meta &__data::before {
+		inset-inline: 0;
+		inset-block: 0 auto;
+		border: 0;
+		border-top: var(--i-line);
+		transform: translateY(calc(var(--gap) * -1));
+	}
+	
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS BLOCK ( --modifier ) 
+\*——————————————————————————————————————————————————————————*/
+
+.ipMetricCard {
+
+	// --- vertical ---
+
+	&--vertical &__main {
+		flex-direction: column;
+	}
+
+	&--vertical &__main &__data::before {
+		inset-inline:0;
+		inset-block: auto 0;
+		border-left: transparent;
+		border-top: var(--i-line);
+		transform: translateY(var(--gap));
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * EXCLUSIVE PROJECT ( other elements ) 
+\*——————————————————————————————————————————————————————————*/
+
+.ipMetricCard {
+
+}

@@ -1,0 +1,17 @@
+export enum FileStatusEnum {
+  NOT_READY,
+  READY,
+  UPLOADING = 2,
+  PREPARE,
+  UPLOADED,
+  CANCELED,
+  ERROR_EXTENSION,
+  ERROR_SIZE,
+  SENDING_SERVER,
+  NOT_VALID,
+}
+export enum PeriodFilterEmum {
+  PREVIOUS_MONTH = 1,
+  LAST_12_MONTH = 2,
+  CUSTOMIZED = 3,
+}

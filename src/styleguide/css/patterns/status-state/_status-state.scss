@@ -1,0 +1,99 @@
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( __element )
+\*——————————————————————————————————————————————————————————*/
+
+.ptStatusState {
+	display: flex;
+	flex-direction: column;
+
+	// --- structure ---
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-lg);
+		align-items: center;
+		text-align: center;
+		max-width: 550px;
+		margin: auto;
+		padding: var(--i-spacing-container-2xl);
+	}
+
+	&__media {
+		color: var(--i-color-primary-900);
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--i-spacing-gap-xs);
+		color: var(--i-color-secondary-700);
+	}
+
+	// --- elements ---
+
+	&__title {
+		font-weight: bold;
+		font-size: var(--i-typography-font-size-xl);
+		line-height: var(--i-typography-lineHeight-xl);
+		margin-block: 0;
+	}
+
+	&__description {
+		margin-block: 0;
+		font-size: var(--i-typography-font-size-lg);
+		line-height: var(--i-typography-font-size-xl);
+	}
+
+	&__action {
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptStatusState {
+	// --- states ---
+
+	&--searchError {
+	}
+
+	&--noData {
+	}
+
+	&--emptyCard :is(&__media, &__content) {
+		color: var(--i-color-secondary-400);
+	}
+
+	&--connectionLost &__media {
+		color: var(--i-color-error-700);
+	}
+
+	&--systemError &__media {
+		color: var(--i-color-error-700);
+	}
+
+	// --- centered ---
+
+	&--centered {
+		flex-grow: 1;
+		height: 100%;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHERS ( native or primeng )
+\*——————————————————————————————————————————————————————————*/
+
+.ptStatusState {
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skCallout {
+}

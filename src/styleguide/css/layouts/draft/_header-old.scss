@@ -1,0 +1,61 @@
+:root {
+	/*——————————————————————————————————————————*
+	 🎛 COMPONENT TOKENS → Header
+	 Basados en spacing, colors, typography y layout
+	 *——————————————————————————————————————————*/
+
+	/* Header general */
+	--i-header-bg: transparent;           /* background del header */
+	--i-header-padding: 16px;             /* padding del header */
+	--i-header-border: 0;                 /* border del header */
+
+	/* Toolbar start & end */
+	--i-header-toolbar-gap: 16px;         /* gap entre elementos del toolbar */
+	--i-header-toolbar-height: 32px;      /* altura toolbar start/end */
+
+	/* Toolbar center */
+	--i-header-toolbar-center-height: 32px; /* altura toolbar center */
+
+	/* Logo */
+	--i-header-logo-padding: 3.95px 21.9px; /* padding logo */
+
+	/* End text */
+	--i-header-endText-color: #636b8d;   /* color texto al final */
+	--i-header-endText-font-size: 16px;  /* tamaño fuente end text */
+	--i-header-endText-font-weight: 400; /* peso fuente end text */
+	--i-header-endText-line-height: 24px; /* line-height end text */
+	--i-header-endText-padding: 4px 7px;  /* padding end text */
+}
+.lHeader {
+	&.p-toolbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		background: var(--i-header-bg);
+		padding: var(--i-header-padding);
+		border: var(--i-header-border);
+
+		& .p-toolbar-start,
+		& .p-toolbar-end {
+			display: flex;
+			gap: var(--i-header-toolbar-gap);
+			height: var(--i-header-toolbar-height);
+		}
+
+		& .p-toolbar-center {
+			height: var(--i-header-toolbar-center-height);
+		}
+
+		& .imgLogo {
+			padding: var(--i-header-logo-padding);
+		}
+	}
+
+	&__endText {
+		color: var(--i-header-endText-color);
+		font-size: var(--i-header-endText-font-size);
+		font-weight: var(--i-header-endText-font-weight);
+		line-height: var(--i-header-endText-line-height);
+		padding: var(--i-header-endText-padding);
+	}
+}

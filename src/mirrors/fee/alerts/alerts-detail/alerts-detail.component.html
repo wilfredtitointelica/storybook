@@ -1,0 +1,84 @@
+<div class="amAlertDetail" [ngClass]="'amAlertAccenColor--' + item()?.klass" [class.amAlertDetail--hiding]="!open()" [attr.data-label]="item()?.type">
+	<div class="amAlertDetail__container">
+		@if(item()) {
+		<div class="amAlertDetail__header">
+			<div class="amAlertDetail__wrap">
+				<!-- loaded: header -->
+				@if (!loading()) {
+				<div class="amAlertHeader">
+					<div class="amAlertHeader__meta">
+						<div class="amAlertHeader__badge">
+							<p-badge
+								class="prBadge icon icon-fee-library"
+								[ngClass]="item()?.badge?.icon"
+								[value]="item()?.badge?.termKey ?? '' | term : globalTermService.languageCode"
+								severity="info"
+								badgeSize="large"
+							/>
+						</div>
+						<div class="amAlertHeader__brand">
+							@for (brand of item()?.brands; track $index) {
+							<i class="icon icon--md icon--outlined" [ngClass]="'icon-' + brand"></i>
+							}
+						</div>
+					</div>
+					<div class="amAlertHeader__title">{{ displayTitle(item(), globalTermService.languageCode) }}</div>
+					@if (isGroupProfile()) {
+					<div class="amAlertHeader__reference">
+						<span class="u-bold">{{ "LBL_ENTITY" | term : globalTermService.languageCode }}</span>
+						:
+						<span class="u-normal">{{ item()?.bankName }}</span>
+					</div>
+					}
+					<div class="amAlertHeader__date">{{ formatShortDate(item()?.createdRealDate, globalTermService.languageCode) }}</div>
+				</div>
+				}
+				<!-- skeleton: header -->
+				@if (loading()) {
+				<div class="amAlertHeader">
+					<div class="amAlertHeader__meta">
+						<div class="amAlertHeader__badge"><p-skeleton class="prSkeleton" [width]="'100px'" [height]="'32px'" /></div>
+						<div class="amAlertHeader__brand">
+							<p-skeleton class="prSkeleton" [width]="'36px'" [height]="'24px'" />
+							<p-skeleton class="prSkeleton" [width]="'36px'" [height]="'24px'" />
+						</div>
+					</div>
+					<div class="amAlertHeader__title"><p-skeleton class="prSkeleton" [width]="'320px'" [height]="'32px'" /></div>
+					<div class="amAlertHeader__reference"><p-skeleton class="prSkeleton" [width]="'148px'" [height]="'24px'" /></div>
+					<div class="amAlertHeader__date"><p-skeleton class="prSkeleton" [width]="'66px'" [height]="'18px'" /></div>
+				</div>
+				}
+			</div>
+			<div class="amAlertDetail__close"><p-button class="prButton prButton--icon" icon="icon icon-cancel" (click)="close.emit()" /></div>
+		</div>
+		<div class="amAlertDetail__content">
+			@switch (item()?.type) { @case (AlertType.NewFees) {
+			<alerts-detail-new-fees [data]="detailData()" [loading]="loading()" [context]="item()?.type" />
+			} @case (AlertType.Penalties) {
+			<alerts-detail-penalties [data]="detailData()" [loading]="loading()" [context]="item()?.type" />
+			} @case (AlertType.Custom) {
+			<alerts-detail-custom [data]="detailData()" [loading]="loading()" />
+			} }
+		</div>
+		<div class="amAlertDetail__footer">
+			<!-- loaded: button read -->
+			@if (!loading()) {
+			<p-button
+				class="prButton prButton--fullWidth"
+				severity="primary"
+				size="large"
+				label="{{ 'LBL_MARK_AS_READ' | term : globalTermService.languageCode }}"
+				[disabled]="isRead()"
+				(click)="onMarkAsRead()"
+				[class]="'markReadGA'"
+			/>
+			}
+
+			<!-- skeleton: button read -->
+			@if (loading()) {
+			<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'40px'" />
+			}
+		</div>
+		}
+	</div>
+</div>

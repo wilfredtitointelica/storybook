@@ -1,0 +1,333 @@
+<div class="d-flex flex-column gap-3">
+	<p-toast class="prToast" position="bottom-right" />
+	@if (false) {
+	<div style="display: flex">
+		<p-skeleton class="prSkeleton" width="300px" height="24px"></p-skeleton>
+	</div>
+	} @else {
+	<!-- TODO Convertir en rehusable de breadchum -->
+	<p-breadcrumb class="prBreadcrumb" [class]="'breadcrumbClickGA'" [model]="fullItems">
+		<ng-template pTemplate="item" let-item>
+			<a [routerLink]="item.routerLink" [pTooltip]="item.tooltip" tooltipStyleClass="prTooltip" [tooltipPosition]="item.tooltipPosition" [tooltipStyleClass]="item.tooltipStyleClass">
+				<span>{{ item.label | term : globalTermService.languageCode }}</span>
+			</a>
+		</ng-template>
+		<ng-template pTemplate="separator">
+			<span class="breadcrumb-separator">
+				<i class="icon icon-arrow-right icon--xs"></i>
+			</span>
+		</ng-template>
+	</p-breadcrumb>
+	}
+	<!-- section title -->
+	@if (false) {
+	<div style="display: flex; gap: 8px">
+		<div style="display: flex">
+			<p-skeleton class="prSkeleton" width="24px" height="24px"></p-skeleton>
+		</div>
+		<div style="display: flex; flex-direction: column; gap: 2px">
+			<p-skeleton class="prSkeleton" width="300px" height="28px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="515px" height="24px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<div class="ptSectionTitle justify-content-between">
+		<div class="ptSectionTitle">
+			<div class="ptSectionTitle__icon">
+				<p-button routerLink="/fee/opt-out-service/dashboard" class="prButton" [class]="'titleBackGA'" icon="icon icon-nav-left" />
+			</div>
+			<div class="ptSectionTitle__content">
+				<div class="ptSectionTitle__title">
+					<div class="u-display-flex u-align-items-center u-gap-xs">
+						{{ "OPT_OUT_SAVINGS" | term : globalTermService.languageCode }}
+						<span tooltipStyleClass="prTooltip" tooltipPosition="top" [pTooltip]="tooltipContent1">
+							<i class="icon icon--sm icon-info"></i>
+						</span>
+					</div>
+				</div>
+				<div class="ptSectionTitle__subtitle">{{ "OPT_OUT_SAVINGS_SUBTITLE" | term : globalTermService.languageCode }}</div>
+			</div>
+			<ng-template #tooltipContent1 class="prTooltip__wrap">
+				<span>{{ "OPT_OUT_SAVINGS_DISCLAIMER" | term : globalTermService.languageCode }}</span>
+			</ng-template>
+		</div>
+	</div>
+	}
+	<!-- card group -->
+	@if (isloadingSummary()) {
+	<div style="display: flex; gap: 16px; background: #fcfcfd; padding: 14px 16px; border-radius: 16px; height: 80px">
+		<div style="display: flex; flex-direction: column; flex: 1; justify-content: center; gap: 2px">
+			<div style="display: flex; justify-content: center">
+				<p-skeleton class="prSkeleton" width="80px" height="20px"></p-skeleton>
+			</div>
+			<p-skeleton class="prSkeleton" width="134pxpx" height="30px"></p-skeleton>
+		</div>
+		<div style="width: 1px; height: 48px; background: #d8dae4"></div>
+		<div style="display: flex; flex-direction: column; flex: 1; justify-content: center; gap: 2px">
+			<div style="display: flex; justify-content: center">
+				<p-skeleton class="prSkeleton" width="80px" height="20px"></p-skeleton>
+			</div>
+			<p-skeleton class="prSkeleton" width="134pxpx" height="30px"></p-skeleton>
+		</div>
+		<div style="width: 1px; height: 48px; background: #d8dae4"></div>
+		<div style="display: flex; flex-direction: column; flex: 1; justify-content: center; gap: 2px">
+			<div style="display: flex; justify-content: center">
+				<p-skeleton class="prSkeleton" width="80px" height="20px"></p-skeleton>
+			</div>
+			<p-skeleton class="prSkeleton" width="134pxpx" height="30px"></p-skeleton>
+		</div>
+	</div>
+	} @else {
+	<p-card class="prCard prCard--group">
+		<!-- CONTENT -->
+		<ng-template #content>
+			<!-- Card 1 -->
+			<p-card class="prCard prCard--data">
+				<ng-template #content>
+					<div class="prCard__section">
+						<div class="prCard__header">
+							<div class="prCard__title">{{ "OPT_OUT_SAVINGS" | term : globalTermService.languageCode }}</div>
+						</div>
+
+						<div class="prCard__values">
+							<div class="prCard__currency">{{ currencyCode() }}</div>
+							<div class="prCard__amount">{{ dataSummary()?.totalOptOutSavings | number : "1.2-2" }}</div>
+						</div>
+					</div>
+				</ng-template>
+			</p-card>
+
+			<div class="line"></div>
+
+			<!-- Card 2 -->
+			<p-card class="prCard prCard--data">
+				<ng-template #content>
+					<div class="prCard__section">
+						<div class="prCard__header">
+							<div class="prCard__title">{{ "POTENTIAL_SAVINGS" | term : globalTermService.languageCode }}</div>
+						</div>
+
+						<div class="prCard__values">
+							<div class="prCard__currency">{{ currencyCode() }}</div>
+							<div class="prCard__amount">{{ dataSummary()?.potentialSavings | number : "1.2-2" }}</div>
+						</div>
+					</div>
+				</ng-template>
+			</p-card>
+
+			<div class="line"></div>
+
+			<!-- Card 3 -->
+			<p-card class="prCard prCard--data">
+				<ng-template #content>
+					<div class="prCard__section">
+						<div class="prCard__header">
+							<div class="prCard__title">{{ "CAPTURE_RATE" | term : globalTermService.languageCode }}</div>
+						</div>
+
+						<div class="prCard__values">
+							<div class="prCard__amount">{{ dataSummary()?.captureRate ?? 0 | formatValue : "percent" : 2 }}</div>
+						</div>
+					</div>
+				</ng-template>
+			</p-card>
+		</ng-template>
+	</p-card>
+	}
+	<!-- card table -->
+	<p-card class="prCard">
+		<!-- CONTENT -->
+		<ng-template #content>
+			<div class="prCard__body">
+				@if (isloadingTable()) {
+				<div class="skTable" style="--body-height: 484px">
+					<!-- Header -->
+					<div class="skTable__header">
+						<p-skeleton class="prSkeleton"></p-skeleton>
+					</div>
+					<!-- summary -->
+					<div class="skTable__summary">
+						<p-skeleton class="prSkeleton"></p-skeleton>
+					</div>
+					<!-- body ( row / cell ) -->
+					<div class="skTable__body">
+						@for (_ of [].constructor(10); track $index) {
+						<div class="skTable__row">
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+							<div class="skTable__cell">
+								<p-skeleton class="prSkeleton"></p-skeleton>
+							</div>
+						</div>
+						}
+					</div>
+				</div>
+				<div class="skPaginator">
+					<div class="skPaginator__rowsPerPage">
+						<p-skeleton class="prSkeleton" [width]="'90px'" [height]="'12px'" />
+						<p-skeleton class="prSkeleton" [width]="'60px'" [height]="'32px'" [borderRadius]="'6px'" />
+					</div>
+					<div class="skPaginator__currentPage">
+						<p-skeleton class="prSkeleton" [width]="'32px'" [height]="'12px'" />
+						<p-skeleton class="prSkeleton" [width]="'40px'" [height]="'32px'" [borderRadius]="'6px'" />
+						<p-skeleton class="prSkeleton" [width]="'34px'" [height]="'12px'" />
+					</div>
+					<div class="skPaginator__controls">
+						<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'24px'" [borderRadius]="'8px'" />
+						<p-skeleton class="prSkeleton" [width]="'24px'" [height]="'24px'" [borderRadius]="'8px'" />
+					</div>
+				</div>
+				}
+				<intelica-table-fetch
+					[CurrentPage]="currentPage()"
+					[RowsPerPage]="rowsPerPage()"
+					[TotalItems]="totalItems()"
+					[SortOrder]="sortDirection()"
+					[DefaultSortField]="sortField()"
+					[SortField]="sortField()"
+					[FilteredList]="dataTable()"
+					[ShowSearch]="true"
+					[ShowPagination]="true"
+					(EmitQueryParametersChange)="onSearchParamsChange($event)"
+					[class.prTable--disabled]="isNoDataState"
+					[ngClass]="{ ptEmptyTable: isNoMatchesState || isNoDataState }"
+					[ngStyle]="{ display: isloadingTable() ? 'none' : 'block' }"
+					[class]="'tableGA'"
+					[attr.data-table]="'savings'"
+					[SearchFields]="searchFields()"
+					[SearchInput]="searchText()"
+				>
+					<ng-template #additionalTemplate>
+						<div class="u-display-flex u-gap-sm u-full-width u-justify-content-between u-pe-2">
+							<div class="u-text-lg u-bold">{{ "ANNOUNCEMENTS" | term : globalTermService.languageCode }}</div>
+						</div>
+					</ng-template>
+					<ng-template #additionalCentralTemplate>
+						<div class="u-display-flex u-gap-sm u-ps-3">
+							<p-button
+								class="prButton prButton--icon prButton--autoWidth"
+								[class]="'downloadGA'"
+								size="large"
+								severity="secondary"
+								icon="icon-download"
+								(onClick)="exportExcel()"
+								[disabled]="isDownloadingExport() || dataTable().length === 0"
+							/>
+						</div>
+					</ng-template>
+					<rowResumenComponent className="text-left" [colspan]="isGroup() ? 8 : 7">
+						<ng-template>{{ "TOTAL" | term : globalTermService.languageCode }}</ng-template>
+					</rowResumenComponent>
+					<rowResumenComponent className="text-right" [colspan]="1">
+						<ng-template>{{ totalBilled() | number : "1.2-2" }}</ng-template>
+					</rowResumenComponent>
+					<rowResumenComponent className="text-right" [colspan]="1">
+						<ng-template>{{ totalMonthlySavings() | number : "1.2-2" }}</ng-template>
+					</rowResumenComponent>
+					<rowResumenComponent className="text-right" [colspan]="1">
+						<ng-template>{{ totalAnnualSavings() | number : "1.2-2" }}</ng-template>
+					</rowResumenComponent>
+					<column header="{{ 'BRAND' | term : globalTermService.languageCode }}" field="brandName" [sortable]="true" className="u-text-center" width="8%">
+						<ng-template let-data>
+							<span class="u-display-flex u-justify-content-center">
+								@switch(data.brandId) { @case(brandEnum.Mastercard) {
+								<i class="icon--outlined icon icon-mastercard"></i>
+								} @case(brandEnum.Visa) {
+								<i class="icon--outlined icon icon-visa"></i>
+								} @case(brandEnum.Amex) {
+								<i class="icon--outlined icon icon-amex"></i>
+								} @default { - } }
+							</span>
+						</ng-template>
+					</column>
+					<column header="{{ 'LAST_BILLING_DATE' | term : globalTermService.languageCode }}" field="lastBillingDate" [sortable]="true" className="u-text-center" width="8%">
+						<ng-template let-data>
+							<span>{{ data.lastBillingDate | date : "dd MMM, yyyy" : "UTC" }}</span>
+						</ng-template>
+					</column>
+					@if(isGroup()){
+					<column header="{{ 'INSTITUTION' | term : globalTermService.languageCode }}" field="clientName" [sortable]="true" className="u-text-center" width="10%">
+						<ng-template let-data>
+							<span [pTooltip]="data.clientName" tooltipStyleClass="prTooltip" tooltipPosition="top">{{ data.clientName }}</span>
+						</ng-template>
+					</column>
+					}
+					<column header="{{ 'SERVICE' | term : globalTermService.languageCode }}" field="opcName" [sortable]="true" className="u-text-left">
+						<ng-template let-data>
+							<span
+								class="u-text-link"
+								role="button"
+								tabindex="0"
+								[class]="'announcementTableGA'"
+								tooltipPosition="top"
+								(click)="onClickAnnouncement(data.documentId)"
+								(keydown.enter)="$any($event.target).click()"
+								(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+							>{{ data.opcName }}</span>
+						</ng-template>
+					</column>
+					<column header="{{ 'BUSINESS' | term : globalTermService.languageCode }}" field="opcBusinessName" [sortable]="true" className="u-text-center"></column>
+					<column header="{{ 'FEE_CODE' | term : globalTermService.languageCode }}" field="feeCode" [sortable]="true" className="u-text-center">
+						<ng-template let-data>
+							<span
+								class="u-text-link"
+								role="button"
+								tabindex="0"
+								[class]="'feecodeTableGA'"
+								(click)="goToDetail(data)"
+								(keydown.enter)="$any($event.target).click()"
+								(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+							>{{ data.feeCode }}</span>
+						</ng-template>
+					</column>
+					<column header="{{ 'FEE_NAME' | term : globalTermService.languageCode }}" field="feeName" [sortable]="true" className="u-text-left">
+						<ng-template let-data>
+							<span pTooltip="{{ data.feeName.length > maxLength ? data.feeName : '' }}" tooltipPosition="top" tooltipStyleClass="prTooltip">{{ data.feeName | truncate : maxLength }}</span>
+						</ng-template>
+					</column>
+					<column header="{{ 'BILLED_MONTHS' | term : globalTermService.languageCode }}" field="billedMonths" className="u-text-center" [sortable]="true" width="10%">
+						<ng-template let-data>
+							<span>{{ data.billedMonths }} {{ "MONTHS" | term : globalTermService.languageCode }}</span>
+						</ng-template>
+					</column>
+					<column header="{{ 'TOTAL_BILLED' | term : globalTermService.languageCode }}" field="amountBilled" [sortable]="true" className="u-text-right" width="10%">
+						<ng-template let-data>
+							<span>{{ data.amountBilled | number : "1.2-2" }}</span>
+						</ng-template>
+					</column>
+					<column header="{{ 'MONTHLY_SAVINGS' | term : globalTermService.languageCode }}" field="amountMonthlySavings" [sortable]="true" className="u-text-right" width="10%">
+						<ng-template let-data>
+							<span>{{ data.amountMonthlySavings | number : "1.2-2" }}</span>
+						</ng-template>
+					</column>
+					<column header="{{ 'ANNUAL_SAVINGS' | term : globalTermService.languageCode }}" field="amountAnnualSavings" [sortable]="true" className="u-text-right" width="10%">
+						<ng-template let-data>
+							<span>{{ data.amountAnnualSavings | number : "1.2-2" }}</span>
+						</ng-template>
+					</column>
+				</intelica-table-fetch>
+				@if (isNoMatchesState) {
+				<intelica-status-state [state]="statusStateEnum.NoMatches" [description]="'NO_MATCHES_FOUND'" [searchTerm]="searchText()" />
+				} @else if (isNoDataState) {
+				<intelica-status-state [state]="statusStateEnum.NoData" [description]="'NO_RESULTS_FOR_FILTERS'" />
+				}
+			</div>
+		</ng-template>
+	</p-card>
+</div>

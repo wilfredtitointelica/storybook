@@ -1,0 +1,77 @@
+/*——————————————————————————————————————————————————————————*\
+ * RESET
+\*——————————————————————————————————————————————————————————*/
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	min-width: calc(1408px - 8px);
+}
+
+/* NOTA:
+ * Esta regla se mantiene comentada porque aplicar `height: 100%`
+ * y `overflow: hidden` al `body` provoca que los eventos de scroll
+ * cierren automáticamente los overlays de PrimeNG
+ * (Popover, Dropdown, MultiSelect, etc.).
+ */
+
+/* body {
+ *   height: 100%;
+ *   overflow: hidden;
+ * }
+ */
+
+body {
+	height: 100dvh;
+	width: 100%;
+	overflow: auto; /* scrollbar-gutter: stable; */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	text-wrap: balance;
+}
+
+p {
+	text-wrap: pretty;
+}
+
+img,
+video,
+svg {
+	height: auto;
+	max-width: 100%;
+}
+
+figure {
+	margin: 0;
+	padding: 0;
+}
+
+//
+/* text 
+{ cursor: default; } */
+
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid currentColor;
+}

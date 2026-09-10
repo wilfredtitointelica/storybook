@@ -1,0 +1,72 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS EXTENSIONS
+ * Motion, shadows, líneas, otros tokens “extra”
+\*——————————————————————————————————————————————————————————*/
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS MOTION
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-MOTION: 'Custom Motion Tokens';
+
+	// --- Duration ---
+
+	--i-motion-duration-fast: 150ms;
+	--i-motion-duration-base: 300ms;
+	--i-motion-duration-slow: 500ms;
+
+	// --- Easing ---
+
+	--i-motion-ease-in: cubic-bezier(0.4, 0, 1, 1);
+	--i-motion-ease-out: cubic-bezier(0, 0, 0.2, 1);
+	--i-motion-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+	--i-motion-ease-equal: ease-in-out;
+
+	// --- base ---
+
+	--i-motion-base: var(--i-motion-duration-fast) var(--i-motion-ease-in-out);
+	--i-motion-slow: var(--i-motion-duration-slow) var(--i-motion-ease-in-out);
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS SHADOW
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-SHADOW: 'Custom Shadow Tokens';
+
+	--i-shadow-depth-1: 
+		var(--i-shadow-x-none) var(--i-shadow-y-xs) var(--i-shadow-blur-xs) var(--i-shadow-spread-none) var(--i-shadow-color-base)
+	;
+	--i-shadow-depth-2:
+		var(--i-shadow-x-none) var(--i-shadow-y-md) var(--i-shadow-blur-sm) var(--i-shadow-spread-xs) var(--i-shadow-color-base),
+		var(--i-shadow-x-none) var(--i-shadow-y-sm) var(--i-shadow-blur-xs) var(--i-shadow-spread-xs) var(--i-shadow-color-base)
+	;
+	--i-shadow-depth-3:
+		var(--i-shadow-x-none) var(--i-shadow-y-lg) var(--i-shadow-blur-md) var(--i-shadow-spread-sm) var(--i-shadow-color-soft),
+		var(--i-shadow-x-none) var(--i-shadow-y-md) var(--i-shadow-blur-xs) var(--i-shadow-spread-xs) var(--i-shadow-color-base)
+	;
+	--i-shadow-depth-4:
+		var(--i-shadow-x-none) var(--i-shadow-y-xl) var(--i-shadow-blur-lg) var(--i-shadow-spread-sm) var(--i-shadow-color-medium),
+		var(--i-shadow-x-none) var(--i-shadow-y-md) var(--i-shadow-blur-xs) var(--i-shadow-spread-xs) var(--i-shadow-color-base)
+	;
+	--i-shadow-depth-5:
+		var(--i-shadow-x-none) var(--i-shadow-y-xl) var(--i-shadow-blur-lg) var(--i-shadow-spread-md) var(--i-shadow-color-strong)
+	;
+	
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS LINE
+\*——————————————————————————————————————————————————————————*/
+
+:root { --NOTE-LINE: 'Custom Line Tokens';
+
+	--i-line-border-width: 1px;
+	--i-line-border-style: solid;
+	--i-line-border-color: var(--i-color-neutral-200);
+
+	// --- default ---
+
+	--i-line: var(--i-line-border-width) var(--i-line-border-style) var(--i-line-border-color);
+}

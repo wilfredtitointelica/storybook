@@ -1,0 +1,271 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-SEARCHFORM-COMPONENT: "ptSearchForm ( Custom Native & PrimeNG )";
+
+	// --i-searchform-property: var(--i-);
+
+	// --- general ---
+
+	--i-searchform-gap: var(--i-control-gap);
+	--i-searchform-width: 29rem; // 464px
+	--i-searchform-height: var(--i-control-height);
+	--i-searchform-padding: var(--i-control-padding);
+	--i-searchform-color: var(--i-control-color);
+	--i-searchform-background: var(--i-control-background);
+	--i-searchform-border: var(--i-control-border);
+	--i-searchform-border-radius: var(--i-control-border-radius);
+	--i-searchform-font-size: var(--i-control-font-size);
+	--i-searchform-line-height: var(--i-control-line-height);
+	--i-searchform-motion: var(--i-control-motion);
+
+	// --- states ---
+
+	--i-searchform-hover-border-color: var(--i-control-hover-border-color);
+
+	--i-searchform-focus-border-color: var(--i-control-focus-border-color);
+
+	// --- elements ---
+
+	--i-searchform-field-order: var(--i-control-text-order);
+
+	--i-searchform-clear-order: var(--i-control-clear-order);
+	--i-searchform-clear-padding: var(--i-control-clear-button-padding);
+
+	--i-searchform-divider-order: var(--i-control-divider-order);
+	--i-searchform-divider-height: var(--i-control-divider-height);
+	--i-searchform-divider-border: var(--i-control-divider-border);
+
+	--i-searchform-addon-order: var(--i-control-addon-order);
+	--i-searchform-addon-width: var(--i-control-addon-width);
+	--i-searchform-addon-padding: var(--i-control-addon-padding);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptSearchForm )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearchForm {
+	outline: var(--i-searchform-border);
+	border-radius: var(--i-searchform-border-radius);
+	font-size: var(--i-searchform-font-size);
+	font-style: normal;
+	line-height: var(--i-searchform-line-height);
+	color: var(--i-searchform-color);
+	background-color: var(--i-searchform-background);
+	overflow: hidden;
+
+	&:hover {
+		outline-color: var(--i-searchform-hover-border-color);
+	}
+
+	&:has(&__input input:focus) {
+		outline-color: var(--i-searchform-focus-border-color);
+	}
+
+	// --- wrapper ---
+
+	&__wrapper {
+		display: flex;
+		align-items: center;
+		gap: var(--i-searchform-gap);
+		// width: var(--i-searchform-width);
+		height: var(--i-searchform-height);
+		transition: width var(--i-searchform-motion);
+	}
+
+	// --- field ---
+
+	&__field {
+		order: var(--i-searchform-field-order);
+		flex-grow: 1;
+		display: flex;
+		transition: opacity var(--i-searchform-motion);
+	}
+
+	&__filter {
+		&:empty {
+			display: none;
+		}
+	}
+
+	&__input {
+		flex-grow: 1;
+
+		& input {
+			border: 0 !important;
+		}
+	}
+
+	&__filter:not(:empty) + &__input input {
+		padding-left: 0;
+	}
+
+	// --- clear ---
+
+	&__clear {
+		order: var(--i-searchform-clear-order);
+		&:empty {
+			display: none;
+		}
+		transition: opacity var(--i-searchform-motion);
+	}
+
+	// --- divisor ---
+
+	&__wrapper:has(&__clear:not(:empty))::before {
+		order: var(--i-searchform-divider-order);
+		content: "";
+		height: var(--i-searchform-divider-height);
+		border-left: var(--i-searchform-divider-border);
+	}
+
+	// --- addon ---
+
+	&__addon {
+		order: var(--i-searchform-addon-order);
+		position: sticky;
+		right: 0;
+		height: 100%;
+		margin-left: calc(var(--i-searchform-gap) * -1);
+		background-color: var(--i-searchform-background);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( ptSearchForm--modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearchForm {
+
+	// --- compact ----
+
+	&--compact {
+		width: var(--i-searchform-height);
+	}
+
+	&--compact :is(&__field, &__clear) {
+		pointer-events: none;
+	}
+
+	// --- large ---
+
+	&--large {
+		--i-searchform-height: 40px;
+	}
+
+	&--large &__input .p-inputtext {
+		font-size: var(--i-typography-font-size-xl, 20px); 
+		height: var(--i-searchform-height);
+	}
+
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED MODIFIERS PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.ptSearchForm {
+	// --- general ---
+
+	& .p-component {
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+
+		&,
+		&:enabled:is(:hover, :focus) {
+			border-color: transparent;
+			background-color: transparent;
+		}
+
+		&:not(:disabled):hover {
+			border: 0;
+		}
+	}
+
+	// --- filter ---
+
+	&__filter .p-component {
+		height: 100%;
+
+		& .p-select-label {
+			padding-right: 0;
+			font-size: 1em;
+			line-height: 1.45em;
+		}
+
+		& .p-select-label + [role="button"] {
+			width: auto;
+			padding: var(--i-searchform-addon-padding);
+		}
+	}
+
+	// --- input ---
+
+	&__input .p-component {
+		padding: var(--i-searchform-padding);
+		padding-right: 0;
+		width: 100%;
+		height: var(--i-searchform-height);
+
+		// remove cancel native ( input[type="search"] )
+		&::-ms-clear {
+			display: none;
+		}
+		&::-webkit-search-cancel-button,
+		&::-webkit-search-decoration,
+		&::-webkit-search-results-button,
+		&::-webkit-search-results-decoration {
+			display: none;
+		}
+	}
+
+	// --- clear ---
+
+	&__clear .prButton {
+		& button {
+			height: auto;
+			color: var(--i-color-primary-base);
+			padding: 0;
+			width: 1rem;
+		}
+
+		& button::after {
+			display: none;
+		}
+	}
+
+	// --- addon ---
+
+	&__addon .prButton {
+		height: 100%;
+
+		& .p-button-icon-only {
+			color: var(--i-color-primary-base);
+			padding: var(--i-searchform-addon-padding);
+			height: 100%;
+			border-radius: 8px;
+
+			// --- Focus
+			&:focus-visible {
+				outline-color: var(--i-focus-border-color);
+				outline-offset: -3px;
+			}
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skSearch {
+}
+
+//input[type="search"]::-webkit-search-cancel-button,
+//input[type="search"]::-webkit-search-decoration,
+//input[type="search"]::-webkit-search-results-button,
+//input[type="search"]::-webkit-search-results-decoration,

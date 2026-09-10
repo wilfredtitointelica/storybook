@@ -1,0 +1,10 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PRIMENG / MESSAGE
+\*——————————————————————————————————————————————————————————*/
+
+/*\
+	.p-message (.p-message-sm) ( .p-message-info || .p-message-success || .p-message-warn || .p-message-error )
+		.p-message-content
+			.p-message-icon
+			.p-message-text
+\*/

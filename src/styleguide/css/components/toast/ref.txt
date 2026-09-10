@@ -1,0 +1,13 @@
+/*——————————————————————————————————————————————————————————*\
+ * REF. PRIMENG / TOAST
+\*——————————————————————————————————————————————————————————*/
+
+/*\
+	.p-toast-message ( .p-toast-message-info || .p-toast-message-success || .p-toast-message-warn || .p-toast-message-error )
+		.p-toast-message-content
+			.p-toast-message-icon
+			.p-toast-message-text
+				.p-toast-summary
+				.p-toast-detail
+			.p-toast-close-button
+\*/

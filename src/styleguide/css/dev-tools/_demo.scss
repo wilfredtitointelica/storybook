@@ -1,0 +1,156 @@
+/*——————————————————————————————————————————————————————————*\
+ * 🧩 DEMO COMPONENTS (Showcase Dev Tools)
+ * Visual helpers used only for internal demonstrations.
+ * Scope: layout & presentation of custom component previews.
+ * Note: not part of production styles.
+\*——————————————————————————————————————————————————————————*/
+
+.demo-container {
+	display: flex;
+	flex-direction: column;
+	max-width: 80rem; // 1280
+	padding-inline: 2.5rem; // 40px
+	margin-inline: auto;
+	margin-block: 5rem;
+	gap: 5rem;
+}
+
+.demo-section {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.demo-title, .demo-hashTitle {
+	font-family: monospace;
+}
+
+.demo-title {
+	// position: sticky; z-index: 10;
+	top: 1rem;
+	padding: 1.25rem 1rem;
+	color: white;
+	background-color: var(--i-color-secondary-600);
+	outline: 1px solid var(--i-color-secondary-600);
+	outline-offset: 0px;
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: -1px 0 auto;
+		height: 1rem;
+		transform: translateY(-100%);
+		background-color: white;
+	}
+}
+
+.demo-hashTitle {
+	opacity: .65;
+}
+
+.demo-icon-name, .demo-icon-size {
+	position: relative;
+	display: flex;
+	align-items: center;
+	font-weight: 100;
+	width: 100%;
+	border: 2px solid var(--i-color-neutral-200);
+	border-radius: 1rem;
+	gap: 1.5rem;
+
+	&:hover {
+		color: var(--i-color-neutral-900);
+		border-color: var(--i-color-neutral-900);
+	}
+}
+
+.demo-icon-name {
+	padding: 2rem 2rem;
+
+	& .icon {
+		color: var(--i-color-neutral-900);
+		font-size: 2em;
+	}
+
+	& .text {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: left;
+		line-height: 1em;
+		font-size: 0.875rem; // 14px
+	}
+}
+
+.demo-icon-size {
+	flex-direction: column;
+	padding-top: 100%;
+
+	& .icon {
+		position: absolute;
+		top: 50%; left: 50%;
+		transform: translate(-50%,-50%);
+		color: var(--i-color-neutral-900);
+	}
+
+	& .text {
+		position: absolute;
+		inset: 2rem;
+		top: auto;
+		text-align: center;
+		font-size: 1.25rem; // 20px
+	}
+}
+
+.demo-grid {
+	display: grid;
+
+	&:has(.demo-icon-name) {
+		grid-template-columns: repeat(3,1fr);
+		place-items: flex-start;
+		gap: 1.25rem;
+	}
+
+	&:has(.demo-icon-size) {
+		grid-template-columns: repeat(5,1fr);
+		place-items: center;
+		gap: 1.25rem;
+	}
+}
+
+.demo-button {
+	--i-demo-button-color: var(--i-color-secondary-500);
+
+	cursor: pointer;
+	background-color: white;
+	border: 1px solid var(--i-demo-button-color);
+	border-radius: 8px;
+	height: var(--i-sizing-lg);
+	font-size: var(--i-text-body-size-md);
+	color: var(--i-color-secondary-700);
+	padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+
+	&:hover {
+		background-color: var(--i-demo-button-color);
+		color: white;
+	}
+
+	// --- modifiers ---
+
+	&--info { --i-demo-button-color: var(--i-border-info)}
+	&--warning { --i-demo-button-color: var(--i-border-warning)}
+	&--error { --i-demo-button-color: var(--i-border-error)}
+	&--success { --i-demo-button-color: var(--i-border-success)}
+
+}
+
+// --- forced ---
+
+:is(.demo-container, .demo-section) > :is(.demo-title, .demo-hashTitle) {
+	margin-block: 0;
+}
+
+.demo-section:hover .demo-hashTitle {
+	opacity: 1;
+	color: var(--i-color-neutral-900);
+}

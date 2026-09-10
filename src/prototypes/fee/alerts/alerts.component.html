@@ -1,0 +1,166 @@
+<!-- FILTER BAR -->
+<fee-filter-bar [clientInfo]="clientInfo()" [isGroupProfile]="isGroupProfile" (bankIdsChange)="onFilterBarBankIds($event)" (dateRangeChange)="onFilterBarDateRange($event)" />
+
+<!-- TITLE -->
+<div class="ptSectionTitle">
+	<div class="ptSectionTitle__content">
+		<div class="ptSectionTitle__title">{{ "LBL_ALERTS" | term : globalTermService.languageCode }}</div>
+	</div>
+</div>
+
+<!-- 	PANEL -->
+<p-panel class="prPanel prPanel--full" showHeader="false">
+	<p-tabs class="prTabs prTabs--noEqualTab prTabs--noBackground prTabs--noPanelPaddingInline prTabs--full | u-full-height" [value]="tabValue()">
+		<p-tablist [id]="'tabsListGA'">
+			<p-tab [value]="AlertsTab.Inbox" (click)="onTabChange(AlertsTab.Inbox)">{{ "LBL_INBOX" | term : globalTermService.languageCode }}</p-tab>
+			<p-tab [value]="AlertsTab.Read" (click)="onTabChange(AlertsTab.Read)">{{ "LBL_READ" | term : globalTermService.languageCode }}</p-tab>
+			<div class="u-display-flex u-ms-auto u-my-auto">
+				<p-button
+					class="prButton prButton--icon prButton--autoWidth"
+					[class]="'downloadGA'"
+					severity="secondary"
+					icon="icon-download"
+					size="large"
+					[loading]="exporting()"
+					[disabled]="isDisabledSearch()"
+					(click)="onExport()"
+				/>
+			</div>
+		</p-tablist>
+		<p-tabpanels>
+			<p-tabpanel [value]="AlertsTab.Inbox">
+				<div class="ptStackContent ptStackContent--scroll | u-full-height u-gap-none">
+					<div class="ptStackContent__wrap">
+						<div class="ptStackContent__header">
+							<div class="u-display-flex u-justify-content-between u-flex-wrap u-gap-sm">
+								<app-alerts-filter (filtersChange)="onInboxFilterTypes($event)" (dateRangeChange)="onInboxDateRange($event)"></app-alerts-filter>
+								<div class="ptSearch ptSearch--fixedWidth" [class]="'searchGA'">
+									<p-iconfield>
+										<input
+											type="text"
+											class="prInputText"
+											pInputText
+											placeholder="{{ 'LBL_SEARCH_IN_INBOX' | term : globalTermService.languageCode }}"
+											[ngModel]="searchTextInbox()"
+											(ngModelChange)="onInboxSearchChange($event)"
+											[disabled]="isDisabledSearch()"
+										/>
+										<p-inputicon>
+											<button class="ptSearch__icon ptSearch__icon--close" [disabled]="isDisabledSearch()">
+												@if(searchTextInbox()) {
+												<i class="icon icon-cancel" (click)="onInboxSearchChange('')"></i>
+												}
+											</button>
+											@if(searchTextInbox()) {
+											<span class="ptSearch__icon ptSearch__icon--divider"></span>
+											}
+											<button class="ptSearch__icon ptSearch__icon--search" [disabled]="isDisabledSearch()">
+												<i class="icon icon-search"></i>
+											</button>
+										</p-inputicon>
+									</p-iconfield>
+								</div>
+							</div>
+							<div class="u-display-flex">
+								<span class="u-text-sm">{{ "LBL_SHOWING" | term : globalTermService.languageCode }} {{ inboxTotal() }} {{ "LBL_ACTIVE_ALERTS" | term : globalTermService.languageCode }}</span>
+							</div>
+						</div>
+						<div class="ptStackContent__body">
+							<app-alerts-list
+								[listType]="AlertsTab.Inbox"
+								[selectedItem]="selectedInboxItem()"
+								(selectItem)="onSelectItem($event)"
+								(totalItems)="onTotalItems($event)"
+								(totalAvailableItems)="onTotalAvailableItems($event)"
+								[markAsReadItem]="markAsReadItem()"
+								[activeTypes]="inboxActiveTypes()"
+								[searchText]="searchTextInbox()"
+								[dateRange]="globalDateRange()"
+								[bankIds]="selectedBankIds()"
+								[isGroupProfile]="isGroupProfile"
+								[autoSelectId]="autoSelectId()"
+								class="u-flex-grow-1"
+							></app-alerts-list>
+						</div>
+					</div>
+					<div class="ptStackContent__side">
+						<app-alerts-detail
+							[item]="selectedInboxItem()"
+							[open]="inboxDetailOpen()"
+							(markAsRead)="onMarkAsRead($event)"
+							[isGroupProfile]="isGroupProfile"
+							(close)="onCloseDetail(AlertsTab.Inbox)"
+							class="u-display-flex u-full-height"
+						></app-alerts-detail>
+					</div>
+				</div>
+			</p-tabpanel>
+			<p-tabpanel [value]="AlertsTab.Read">
+				<div class="ptStackContent ptStackContent--scroll | u-full-height u-gap-none">
+					<div class="ptStackContent__wrap">
+						<div class="ptStackContent__header">
+							<div class="u-display-flex u-justify-content-between u-flex-wrap u-gap-sm">
+								<app-alerts-filter (filtersChange)="onReadFilterTypes($event)" (dateRangeChange)="onReadDateRange($event)"></app-alerts-filter>
+								<div class="ptSearch ptSearch--fixedWidth" [class]="'searchGA'">
+									<p-iconfield>
+										<input
+											type="text"
+											class="prInputText"
+											pInputText
+											placeholder="{{ 'LBL_SEARCH_IN_READS' | term : globalTermService.languageCode }}"
+											[ngModel]="searchTextRead()"
+											(ngModelChange)="onReadSearchChange($event)"
+											[disabled]="isDisabledSearch()"
+										/>
+										<p-inputicon>
+											<button class="ptSearch__icon ptSearch__icon--close" [disabled]="isDisabledSearch()">
+												@if(searchTextRead()) {
+												<i class="icon icon-cancel" (click)="onReadSearchChange('')"></i>
+												}
+											</button>
+											@if(searchTextRead()) {
+											<span class="ptSearch__icon ptSearch__icon--divider"></span>
+											}
+											<button class="ptSearch__icon ptSearch__icon--search" [disabled]="isDisabledSearch()">
+												<i class="icon icon-search"></i>
+											</button>
+										</p-inputicon>
+									</p-iconfield>
+								</div>
+							</div>
+							<div class="u-display-flex">
+								<span class="u-text-sm">{{ "LBL_SHOWING" | term : globalTermService.languageCode }} {{ readTotal() }} {{ "LBL_READ_ALERTS" | term : globalTermService.languageCode }}</span>
+							</div>
+						</div>
+						<div class="ptStackContent__body">
+							<app-alerts-list
+								[listType]="AlertsTab.Read"
+								[selectedItem]="selectedReadItem()"
+								(selectItem)="onSelectItem($event)"
+								(totalItems)="onTotalItems($event)"
+								(totalAvailableItems)="onTotalAvailableItems($event)"
+								[markAsReadItem]="markAsReadItem()"
+								[activeTypes]="readActiveTypes()"
+								[searchText]="searchTextRead()"
+								[dateRange]="globalDateRange()"
+								[bankIds]="selectedBankIds()"
+								[isGroupProfile]="isGroupProfile"
+								class="u-flex-grow-1"
+							></app-alerts-list>
+						</div>
+					</div>
+					<div class="ptStackContent__side">
+						<app-alerts-detail
+							[item]="selectedReadItem()"
+							[open]="readDetailOpen()"
+							(markAsRead)="onMarkAsRead($event)"
+							[isGroupProfile]="isGroupProfile"
+							(close)="onCloseDetail(AlertsTab.Read)"
+							class="u-display-flex u-full-height"
+						></app-alerts-detail>
+					</div>
+				</div>
+			</p-tabpanel>
+		</p-tabpanels>
+	</p-tabs>
+</p-panel>

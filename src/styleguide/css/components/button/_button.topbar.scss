@@ -1,0 +1,70 @@
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( primeNG )
+\*——————————————————————————————————————————————————————————*/
+
+.prButton--topBar, .prButton--topBarIcon {
+
+	& .p-button {
+		background: var(--i-color-secondary-100);
+		color: var(--i-color-primary-900);
+		line-height: var(--i-button-font-lineHeight-lg);
+		min-width: 96px;
+		padding: var(--i-button-padding-y-xs) var(--i-button-padding-x-lg);
+		transition: none;
+	}
+
+	// --- is-active ---
+
+	&.is-active .p-button,
+	& .p-button:not(:disabled):is(:hover, :active) {
+		background: var(--i-color-secondary-100);
+		color: var(--i-color-secondary-900); // var(--i-color-blue-600);
+		border: 0;
+		outline: 0;
+	}
+
+	&.is-active .p-button,
+	& .p-button:not(:disabled):is(:active) {
+		box-shadow: inset 0 -2px 0 var(--i-color-tertiary-500); // var(--i-color-blue-600);
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+
+		&:hover {
+			box-shadow: inset 0 -2px 0 var(--i-color-secondary-200); // var(--i-color-blue-600);
+		}
+	}
+
+	// --- has notification ---
+
+	&.has-notifications {
+		& .p-button-icon {
+			position: relative;
+		}
+		
+		& .p-button-icon:after {
+			content: '';
+			position: absolute;
+			top:0; right: 0;
+			font-size: 0.75rem; // 12px
+			width: 1em;
+			height: 1em;
+			border-radius: 1em;
+			background-color: var(--i-color-error-600);
+		}
+	}
+
+
+}
+
+.prButton--topBarIcon {
+
+	& .p-button {
+		padding: var(--i-button-padding-y-xs) var(--i-button-padding-x-xs);
+		min-width: var(--i-button-sizing-lg);
+	
+		.icon {
+			font-size: var(--i-typography-font-size-2xl);
+		}
+	}
+
+}

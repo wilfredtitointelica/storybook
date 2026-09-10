@@ -1,0 +1,90 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-NAME-COMPONENT: "xCard xCard--mini ( Custom PrimeNG )";
+
+	--i-name-color: var(); // example token
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+	&--mini.p-card {
+		border-width: 1px;
+		border-style: solid;
+		border-color: #d8dae4;
+	}
+	&--mini .p-card-body {
+		padding: 8px;
+		gap: 0;
+	}
+	&--mini .p-card-content {
+		gap: 0;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * BEM MODIFIER ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+	&--mini &__wrap {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		gap: 4px;
+	}
+	&--mini &__title {
+		font-weight: 700;
+		font-size: 16px;
+		line-height: 24px;
+		color: #4e546f;
+	}
+	&--mini &__subtitle {
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+		color: #636b8d;
+	}
+	&--mini &__label {
+		font-weight: 700;
+		font-size: 12px;
+		line-height: 16px;
+		color: #636b8d;
+	}
+	&--mini &__date {
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 16px;
+		color: #636b8d;
+	}
+
+	&--mini &__action {
+		display: flex;
+		align-items: center;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.xCard {
+	&--mini &__row .icon {
+		color: #2952c4;
+	}
+	&--mini &__action .icon {
+		color: #636b8d;
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skName {
+}

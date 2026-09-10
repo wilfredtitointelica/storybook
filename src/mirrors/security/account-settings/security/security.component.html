@@ -1,0 +1,295 @@
+<!-- ================================================================ -->
+
+<!-- section title -->
+<div class="ptSectionTitle">
+	<div class="ptSectionTitle__content">
+		<!-- LODADED -->
+		@if (isReady()) {
+		<div class="ptSectionTitle__title">{{ "TitleSecurity" | term : termService.languageCode }}</div>
+		<div class="ptSectionTitle__subtitle">{{ "SubTitleSecurity" | term : termService.languageCode }}</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<p-skeleton class="prSkeleton" [width]="'80px'" [height]="'28px'" />
+		<p-skeleton class="prSkeleton u-my-1" [width]="'430px'" [height]="'16px'" />
+		}
+	</div>
+</div>
+
+<!-- panel: status -->
+<p-panel class="prPanel" showHeader="false">
+	<div class="u-display-flex u-flex-row u-gap-lg">
+		<!-- LOADED -->
+		@if (isReady()) {
+		<div class="u-me-auto">
+			<div class="u-bold">{{ "SecurityStatusTitle" | term : termService.languageCode }}</div>
+			<span class="u-text-md">{{ lastUpdatedText() }}</span>
+		</div>
+		<div class="u-my-auto u-display-flex u-gap-lg">
+			<p-badge
+				class="prBadge"
+				[ngClass]="isTwoStepVerificationEnabled() ? 'icon icon-input-success' : 'icon icon-security'"
+				[value]="(isTwoStepVerificationEnabled() ? 'ChipTwoStepEnable' : 'ChipTwoStepDisable') | term : termService.languageCode"
+				[severity]="isTwoStepVerificationEnabled() ? 'success' : 'warn'"
+				badgeSize="large"
+			/>
+			<p-badge
+				class="prBadge"
+				[ngClass]="isPasswordStrong() ? 'icon icon-security' : 'icon icon-security'"
+				[value]="(isPasswordStrong() ? 'StrongPassword' : 'UpdateRequired') | term : termService.languageCode"
+				[severity]="isPasswordStrong() ? 'info' : 'warn'"
+				badgeSize="large"
+			/>
+		</div>
+		}
+
+		<!-- SKELETON -->
+		@if (!isReady()) {
+		<div class="u-me-auto">
+			<div class="u-overflow-hidden"><p-skeleton class="prSkeleton" [width]="'110px'" [height]="'24px'" /></div>
+			<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-2" [width]="'150px'" [height]="'12px'" /></div>
+		</div>
+		<div class="u-my-auto u-display-flex u-gap-lg">
+			<p-skeleton class="prSkeleton" [width]="'181.42px'" [height]="'32px'" borderRadius="48px" />
+			<p-skeleton class="prSkeleton" [width]="'132.67px'" [height]="'32px'" borderRadius="48px" />
+		</div>
+		}
+	</div>
+</p-panel>
+
+<!-- panel: password -->
+<p-panel class="prPanel" showHeader="false">
+	<!-- LODADED -->
+	@if (isReady()) {
+	<!-- Password -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-display-flex u-gap-lg">
+			<div class="u-me-auto">
+				<div class="u-bold">
+					{{ (isEditingPassword() ? "CreateSecurePasswordTitle" : "PasswordUpdateTitle") | term : termService.languageCode }}
+				</div>
+				<span class="u-text-md">
+					{{ (isEditingPassword() ? "CreateSecurePasswordSubTitle" : "PasswordUpdateSubTitle") | term : termService.languageCode }}
+				</span>
+			</div>
+			<div class="u-my-auto">
+				@if(!isEditingPassword()){
+				<p-button class="prButton" [gaTrack]="'editingPassword'" severity="secondary" [label]="'EditPasswordButtonText' | term : termService.languageCode" (click)="isEditingPassword.set(true)" />
+				}
+			</div>
+		</div>
+
+		<div class="u-display-flex u-gap-lg">
+			<!-- editing password -->
+			<div class="fields-limited u-me-auto">
+				@if(isEditingPassword()) {
+				<app-password-modal
+					[isLoading]="isChangingPassword()"
+					[passwordErrorKey]="passwordErrorKey()"
+					[actualPassword]="valueCurrentPassword()"
+					(cancel)="OnPasswordCancel()"
+					(update)="OnPasswordUpdate($event)"
+				/>
+				} @else {
+				<div class="ptField">
+					<div class="ptField__label">
+						<label class="u-text-md">{{ "CurrentPasswordLabel" | term : termService.languageCode }}</label>
+					</div>
+					<div class="ptField__inner">
+						<div class="ptField__control">
+							<p-password
+								class="prPassword prPassword--readonly"
+								[toggleMask]="true"
+								[ngModel]="valueCurrentPassword()"
+								feedback="false"
+								autocomplete="off"
+								disabled="false"
+								tabindex="-1"
+								placeholder="New password"
+							>
+								<ng-template pTemplate="showicon">
+									<i class="icon icon-view"></i>
+								</ng-template>
+								<ng-template pTemplate="hideicon">
+									<i class="icon icon-view-off"></i>
+								</ng-template>
+							</p-password>
+						</div>
+					</div>
+				</div>
+				}
+			</div>
+			<!-- status password -->
+			@if(!isEditingPassword()) {
+			<p-badge
+				class="prBadge u-mt-auto"
+				[ngClass]="isPasswordStrong() ? 'icon icon-input-success' : 'icon icon-warning'"
+				[value]="(isPasswordStrong() ? 'ChipPasswordSecure' : 'PasswordUpdateRequired') | term : termService.languageCode"
+				[severity]="isPasswordStrong() ? 'success' : 'warn'"
+				badgeSize="large"
+			/>
+			}
+		</div>
+	</div>
+	<hr class="u-divider-horizontal" />
+	<!-- Email Token -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-bold">{{ "EmailTokenAuthTitle" | term : termService.languageCode }}</div>
+		<div class="u-display-flex">
+			<div class="u-display-flex u-flex-column u-me-auto u-text-md">
+				<span class="u-bold">{{ "EmailTokenAuthSubTitle" | term : termService.languageCode }}</span>
+				<span>{{ userEmail() }}</span>
+			</div>
+			<div class="u-my-auto">
+				<p-badge class="prBadge icon icon-input-success" severity="success" badgeSize="large" [value]="'EmailTokenAuthChip' | term : termService.languageCode" />
+			</div>
+		</div>
+	</div>
+	<hr class="u-divider-horizontal" />
+	<!-- Verification Method -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-display-flex">
+			<div class="u-me-auto">
+				<div class="u-bold">{{ "TwoStepVerificationTitle" | term : termService.languageCode }}</div>
+			</div>
+			<div class="u-my-auto">
+				<p-button
+					class="prButton"
+					[gaTrack]="'setUpVerification'"
+					severity="secondary"
+					icon="icon icon-qr-code"
+					[label]="'TwoStepVerificationSetupButton' | term : termService.languageCode"
+					(click)="ShowAuthenticationAppDialog()"
+				/>
+			</div>
+		</div>
+
+		<div class="u-display-flex">
+			<div class="u-display-flex u-flex-column u-me-auto u-text-md">
+				<span class="u-bold">{{ "TwoStepVerificationSubTitle" | term : termService.languageCode }}</span>
+				<span>{{ "TwoStepVerificationBody" | term : termService.languageCode }}</span>
+			</div>
+			<div class="u-my-auto">
+				@if(isTwoStepVerificationEnabled()) {
+				<p-badge class="prBadge icon icon-input-success" severity="success" badgeSize="large" [value]="'EmailTokenAuthChip' | term : termService.languageCode" />
+				}
+			</div>
+		</div>
+
+		@if (!isTwoStepVerificationEnabled()) {
+		<div class="u-display-flex">
+			<p-message class="prMessage" severity="warn" icon="icon icon-warning" closable>{{ "TwoStepVerificationWarning" | term : termService.languageCode }}</p-message>
+		</div>
+		}
+	</div>
+	}
+
+	<!-- SKELETON -->
+	@if (!isReady()) {
+	<!-- Password -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-display-flex u-gap-lg">
+			<div class="u-me-auto">
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton" [width]="'70px'" [height]="'24px'" /></div>
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-2" [width]="'450px'" [height]="'12px'" /></div>
+			</div>
+			<div class="u-my-auto">
+				<p-skeleton class="prSkeleton" [width]="'104.491px'" [height]="'32px'" borderRadius="48px" />
+			</div>
+		</div>
+
+		<div class="u-display-flex u-gap-lg">
+			<!-- editing password -->
+			<div class="fields-limited u-me-auto">
+				<div class="ptField">
+					<div class="ptField__label">
+						<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'115px'" [height]="'16px'" /></div>
+					</div>
+					<div class="ptField__inner">
+						<div class="ptField__control">
+							<p-skeleton class="prSkeleton" [width]="'100%'" [height]="'32px'" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- status password -->
+			<div class="u-mt-auto">
+				<p-skeleton class="prSkeleton" [width]="'183.84px'" [height]="'32px'" borderRadius="48px" />
+			</div>
+		</div>
+	</div>
+	<hr class="u-divider-horizontal" />
+	<!-- Email Token -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-bold"><p-skeleton class="prSkeleton" [width]="'200px'" [height]="'24px'" /></div>
+		<div class="u-display-flex">
+			<div class="u-display-flex u-flex-column u-me-auto u-text-md">
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton" [width]="'190px'" [height]="'24px'" /></div>
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'175px'" [height]="'9px'" /></div>
+			</div>
+			<div class="u-my-auto">
+				<p-skeleton class="prSkeleton" [width]="'87.5px'" [height]="'32px'" borderRadius="48px" />
+			</div>
+		</div>
+	</div>
+	<hr class="u-divider-horizontal" />
+	<!-- Verification Method -->
+	<div class="u-display-flex u-flex-column u-gap-lg">
+		<div class="u-display-flex">
+			<div class="u-me-auto">
+				<p-skeleton class="prSkeleton" [width]="'160px'" [height]="'24px'" />
+			</div>
+			<div class="u-my-auto">
+				<p-skeleton class="prSkeleton" [width]="'152.59px'" [height]="'32px'" borderRadius="48px" />
+			</div>
+		</div>
+
+		<div class="u-display-flex">
+			<div class="u-display-flex u-flex-column u-me-auto u-text-md">
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton" [width]="'180px'" [height]="'24px'" /></div>
+				<div class="u-overflow-hidden"><p-skeleton class="prSkeleton u-my-1" [width]="'450px'" [height]="'9px'" /></div>
+			</div>
+		</div>
+
+		<div class="u-display-flex">
+			<p-skeleton class="prSkeleton" [width]="'441.16px'" [height]="'36px'" />
+		</div>
+	</div>
+	}
+</p-panel>
+
+<!-- ================================================================ -->
+
+@if (isReady()) {
+<!-- dialog: QR -->
+<p-dialog
+	class="prDialog u-display-none"
+	[(visible)]="isAuthenticationAppDialog"
+	[modal]="true"
+	[draggable]="false"
+	[resizable]="false"
+	[dismissableMask]="true"
+	[focusOnShow]="false"
+	appendTo="body"
+	maskStyleClass="prDialog prDialog--md"
+>
+	<ng-template #header>{{ "SteupVerificationTitle" | term : termService.languageCode }}</ng-template>
+	<ng-template #closeicon>
+		<i class="icon icon-cancel"></i>
+	</ng-template>
+	<ng-template #content>
+		<app-setup-verification-modal
+			[qrCodeBase64]="qrCodeBase64()"
+			[manualEntryKey]="manualEntryKey()"
+			[isLoading]="isVerifyingCode() || isLoadingQr()"
+			[hasError]="hasTwoFactorError()"
+			(codeSubmitted)="OnVerifyTwoFactor($event)"
+		/>
+	</ng-template>
+</p-dialog>
+<!-- library: alert -->
+<intelica-alert class="u-display-none" />
+}
+
+<!-- ================================================================ -->

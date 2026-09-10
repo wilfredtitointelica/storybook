@@ -1,0 +1,159 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-PAGINATOR-COMPONENT: "prPaginator ( Custom PrimeNG )";
+
+	--i-focus-border-color: var(--i-color-primary-600);
+}
+
+/*——————————————————————————————————————————————————————————*\
+   * MODIFIER PRIME
+  \*——————————————————————————————————————————————————————————*/
+
+.ptTablePaginator {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--i-color-primary-900); // color/grey/600
+	background: #fcfcfd; // color/grey/50
+	font-size: 14px; // typography/font-size/m
+	padding: var(--i-spacing-container-md) var(--i-spacing-container-xs);
+
+	& .prSelect {
+		&.p-select {
+			border: 1px solid transparent;
+			background: transparent;
+			box-shadow: none;
+			margin-left: var(--i-spacing-container-sm);
+
+			&:hover {
+				border-color: #7490e2;
+			}
+
+			&:not(.p-disabled, .p-invalid) .p-select-dropdown-icon {
+				color: var(--i-color-primary-900); //  color/grey/600
+			}
+
+			&:not(.p-disabled).p-focus,
+			&:not(.p-disabled):is(:hover, :active) {
+				border: 1px solid transparent; // var(--i-focus-border-color);
+			}
+			&:not(.p-disabled).p-select-open {
+				border: 1px solid transparent;
+			}
+
+			.p-overlay {
+				// min-width: auto !important;
+			}
+
+			.p-select-overlay {
+				border: 1px solid var(--i-color-secondary-600);
+			}
+
+			.p-select-label {
+				color: var(--i-color-primary-900); // color/grey/600
+				font-size: 14px; // typography/font-size/m
+				padding-right: 0;
+			}
+
+			.p-select-option {
+				padding: 0 var(--i-spacing-gap-xs);
+				justify-content: flex-end;
+			}
+
+			.p-select-list {
+				padding: var(--i-spacing-gap-xs);
+			}
+		}
+	}
+
+	.prPaginator {
+		&.p-paginator {
+			background-color: transparent;
+			border: 0;
+			padding: 0;
+			border-radius: 0;
+			color: var(--i-color-primary-900); // color/grey/600
+
+			.p-paginator-prev,
+			.p-paginator-next {
+				color: var(--i-color-primary-900); // color/grey/600
+				min-width: auto;
+				height: auto;
+				padding: 4px; //space/050
+
+				&.p-disabled,
+				&.p-component:disabled {
+					opacity: var(--p-disabled-opacity);
+					border-radius: 8px; // radius/100
+					background-color: #d8dae4; // color/grey/200
+					min-width: auto;
+					height: auto;
+					padding: 4px; //space/050
+				}
+				// --- Focus
+				&:focus-visible {
+					outline: 1px solid var(--i-focus-border-color);
+					background-color: var(--i-color-secondary-100);
+				}
+			}
+			.p-paginator-page:not(.p-disabled):not(.p-paginator-page-selected):hover,
+			.p-paginator-first:not(.p-disabled):hover,
+			.p-paginator-prev:not(.p-disabled):hover,
+			.p-paginator-next:not(.p-disabled):hover,
+			.p-paginator-last:not(.p-disabled):hover {
+				background: none; // color/blue/100
+			}
+
+			.p-paginator-jtp-input .p-inputtext {
+				color: var(--i-color-primary-900); // color/grey/600
+				border-color: var(--i-color-secondary-600); // color/grey/400
+				font-weight: bold;
+				font-size: 14px; // typography/font-size/m
+				padding-block: 2px; // space/025
+				padding-inline: 0px; // space/100
+				text-align: center;
+				background: var(--i-color-secondary-50);
+				margin-left: 4px; // space/050
+				margin-right: 4px;
+				// max-width:  ; // var(--p-paginator-jump-to-page-input-max-width)
+				// --- Focus
+				&:focus-visible {
+					border: 1px solid var(--i-focus-border-color);
+					outline: 0;
+					background-color: var(--i-color-secondary-100);
+				}
+			}
+		}
+
+		& .p-paginator-page.p-paginator-page-selected {
+			background: var(--i-color-primary-100);
+			color: var(--i-color-primary-900);
+		}
+	}
+}
+
+.paginatorSelectTableGA {
+	&.p-select-overlay {
+		border: 1px solid var(--i-color-secondary-600) !important;
+	}
+
+	&.prSelect {
+		.p-select-label {
+			color: var(--i-color-primary-900); // color/grey/600
+			font-size: 14px; // typography/font-size/m
+			padding-right: 0;
+		}
+
+		.p-select-option {
+			padding: 0 var(--i-spacing-gap-xs);
+			justify-content: flex-end;
+		}
+
+		.p-select-list {
+			padding: var(--i-spacing-gap-xs);
+		}
+	}
+}

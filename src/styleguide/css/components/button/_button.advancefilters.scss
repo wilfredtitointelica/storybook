@@ -1,0 +1,75 @@
+.prButtonAdvanceFilters {
+	display: flex;
+	& .p-button {
+		background: #fcfcfc;
+		border: none;
+		height: 32px;
+		min-width: 200px;
+		border-radius: 8px;
+		justify-content: space-between;
+	}
+	& .p-badge-secondary {
+		background: var(--i-color-secondary-100);
+		color: var(--i-color-primary-900);
+		font-weight: 400;
+	}
+	& .p-button-label {
+		color: var(--i-color-primary-900);
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 20px;
+		// fix truncate
+		flex-grow: 1;
+		flex-basis: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: left;
+	}
+	& .p-button:not(:disabled):hover {
+		background: var(--i-color-secondary-100); //#e5edfa;
+		color: var(--i-color-primary-900); //#2952c4;
+		border: none;
+		& .p-badge-secondary {
+			background: #fcfcfc;
+		}
+		& .p-button-label {
+			color: var(--i-color-primary-900); //#2952c4;
+		}
+	}
+	& .p-button:not(:disabled):active {
+		background: #e5edfa;
+		color: #2952c4;
+		border: none;
+		& .p-badge-secondary {
+			background: #fcfcfc;
+		}
+		& .p-button-label {
+			color: 2952C4;
+		}
+	}
+	& .p-button .p-badge {
+		min-width: 20px;
+		height: 20px;
+	}
+	& .p-badge {
+		font-size: 12px;
+		padding: 4px;
+	}
+	& .p-badge-circle {
+		border-radius: 4px;
+	}
+	& .p-button:focus-visible {
+		box-shadow: none;
+		outline: none;
+		outline-offset: 0;
+	}
+}
+.prButtonAdvanceFilters.is-active {
+	& .p-button {
+		background: #2952c4;
+	}
+	& .p-button-label {
+		color: #f2f5fc;
+	}
+}

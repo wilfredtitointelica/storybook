@@ -1,0 +1,403 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-BUTTON-COMPONENT: "prSelect ( Custom PrimeNG )";
+
+	--i-select-overlay-border-radius: var(--i-border-radius-sm); // radius/050
+
+	--i-select-list-header-padding: var(--i-spacing-container-xs); // var(--p-select-list-header-padding);
+
+	--i-inputtext-background: var(--i-color-secondary-50); // color/grey/50 || var(--p-inputtext-background);
+	--i-inputtext-color: var(--i-color-secondary-600); // color/grey/600 || var(--p-inputtext-color);
+	--i-inputtext-border-color: var(--i-color-secondary-400); // color/grey/400 || var(--p-inputtext-border-color);
+	--i-inputtext-hover-border-color: var(--i-color-primary-400); // color/blue/400 || var(--p-inputtext-hover-border-color);
+
+	--i-iconfield-icon-color: var(--i-color-primary-600); // color/blue/600 || var(--p-iconfield-icon-color);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME
+\*——————————————————————————————————————————————————————————*/
+
+.prSelect {
+	&.p-select {
+		border: var(--i-border-width-sm) solid var(--i-color-secondary-200);
+		border-radius: var(--i-border-radius-lg);
+		background: var(--i-color-secondary-50);
+		box-shadow: none;
+
+		&:not(.p-disabled):is(:hover, .p-select-open:hover) {
+			border-color: var(--i-color-primary-400);
+			.p-select-dropdown .icon {
+				color: var(--i-color-primary-400);
+			}
+		}
+		&:not(.p-disabled):active {
+			border-color: var(--i-color-primary-900);
+		}
+		&:not(.p-disabled):is(.p-focus, .p-select-open) {
+			border-color: var(--i-color-primary-900);
+		}
+
+		&.p-invalid {
+			border-color: var(--i-border-error);
+
+			& .p-select-label.p-placeholder {
+				color: var(--i-text-color-error);
+			}
+
+			& .p-select-dropdown-icon {
+				color: var(--i-icon-color-error);
+			}
+		}
+
+		&.p-variant-filled {
+			background: var(--i-color-secondary-50);
+
+			&:not(.p-disabled):hover,
+			&:not(.p-disabled).p-focus {
+				background: var(--i-color-secondary-50);
+			}
+		}
+
+		&.p-disabled {
+			background: var(--i-color-secondary-200);
+			border-color: var(--i-color-secondary-200);
+
+			& .p-select-label {
+				color: var(--i-color-secondary-400);
+			}
+		}
+		& .p-select-option-check-icon {
+			color: var(--i-color-primary-600);
+		}
+
+		& .p-select-dropdown-icon {
+			transition: rotate 0.3s ease-in-out;
+			rotate: 0deg;
+		}
+		&:is(.p-select-open) .p-select-dropdown-icon {
+			rotate: -180deg;
+		}
+
+		& .p-select-label {
+			color: var(--i-color-primary-900);
+			font-size: var(--i-typography-font-size-md);
+			padding: var(--i-spacing-container-sm) var(--i-spacing-container-md);
+			line-height: 18px; // 20px ||| typography/line-height/m
+			text-align: left;
+
+			&.p-placeholder,
+			&.p-select-label::placeholder {
+				color: var(--i-color-secondary-400);
+			}
+		}
+
+		&:not(.p-disabled, .p-invalid) .p-select-dropdown-icon {
+			color: var(--i-color-primary-900);
+		}
+		.p-select-clear-icon {
+			color: var(--i-color-primary-900);
+		}
+	}
+	&.p-select .p-select-overlay,
+	&.p-select-overlay // appendTo="body"
+	{
+		background: var(--i-color-secondary-50);
+		border: var(--i-border-width-10) solid transparent; // (--i-color-secondary-400);
+		border-radius: var(--i-select-overlay-border-radius);
+		box-shadow: var(--i-shadow-x-0) var(--i-shadow-y-150) var(--i-shadow-y-200) var(--i-shadow-spread-40) var(--i-shadow-color-200),
+			var(--i-shadow-x-0) var(--i-shadow-y-100) var(--i-shadow-y-100) var(--i-shadow-spread-20) var(--i-shadow-color-100);
+
+		& .p-select-header {
+			padding: var(--i-select-list-header-padding);
+
+			& .p-inputtext {
+				border: var(--i-border-width-10) solid var(--i-color-secondary-200);
+				background: var(--i-inputtext-background);
+				color: var(--i-color-primary-900);
+				padding: var(--i-spacing-container-xs) var(--i-spacing-container-md);
+				padding-inline-end: calc((var(--p-form-field-padding-x) * 1) + var(--p-icon-size)) !important;
+				font-size: var(--i-form-field-size-sm);
+				line-height: 1;
+
+				&.p-inputtext:enabled:hover {
+					border-color: var(--i-inputtext-hover-border-color);
+				}
+
+				&:focus {
+					border-color: var(--i-color-primary-900);
+				}
+
+				&::placeholder {
+					color: var(--i-color-secondary-400);
+				}
+			}
+			& .p-inputicon {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 0;
+				transform: translateY(-50%);
+				inset-inline-end: var(--i-spacing-container-md);
+				color: var(--i-color-primary-900);
+				// margin-top: calc(-1 * (var(--i-sizing-2xs) / 2));
+
+				& .icon {
+					font-size: var(--i-sizing-2xs);
+				}
+
+				& .p-icon {
+					width: var(--i-sizing-2xs);
+					height: var(--i-sizing-2xs);
+				}
+			}
+		}
+
+		& .p-select-option {
+			color: var(--i-color-primary-900);
+			font-size: var(--i-typography-font-size-md);
+
+			&.p-select-option-selected {
+				color: var(--i-color-primary-50);
+				background-color: var(--i-color-primary-700);
+			}
+			&:not(.p-select-option-selected):not(.p-disabled).p-focus {
+				color: var(--i-color-primary-900);
+				background-color: var(--i-color-secondary-100);
+			}
+		}
+
+		// --- cursor in disabled ---
+		& .p-select-list {
+			&,
+			& p-selectitem:has(.p-disabled) {
+				cursor: default;
+			}
+		}
+
+		// --- virtual scroller ---
+		& .p-virtualscroller {
+			contain: none;
+		}
+
+		& .p-virtualscroller-content {
+			position: relative;
+		}
+
+		// --- no result ( search ) ---
+		& .p-select-empty-message {
+			font-size: var(--i-typography-font-size-md);
+		}
+
+		// --- cursor in disabled ---
+		& .p-select-list {
+			&,
+			& p-selectitem:has(.p-disabled) {
+				cursor: default;
+			}
+		}
+
+		// --- virtual scroller ---
+		& .p-virtualscroller {
+			contain: none;
+		}
+
+		& .p-virtualscroller-content {
+			position: relative;
+		}
+
+		// --- no result ( search ) ---
+		& .p-select-empty-message {
+			font-size: var(--i-typography-font-size-md);
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIME [atributo="valor"]
+\*——————————————————————————————————————————————————————————*/
+
+.prSelect {
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( prSelect )
+\*——————————————————————————————————————————————————————————*/
+
+.prSelect {
+	// BEM Component
+}
+
+// Select por appendTo="body"
+.prSelect--export.prSelect.p-select {
+	.p-select-label.p-placeholder {
+		color: var(--i-color-primary-900);
+	}
+	&.p-disabled .p-select-label {
+		color: var(--i-color-secondary-400);
+	}
+}
+.prSelectPanelExport {
+	padding: 1rem 1rem;
+	color: var(--i-color-primary-900);
+	.prSelect {
+		&__header {
+			padding-bottom: var(--i-spacing-150);
+			font-weight: var(--i-typography-font-weight-bold);
+		}
+		&__item {
+			background: var(--i-button-secondary-background);
+			border: var(--i-button-border-width-sm) solid var(--i-button-secondary-border);
+			color: var(--i-color-primary-900);
+			border-radius: var(--i-button-border-radius-lg);
+			font-size: var(--i-typography-font-size-sm);
+			gap: var(--i-button-gap-xs);
+			line-height: var(--i-typography-lineHeight-100);
+			height: var(--i-button-sizing-md);
+			padding: var(--i-button-padding-x-sm) var(--i-button-padding-y-md);
+
+			transition: background var(--p-button-transition-duration), color var(--p-button-transition-duration), border-color var(--p-button-transition-duration),
+				outline-color var(--p-button-transition-duration), box-shadow var(--p-button-transition-duration);
+			&:hover {
+				background: var(--i-button-secondary-background);
+				border: var(--i-button-border-width-sm) solid var(--i-button-secondary-hover-border);
+				color: var(--i-button-secondary-hover-color);
+			}
+			&:active {
+				background: var(--i-button-secondary-pressed-background);
+				border: var(--i-button-border-width-sm) solid var(--i-button-secondary-pressed-border);
+				//outline: 1px solid var(--i-button-secondary-pressed-border);
+				color: var(--i-button-secondary-pressed-color);
+			}
+			&:disabled {
+				background: var(--i-button-secondary-disabled-background);
+				border-color: var(--i-button-secondary-disabled-border);
+				color: var(--i-button-secondary-disabled-color);
+				opacity: var(--i-disabled-opacity);
+			}
+		}
+	}
+
+	.p-select-option.p-focus .prSelect__item {
+		outline: 1px solid var(--i-focus-border-color);
+		outline-offset: -2px;
+	}
+
+	.p-select-list {
+		padding: 0;
+		& p-selectitem {
+			&:nth-last-child(2) {
+				margin-bottom: var(--i-spacing-150);
+			}
+			&:last-child {
+				padding-top: var(--i-spacing-150);
+				border-top: 1px solid var(--i-button-secondary-border);
+			}
+		}
+	}
+	.p-select-option:has(.prSelect__item) {
+		color: var(--i-color-secondary-600);
+		font-size: var(--i-typography-font-size-md);
+		padding: 0.2rem 0;
+		width: max-content;
+		&.p-select-option-selected {
+			color: var(--i-color--secondary-600);
+			background: transparent;
+		}
+		&.p-select-option-selected.p-focus {
+			color: var(--i-color-secondary-600);
+			background: transparent;
+		}
+		&:not(.p-select-option-selected):not(.p-disabled).p-focus:has(.prSelect__item) {
+			background: transparent;
+		}
+	}
+	.p-ink {
+		background: transparent;
+	}
+
+	&--list {
+		.p-select-list {
+			& p-selectitem {
+				&:nth-last-child(2) {
+					margin-bottom: unset;
+				}
+				&:last-child {
+					padding-top: unset;
+					border-top: 0;
+				}
+			}
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIERS ELEMENTS ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.prSelect {
+	// --- minimal ( visual ) ---
+
+	&--minimal.p-select {
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		gap: var(--i-spacing-gap-xs);
+		background-color: transparent;
+
+		& .p-select-label {
+			padding: 0;
+		}
+
+		& .p-select-dropdown {
+			width: auto;
+		}
+
+		& .p-select-dropdown-icon .icon {
+			font-size: 12px;
+		}
+	}
+
+	// --- overlay posicion forzada ( appendTo="self" ) ---
+
+	&--selfOverlayRight.p-select {
+		& .p-overlay {
+			left: auto !important;
+			right: 0;
+		}
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * SKELETON
+\*——————————————————————————————————————————————————————————*/
+
+.skButton {
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED SELECT LANGUAGE
+\*——————————————————————————————————————————————————————————*/
+
+language .prSelect.p-select {
+	padding: var(--i-button-padding-y-xs) var(--i-button-padding-x-lg);
+	height: var(--i-button-sizing-lg);
+	align-items: center;
+
+	&.p-select-open,
+	&:not(.p-disabled).p-focus {
+		box-shadow: inset 0 -2px 0 var(--i-color-tertiary-500);
+	}
+
+	& .p-overlay {
+		margin-top: 0 !important;
+	}
+
+	& .p-select-overlay {
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+}

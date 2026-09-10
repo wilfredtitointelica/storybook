@@ -1,0 +1,113 @@
+<p-card class="prCard">
+	<!-- HEADER -->
+	@if (loading) {
+	<ng-template #title>
+		<div style="width: 100%; display: flex; justify-content: space-between">
+			<div>
+				<p-skeleton class="prSkeleton" width="250px" height="32px"></p-skeleton>
+			</div>
+			<div style="display: flex; flex-direction: row; gap: 8px">
+				<p-skeleton class="prSkeleton" width="92px" height="24px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="325px" height="32px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="32px" height="32px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="32px" height="32px"></p-skeleton>
+			</div>
+		</div>
+	</ng-template>
+	}
+
+	<!-- CONTENT -->
+	<ng-template #content>
+		<div class="prCard__body">
+			@if (loading) {
+			<div class="skTable">
+				<div class="skTable__header">
+					<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+				</div>
+				<div class="skTable__body">
+					@for (_ of skeletonRows; track $index) {
+					<div class="skTable__row">
+						@for (__ of skeletonColumns; track $index) {
+						<div class="skTable__cell">
+							<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+						</div>
+						}
+					</div>
+					}
+				</div>
+			</div>
+			} @else {
+			<!-- Component Reutilizable Table -->
+			<intelica-table
+				#itltable
+				[class.prTable--disabled]="isTableBlocked"
+				[ngClass]="{ ptEmptyTable: isEmptyState }"
+				[ShowSearch]="true"
+				[SearchFields]="searchFields"
+				[ShowPagination]="true"
+				[RowsPerPage]="rows"
+				[ShowCheckbox]="true"
+				[ListData]="ListFileSharingDataTemp"
+				[ListDataSelected]="selectedFiles"
+				[SelectedIdentifier]="'fileId'"
+				[DefaultSortField]="sortFieldDefault"
+				(EmitSelectedItem)="onEmitSelectedItem($event)"
+				(EmitListDataFilter)="onListDataFilter($event)"
+				(EmitSearchEvent)="onSearchEvent($event)"
+				[DefaultSortOrder]="sortOrderDefault"
+				[AllowedPageSizes]="AllowedPageSizes"
+				class="prTable--customPanelTop"
+			>
+				<ng-template #additionalTemplate>
+					<div class="u-display-flex u-gap-sm u-full-width u-justify-content-between u-pe-2">
+						<div class="u-text-lg u-bold">{{ "LBL_ATTACHED_FILES" | term : GlobalTermService.languageCode }}</div>
+					</div>
+				</ng-template>
+				<ng-template #additionalCentralTemplate>
+					<div class="u-display-flex u-gap-sm u-ps-3">
+						<p-button class="prButton prButton--icon" [class]="'downloadGA'" size="large" severity="secondary" [disabled]="!hasVisibleSelection || isTableBlocked" (click)="downloadSelectedFiles()">
+							<i class="icon icon-download"></i>
+						</p-button>
+						<p-button class="prButton prButton--icon" [class]="'deleteGA'" size="large" severity="secondary" [disabled]="!hasVisibleSelection || isTableBlocked" (click)="deleteSelectedFiles()">
+							<i class="icon icon-delete"></i>
+						</p-button>
+					</div>
+				</ng-template>
+				<!-- <ng-template #additionalExtendedTemplate>additionalExtendedTemplate</ng-template> -->
+				<column field="fileExtension" [header]="'SM_FILE_TYPE' | term : GlobalTermService.languageCode" [sortable]="true" className="text-center" width="6%"></column>
+				<column field="fileNameUser" [header]="'SM_FILE_NAME' | term : GlobalTermService.languageCode" [sortable]="true" className="text-left" width="40%">
+					<ng-template #content let-data>
+						<div class="table-row-hover d-flex justify-content-between">
+							<span class="file-name-ellipsis" #fileName [pTooltip]="fileName.offsetWidth < fileName.scrollWidth ? data.fileNameUser : null" tooltipPosition="top" tooltipStyleClass="prTooltip">
+								{{ data.fileNameUser }}
+							</span>
+						</div>
+					</ng-template>
+				</column>
+				<column field="categoryName" [header]="'SM_CATEGORY' | term : GlobalTermService.languageCode" [sortable]="true" className="text-center" width="10%"></column>
+
+				<column field="fileUploadedBy" [header]="'SM_UPLOADED_BY' | term : GlobalTermService.languageCode" [sortable]="true" className="text-center" width="12%"></column>
+				<column field="fileDtUploadDate" [header]="'SM_UPLOADED_DATE' | term : GlobalTermService.languageCode" [sortable]="true" className="text-center" width="10%">
+					<ng-template #content let-data>
+						<div [ngClass]="{ dateDisabled: data.flagDeleted > 0 }">
+							<div>{{ data.fileDtUploadDate | uploadDatePart : "date" }}</div>
+							<div>{{ data.fileDtUploadDate | uploadDatePart : "time" }}</div>
+						</div>
+					</ng-template>
+				</column>
+				<column field="fileSize" [header]="'SM_SIZE' | term : GlobalTermService.languageCode" [sortable]="true" className="text-center" width="5%">
+					<ng-template #content let-data>
+						<span [ngClass]="{ dateDisabled: data.flagDeleted > 0 }">{{ data.fileSize | size }}</span>
+					</ng-template>
+				</column>
+			</intelica-table>
+			@if (isSystemError) {
+			<intelica-status-state [state]="StatusStateEnum.SystemError" [description]="'LBL_SYSTEM_ERROR_BODY'" (reload)="reloadTable()" />
+			} @else if (isNoMatches) {
+			<intelica-status-state [state]="StatusStateEnum.NoMatches" [description]="'LBL_NO_MATCHES_BODY'" [searchTerm]="searchText" />
+			} @else if (isNoData) {
+			<intelica-status-state [state]="StatusStateEnum.NoData" [description]="'LBL_NO_DATA_BODY'" />
+			} }
+		</div>
+	</ng-template>
+</p-card>

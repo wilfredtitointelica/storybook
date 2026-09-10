@@ -1,0 +1,12 @@
+/*——————————————————————————————————————————————————————————*\
+ * NOTE: styles combined in 'assets/css/table' folder
+\*——————————————————————————————————————————————————————————*/
+.prTable {
+	&.p-treetable {
+		.p-treetable-tbody > tr > td .p-treetable-toggler,
+		.p-treetable-tbody > tr > td .p-treetable-toggler:enabled:hover {
+			background-color: transparent;
+			color: var(--i-color-primary-900);
+		}
+	}
+}

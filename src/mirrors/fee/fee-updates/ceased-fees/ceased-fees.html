@@ -1,0 +1,84 @@
+<div>
+	@if (loading()) {
+	<div class="skTable">
+		<div class="skTable__header">
+			<p-skeleton class="prSkeleton" width="100%"></p-skeleton>
+		</div>
+		<div class="skTable__body">
+			@for (row of [1, 2, 3, 4, 5]; track row) {
+			<div class="skTable__row">
+				@for (col of [1, 2, 3, 4, 5, 6, 7, 8]; track col) {
+				<div class="skTable__cell"><p-skeleton class="prSkeleton" width="100%"></p-skeleton></div>
+				}
+			</div>
+			}
+		</div>
+	</div>
+	} @else { @if (items().length) {
+	<intelica-table-fetch
+		class="tableFeeUpdates"
+		[ShowCheckbox]="false"
+		[ShowSearch]="false"
+		[ShowPagination]="true"
+		[CurrentPage]="currentPage()"
+		[RowsPerPage]="rowsPerPage()"
+		[TotalItems]="totalItems()"
+		[SortOrder]="sortOrder()"
+		[DefaultSortField]="$any(sortField())"
+		[SortField]="$any(sortField())"
+		[FilteredList]="items()"
+		(EmitQueryParametersChange)="onTableQueryChange($event)"
+	>
+		<column [field]="'feeCode'" [header]="commonGlobalService.termText(feeUpdatesTerm.COL_FEE_CODE)" [sortable]="true" className="u-text-center" minWidth="100px">
+			<ng-template let-rowData>
+				<a
+					class="prLink"
+					role="button"
+					tabindex="0"
+					[class]="'feecodeTableGA'"
+					(click)="onFeeCodeClick(rowData, $event)"
+					(keydown.enter)="$any($event.target).click()"
+					(keydown.space)="$event.preventDefault(); $any($event.target).click()"
+				>{{ rowData.feeCode }}</a>
+			</ng-template>
+		</column>
+		<column [field]="'feeName'" [header]="commonGlobalService.termText(feeUpdatesTerm.COL_FEE_NAME)" [sortable]="true" minWidth="220px">
+			<ng-template let-rowData>
+				<span tooltipStyleClass="prTooltip" pTooltip="{{ rowData.feeName }}" tooltipPosition="top">{{ rowData.feeName | truncate : 68 : false }}</span>
+			</ng-template>
+		</column>
+		@if (showClientColumn()) {
+		<column [field]="'clientName'" [header]="commonGlobalService.termText(feeUpdatesTerm.COL_INSTITUTION)" [sortable]="true" minWidth="140px" />
+		}
+		<column [field]="'category'" [header]="commonGlobalService.termText(feeUpdatesTerm.COL_CATEGORY)" [sortable]="true" minWidth="140px" className="u-text-center" />
+		<column [field]="'business'" [header]="commonGlobalService.termText(feeUpdatesTerm.COL_BUSINESS)" [sortable]="true" minWidth="100px" className="u-text-center" />
+
+		<column [field]="'brand'" [header]="commonGlobalService.termText(feeUpdatesTerm.COL_BRAND)" [sortable]="true" className="u-text-center" minWidth="80px">
+			<ng-template let-rowData>
+				@if (commonGlobalService.resolveBrandIconClass(rowData.brand, rowData.brandCode); as brandIconClass) {
+				<i [class]="brandIconClass" class="icon--outlined" aria-hidden="true"></i>
+				} @else {
+				<span>{{ rowData.brand }}</span>
+				}
+			</ng-template>
+		</column>
+
+		<column [field]="'ceasedDate'" [header]="commonGlobalService.termText(feeUpdatesTerm.COL_CEASED_DATE)" [sortable]="true" type="date" className="u-text-center" minWidth="120px">
+			<ng-template let-rowData>
+				<span>{{ rowData.ceasedDate | date : "dd MMM, yyyy" : "UTC" : "en-US" }}</span>
+			</ng-template>
+		</column>
+		<column [field]="'lastKnownRate'" [header]="commonGlobalService.termText(feeUpdatesTerm.COL_LAST_KNOWN_RATE)" [sortable]="true" className="u-text-right" minWidth="134px">
+			<ng-template let-rowData>
+				<span>{{ rowData.lastKnownRate | number : "1.0-6" }}</span>
+			</ng-template>
+		</column>
+	</intelica-table-fetch>
+	}@else if (hasError()) {
+	<intelica-status-state [state]="StatusStateEnum.SystemError" [description]="feeUpdatesTerm.STATE_SYSTEM_ERROR_BODY" (reload)="reload.emit()" />
+	} @else if (hasActiveSearch()) {
+	<intelica-status-state [state]="StatusStateEnum.NoMatches" [description]="feeUpdatesTerm.STATE_NO_MATCHES_BODY" [searchTerm]="searchText()" />
+	} @else {
+	<intelica-status-state [state]="StatusStateEnum.NoData" [description]="feeUpdatesTerm.STATE_NO_DATA_BODY" />
+	} }
+</div>

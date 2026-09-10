@@ -1,0 +1,93 @@
+@if (loading()) {
+<div class="aHeader">
+	<p-skeleton class="prSkeleton u-mb-1" width="200px" height="16px" borderRadius="8px"></p-skeleton>
+	<div class="u-display-flex u-align-items-center u-justify-content-between">
+		<div class="d-flex align-items-start gap-2">
+			<div class="ptSectionTitle">
+				<div class="ptSectionTitle__icon">
+					<p-skeleton class="prSkeleton" width="36px" height="36px" borderRadius="8px"></p-skeleton>
+				</div>
+				<div class="ptSectionTitle__content d-flex flex-column gap-1">
+					<p-skeleton class="prSkeleton" width="440px" height="24px" borderRadius="8px"></p-skeleton>
+					<p-skeleton class="prSkeleton" width="120px" height="16px" borderRadius="8px"></p-skeleton>
+				</div>
+			</div>
+			<div class="d-inline-flex gap-1">
+				<p-skeleton class="prSkeleton" width="72px" height="24px" borderRadius="12px"></p-skeleton>
+				<p-skeleton class="prSkeleton" width="90px" height="24px" borderRadius="12px"></p-skeleton>
+			</div>
+		</div>
+		<div class="d-flex gap-2">
+			<p-skeleton class="prSkeleton" width="112px" height="36px" borderRadius="8px"></p-skeleton>
+			<p-skeleton class="prSkeleton" width="100px" height="36px" borderRadius="8px"></p-skeleton>
+		</div>
+	</div>
+</div>
+} @else {
+<div class="aHeader">
+	<div>
+		<p-breadcrumb class="prBreadcrumb" [class]="'breadcrumbClickGA'" [model]="visibleItems()">
+			<ng-template pTemplate="item" let-item>
+				<a [routerLink]="item.routerLink">
+					<span>{{ item.label }}</span>
+				</a>
+			</ng-template>
+			<ng-template #separator>
+				<span class="breadcrumb-separator">
+					<i class="icon icon-arrow-right icon--xs"></i>
+				</span>
+			</ng-template>
+		</p-breadcrumb>
+	</div>
+	<div class="u-display-flex u-align-items-start u-justify-content-between u-gap-sm">
+		<div class="d-flex align-items-start gap-2">
+			<div class="ptSectionTitle">
+				<div class="ptSectionTitle__icon">
+					<p-button class="prButton" icon="icon icon-nav-left" [class]="'titleBackGA'" (onClick)="onBack()" />
+				</div>
+				<div class="ptSectionTitle__content">
+					<div class="aTittle ptSectionTitle__title">{{ overviewData()?.feeName }}</div>
+					<div class="ptSectionTitle__subtitle">{{ overviewData()?.feeOCode }}</div>
+				</div>
+			</div>
+			<div class="d-inline-flex gap-2">
+				<p-badge class="prBadge" [value]="overviewData()?.brand ?? ''" severity="info" badgeSize="large" />
+				<p-badge class="prBadge" [value]="overviewData()?.business ?? ''" severity="info" badgeSize="large" />
+			</div>
+		</div>
+		<div class="d-flex gap-2 detailModalGA">
+			@if (overviewData()?.referencesCount) {
+			<p-button
+				class="prButton"
+				severity="secondary"
+				(click)="openReferenceModal()"
+				[icon]="'icon icon-archive'"
+				label="{{ commonGlobalService.termText(feeDetailTerm.REFERENCES) }} ({{ overviewData()?.referencesCount }})"
+			/>
+			}
+			<p-button
+				class="prButton"
+				severity="primary"
+				(click)="onSetAlert()"
+				[icon]="'icon icon-notification'"
+				label="{{ commonGlobalService.termText(hasAlert() ? feeDetailTerm.EDIT_ALERT : feeDetailTerm.SET_ALERT) }}"
+			/>
+		</div>
+	</div>
+</div>
+}
+
+<p-dialog
+	class="prDialog prDialog--xl"
+	[resizable]="false"
+	[(visible)]="referenceModal"
+	[modal]="true"
+	[header]="commonGlobalService.termText(feeDetailTerm.REFERENCES)"
+	[closeIcon]="'icon icon-cancel'"
+	[dismissableMask]="true"
+	[draggable]="false"
+>
+	<ng-template #content>
+		<fee-modal-reference [feeId]="overviewData()?.feeId ?? ''" [(visible)]="referenceModal" />
+	</ng-template>
+</p-dialog>

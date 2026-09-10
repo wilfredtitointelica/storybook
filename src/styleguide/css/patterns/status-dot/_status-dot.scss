@@ -1,0 +1,55 @@
+/*——————————————————————————————————————————————————————————*\
+ * ELEMENTS ( ptStatusDot )
+\*——————————————————————————————————————————————————————————*/
+
+// Indicador circular de severidad. No es exclusivo de gráficos — aplica a cualquier contexto
+// donde se necesite una marca de severidad compacta: leyendas de gráficos, filas de tabla,
+// listados de estado, labels simples o filas de informes/reportes. Nodo hoja (sin __elementos).
+
+.ptStatusDot {
+	width: 6px;
+	height: 6px;
+	flex-shrink: 0;
+	border-radius: var(--i-border-radius-full);
+	background-color: var(--i-color-secondary-600);
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER ( --modifier )
+\*——————————————————————————————————————————————————————————*/
+
+.ptStatusDot {
+	// --- size ---
+
+	&--lg {
+		width: 12px;
+		height: 12px;
+	}
+
+	// --- severity ---
+	// Misma paleta que p-badge/.prBadge — cuando badge y dot aparecen juntos en un mismo
+	// diseño, sus colores deben coincidir sin mapeo adicional.
+
+	&--info {
+		background-color: var(--i-color-primary-600);
+	}
+
+	&--success {
+		background-color: var(--i-color-success-600);
+	}
+
+	&--warning {
+		background-color: var(--i-color-warning-600);
+	}
+
+	&--danger {
+		background-color: var(--i-color-error-600);
+	}
+
+	// --yellow existe porque el token de severidad "caution" del DS no tiene una variable
+	// --i-color-* propia todavía (mismo caso ya presente en .prBadge--yellow) — usar el hex
+	// literal hasta que se defina el token.
+	&--yellow {
+		background-color: #f7d54d;
+	}
+}

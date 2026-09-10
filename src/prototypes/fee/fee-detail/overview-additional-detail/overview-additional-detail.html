@@ -1,0 +1,177 @@
+<div class="borderedSection">
+	@if (isLoading()) {
+	<div class="additionalDetails">
+		<div class="additionalDetails__header">
+			<p-skeleton class="prSkeleton" width="150px" height="20px" borderRadius="8px"></p-skeleton>
+		</div>
+		<div class="additionalDetails__content" [class.additionalDetails__content--scrollable]="hasOverflow()">
+			<div class="additionalDetails__item additionalDetails__item--inline">
+				<p-skeleton class="prSkeleton" width="60px" height="14px" borderRadius="8px"></p-skeleton>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__badges">
+						@for (w of [90, 90, 80, 80, 60]; track w) {
+						<p-skeleton class="prSkeleton" [width]="w + 'px'" height="24px" borderRadius="12px"></p-skeleton>
+						}
+					</div>
+				</div>
+			</div>
+
+			<div class="additionalDetails__item additionalDetails__item--split">
+				<p-skeleton class="prSkeleton" width="120px" height="14px" borderRadius="8px"></p-skeleton>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__grid">
+						<div class="additionalDetails__gridColumn">
+							<p-skeleton class="prSkeleton" width="70px" height="14px" borderRadius="8px"></p-skeleton>
+							<div class="additionalDetails__badges">
+								@for (i of [1, 2, 3, 4]; track i) {
+								<p-skeleton class="prSkeleton" width="80px" height="24px" borderRadius="12px"></p-skeleton>
+								}
+							</div>
+						</div>
+						<div class="additionalDetails__gridColumn">
+							<p-skeleton class="prSkeleton" width="50px" height="14px" borderRadius="8px"></p-skeleton>
+							<div class="additionalDetails__badges">
+								@for (i of [1, 2]; track i) {
+								<p-skeleton class="prSkeleton" width="80px" height="24px" borderRadius="12px"></p-skeleton>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="additionalDetails__item additionalDetails__item--split">
+				<p-skeleton class="prSkeleton" width="90px" height="14px" borderRadius="8px"></p-skeleton>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__grid">
+						<div class="additionalDetails__gridColumn">
+							<p-skeleton class="prSkeleton" width="60px" height="14px" borderRadius="8px"></p-skeleton>
+							<div class="additionalDetails__badges">
+								@for (i of [1, 2, 3, 4]; track i) {
+								<p-skeleton class="prSkeleton" width="80px" height="24px" borderRadius="12px"></p-skeleton>
+								}
+							</div>
+						</div>
+						<div class="additionalDetails__gridColumn">
+							<p-skeleton class="prSkeleton" width="55px" height="14px" borderRadius="8px"></p-skeleton>
+							<div class="additionalDetails__badges">
+								@for (i of [1, 2, 3]; track i) {
+								<p-skeleton class="prSkeleton" width="80px" height="24px" borderRadius="12px"></p-skeleton>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="additionalDetails__item additionalDetails__item--inline">
+				<p-skeleton class="prSkeleton" width="65px" height="14px" borderRadius="8px"></p-skeleton>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__badges">
+						@for (i of [1, 2]; track i) {
+						<p-skeleton class="prSkeleton" width="80px" height="24px" borderRadius="12px"></p-skeleton>
+						}
+					</div>
+				</div>
+			</div>
+
+			<div class="additionalDetails__item additionalDetails__item--inline">
+				<p-skeleton class="prSkeleton" width="110px" height="14px" borderRadius="8px"></p-skeleton>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__badges">
+						@for (i of [1, 2, 3, 4, 5]; track i) {
+						<p-skeleton class="prSkeleton" width="80px" height="24px" borderRadius="12px"></p-skeleton>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	} @else {
+	<div class="additionalDetails">
+		<div class="additionalDetails__header">
+			<div class="additionalDetails__title">{{ commonGlobalService.termText(feeDetailTerm.ADDITIONAL_DETAILS) }}</div>
+		</div>
+
+		<div class="additionalDetails__content" [class.additionalDetails__content--scrollable]="hasOverflow()">
+			@if (scope().length > 0) {
+			<div class="additionalDetails__item additionalDetails__item--inline">
+				<div class="additionalDetails__label">{{ commonGlobalService.termText(feeDetailTerm.SCOPE) }}</div>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__badges">
+						@for (s of scope(); track s) {
+						<p-badge class="prBadge" badgeSize="small" [value]="s.length > 20 ?s.substring(0, 20) + '...' : s" severity="secondary" [pTooltip]="s.length > 20 ?s : undefined" tooltipStyleClass="prTooltip" tooltipPosition="top" />
+						}
+					</div>
+				</div>
+			</div>
+			} @if (transactionGroups().length > 0) {
+			<div class="additionalDetails__item additionalDetails__item--split">
+				<div class="additionalDetails__label">{{ commonGlobalService.termText(feeDetailTerm.TRANSACTION_TYPE) }}</div>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__grid">
+						@for (group of transactionGroups(); track group.code) {
+						<div class="additionalDetails__gridColumn">
+							<div class="additionalDetails__columnTitle">
+								{{ getGroupTerm(group.code) }}
+							</div>
+							<div class="additionalDetails__badges">
+								@for (item of group.items; track item) {
+								<p-badge class="prBadge" badgeSize="small" [value]="item.length > 20 ?item.substring(0, 20) + '...' : item" severity="secondary" [pTooltip]="item.length > 20 ?item : undefined" tooltipStyleClass="prTooltip" tooltipPosition="top" />
+								}
+							</div>
+						</div>
+						}
+					</div>
+				</div>
+			</div>
+			} @if (productGroups().length > 0) {
+			<div class="additionalDetails__item additionalDetails__item--split">
+				<div class="additionalDetails__label">{{ commonGlobalService.termText(feeDetailTerm.PRODUCT_TYPE) }}</div>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__grid">
+						@for (group of gridProductGroups(); track group.code) {
+						<div class="additionalDetails__gridColumn">
+							@if (group.code !== 'ALL') {
+							<div class="additionalDetails__columnTitle">
+								{{ getGroupTerm(group.code) }}
+							</div>
+							}
+							<div class="additionalDetails__badges">
+								@for (item of group.items; track item) {
+								<p-badge class="prBadge" badgeSize="small" [value]="getGroupTerm(item).length > 20 ?getGroupTerm(item).substring(0, 20) + '...' : getGroupTerm(item)" severity="secondary" [pTooltip]="getGroupTerm(item).length > 20 ?getGroupTerm(item) : undefined" tooltipStyleClass="prTooltip" tooltipPosition="top" />
+								}
+							</div>
+						</div>
+						}
+						@if (prepaidGroup(); as prepaid) {
+							<div class="additionalDetails__gridColumn">
+								<div class="additionalDetails__columnTitle">{{ commonGlobalService.termText(feeDetailTerm.PREPAID) }}</div>
+								<div class="additionalDetails__badges">
+									@for (item of prepaid.items; track item) {
+									<p-badge class="prBadge" badgeSize="small" [value]="item.length > 20 ?item.substring(0, 20) + '...' : item" severity="secondary" [pTooltip]="item.length > 20 ?item : undefined" tooltipStyleClass="prTooltip" tooltipPosition="top" />
+									}
+								</div>
+							</div>
+						}
+					</div>					
+				</div>
+				
+			</div>
+			 } 
+			@if (associatedFees().length > 0) {
+			<div class="additionalDetails__item additionalDetails__item--inline">
+				<div class="additionalDetails__label">{{ commonGlobalService.termText(feeDetailTerm.ASSOCIATED_FEES) }}</div>
+				<div class="additionalDetails__value">
+					<div class="additionalDetails__badges">
+						@for (fee of associatedFees(); track fee.id) {
+						<p-badge class="prBadge" badgeSize="small" [value]="fee.code.length > 20 ?fee.code.substring(0, 20) + '...' : fee.code" severity="secondary" [pTooltip]="fee.code.length > 20 ?fee.code : undefined" tooltipStyleClass="prTooltip" tooltipPosition="top" />
+						}
+					</div>
+				</div>
+			</div>
+			}
+		</div>
+	</div>
+	}
+</div>
