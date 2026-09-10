@@ -34,6 +34,18 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    // INTENTO REVERTIDO (2026-09-10): se probó `options.storySort` acá para forzar
+    // "Fee/Incontrol Panel (Landing)" como primera story (pantalla inicial al abrir Storybook sin
+    // `?path=`). Rompió el manager entero: "Error fetching `/index.json`" + "SyntaxError:
+    // Unexpected token ':'" en globals-runtime.js, dejando el sidebar atascado en "Get started 25%"
+    // para TODOS los módulos, no solo Landing. Hipótesis (no confirmada del todo): Storybook indexa
+    // `storySort` en un paso aparte que corre ANTES/fuera del compilador de Angular/TS normal para
+    // poder generar index.json en build-time — las anotaciones de tipo TypeScript de la función
+    // (`a: {title, id}`) podrían no sobrevivir ese paso y terminar evaluándose como JS crudo, de ahí
+    // el "Unexpected token ':'". Revertido sin volver a intentarlo a ciegas — si se retoma, probar
+    // primero SIN anotaciones de tipo explícitas y validar sirviendo `storybook-static/index.json`
+    // (o el nombre real que genere esa versión) con un fetch real antes de darlo por bueno, no
+    // alcanza con que el build en sí compile sin errores (ver lección de webpackFinal más abajo).
   },
   decorators: [
     applicationConfig({

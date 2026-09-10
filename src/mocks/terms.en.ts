@@ -2,6 +2,10 @@
 // pueda resolver las etiquetas de las pantallas mostradas en el showcase.
 // Si una pantalla nueva usa un código que no está aquí, el texto se verá como "-": agrégalo.
 export const termsEn: { termName: string; termValue: string }[] = [
+  // Modal de confirmación al pedir acceso a TPE > Recomendaciones — la captura real estaba en
+  // español, esta es una traducción razonable del mismo texto.
+  { termName: 'TpeResponseToRecommendationAccessRequestSummary', termValue: 'We have received your access request to the TPE Dashboard Recommendations Section.' },
+  { termName: 'TpeResponseToRecommendationAccessRequestDetail', termValue: 'Our sales team will get in touch with you shortly.' },
   // Título del modal de SessionInactivityService real (mirrors/header/common/service/
   // session-inactivity.service.ts) — texto exacto de la captura real.
   { termName: 'SessionInactivity', termValue: 'It seems you were absent. Do you want to continue?' },

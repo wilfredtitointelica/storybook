@@ -5,6 +5,10 @@
 // el texto traducido — si una pantalla nueva usa un código que no está acá, el texto se verá
 // como "-": agrégalo (y su par en terms.en.ts).
 export const termsEs: { termName: string; termValue: string }[] = [
+  // Modal de confirmación al pedir acceso a TPE > Recomendaciones (tpe-recomendations.component.ts
+  // -> onRequestAcces() -> showResultGetSupportModal()) — texto exacto de la captura real.
+  { termName: 'TpeResponseToRecommendationAccessRequestSummary', termValue: 'Hemos recibido su solicitud de acceso a la Sección de Recomendaciones del Dashboard de TPE.' },
+  { termName: 'TpeResponseToRecommendationAccessRequestDetail', termValue: 'Nuestro equipo comercial se comunicará con usted a la brevedad.' },
   // Título del modal de SessionInactivityService real (mirrors/header/common/service/
   // session-inactivity.service.ts) — la captura real que dio pie a esto estaba en inglés, esta es
   // una traducción razonable del mismo texto.
