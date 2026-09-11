@@ -1,13 +1,11 @@
 // Data fija de ejemplo para la story del menú lateral, calcada del menú real de Fee Manager
 // (rama qa/development de IntelicaMenuWeb — main estaba desactualizada).
-// Un item es "externo" (icon-external-link, <a href target="_blank">) cuando su
-// authenticationClientID difiere del de su padre — ver menu.ts: toMenuItem().
+// `authenticationClientID` existía antes en MenuOptionResponse para distinguir items externos
+// (icon-external-link, <a target="_blank">) — el repo real lo quitó del DTO y menu.html ya no
+// tiene esa rama (ver menu.ts: toMenuItem() solo usa pageURL/nameMenu/icon/subMenuOptions). Se
+// mantiene `url` en la data de ejemplo por fidelidad con el DTO real, aunque ya no se use para
+// renderizar (toMenuItem() ignora `url`, solo lee `pageURL`).
 import { MenuOptionResponse } from '../../mirrors/menu/menu/dto/menu-responses';
-
-const FEE = 'FEE';
-const LEGACY = 'LEGACY';
-const REPORTS_CLIENT = 'REPORTS';
-const SAVINGS_CLIENT = 'SAVINGS';
 
 export const menuOptions: MenuOptionResponse[] = [
   {
@@ -21,7 +19,6 @@ export const menuOptions: MenuOptionResponse[] = [
     pageRoot: '',
     isAllwaysVisible: true,
     isNew: false,
-    authenticationClientID: FEE,
     pageURL: '',
     alterUrl: '',
     isSoon: false,
@@ -37,7 +34,6 @@ export const menuOptions: MenuOptionResponse[] = [
         pageRoot: 'LandingExternalNew', // coincide con data.pageRoot de landing.routes.ts
         isAllwaysVisible: true,
         isNew: false,
-        authenticationClientID: FEE, // igual al root -> interno (pageURL/routerPath)
         // Coincide con la ruta real (app.routes.ts -> landing.routes.ts, redirige '' -> 'dashboard').
         // Igual que TPE/Opt-outs: pageURL debe ser el path YA resuelto ('/dashboard' incluido) para
         // que routerLinkActive({exact:true}) en menu.html marque el ítem como activo.
@@ -57,7 +53,6 @@ export const menuOptions: MenuOptionResponse[] = [
         pageRoot: '',
         isAllwaysVisible: true,
         isNew: false,
-        authenticationClientID: FEE,
         pageURL: '/fee/library',
         alterUrl: '',
         isSoon: false,
@@ -74,7 +69,6 @@ export const menuOptions: MenuOptionResponse[] = [
         pageRoot: 'fee-updates', // coincide con data.pageRoot de app.routes.ts (path: 'updates')
         isAllwaysVisible: true,
         isNew: false,
-        authenticationClientID: FEE,
         pageURL: '/fee/updates',
         alterUrl: '',
         isSoon: false,
@@ -91,7 +85,6 @@ export const menuOptions: MenuOptionResponse[] = [
         pageRoot: '',
         isAllwaysVisible: true,
         isNew: false,
-        authenticationClientID: FEE,
         pageURL: '',
         alterUrl: '',
         isSoon: false,
@@ -102,12 +95,11 @@ export const menuOptions: MenuOptionResponse[] = [
             nameMenu: 'Fee Reports',
             orderMenu: 1,
             icon: '',
-            url: 'https://reports.example.com/fee-reports', // distinto authenticationClientID -> externo
+            url: 'https://reports.example.com/fee-reports',
             isMenuParent: false,
             pageRoot: '',
             isAllwaysVisible: true,
             isNew: false,
-            authenticationClientID: REPORTS_CLIENT,
             pageURL: '',
             alterUrl: '',
             isSoon: false,
@@ -124,7 +116,6 @@ export const menuOptions: MenuOptionResponse[] = [
             pageRoot: '',
             isAllwaysVisible: true,
             isNew: false,
-            authenticationClientID: REPORTS_CLIENT,
             pageURL: '',
             alterUrl: '',
             isSoon: false,
@@ -143,7 +134,6 @@ export const menuOptions: MenuOptionResponse[] = [
         pageRoot: '',
         isAllwaysVisible: true,
         isNew: false,
-        authenticationClientID: FEE,
         pageURL: '',
         alterUrl: '',
         isSoon: false,
@@ -159,7 +149,6 @@ export const menuOptions: MenuOptionResponse[] = [
             pageRoot: '',
             isAllwaysVisible: true,
             isNew: false,
-            authenticationClientID: SAVINGS_CLIENT,
             pageURL: '',
             alterUrl: '',
             isSoon: false,
@@ -176,7 +165,6 @@ export const menuOptions: MenuOptionResponse[] = [
             pageRoot: '',
             isAllwaysVisible: true,
             isNew: false,
-            authenticationClientID: SAVINGS_CLIENT,
             pageURL: '',
             alterUrl: '',
             isSoon: false,
@@ -193,14 +181,12 @@ export const menuOptions: MenuOptionResponse[] = [
             pageRoot: '',
             isAllwaysVisible: true,
             isNew: false,
-            // Antes marcado como externo (SAVINGS_CLIENT) con una URL inventada — corregido:
             // TPE es una ruta real interna de esta misma app (ver app.routes.ts: path 'tpe' bajo
             // 'fee', y tpe.routes.ts redirige '' -> 'dashboard'), igual al padre (Savings) -> interno.
             // pageURL apunta al path YA resuelto ('/dashboard' incluido), no al padre: menu.html usa
-            // routerLinkActive con { exact: true } contra item.routerPath (= pageURL) -> si acá solo
-            // dijera '/fee/tpe', nunca calzaría con router.url tras la redirección real a
+            // routerLinkActive con { exact: true } contra item.url (= pageURL) -> si acá solo dijera
+            // '/fee/tpe', nunca calzaría con router.url tras la redirección real a
             // '/fee/tpe/dashboard' y el ítem del sidebar jamás se vería "activo".
-            authenticationClientID: FEE,
             pageURL: '/fee/tpe/dashboard',
             alterUrl: '',
             isSoon: false,
@@ -217,7 +203,6 @@ export const menuOptions: MenuOptionResponse[] = [
             pageRoot: '',
             isAllwaysVisible: true,
             isNew: false,
-            authenticationClientID: FEE, // igual al padre (Savings) -> interno, sin ícono
             // Coincide con la ruta real (app.routes.ts): path: 'opt-out-service' bajo 'fee',
             // con children que redirigen '' -> 'dashboard'. Igual que TPE arriba: pageURL debe ser
             // el path YA resuelto ('/dashboard' incluido) para que routerLinkActive({exact:true})
@@ -240,7 +225,6 @@ export const menuOptions: MenuOptionResponse[] = [
         pageRoot: '',
         isAllwaysVisible: true,
         isNew: false,
-        authenticationClientID: LEGACY,
         pageURL: '',
         alterUrl: '',
         isSoon: false,
@@ -257,7 +241,6 @@ export const menuOptions: MenuOptionResponse[] = [
         pageRoot: '',
         isAllwaysVisible: true,
         isNew: false,
-        authenticationClientID: LEGACY,
         pageURL: '',
         alterUrl: '',
         isSoon: false,
@@ -267,10 +250,10 @@ export const menuOptions: MenuOptionResponse[] = [
   },
 ];
 
-// authenticationClientID debe ser literalmente 'ExternalNew' (o 'InternalNew') para que
-// menu.ts las trate como internas (routerPath) — ver effectSyncFavorites().
 // pageRoot debe calzar con `data.pageRoot` de la ruta real (ver app.routes.ts) — es la clave que usa
 // AddFavoritesService.isFavoriteByPageRoot()/removeFavoriteByPageRoot() en intelica-library-project.
+// `authenticationClientID` acá es propio del shape de favoritos (GlobalFavoriteService), no del
+// MenuOptionResponse de arriba — no lo tocó el cambio del DTO de menú.
 export const favoritesData = [
   { pageName: 'Fee Library', pageUrl: '/fee/library', pageRoot: 'library-migration', authenticationClientID: 'ExternalNew' },
   { pageName: 'Fee Updates', pageUrl: '/fee/updates', pageRoot: 'fee-updates', authenticationClientID: 'ExternalNew' },

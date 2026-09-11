@@ -1,0 +1,45 @@
+/*——————————————————————————————————————————————————————————*\
+ * TOKENS
+\*——————————————————————————————————————————————————————————*/
+
+:root {
+	--NOTE-CARD-VERSION-COMPONENT: "prCard prCard--version ( Custom PrimeNG )";
+
+	// --i-name-color: var(); // example token
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * MODIFIER PRIMENG
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+	&--version.p-card {
+		border-width: var(--i-border-width-sm);
+		border-style: solid;
+		border-color: var(--i-color-secondary-200);
+		background-color: var(--i-card-background);
+		border-radius: var(--i-border-radius-lg);
+		width: 18.75rem; // 300px
+		cursor: pointer;
+
+		&:is(:hover,:active, .is-active) {
+			border-color: var(--i-color-primary-600) ;
+		}
+	}
+	&--version .p-card-body {
+		padding: var(--i-spacing-container-lg);
+		gap: var(--i-spacing-0);
+		height: 100%;
+	}
+	&--version .p-card-content {
+		gap: var(--i-spacing-0);
+	}
+}
+
+/*——————————————————————————————————————————————————————————*\
+ * FORCED OTHER ELEMENTS
+\*——————————————————————————————————————————————————————————*/
+
+.prCard {
+
+}

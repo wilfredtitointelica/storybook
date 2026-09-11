@@ -13,27 +13,27 @@ const SHOWCASE_SRC = resolve(__dirname, '../src');
 // Agrega una entrada por cada componente/carpeta que quieras reflejar en mirrors/.
 const MANIFEST = [
   {
-    from: join(REPOSITORIO, 'fee.new.external.2/Intelica.Fee.External.Web.New/IntelicaFeeExternalWeb/src/app/file-sharing'),
+    from: join(REPOSITORIO, 'external.new/Intelica.Fee.External.Web.New/IntelicaFeeExternalWeb/src/app/file-sharing'),
     to: join(SHOWCASE_SRC, 'mirrors/fee/file-sharing'),
   },
   {
-    from: join(REPOSITORIO, 'fee.new.external.2/Intelica.Fee.External.Web.New/IntelicaFeeExternalWeb/src/app/common'),
+    from: join(REPOSITORIO, 'external.new/Intelica.Fee.External.Web.New/IntelicaFeeExternalWeb/src/app/common'),
     to: join(SHOWCASE_SRC, 'mirrors/fee/common'),
   },
   {
-    from: join(REPOSITORIO, 'fee.new.external.2/Intelica.Fee.External.Web.New/IntelicaFeeExternalWeb/src/app/service/popover-freeze.service.ts'),
+    from: join(REPOSITORIO, 'external.new/Intelica.Fee.External.Web.New/IntelicaFeeExternalWeb/src/app/service/popover-freeze.service.ts'),
     to: join(SHOWCASE_SRC, 'mirrors/fee/service/popover-freeze.service.ts'),
   },
   {
-    from: join(REPOSITORIO, 'new-style-guide/Intelica.Style.Guide.New/IntelicaStyleGuide/src/assets/css'),
+    from: join(REPOSITORIO, 'styleguide-new/Intelica.Style.Guide.New/IntelicaStyleGuide/src/assets/css'),
     to: join(SHOWCASE_SRC, 'styleguide/css'),
   },
   {
-    from: join(REPOSITORIO, 'new-style-guide/Intelica.Style.Guide.New/IntelicaStyleGuide/src/assets/fonts'),
+    from: join(REPOSITORIO, 'styleguide-new/Intelica.Style.Guide.New/IntelicaStyleGuide/src/assets/fonts'),
     to: join(SHOWCASE_SRC, 'styleguide/fonts'),
   },
   {
-    from: join(REPOSITORIO, 'new-style-guide/Intelica.Style.Guide.New/IntelicaStyleGuide/src/assets/images'),
+    from: join(REPOSITORIO, 'styleguide-new/Intelica.Style.Guide.New/IntelicaStyleGuide/src/assets/images'),
     to: join(SHOWCASE_SRC, 'styleguide/images'),
   },
   {
@@ -43,6 +43,14 @@ const MANIFEST = [
   {
     from: join(REPOSITORIO, 'header.new/Intelica.Header.Web.New/IntelicaHeaderWeb/src/app/menu-products'),
     to: join(SHOWCASE_SRC, 'mirrors/header/menu-products'),
+  },
+  {
+    from: join(REPOSITORIO, 'security.new/Intelica.Security.External.Web/IntelicaSecurityExternalWeb/src/app/account-settings'),
+    to: join(SHOWCASE_SRC, 'mirrors/security/account-settings'),
+  },
+  {
+    from: join(REPOSITORIO, 'security.new/Intelica.Security.External.Web/IntelicaSecurityExternalWeb/src/app/common'),
+    to: join(SHOWCASE_SRC, 'mirrors/security/common'),
   },
 ];
 

@@ -67,6 +67,10 @@
 		& > :nth-child(n) {
 			flex-grow: 1;
 		}
+
+		& > .prCheckbox {
+			flex-grow: 0;
+		}
 	}
 
 	&__message {

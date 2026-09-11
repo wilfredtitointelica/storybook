@@ -58,18 +58,18 @@ export class CommonGlobalService {
 	}
 
 	public cachedPost<T>(url: string, body: unknown, ttlMs?: number): Observable<T> {
-		const key = `${url}::${JSON.stringify(body ?? {})}`;
+		const key = `${url}::${JSON.stringify(body ?? {})}::${this.globalTermService.languageCode}`;
 		return this.requestCache.getOrSet(key, () => this.http.post<T>(url, body), ttlMs);
 	}
 
 	public cachedQuery<T>(url: string, body: unknown, ttlMs?: number): Observable<T> {
-		const key = `${url}::${JSON.stringify(body ?? {})}`;
+		const key = `${url}::${JSON.stringify(body ?? {})}::${this.globalTermService.languageCode}`;
 		return this.requestCache.getOrSet(key, () => this.http.request<T>("QUERY", url, { body }), ttlMs);
 	}
 
 	private buildCacheKey(url: string, params?: HttpParams): string {
 		const paramsKey = params?.toString() ?? "";
-		return `${url}::${paramsKey}`;
+		return `${url}::${paramsKey}::${this.globalTermService.languageCode}`;
 	}
 
 	public buildParams<T extends object>(query: T): HttpParams {
@@ -144,6 +144,18 @@ export class CommonGlobalService {
 		if (Number.isNaN(date.getTime())) return "";
 		const day = String(date.getUTCDate()).padStart(2, "0");
 		return `${day} ${this.monthShortLocalized(date, "UTC")}, ${date.getUTCFullYear()}`;
+	}
+
+	public formatDateRangeShort(startIso: string | null | undefined, endIso: string | null | undefined): string {
+		const start = this.parseIso(startIso);
+		const end = this.parseIso(endIso);
+		if (!start || !end) return "";
+		const day = (value: Date) => String(value.getDate()).padStart(2, "0");
+		const shortYear = (value: Date) => String(value.getFullYear()).slice(-2);
+		const sameYear = start.getFullYear() === end.getFullYear();
+		const startPart = sameYear ? `${day(start)} ${this.monthShortLocalized(start)}` : `${day(start)} ${this.monthShortLocalized(start)} ${shortYear(start)}`;
+		const endPart = `${day(end)} ${this.monthShortLocalized(end)} ${shortYear(end)}`;
+		return `${startPart} - ${endPart}`;
 	}
 
 	private monthShortLocalized(date: Date, timeZone?: string): string {

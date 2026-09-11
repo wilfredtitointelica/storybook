@@ -56,6 +56,17 @@
 		}
 	}
 
+	&__action {
+		display: flex;
+		gap: var(--i-spacing-gap-xs);
+		align-items: center;
+		justify-content: center;
+		font-size: var(--size-trend);
+		color: var(--color-amount);
+		line-height: 1;
+		flex-wrap: balance;
+	}
+
 	// --- elements ---
 
 	&__brand {
@@ -95,7 +106,7 @@
 		padding-top: 0;
 	}
 
-	&:has(&__trend) &__main {
+	&:has(&__trend, &__action) &__main {
 		padding-bottom: 0;
 	}
 }

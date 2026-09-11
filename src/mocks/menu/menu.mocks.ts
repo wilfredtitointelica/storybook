@@ -14,8 +14,10 @@ export function createMockMenuHttpService() {
   };
 }
 
-// Nota: GlobalMenuService de Menu ahora viene de intelica-library-base (igual que Header) —
-// usar createMockGlobalMenuServiceBase() de mocks/header/menu-products.mocks.ts para ambos.
+// Nota: GlobalMenuService de Header sigue en intelica-library-base — usar
+// createMockGlobalMenuServiceBase() de mocks/header/menu-products.mocks.ts para ambos. Menu
+// (mirrors/menu/menu/menu.ts, Actual) migró su import a intelica-library-components; el mismo mock
+// se comparte con ese token vía un alias `useExisting` en shell.ts (shellProviders), no acá.
 
 // Reemplazo reactivo (real signal, no una función fija) de GlobalFavoriteService: además de
 // alimentar el listado de favoritos del sidebar, sirve de base para AddFavoritesService

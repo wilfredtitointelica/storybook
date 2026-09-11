@@ -17,7 +17,7 @@
 		border-width: var(--i-border-width-sm);
 		border-style: solid;
 		border-color: var(--i-color-secondary-200);
-		background-color: #ffffff;
+		background-color: var(--i-card-background);
 		border-radius: var(--i-border-radius-lg);
 	}
 	&--mini .p-card-body {

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { ConfigService } from "intelica-library-base";
+import { ConfigService } from "intelica-library-components";
 import { Observable } from "rxjs/internal/Observable";
 import { MenuOptionResponse } from "./dto/menu-responses";
 

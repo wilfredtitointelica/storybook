@@ -17,17 +17,20 @@
 	border: 0;
 	border-radius: var(--i-border-radius-xl);
 	background-color: var(--background);
-	cursor: pointer;
 	user-select: none;
 
-	&:hover {
-		background-color: var(--hover-background);
-	}
+	&:not(:has(.prSkeleton)) {
+		cursor: pointer;
 
-	&:active {
-		background-color: var(--active-background);
+		&:hover {
+			background-color: var(--hover-background);
+		}
+	
+		&:active {
+			background-color: var(--active-background);
+		}
 	}
-
+	
 	&:focus-visible {
 		outline: 1px solid var(--i-button-hyperlink-color);
 		outline-offset: var(--p-button-focus-ring-offset);
@@ -48,6 +51,8 @@
 
 	&__content {
 		text-align: center;
+		display: flex;
+		flex-direction: column;
 	}
 
 	&__title {

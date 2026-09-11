@@ -1,0 +1,24 @@
+@if (type() === 'no-matches') {
+<div class="ptState">
+	<div class="ptState__icon">
+		<i class="icon icon-no-results icon--lg"></i>
+	</div>
+	<div class="ptState__content">
+		<div class="ptState__title">{{ "NO_RESULTS" | term: lang() }}</div>
+		<div class="ptState__subtitle" [innerHTML]="'NO_MATCHES_FOUND' | term: lang() : 1 : ['<b>' + (searchText() ?? '') + '</b>']"></div>
+	</div>
+	<!-- @if (showClearSearch()) {
+	<p-button class="prButton" severity="secondary" [label]="'CLEAR_SEARCH' | term: lang()" (onClick)="onClearSearch()" />
+	} -->
+</div>
+} @else if (type() === 'no-data') {
+<div class="ptState">
+	<div class="ptState__icon">
+		<i class="icon icon-no-data icon--lg"></i>
+	</div>
+	<div class="ptState__content">
+		<div class="ptState__title">{{ "NO_DATA_AVAILABLE" | term: lang() }}</div>
+		<div class="ptState__subtitle">{{ "NO_RESULTS_FOR_FILTERS" | term: lang() }}</div>
+	</div>
+</div>
+}

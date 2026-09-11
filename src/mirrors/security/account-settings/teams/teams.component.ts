@@ -10,6 +10,8 @@ import { buildSearchLabel, StatusStateComponent, StatusStateEnum } from "intelic
 // components
 import { Panel } from "primeng/panel";
 import { Button } from "primeng/button";
+import { Card } from "primeng/card";
+import { Badge } from "primeng/badge";
 import { Dialog } from "primeng/dialog";
 import { Toast } from "primeng/toast";
 import { MessageService, ToastMessageOptions } from "primeng/api";

@@ -3,6 +3,7 @@
 \*——————————————————————————————————————————————————————————*/
 
 .bpListItem {
+	--custom-color: var(--accent-color, var(--i-color-primary-base));
 
 	position: relative;
 	display: flex;
@@ -11,10 +12,44 @@
 	padding: var(--i-spacing-container-lg);
 	font-size: var(--i-typography-font-size-sm);
 	border-radius: var(--i-border-radius-lg);
-	border: var(--i-border-width-sm) solid var(--i-border-default);
+	border: 1px solid transparent;
 	background: var(--i-background-default);
+	outline: 1px solid transparent;
+	transition: all var(--i-motion-base);
+	
 	overflow: hidden;
-	cursor: pointer;
+	user-select: none;
+
+
+	// decorative
+
+	&:not(:has(.prSkeleton)) {
+		cursor: pointer;
+	
+		&:hover {
+			background-color: var(--i-color-new-grey-50);
+		}
+	}
+
+
+	// active
+	
+	&:not(:has(.prSkeleton)):is(:active, .is-active) {
+		border-color: var(--i-color-new-grey-900);
+		background-color: var(--i-color-new-grey-50);
+	}
+
+
+	&:not(:has(.prSkeleton)):is(:active, .is-active) &__accent {
+		width: 0;
+	}
+
+	// focus visible
+
+	&:focus-visible {
+		outline-color: var(--custom-color);
+		outline-offset: -1px;
+	}
 
 }
 
@@ -26,6 +61,15 @@
 
 	// --- structure ---
 
+	&__accent {
+		content: '';
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: 4px;
+		transition: width var(--i-motion-base);
+		background-color: var(--custom-color);
+	}
+
 	&__meta {
 		display: flex;
 		gap: var(--i-spacing-gap-sm);
@@ -35,6 +79,9 @@
 	&__header {
 		display: flex;
 		gap: var(--i-spacing-gap-xs);
+		background-color: var(--i-color-secondary-100);
+		padding: 8px;
+		border-radius: 8px;
 	}
 
 	&__footer {
@@ -50,13 +97,24 @@
 	}
 
 	&__date {
-		display: flex;
-		align-items: center;
+
 	}
 
-	&__summary {}
+	&__summary {
+		flex-grow: 1;
+	}
 
-	&__impact {}
+	&__title {
+		font-size: var(--i-typography-font-size-2xl);
+		line-height: var(--i-typography-lineHeight-2xl);
+		font-weight: bold;
+	}
+
+	&__impact {
+		display: flex;
+		flex-direction: column;
+		line-height: 1em;
+	}
 
 	&__brand {
 		display: flex;
@@ -85,5 +143,11 @@
 
 .bpListItem {
 
+	// --- accent color ---
+
+	&--announcement 	{ --custom-color: var(--i-color-primary-700); }	
+	&--manual 			{ --custom-color: var(--i-color-success-700); }	
+	&--price-guide 	{ --custom-color: var(--i-color-warning-700); }	
+	&--non-financial 	{ --custom-color: var(--i-color-secondary-700); }	
 
 }

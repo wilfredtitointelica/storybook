@@ -10,6 +10,21 @@ import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { ConfigService, GlobalTermService, GlobalMenuService, GlobalFavoriteService, AlertService, TermPipe, PageRootChildGuard } from 'intelica-library-base';
 import { NotificationOrchestratorService } from 'intelica-library-notification';
+// mirrors/menu/menu/menu.ts y menu-http.service.ts (Actual) migraron a 'intelica-library-components'
+// en el repo real (menu.new), pero el resto del showcase (Header/Fee/Security, y también
+// prototypes/menu/menu/menu.ts) sigue en 'intelica-library-base' — migración real a medias todavía
+// en el repo de Menu (mirrors/menu/app.ts y status-last-update/* del MISMO repo siguen en base). Son
+// paquetes/clases distintas para Angular DI aunque compartan nombre: sin un provider explícito para
+// estos tokens, MenuSidebar (Actual) construiría las clases REALES de intelica-library-components
+// (providedIn: 'root') en vez de los mocks — eso sí puede pegarle a un backend real. Los alias
+// `useExisting` de más abajo apuntan al mismo mock ya usado para el token de 'intelica-library-base',
+// así Header y Menu siguen compartiendo el mismo estado (favoritos, producto seleccionado) que antes.
+import {
+  ConfigService as ConfigServiceComponents,
+  GlobalMenuService as GlobalMenuServiceComponents,
+  GlobalFavoriteService as GlobalFavoriteServiceComponents,
+  GlobalTermService as GlobalTermServiceComponents,
+} from 'intelica-library-components';
 import { setCookie } from 'typescript-cookie';
 import { activeClientID } from '../mocks/header/user-profile.data';
 import { createMockConfigService, createMockGlobalTermService } from '../mocks/shared.mocks';
@@ -444,6 +459,17 @@ export function shellProviders(variant: ShellVariant, configOverrides: Parameter
     { provide: variant === 'actual' ? SecurityServiceActual : SecurityServicePropuesta, useValue: createMockSecurityService() },
     { provide: variant === 'actual' ? TeamsServiceActual : TeamsServicePropuesta, useValue: createMockTeamsService() },
     { provide: variant === 'actual' ? NotificationsServiceActual : NotificationsServicePropuesta, useValue: createMockNotificationsService() },
+    // Alias hacia los mismos mocks de arriba para las clases de 'intelica-library-components' que
+    // mirrors/menu/menu/menu.ts (Actual) inyecta directo — ver comentario junto al import de más
+    // arriba. Solo aplica a 'actual': prototypes/menu/menu/menu.ts sigue en 'intelica-library-base'.
+    ...(variant === 'actual'
+      ? [
+          { provide: ConfigServiceComponents, useExisting: ConfigService },
+          { provide: GlobalTermServiceComponents, useExisting: GlobalTermService },
+          { provide: GlobalMenuServiceComponents, useExisting: GlobalMenuService },
+          { provide: GlobalFavoriteServiceComponents, useExisting: GlobalFavoriteService },
+        ]
+      : []),
   ];
 }
 

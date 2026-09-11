@@ -69,7 +69,10 @@
 	  align-items: flex-start;
 	  gap: var(--i-filterbar-blocks-gap);
 	  flex-wrap: wrap;
-	  /* flex-grow: 1; */
+
+	  &:only-child {
+		  flex-grow: 1;
+	  }
 	}
  
 	&__divider {

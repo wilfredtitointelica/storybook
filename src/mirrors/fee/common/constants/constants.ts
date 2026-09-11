@@ -1,0 +1,40 @@
+export const GENERAL_TERM = {
+    ALL_BRANDS: "LBL_ALL_BRANDS",
+    ALL_BUSINESSES: "LBL_ALL_BUSINESSES",
+    BRAND_SELECTED: "LBL_BRAND_SELECTED",
+    BUSINESS_SELECTED: "LBL_BUSINESS_SELECTED",
+    APPLIED_FILTERS: "LBL_APPLIED_FILTERS",
+    BRAND: "LBL_BRAND",
+    BUSINESS: "LBL_BUSINESS",
+    ADVANCED: "LBL_ADVANCED",
+    APPLY: "LBL_APPLY",
+    RESET: "LBL_RESET",
+    RESET_FILTERS: "LBL_RESET_FILTERS",
+    CANCEL: "LBL_CANCEL",
+    APPLY_FILTERS: "LBL_APPLY_FILTERS",
+    CATEGORY: "CATEGORY",
+    TRANSACTION: "TRANSACTION",
+    PRODUCT_TYPE: "LBL_PRODUCT_TYPE",
+    CREDIT: "LBL_CREDIT",
+    DEBIT_PREPAID: "LBL_DEBIT_PREPAID",
+    SCOPE: "SCOPE",
+    ALL: "All",
+    ALL_CREDITS: "ALL_CREDITS",
+    ALL_DEBIT_PREPAID: "LBL_ALL_DEBIT_PREPAID_PRODUCTS",
+    CREDITS_SELECTED: "CREDITS_SELECTED",
+    DEBITS_PREPAIDS_SELECTED: "DEBITS_PREPAIDS_SELECTED",
+    QUARTER: "LBL_QUARTER",
+    SEARCH: "LBL_SEARCH",
+    WARNING: "LBL_WARNING",
+    // filtros de perfil (solo perfil de grupo). REGION/COUNTRY reusan los nombres de
+    // término del dropdown del portal anterior. El nivel cliente NO tiene término propio:
+    // en todo el resto del app (library, fee-detail, fee-updates, file-sharing,
+    // opt-out-service) ese concepto se pinta con INSTITUTION / ALL_INSTITUTIONS, así que
+    // reusa esos. Solo ALL_REGIONS y ALL_COUNTRIES son términos nuevos.
+    REGION: "LBL_BANK_REGION",
+    COUNTRY: "LBL_BANK_COUNTRY",
+    INSTITUTION: "INSTITUTION",
+    ALL_REGIONS: "LBL_ALL_REGIONS",
+    ALL_COUNTRIES: "LBL_ALL_COUNTRIES",
+    ALL_INSTITUTIONS: "ALL_INSTITUTIONS"
+} as const;
